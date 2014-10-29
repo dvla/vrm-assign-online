@@ -1,0 +1,19 @@
+@()(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_assign.main
+@import views.vrm_assign.MicroserviceError.{ExitId, TryAgainId}
+
+@main(
+    title = Messages("micro_service_error.title")
+){
+    <p>@Messages("micro_service_error.text")</p>
+
+    <div class="form-steps">
+        @* Note the reverse routing syntax for the hyperlink *@
+        <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookup.present()">@Messages("micro_service_error.back.button")</a>
+        <br/>
+        <a class="exit" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
+    </div>
+}

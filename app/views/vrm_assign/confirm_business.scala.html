@@ -1,0 +1,91 @@
+@(confirmBusinessViewModel: models.ConfirmBusinessViewModel,
+        confirmBusinessForm: Form[models.ConfirmBusinessFormModel])(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.helper.form
+@import views.html.vrm_assign.main
+@import views.vrm_assign.ConfirmBusiness._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck}
+@import controllers.routes.ConfirmBusiness
+
+@main(
+    title = Messages("vrm_assign_confirm_business.title"),
+    currentForm = Some(confirmBusinessForm),
+    backNavigation = Some(ConfirmBusiness.back())
+) {
+    <div class="two-col">
+        <div class="second-col">
+            <h1>@Messages("vrm_assign_confirm_business.title")</h1>
+
+            <dl class="playback">
+                <dt>@Messages("vrm_assign_confirm.businessNameLabel")</dt>
+                <dd>@confirmBusinessViewModel.businessName</dd>
+                <dt>@Messages("vrm_assign_confirm.businessContactLabel")</dt>
+                <dd>@confirmBusinessViewModel.businessContact</dd>
+                <dt>@Messages("vrm_assign_confirm.businessEmailLabel")</dt>
+                <dd>@confirmBusinessViewModel.businessEmail</dd>
+                <dt>@Messages("vrm_assign_confirm.businessAddressLabel")</dt>
+                <dd>
+                @confirmBusinessViewModel.businessAddress.map { addressModel =>
+                    @for(businessAddressLine <- addressModel.address.init) {
+                        @businessAddressLine <br>
+                        }
+                }
+                </dd>
+                <dt>@Messages("vrm_assign_confirm.businessPostcodeLabel")</dt>
+                <dd>
+                @confirmBusinessViewModel.businessAddress.map { addressModel =>
+                    @addressModel.address.last
+                }
+                </dd>
+            </dl>
+        </div>
+        <div class="first-col">
+            <dl class="playback">
+                <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@confirmBusinessViewModel.registrationNumber</dd>
+                @if(confirmBusinessViewModel.vehicleMake.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                    <dd>@confirmBusinessViewModel.vehicleMake.get.take(20)</dd>
+                }
+                @if(confirmBusinessViewModel.vehicleModel.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                    <dd>@confirmBusinessViewModel.vehicleModel.get.take(20)</dd>
+                }
+            </dl>
+        </div>
+    </div>
+
+    @form(action = controllers.routes.ConfirmBusiness.submit()) {
+        @csrfTokenHiddenField()
+        <div class="two-col">
+            <div class="second-col">
+
+                @*<div class="form-declaration">*@
+                @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
+                    args = Map(
+                        '_name -> "",
+                        '_showConstraints -> false,
+                        'autofocus -> true,
+                        '_label -> Messages("vrm_assign_confirm.storeDetailsConsent")
+                    )
+                )
+                @*</div>*@
+
+            </div>
+        </div>
+
+
+        <div class="form-steps">
+            @if(confirmBusinessViewModel.businessName.isDefined && confirmBusinessForm.get.storeBusinessDetails) {
+                <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_assign_changedetails.button")</a>
+            }
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
+            <br/>
+            <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_assign_exit.button")</a>
+        </div>
+    }
+
+}

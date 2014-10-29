@@ -1,0 +1,71 @@
+@(setupBusinessDetailsFormModel: Form[models.SetupBusinessDetailsFormModel],
+        viewModel: models.SetupBusinessDetailsViewModel)(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.routes.SetUpBusinessDetails
+@import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import views.html.helper.form
+@import views.html.vrm_assign.main
+@import views.vrm_assign.SetupBusinessDetails._
+@import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
+
+@main(
+    title = Messages("vrm_assign_setupbusinessdetails.title"),
+    currentForm = Some(setupBusinessDetailsFormModel),
+    backNavigation = Some(controllers.routes.VehicleLookup.present())
+) {
+    @form(action = SetUpBusinessDetails.submit) {
+        @csrfTokenHiddenField()
+
+        <div class="two-col">
+
+            <div class="second-col inline-form">
+                <h1>@Messages("vrm_assign_setupbusinessdetails.title")</h1>
+                <div class="uppercase-input">
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessnamehelper")), args =
+                        Map('_label -> Messages("vrm_assign_setupbusinessdetails.businesscontactlabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> BusinessName.MaxLength))
+                </div>
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                        Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessemaillabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> BusinessEmailMaxLength))
+                <div class="uppercase-input">
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
+                Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessnamelabel"),
+                '_showConstraints -> false,
+                'maxLength -> BusinessName.MaxLength))
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
+                        Map('_label -> Messages("vrm_assign_setupbusinessdetails.businesspostcodelabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> Postcode.MaxLength))
+                </div>
+                <div class="form-steps">
+                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
+                    <br/>
+                    <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_assign_exit.button")</a>
+                </div>
+            </div>
+            <div id="vehicle-details" class="first-col trader-details">
+                    <dl class="playback">
+                <h2>@Messages("vrm_assign_vehicle_callback.title")</h2>
+                        <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                        <dd class="reg-number">@viewModel.registrationNumber</dd>
+                        @if(viewModel.vehicleMake.isDefined) {
+                            <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                            <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                        }
+                        @if(viewModel.vehicleModel.isDefined) {
+                            <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                            <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                        }
+                    </dl>
+            </div>
+
+        </div>
+    }
+}

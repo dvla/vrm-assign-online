@@ -1,0 +1,76 @@
+@(businessChooseYourAddressViewModel: models.BusinessChooseYourAddressViewModel,
+        businessChooseYourAddressForm: Form[models.BusinessChooseYourAddressFormModel],
+        dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.routes.BusinessChooseYourAddress
+@import controllers.routes.EnterAddressManually
+@import controllers.routes.MockFeedback
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechSelect}
+@import views.html.helper.form
+@import views.html.vrm_assign.main
+@import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, ExitId, SelectId}
+
+@main(
+    progress = Some(Messages("vrm_assign_progress_3")),
+    title = Messages("vrm_assign_businessChooseYourAddress_title"),
+    currentForm = Some(businessChooseYourAddressForm),
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
+) {
+    @form(action = BusinessChooseYourAddress.submit()) {
+        @csrfTokenHiddenField()
+        <div class="two-col">
+            <div class="second-col">
+                <h1>@Messages("vrm_assign_businessChooseYourAddress_title")</h1>
+
+                @if(dropDownOptions.isEmpty) {
+                    <h2>@Messages("vrm_assign_businessChooseYourAddress_noaddressesfound.h2.1")</h2>
+                    <h2>@Messages("vrm_assign_businessChooseYourAddress_noaddressesfound.h2.2")</h2>
+                } else {
+                    @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
+                        options = dropDownOptions.toSeq,
+                        args = Map('_label -> Messages("vrm_assign_businessChooseYourAddress_addressSelect_label"))
+                    )
+                }
+
+                @if(dropDownOptions.nonEmpty) {
+                    <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()">
+                        @Messages("manual-address-entry")
+                    </a>
+                }
+                <div class="form-steps">
+                    @if(dropDownOptions.isEmpty) {
+                        <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button">
+                            @Messages("manual-address-entry-2")
+                        </a>
+                    }
+                    @if(dropDownOptions.nonEmpty) {
+                        <button id="@SelectId" type="submit" name="action" class="button">
+                            @Messages("vrm_assign_businessChooseYourAddress.submitbutton")
+                        </button>
+                    }
+                    <br/>
+                    <a id="@ExitId" class="exit" href="@controllers.routes.BusinessChooseYourAddress.exit()">@Messages("vrm_assign_exit.button")</a>
+                </div>
+            </div>
+
+            <div id="vehicle-details" class="first-col trader-details">
+                <dl class="playback">
+                        <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                        <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                        <dd class="reg-number">@businessChooseYourAddressViewModel.registrationNumber</dd>
+                        @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
+                            <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                            <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
+                        }
+                        @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
+                            <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                            <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
+                        }
+                    </dl>
+                </div>
+        </div>
+    }
+}

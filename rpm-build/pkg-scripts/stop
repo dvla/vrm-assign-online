@@ -1,0 +1,4 @@
+#!/bin/bash
+
+initctl stop vrm-assign-online 2>/dev/null
+exit 0

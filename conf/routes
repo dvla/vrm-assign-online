@@ -1,0 +1,65 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# IoC
+# For those controllers whose dependencie are being injected, we use the @controllers syntax here so that
+# the router knows we are referring to a class (not an object). In turn it will call on the
+# GlobalSettings.getControllerInstance method to resolve the actual controller instance. This method hooks into
+# Guice to provide the actual instance complete with its injected dependencies
+
+
+######################
+## VRM assign
+######################
+
+GET         /assets/versioned/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                         controllers.Assets.at(path="/public", file)
+
+GET         /                                     @controllers.Application.index
+GET         /before-you-start                     @controllers.BeforeYouStart.present
+
+GET         /vehicle-lookup                       @controllers.VehicleLookup.present
+POST        /vehicle-lookup                       @controllers.VehicleLookup.submit
+GET         /vehicle-lookup-back                  @controllers.VehicleLookup.back
+
+GET         /vehicle-lookup-failure               @controllers.VehicleLookupFailure.present
+POST        /vehicle-lookup-failure               @controllers.VehicleLookupFailure.submit
+
+GET         /micro-service-error                  @controllers.MicroServiceError.present
+
+GET         /soap-endpoint-error                  @controllers.SoapEndpointError.present
+
+GET         /vrm-locked                           @controllers.VrmLocked.present
+POST        /vrm-locked/exit                      @controllers.VrmLocked.exit
+
+GET         /error/:exceptionDigest               @controllers.Error.present(exceptionDigest)
+POST        /error/:exceptionDigest               @controllers.Error.startAgain(exceptionDigest)
+
+GET         /setup-business-details               @controllers.SetUpBusinessDetails.present
+POST        /setup-business-details               @controllers.SetUpBusinessDetails.submit
+GET         /setup-business-details/exit          @controllers.SetUpBusinessDetails.exit
+
+GET         /business-choose-your-address         @controllers.BusinessChooseYourAddress.present
+POST        /business-choose-your-address         @controllers.BusinessChooseYourAddress.submit
+GET         /business-choose-your-address/exit    @controllers.BusinessChooseYourAddress.exit
+
+GET         /uprn-not-found                       @controllers.UprnNotFound.present
+
+GET         /enter-address-manually               @controllers.EnterAddressManually.present
+POST        /enter-address-manually               @controllers.EnterAddressManually.submit
+GET         /enter-address-manually/exit          @controllers.EnterAddressManually.exit
+
+GET         /confirm-business                     @controllers.ConfirmBusiness.present
+POST        /confirm-business                     @controllers.ConfirmBusiness.submit
+GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
+GET         /confirm-business/back                @controllers.ConfirmBusiness.back
+
+GET         /healthcheck                          @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
+
+GET         /help                                 @controllers.Help.present
+POST        /help                                 @controllers.Help.back
+
+GET         /mock-gov-uk-feedback                 @controllers.MockFeedback.present
+
+GET         /with-language/:chosenLanguage        uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
