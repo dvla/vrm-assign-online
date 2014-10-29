@@ -95,7 +95,40 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>
-              VehicleFound(Redirect(routes.SetUpBusinessDetails.present()).
+
+              // TODO
+
+//              if (form.userType == UserType_Keeper) {
+//                auditService.send(AuditMessage.from(
+//                  pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+//                  transactionId = transactionId,
+//                  timestamp = dateService.dateTimeISOChronology,
+//                  vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+//                  replacementVrm = Some(replacementVRM)))
+//                routes.Confirm.present()
+//              } else {
+//                if (storeBusinessDetails) {
+//                  val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+//                  auditService.send(AuditMessage.from(
+//                    pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+//                    transactionId = transactionId,
+//                    timestamp = dateService.dateTimeISOChronology,
+//                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+//                    replacementVrm = Some(replacementVRM),
+//                    businessDetailsModel = businessDetailsModel))
+//                  routes.ConfirmBusiness.present()
+//                } else {
+//                  auditService.send(AuditMessage.from(
+//                    pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+//                    transactionId = transactionId,
+//                    timestamp = dateService.dateTimeISOChronology,
+//                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+//                    replacementVrm = Some(replacementVRM)))
+//                  routes.SetUpBusinessDetails.present()
+//                }
+//              }
+
+              VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
                 withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
             case None =>
@@ -124,13 +157,4 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
       ))
     }.distinctErrors
 
-
-  // payment solve requires (for each day) a unique six digit number
-  // use time from midnight in tenths of a second units
-  private def calculatePaymentTransNo = {
-    val milliSecondsFromMidnight = dateService.today.toDateTime.get.millisOfDay().get()
-    val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
-    // prepend with zeros
-    "%06d".format(tenthSecondsFromMidnight)
-  }
 }

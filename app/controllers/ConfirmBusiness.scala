@@ -63,13 +63,13 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
         val cookies = List(storeBusinessDetails).flatten
 
         auditService.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+          pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
           transactionId = request.cookies.getString(TransactionIdCacheKey).get,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        Redirect(routes.LeaveFeedback.present()).withCookiesEx(cookies: _*)
+        Redirect(routes.CaptureCertificateDetails.present()).withCookiesEx(cookies: _*)
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)

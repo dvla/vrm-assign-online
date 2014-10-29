@@ -107,7 +107,7 @@ object AuditMessage {
   final val PersonalisedRegServiceType = "PR assign"
 
   // page movement names
-  final val VehicleLookupToConfirm = "VehicleLookupToConfirm"
+  final val VehicleLookupToCaptureCertificateDetails = "VehicleLookupToCaptureCertificateDetails"
   final val VehicleLookupToConfirmBusiness = "VehicleLookupToConfirmBusiness"
   final val VehicleLookupToCaptureActor = "VehicleLookupToCaptureActor"
   final val VehicleLookupToVehicleLookupFailure = "VehicleLookupToVehicleLookupFailure"
@@ -115,7 +115,8 @@ object AuditMessage {
   final val VehicleLookupToMicroServiceError = "VehicleLookupToMicroServiceError"
   final val CaptureActorToConfirmBusiness = "CaptureActorToConfirmBusiness"
   final val CaptureActorToExit = "CaptureActorToExit"
-  final val ConfirmBusinessToConfirm = "ConfirmBusinessToConfirm"
+  final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
+  final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
   final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
   final val ConfirmToExit = "ConfirmToExit"
 
