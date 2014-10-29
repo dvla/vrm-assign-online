@@ -69,7 +69,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        Redirect(routes.MockFeedback.present()).withCookiesEx(cookies: _*)
+        Redirect(routes.LeaveFeedback.present()).withCookiesEx(cookies: _*)
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
@@ -99,7 +99,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.MockFeedback.present()).
+    Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
 }

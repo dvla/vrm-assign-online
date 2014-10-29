@@ -6,7 +6,6 @@
 
 @import views.html.vrm_assign.main
 @import views.vrm_assign.VehicleLookupFailure.{ExitId, VehicleLookupId}
-@import views.vrm_assign.Main.BackId
 
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
@@ -50,7 +49,7 @@
                     <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }
-                <a class="exit" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
+                <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
             </div>
         </div>
     </div>

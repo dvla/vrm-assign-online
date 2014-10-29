@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_assign.VehicleLookupPage.happyPath
-import pages.vrm_assign.{BeforeYouStartPage, MockFeedbackPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, SetupBusinessDetailsPage, VehicleLookupPage}
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 

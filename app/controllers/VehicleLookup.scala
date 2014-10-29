@@ -95,7 +95,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>
-              VehicleFound(Redirect(routes.MockFeedback.present()).
+              VehicleFound(Redirect(routes.SetUpBusinessDetails.present()).
                 withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
             case None =>

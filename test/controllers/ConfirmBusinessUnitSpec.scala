@@ -3,7 +3,7 @@ package controllers
 import composition.{TestDateService, TestAuditService}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_assign.{MockFeedbackPage, VehicleLookupPage}
+import pages.vrm_assign.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -13,7 +13,7 @@ import views.vrm_assign.VehicleLookup._
 import helpers.common.CookieHelper._
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import utils.helpers.CookieFlagsassign
+import utils.helpers.CookieFlagsRetention
 import scala.concurrent.duration.DurationInt
 import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._

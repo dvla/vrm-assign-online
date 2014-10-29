@@ -7,11 +7,11 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys
 
-final class MockFeedback @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class LeaveFeedback @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_assign.mock_gov_uk_feedback()).
+    Ok(views.html.vrm_assign.leave_feedback()).
       withNewSession.
       discardingCookies(RelatedCacheKeys.RetainSet)
   }

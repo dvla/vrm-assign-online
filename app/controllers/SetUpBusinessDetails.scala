@@ -56,7 +56,7 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
-      Redirect(routes.MockFeedback.present()).discardingCookies(removeCookiesOnExit)
+      Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =

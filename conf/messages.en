@@ -614,3 +614,7 @@ vrm_assign_progress_6 = Step 6 of 6
 
 
 vrm_assign_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
+
+vrm_assign_leave_feedback.title=Thank You
+vrm_assign_leave_feedback.feedback = leaving feedback
+vrm_assign_leave_feedback.p1=Please help us to improve this service by

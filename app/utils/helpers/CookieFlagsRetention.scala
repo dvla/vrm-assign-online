@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import scala.concurrent.duration.DurationInt
 
-final class CookieFlagsassign @Inject()() extends CookieFlags {
+final class CookieFlagsRetention @Inject()() extends CookieFlags {
 
   private lazy val secureCookies = getProperty("secureCookies", default = true)
   private lazy val defaultMaxAge = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)

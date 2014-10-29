@@ -6,7 +6,7 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_assign.VehicleLookupFailurePage.{exit, tryAgain}
-import pages.vrm_assign.{BeforeYouStartPage, MockFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -67,7 +67,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on exit
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
   }
 
