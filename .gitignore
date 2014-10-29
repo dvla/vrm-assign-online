@@ -61,5 +61,4 @@ workdir/
 conf/generated.keystore
 
 .*.swp
-tags
 *.pdf
