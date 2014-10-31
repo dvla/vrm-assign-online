@@ -104,7 +104,7 @@ object VehicleAndKeeperDetailsModelOptSeq {
 object AuditMessage {
 
   // service types
-  final val PersonalisedRegServiceType = "PR assign"
+  final val PersonalisedRegServiceType = "PR Assign"
 
   // page movement names
   final val VehicleLookupToCaptureCertificateDetails = "VehicleLookupToCaptureCertificateDetails"
