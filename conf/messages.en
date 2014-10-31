@@ -266,10 +266,10 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Assign a personalised registration number
+main.banner = Put a registration number on a vehicle
 
 # before you start
-vrm_assign_beforeyoustart.title = Take a registration number off a vehicle
+vrm_assign_beforeyoustart.title = Assign a personalised registration number
 vrm_assign_beforeyoustart.p1 = You can apply to remove a registration number from a vehicle and hold it on a assign document (V778) for as long as required if you’re the registered keeper of the vehicle.
 vrm_assign_beforeyoustart.p2 = Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.
 vrm_assign_beforeyoustart.p3 = Using the new service
@@ -324,7 +324,7 @@ error.validEmail = Must be a valid email address
 vrm_assign_vehiclelookup.title = Getting started
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
-vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C. Without this, you cannot use the online service.
+vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your Retention Document (V778) . Without this, you cannot use the online service.
 vrm_assign_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_assign_vehiclelookup.p1 = Vehicle being sold
 vrm_assign_vehiclelookup.p2 = Vehicle will be sold to
