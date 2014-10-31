@@ -1,0 +1,80 @@
+@(confirmViewModel: models.ConfirmViewModel,
+        confirmForm: Form[models.ConfirmFormModel])(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import views.html.helper.form
+@import views.html.vrm_assign.main
+@import views.vrm_assign.Confirm._
+
+@main(
+    title = Messages("vrm_assign_confirm.title"),
+    currentForm = Some(confirmForm),
+    backNavigation = Some(controllers.routes.VehicleLookup.present())
+) {
+    <div class="two-col">
+        <div class="second-col">
+
+            <h1>@Messages("vrm_assign_confirm.title")</h1>
+            <dl class="playback first-line">
+                <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
+                <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
+                <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
+                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                    @keeperAddressLine<br>
+                    }</dd>
+                <dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>
+                <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
+            </dl>
+        </div>
+        <div class="first-col">
+            <dl class="playback">
+                <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
+                @if(confirmViewModel.vehicleMake.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                    <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
+                }
+                @if(confirmViewModel.vehicleModel.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                    <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
+                }
+            </dl>
+        </div>
+    </div>
+
+    @form(action = controllers.routes.Confirm.submit()) {
+        @csrfTokenHiddenField()
+        <div class="two-col">
+            <div class="second-col">
+<p>@Messages("vrm_assign_confirm.emailHint1")</p>
+                <ul>
+                    <li>@Messages("vrm_assign_confirm.emailHint2")</li>
+                    <li>@Messages("vrm_assign_confirm.emailHint3")</li>
+                </ul>
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    args = Map(
+                        '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
+                        'hint -> Messages("vrm_assign_confirm.emailAddressHint"),
+                        '_showConstraints -> false,
+                        'maxLength -> KeeperEmailMaxLength
+                    )
+                )
+            <div class="alert-warning">
+                    <p><strong>@Messages("vrm_assign_confirm.emailWarn") <u><a href="http://www.gov.uk/change-vehicle-details-registration-certificate">@Messages("vrm_assign_confirm.emailWarnLinkText").</a>
+                    </u></strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-steps">
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
+            <br/>
+            <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
+        </div>
+    }
+
+}

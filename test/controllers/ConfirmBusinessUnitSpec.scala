@@ -13,7 +13,7 @@ import views.vrm_assign.VehicleLookup._
 import helpers.common.CookieHelper._
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import utils.helpers.CookieFlagsRetention
+import utils.helpers.CookieFlagsassign
 import scala.concurrent.duration.DurationInt
 import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._

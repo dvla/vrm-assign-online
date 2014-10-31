@@ -118,6 +118,7 @@ object AuditMessage {
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
   final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
   final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+  final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToExit = "ConfirmToExit"
 
   def from(pageMovement: String,
