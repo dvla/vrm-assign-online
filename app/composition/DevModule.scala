@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import utils.helpers.CookieFlagsRetention
+import utils.helpers.CookieFlagsassign
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 
 /**
@@ -34,7 +34,7 @@ class DevModule extends ScalaModule {
     bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
-    bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
+    bind[CookieFlags].to[CookieFlagsassign].asEagerSingleton()
 
     if (getProperty("encryptCookies", default = true)) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)

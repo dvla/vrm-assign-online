@@ -104,7 +104,7 @@ object VehicleAndKeeperDetailsModelOptSeq {
 object AuditMessage {
 
   // service types
-  final val PersonalisedRegServiceType = "PR assign"
+  final val PersonalisedRegServiceType = "PR Assign"
 
   // page movement names
   final val VehicleLookupToCaptureCertificateDetails = "VehicleLookupToCaptureCertificateDetails"
@@ -118,6 +118,7 @@ object AuditMessage {
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
   final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
   final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+  final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToExit = "ConfirmToExit"
 
   def from(pageMovement: String,

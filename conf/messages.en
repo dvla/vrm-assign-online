@@ -266,7 +266,7 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Assign a personalised registration number
+main.banner = Put a registration number on a vehicle
 
 # before you start
 vrm_assign_beforeyoustart.title = Put a registration number on a vehicle
@@ -299,6 +299,7 @@ vrm_assign_beforeyoustart.list6item1 =  a completed V10 ‘application for a tax
 vrm_assign_beforeyoustart.list6item2 = a cheque (payable to DVLA, no cash accepted) for the correct vehicle tax
 vrm_assign_beforeyoustart.p10 = You can also renew your tax disc online if you’ve got your V5C registration certificate and the name and address details on it are correct.
 vrm_assign_beforeyoustart.p11 = Once DVLA gets your application they may need to inspect the vehicle but in most cases the DVLA should approve your application within 2 weeks.
+
 
 vrm_assign_beforeyoustart.button = Start now
 
@@ -341,7 +342,7 @@ error.validEmail = Must be a valid email address
 vrm_assign_vehiclelookup.title = Getting started
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
-vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C. Without this, you cannot use the online service.
+vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your assign Document (V778) . Without this, you cannot use the online service.
 vrm_assign_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_assign_vehiclelookup.p1 = Vehicle being sold
 vrm_assign_vehiclelookup.p2 = Vehicle will be sold to
@@ -456,12 +457,16 @@ vrm_assign_confirm.businessPostcodeLabel = Postcode
 vrm_assign_confirm.positiveAction = Confirm
 vrm_assign_confirm.back = Back
 keeper-email = E-mail
-vrm_assign_confirm.emailAddressLabel = E-mail
+vrm_assign_confirm.emailAddressLabel = Keeper E-mail
 vrm_assign_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
 vrm_assign_confirm.emailAddressLabelBusiness = Keeper e-mail address
 vrm_assign_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
+vrm_assign_confirm.emailHint1 = We require your email to send you:
+vrm_assign_confirm.emailHint2 = your payment receipt
+vrm_assign_confirm.emailHint3 = a summary of this transaction
 vrm_assign_confirm.button = Next
-vrm_assign_confirm.emailWarn = If any of these details are incorrect, please ‘Exit’ the service and update the details before returning to retain a Registration Number.
+vrm_assign_confirm.emailWarn = If any details are wrong, ‘Exit’ the service and
+vrm_assign_confirm.emailWarnLinkText = update your details
 vrm_assign_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_assign_confirm.storeDetailsConsent = Remember my business details for later
 vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option

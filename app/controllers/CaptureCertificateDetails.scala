@@ -45,7 +45,7 @@ final class CaptureCertificateDetails @Inject()(auditService: AuditService, date
             Redirect(routes.VehicleLookup.present())
         }
       },
-      validForm => Redirect(routes.LeaveFeedback.present()).withCookie(validForm) // TODO temp screen, replace with next screen in flow
+      validForm => Redirect(routes.Confirm.present()).withCookie(validForm)
     )
   }
 

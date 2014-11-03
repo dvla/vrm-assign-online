@@ -55,6 +55,10 @@ POST        /confirm-business                         @controllers.ConfirmBusine
 GET         /confirm-business/exit                    @controllers.ConfirmBusiness.exit
 GET         /confirm-business/back                    @controllers.ConfirmBusiness.back
 
+GET         /confirm                                  @controllers.Confirm.present
+POST        /confirm                                  @controllers.Confirm.submit
+GET         /confirm/exit                             @controllers.Confirm.exit
+
 GET         /capture-certificate-details              @controllers.CaptureCertificateDetails.present
 POST        /capture-certificate-details              @controllers.CaptureCertificateDetails.submit
 GET         /capture-certificate-details/exit         @controllers.CaptureCertificateDetails.exit
