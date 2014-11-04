@@ -112,7 +112,8 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
                   transactionId = transactionId,
                   timestamp = dateService.dateTimeISOChronology,
                   vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                routes.CaptureCertificateDetails.present()
+                VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
+                  withCookie(VehicleAndKeeperDetailsModel.from(dto)))
               } else {
                 if (storeBusinessDetails) {
                   val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
@@ -122,19 +123,18 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
                     timestamp = dateService.dateTimeISOChronology,
                     vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
                     businessDetailsModel = businessDetailsModel))
-                  routes.ConfirmBusiness.present()
+                  VehicleFound(Redirect(routes.ConfirmBusiness.present()).
+                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
                 } else {
                   auditService.send(AuditMessage.from(
                     pageMovement = AuditMessage.VehicleLookupToCaptureActor,
                     transactionId = transactionId,
                     timestamp = dateService.dateTimeISOChronology,
                     vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                  routes.SetUpBusinessDetails.present()
+                  VehicleFound(Redirect(routes.SetUpBusinessDetails.present()).
+                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
                 }
               }
-
-              VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
-                withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
             case None =>
               throw new RuntimeException("No Dto in vehicleAndKeeperLookupService response")
