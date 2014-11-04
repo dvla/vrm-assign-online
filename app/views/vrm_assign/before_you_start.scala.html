@@ -11,46 +11,55 @@
 ) {
     <div class="two-col clearfix">
         <div class="second-col">
-            <h1>@Messages("vrm_assign_beforeyoustart.title")</h1>
-            <p>@Messages("vrm_assign_beforeyoustart.p1")</p>
-            <p>@Messages("vrm_assign_beforeyoustart.p2")</p>
-            <h2>@Messages("vrm_assign_beforeyoustart.p3")</h2>
-            <p>@Messages("vrm_assign_beforeyoustart.p4")</p>
-            <ol>
-                <li>@Messages("vrm_assign_beforeyoustart.listitem1")</li>
-                <li>@Messages("vrm_assign_beforeyoustart.listitem2")</li>
-            </ol>
-            <div class="info-notice">
-                @Messages("vrm_assign_beforeyoustart.p5")
-            </div>
-            <p>@Messages("vrm_assign_beforeyoustart.p6")</p>
-            <p>@Messages("vrm_assign_beforeyoustart.p7")</p>
+<h1>@Messages("vrm_assign_beforeyoustart.title")</h1>
+<p>@Messages("vrm_assign_beforeyoustart.p1")</p>
+<h2>@Messages("vrm_assign_beforeyoustart.subtitle1")</h1>
+<p>@Messages("vrm_assign_beforeyoustart.p2")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list1item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list1item2")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list1item3")</li>
+</ul>
+<p>
+    @csrfTokenHiddenField()
+    @* Note the reverse routing syntax for the hyperlink *@
+    <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_assign_beforeyoustartpart2.button")</a>
+</p>
+<p>@Messages("vrm_assign_beforeyoustart.p3")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list2item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list2item2")</li>
+</ul>
+<p>@Messages("vrm_assign_beforeyoustart.p4")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list3item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list3item2")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list3item3")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list3item4")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list3item5")</li>
+</ul>
+<p>@Messages("vrm_assign_beforeyoustart.p5")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list4item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list4item2")</li>
+</ul>
+<div class="alert-warning">@Messages("vrm_assign_beforeyoustart.p6")</div>
+<div class="info-notice">@Messages("vrm_assign_beforeyoustart.p7")</div>
+<h2>@Messages("vrm_assign_beforeyoustart.subtitle2")</h1>
+<p>@Messages("vrm_assign_beforeyoustart.p8")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list5item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list5item2")</li>
+</ul>
+<p>@Messages("vrm_assign_beforeyoustart.p9")</p>
+<ul>
+  <li>@Messages("vrm_assign_beforeyoustart.list6item1")</li>
+  <li>@Messages("vrm_assign_beforeyoustart.list6item2")</li>
+</ul>
+<p>@Messages("vrm_assign_beforeyoustart.p10")</p>
+<p>@Messages("vrm_assign_beforeyoustart.p11")</p>
 
-            <h1>@Messages("vrm_assign_beforeyoustartpart2.title")</h1>
-            <p>@Messages("vrm_assign_beforeyoustartpart2.p1")</p>
-            <div class="info-notice">
-                @Messages("vrm_assign_beforeyoustartpart2.p2")
-            </div>
-            <p>@Messages("vrm_assign_beforeyoustartpart2.p3")</p>
-            <ol>
-                <li>@Messages("vrm_assign_beforeyoustartpart2.listitem1")</li>
-                <li>@Messages("vrm_assign_beforeyoustartpart2.listitem2")</li>
-                <li>@Messages("vrm_assign_beforeyoustartpart2.listitem3")</li>
-            </ol>
-            <div class="alert-warning">
-                <p><strong>@Messages("vrm_assign_beforeyoustartpart2.p4")</strong></p>
-            </div>
-            <p>@Messages("vrm_assign_beforeyoustartpart2.p5")</p>
-            <ol>
-                <li>@Messages("vrm_assign_beforeyoustartpart2.listitem4")</li>
-                <li>@Messages("vrm_assign_beforeyoustartpart2.listitem5")</li>
-            </ol>
-            <div class="form-steps">
-                @csrfTokenHiddenField()
-                @* Note the reverse routing syntax for the hyperlink *@
-                <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_assign_beforeyoustartpart2.button")</a>
-            </div>
-            <p class="beta-info">@Messages("vrm_assign_beforeyoustart.p8") <a href="#">@Messages("vrm_assign_beforeyoustart.p8link")</a>.</p>
+
         </div>
         <div class="first-col">
             <div class="related">
