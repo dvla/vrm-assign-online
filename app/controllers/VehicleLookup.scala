@@ -25,6 +25,11 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.Ve
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 import play.api.mvc.Call
 import mappings.common.ErrorCodes
+import views.vrm_assign.ConfirmBusiness._
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
+import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
+import play.api.mvc.Call
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -96,40 +101,40 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
             case Some(dto) =>
 
-              // TODO
+              val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+              val transactionId = request.cookies.getString(TransactionIdCacheKey).get // TOD will it exist? option?
 
-//              if (form.userType == UserType_Keeper) {
-//                auditService.send(AuditMessage.from(
-//                  pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
-//                  transactionId = transactionId,
-//                  timestamp = dateService.dateTimeISOChronology,
-//                  vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//                  replacementVrm = Some(replacementVRM)))
-//                routes.Confirm.present()
-//              } else {
-//                if (storeBusinessDetails) {
-//                  val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-//                  auditService.send(AuditMessage.from(
-//                    pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-//                    transactionId = transactionId,
-//                    timestamp = dateService.dateTimeISOChronology,
-//                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//                    replacementVrm = Some(replacementVRM),
-//                    businessDetailsModel = businessDetailsModel))
-//                  routes.ConfirmBusiness.present()
-//                } else {
-//                  auditService.send(AuditMessage.from(
-//                    pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-//                    transactionId = transactionId,
-//                    timestamp = dateService.dateTimeISOChronology,
-//                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//                    replacementVrm = Some(replacementVRM)))
-//                  routes.SetUpBusinessDetails.present()
-//                }
-//              }
+              val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
 
-              VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
-                withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+              if (form.userType == UserType_Keeper) {
+                auditService.send(AuditMessage.from(
+                  pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+                  transactionId = transactionId,
+                  timestamp = dateService.dateTimeISOChronology,
+                  vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+                VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
+                  withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+              } else {
+                if (storeBusinessDetails) {
+                  val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+                  auditService.send(AuditMessage.from(
+                    pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+                    transactionId = transactionId,
+                    timestamp = dateService.dateTimeISOChronology,
+                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+                    businessDetailsModel = businessDetailsModel))
+                  VehicleFound(Redirect(routes.ConfirmBusiness.present()).
+                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+                } else {
+                  auditService.send(AuditMessage.from(
+                    pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+                    transactionId = transactionId,
+                    timestamp = dateService.dateTimeISOChronology,
+                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+                  VehicleFound(Redirect(routes.SetUpBusinessDetails.present()).
+                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+                }
+              }
 
             case None =>
               throw new RuntimeException("No Dto in vehicleAndKeeperLookupService response")

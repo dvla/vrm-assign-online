@@ -115,6 +115,7 @@ object AuditMessage {
   final val VehicleLookupToMicroServiceError = "VehicleLookupToMicroServiceError"
   final val CaptureActorToConfirmBusiness = "CaptureActorToConfirmBusiness"
   final val CaptureActorToExit = "CaptureActorToExit"
+  final val CaptureCertificateDetailsToConfirm = "CaptureCertificateDetailsToConfirm"
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
   final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
   final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
