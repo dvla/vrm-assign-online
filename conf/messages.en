@@ -303,19 +303,17 @@ vrm_assign_beforeyoustart.p11 = Once DVLA gets your application they may need to
 
 vrm_assign_beforeyoustart.button = Start now
 
-# before you start part 2
-vrm_assign_beforeyoustartpart2.title = Before you start
-vrm_assign_beforeyoustartpart2.p1 = Conditions for retaining a registration number
-vrm_assign_beforeyoustartpart2.p2 = You can’t retain a registration number starting with ‘Q’ or ‘NIQ’ for Northern Ireland registered vehicles.
-vrm_assign_beforeyoustartpart2.p3 = To retain a valid registration number, the vehicle must be:
-vrm_assign_beforeyoustartpart2.listitem1 = registered with DVLA
-vrm_assign_beforeyoustartpart2.listitem2 = available for inspection
-vrm_assign_beforeyoustartpart2.listitem3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
-vrm_assign_beforeyoustartpart2.p4 = Pre-1960 vehicles need a valid MOT to retain a registration number.
-vrm_assign_beforeyoustartpart2.p5 = The vehicle should also be taxed, unless:
-vrm_assign_beforeyoustartpart2.listitem4 = there’s no break between the date the tax disc runs out and the start of the SORN
-vrm_assign_beforeyoustartpart2.listitem5 = the tax disc has run out in the last 12 months
-vrm_assign_beforeyoustartpart2.button = Start now
+# contact side related content
+vrm_assign_contact.title = DVLA Helpline
+vrm_assign_contact.telLabel = Telephone
+vrm_assign_contact.telNumber = 0300 790 6802
+vrm_assign_contact.texLabel = Textphone
+vrm_assign_contact.texNumber = 18001 0300 123 1379
+vrm_assign_contact.hoursLabel = Lines Open
+vrm_assign_contact.hoursMonFri = Monday to Friday - 8am to 7pm
+vrm_assign_contact.hoursSun = Saturday - 8am to 2pm
+
+
 
 # set-up business details
 vrm_assign_setupbusinessdetails.title = Provide your business details
@@ -351,7 +349,7 @@ vrm_assign_vehiclelookup.warning.p2 = Assign or transfer personal registrations 
 vrm_assign_vehiclelookup.refnumlabel = Latest V5C document reference number
 vrm_assign_vehiclelookup.refnumHint = An 11 digit number on the most recent V5C, as indicated on the image to the right.
 vrm_assign_vehiclelookup.vrninputlabel = Vehicle registration number
-vrm_assign_vehiclelookup.vrnHint = The registration number you want to keep
+vrm_assign_vehiclelookup.vrnHint = Enter the current registration here without spaces, for example: 'GK64SWA'
 vrm_assign_vehiclelookup.backbutton = Back
 vrm_assign_vehiclelookup.button = Next
 vrm_assign_vehiclelookup.button2 = Edit
@@ -438,6 +436,16 @@ paymentNotAuthorisedErrorMessage.p3 =
 #Confirm business page
 vrm_assign_confirm_business.title = Confirm your business details
 vrm_assign_confirm_business.button = Confirm
+
+#Capture Certificate Details
+vrm_assign_capturecertificatedetails.title = Your personal registration number
+vrm_assign_capturecertificatedetails.p1 = You will require either a Certificate of Entitlement (V750) or a Retention Document (V778) to complete the assignment of your registration mark to a vehicle
+vrm_assign_capturecertificatedetails.referencenumberlabel = Your reference number
+vrm_assign_capturecertificatedetails.referencenumberhelper = This will be either:
+vrm_assign_capturecertificatedetails.prvrmlabel = Your personal registration number
+vrm_assign_capturecertificatedetails.prvrmhelper = Enter the new personal registration here without spaces, for example: ''AMV1''
+vrm_assign_capturecertificatedetails.button = Next
+
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper details

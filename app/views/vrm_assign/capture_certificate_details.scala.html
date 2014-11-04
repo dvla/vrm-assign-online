@@ -25,6 +25,9 @@
 
             <div class="second-col inline-form">
                 <h1>@Messages("vrm_assign_capturecertificatedetails.title")</h1>
+                <div class="info-notice">
+                    @Messages("vrm_assign_capturecertificatedetails.p1")
+                </div>
                 <div class="uppercase-input">
                 @valtechInputText(captureCertificateDetailsFormModel(ReferenceNumberId),
                     hintText = Some(Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")),
@@ -33,8 +36,14 @@
                         '_showConstraints -> false,
                         'maxLength -> ReferenceNumber.MaxLength))
                 </div>
+                <ul class="hint-list">
+                  <li>the 18 digit certificate number from a V750 Certificate of Entitlement, OR,</li>
+                  <li>the 18 digit document reference number from  a V778 Retention Document</li>
+                </ul>
+
                 <div class="uppercase-input">
                 @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
+                    hintText = Some(Messages("vrm_assign_capturecertificatedetails.prvrmhelper")),
                     args =
                     Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
                     '_showConstraints -> false,
