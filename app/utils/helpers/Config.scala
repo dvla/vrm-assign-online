@@ -9,6 +9,7 @@ class Config {
 
   // Micro-service config // TODO take defaults off the timeouts
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
+  val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty("vrmAssignEligibilityMicroServiceUrlBase", "NOT FOUND")
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
