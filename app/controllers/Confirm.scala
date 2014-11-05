@@ -13,9 +13,13 @@ import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.CaptureCertificateDetails._
+import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 
-final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                                                    config: Config) extends Controller {
+final class Confirm @Inject()(auditService: AuditService, dateService: DateService)
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -23,9 +27,10 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
     } yield {
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetails, None, None)
       Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -73,9 +78,10 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
     }
     yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetails, None, None)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm))
     }
