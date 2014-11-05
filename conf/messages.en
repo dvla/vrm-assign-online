@@ -448,9 +448,10 @@ vrm_assign_capturecertificatedetails.button = Next
 
 
 #Confirm page
-vrm_assign_confirm.title = Confirm keeper details
+vrm_assign_confirm.title = Confirm keeper and new registration
 vrm_assign_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
 vrm_assign_confirm.warn = If any of these details are incorrect, please 'Exit' the service and update the details before returning to take a registration number off a vehicle
+vrm_assign_confirm.toAssign = Registration number to assign:
 vrm_assign_confirm.keeperTitle = Keeper details
 vrm_assign_confirm.keeperLabel = Name
 vrm_assign_confirm.keeperAddressLabel = Address
@@ -470,11 +471,14 @@ vrm_assign_confirm.emailAddressTitle = To ensure that we can send to you all the
 vrm_assign_confirm.emailAddressLabelBusiness = Keeper e-mail address
 vrm_assign_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
 vrm_assign_confirm.emailHint1 = We require your email to send you:
-vrm_assign_confirm.emailHint2 = your payment receipt
+vrm_assign_confirm.emailHint2 = a copy of the eV498 in order to make up your new registration plates
 vrm_assign_confirm.emailHint3 = a summary of this transaction
 vrm_assign_confirm.button = Next
-vrm_assign_confirm.emailWarn = If any details are wrong, ‘Exit’ the service and
-vrm_assign_confirm.emailWarnLinkText = update your details
+vrm_assign_confirm.newRegTitle = New registration details
+vrm_assign_confirm.newRegp1 = We have successfully matched the certificate reference number with the registration number you provided.
+vrm_assign_confirm.newRegp2 = If you wish to continue with this transaction and place this registration number on the vehicle identified above please select 'Next' below.
+vrm_assign_confirm.emailWarn = If any of these details are incorrect, please ‘Exit’ the service and contact us via the Helpline telephone number listed opposite.
+vrm_assign_confirm.emailWarnLinkText =
 vrm_assign_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_assign_confirm.storeDetailsConsent = Remember my business details for later
 vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
