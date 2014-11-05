@@ -16,7 +16,7 @@ config: utils.helpers.Config)
     <p>@Messages("vrm_assign.help.p2.1") <a href=@Messages("vrm_assign.help.email")> @Messages("vrm_assign.help.p2.2") </a></p>
 
     @form(action = Help.back) {
-        <div class="back-navigation">
+        <div class="form-steps">
             @csrfTokenHiddenField()
             @* Note the reverse routing syntax for the hyperlink *@
             <button class="back" id="@BackId" type="submit" name="action">@Messages("vrm_assign.help.back_button")</button>
