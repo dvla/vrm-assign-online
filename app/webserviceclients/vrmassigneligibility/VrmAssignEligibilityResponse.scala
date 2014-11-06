@@ -20,7 +20,7 @@ object VrmAssignEligibilityResponse {
         val newDateTime = ISODateTimeFormat.dateTime().parseDateTime(j.as[String])
         JsSuccess(newDateTime)
       } catch {
-        case e => JsSuccess(new DateTime)
+        case e: Throwable => JsSuccess(new DateTime)
       }
     }
 

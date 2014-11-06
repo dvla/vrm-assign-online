@@ -143,7 +143,7 @@ object Sandbox extends Plugin {
           new File(classDirectory.all(scopeVrmAssignEligibility).value.head, s"${vrmAssignEligibility.id}.conf"),
           setServicePortAndLegacyServicesPort(
             VrmAssignEligibilityPort,
-            "validateRetain.url",
+            "validateAssign.url",
             LegacyServicesStubsPort
           )
         ))
