@@ -21,6 +21,7 @@ object Sandbox extends Plugin {
   final val VersionOsAddressLookup = "0.4-SNAPSHOT"
   final val VersionVehiclesLookup = "0.1-SNAPSHOT"
   final val VersionVehicleAndKeeperLookup = "0.2-SNAPSHOT"
+  final val VersionVrmAssignEligibility = "0.3-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"
@@ -32,8 +33,8 @@ object Sandbox extends Plugin {
   final val OsAddressLookupPort = 18801
   final val VehicleLookupPort = 18802
   final val VehicleAndKeeperLookupPort = 18803
-  final val VrmassignEligibilityPort = 18804
-  final val VrmassignRetainPort = 18805
+  final val VrmAssignEligibilityPort = 18804
+  final val VrmAssignRetainPort = 18805
   final val LegacyServicesStubsPort = 18806
   final val PaymentSolvePort = 18807
 
@@ -68,6 +69,8 @@ object Sandbox extends Plugin {
     sandProject("vehicles-lookup", "dvla" %% "vehicles-lookup" % VersionVehiclesLookup)
   lazy val (vehicleAndKeeperLookup, scopeVehicleAndKeeperLookup) =
     sandProject("vehicle-and-keeper-lookup", "dvla" %% "vehicle-and-keeper-lookup" % VersionVehicleAndKeeperLookup)
+  lazy val (vrmAssignEligibility, scopeVrmAssignEligibility) =
+    sandProject("vrm-assign-eligibility", "dvla" %% "vrm-assign-eligibility" % VersionVrmAssignEligibility)
   lazy val (legacyStubs, scopeLegacyStubs) = sandProject(
     name = "legacy-stubs",
     "dvla-legacy-stub-services" % "legacy-stub-services-service" % VersionLegacyStubs,
@@ -132,6 +135,21 @@ object Sandbox extends Plugin {
       ))
     )
     runProject(
+      fullClasspath.all(scopeVrmAssignEligibility).value.flatten,
+      Some(ConfigDetails(
+        secretRepoFolder,
+        "ms/dev/vrm-assign-eligibility.conf.enc",
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeVrmAssignEligibility).value.head, s"${vrmAssignEligibility.id}.conf"),
+          setServicePortAndLegacyServicesPort(
+            VrmAssignEligibilityPort,
+            "validateRetain.url",
+            LegacyServicesStubsPort
+          )
+        ))
+      ))
+    )
+    runProject(
       fullClasspath.all(scopeLegacyStubs).value.flatten,
       None,
       runJavaMain("service.LegacyServicesRunner", Array(LegacyServicesStubsPort.toString))
@@ -142,6 +160,7 @@ object Sandbox extends Plugin {
   lazy val sandboxTask = sandbox <<= (runMicroServices, (run in Runtime).toTask("")) { (body, stop) =>
     System.setProperty("vehicleLookupMicroServiceUrlBase", s"http://localhost:$VehicleLookupPort")
     System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
+    System.setProperty("vrmAssignEligibilityMicroServiceUrlBase", s"http://localhost:$VrmAssignEligibilityPort")
     System.setProperty("ordnancesurvey.baseUrl", s"http://localhost:$OsAddressLookupPort")
     body.flatMap(t => stop)
   }
