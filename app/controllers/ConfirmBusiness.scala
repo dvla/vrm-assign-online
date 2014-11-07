@@ -14,8 +14,9 @@ import views.vrm_assign.ConfirmBusiness._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 
-final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                                                            config: Config) extends Controller {
+final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)
+                                     (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config)
+  extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 

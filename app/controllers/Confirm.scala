@@ -68,7 +68,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
         keeperEmail = model.keeperEmail,
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-      Redirect(routes.LeaveFeedback.present()).withCookiesEx(cookies: _*) // TODO hook up to payment
+      Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*) // TODO hook up to payment
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)

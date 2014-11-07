@@ -1,0 +1,42 @@
+@(paymentRedirectUrl: String)(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.routes.Payment
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
+@import views.html.vrm_assign.main
+@import views.vrm_assign.Payment.{CancelId, GetWebPaymentlId}
+
+@main(
+    title = Messages("vrm_assign_payment.title")
+) {
+  <script src="@routes.Assets.at("javascripts/firefox-dont-cache-page.js")" type="text/javascript"></script>
+  <h1>@Messages("vrm_assign_payment.title")</h1>
+
+  <h2>@Messages("vrm_assign_payment.title2")</h2>
+  <p>@Messages("vrm_assign_payment.p2")</p>
+    <iframe
+        src="@paymentRedirectUrl"
+        @*seamless="seamless" Logic group recommends we do NOT use this field *@
+        title="@Messages("vrm_assign_payment.iframe.title")"
+        width="100%"
+        height="830"
+        frameborder="0" @* Logic group recommends this field *@
+        <!--[if IE] allowTransparency="true" --> @* Logic group recommends this field. This IE-specific attribute, which has never been part of a recognised standard, is no longer present in HTML5. http://help.simplytestable.com/errors/html-validation/the-x-attribute-on-the-y-element-is-obsolete-use-css-instead/the-allowtransparency-attribute-on-the-iframe-element-is-obsolete-use-css-instead/ *@
+        @*sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation" Logic group recommends we do NOT use this field *@
+    ></iframe>
+@* POST body could return trxRef that we can CSRF against, we need to ask them to enable it. Else we can have CSRF on the callback url *@
+    <div class="form-steps">
+        @csrfTokenHiddenField()
+
+        <noscript>
+            @*
+            Non-javascript browsers need a way of causing the parent browser to redirect, as meta-refresh won't work
+            on the parent when in an iframe
+            *@
+            <p>@Messages("vrm_assign_payment.javascript-disabled.message")</p>
+            <a class="button" id="@GetWebPaymentlId" href="@Payment.getWebPayment">@Messages("vrm_assign_payment.javascript-disabled.button")</a>
+        </noscript>
+        <a id="@CancelId" href="@Payment.cancel()">@Messages("vrm_assign_payment.cancel.button")</a>
+    </div>
+}

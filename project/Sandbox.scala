@@ -22,6 +22,7 @@ object Sandbox extends Plugin {
   final val VersionVehiclesLookup = "0.1-SNAPSHOT"
   final val VersionVehicleAndKeeperLookup = "0.2-SNAPSHOT"
   final val VersionVrmAssignEligibility = "0.3-SNAPSHOT"
+  final val VersionPaymentSolve= "0.3-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"
@@ -71,6 +72,8 @@ object Sandbox extends Plugin {
     sandProject("vehicle-and-keeper-lookup", "dvla" %% "vehicle-and-keeper-lookup" % VersionVehicleAndKeeperLookup)
   lazy val (vrmAssignEligibility, scopeVrmAssignEligibility) =
     sandProject("vrm-assign-eligibility", "dvla" %% "vrm-assign-eligibility" % VersionVrmAssignEligibility)
+  lazy val (paymentSolve, scopePaymentSolve) =
+    sandProject("payment-solve", "dvla" %% "payment-solve" % VersionPaymentSolve)
   lazy val (legacyStubs, scopeLegacyStubs) = sandProject(
     name = "legacy-stubs",
     "dvla-legacy-stub-services" % "legacy-stub-services-service" % VersionLegacyStubs,
@@ -120,6 +123,17 @@ object Sandbox extends Plugin {
       ))
     )
     runProject(
+      fullClasspath.all(scopePaymentSolve).value.flatten,
+     Some(ConfigDetails(
+          secretRepoFolder,
+       "ms/dev/payment-solve.conf.enc",
+          Some(ConfigOutput(
+              new File(classDirectory.all(scopePaymentSolve).value.head, s"${paymentSolve.id}.conf"),
+              setServicePort(PaymentSolvePort)
+             ))
+          ))
+     )
+    runProject(
       fullClasspath.all(scopeVehicleAndKeeperLookup).value.flatten,
       Some(ConfigDetails(
         secretRepoFolder,
@@ -162,6 +176,7 @@ object Sandbox extends Plugin {
     System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
     System.setProperty("vrmAssignEligibilityMicroServiceUrlBase", s"http://localhost:$VrmAssignEligibilityPort")
     System.setProperty("ordnancesurvey.baseUrl", s"http://localhost:$OsAddressLookupPort")
+    System.setProperty("paymentSolveMicroServiceUrlBase", s"http://localhost:$PaymentSolvePort")
     body.flatMap(t => stop)
   }
 

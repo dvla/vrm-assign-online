@@ -1,6 +1,6 @@
 package audit
 
-import models.{BusinessDetailsModel, VehicleAndKeeperDetailsModel}
+import models.{PaymentModel, BusinessDetailsModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.auditing.Message
 
@@ -101,6 +101,27 @@ object VehicleAndKeeperDetailsModelOptSeq {
   }
 }
 
+object PaymentModelOptSeq {
+
+  def from(paymentModelOpt: Option[PaymentModel]) = {
+    paymentModelOpt match {
+      case Some(paymentModel) =>
+        val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
+        val paymentStatusOpt = paymentModel.paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
+        val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
+        val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
+        val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
+        val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
+        val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
+        val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
+          totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
+        Seq(paymentTrxRefOpt, paymentStatusOpt, paymentMaskedPanOpt, paymentAuthCodeOpt, paymentMerchantIdOpt,
+          paymentTypeOpt, paymentCardTypeOpt, paymentTotalAmountPaidOpt)
+      case _ => Seq.empty
+    }
+  }
+}
+
 object AuditMessage {
 
   // service types
@@ -122,6 +143,11 @@ object AuditMessage {
   final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
   final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToExit = "ConfirmToExit"
+  final val PaymentToSuccess = "PaymentToSuccess"
+  final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"
+  final val PaymentToPaymentFailure = "PaymentToPaymentFailure"
+  final val PaymentToExit = "PaymentToExit"
+  final val PaymentToMicroServiceError = "PaymentToMicroServiceError"
 
   def from(pageMovement: String,
            transactionId: String,
@@ -130,7 +156,8 @@ object AuditMessage {
            replacementVrm: Option[String] = None,
            keeperEmail: Option[String] = None,
            businessDetailsModel: Option[BusinessDetailsModel] = None,
-           assignCertId: Option[String] = None,
+           paymentModel: Option[PaymentModel] = None,
+           retentionCertId: Option[String] = None,
            rejectionCode: Option[String] = None) = {
 
     val data: Seq[(String, Any)] = {
@@ -140,7 +167,8 @@ object AuditMessage {
       val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVrm", replacementVrm))
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      val assignCertIdOpt = assignCertId.map(assignCertId => ("assignCertId", assignCertId))
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
+      val retentionCertIdOpt = retentionCertId.map(retentionCertId => ("retentionCertId", retentionCertId))
       val rejectionCodeOpt = rejectionCode.map(rejectionCode => ("rejectionCode", rejectionCode))
 
       (Seq(
@@ -148,9 +176,9 @@ object AuditMessage {
         timestampOpt,
         replacementVRMOpt,
         keeperEmailOpt,
-        assignCertIdOpt,
+        retentionCertIdOpt,
         rejectionCodeOpt
-      ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq).flatten
+      ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq ++ paymentModelOptSeq).flatten
     }
     AuditMessage(pageMovement, PersonalisedRegServiceType, data: _*)
   }
