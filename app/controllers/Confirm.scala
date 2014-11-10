@@ -57,18 +57,35 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
-
       val cookies = List(keeperEmail).flatten
 
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.ConfirmToPayment,
-        timestamp = dateService.dateTimeISOChronology,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        keeperEmail = model.keeperEmail,
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
+      // TODO calculate outstanding fees
+      val outstandingFees = 0.0
 
-      Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*) // TODO hook up to payment
+      // check for outstanding fees
+      if (outstandingFees > 0.0) {
+
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmToPayment,
+          timestamp = dateService.dateTimeISOChronology,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = model.keeperEmail,
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
+        Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
+      } else {
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmToPayment, // TODO change to be ConfirmToSuccess
+          timestamp = dateService.dateTimeISOChronology,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = model.keeperEmail,
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
+        Redirect(routes.LeaveFeedback.present()).withCookiesEx(cookies: _*)
+      }
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
