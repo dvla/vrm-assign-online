@@ -7,8 +7,12 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey, CaptureCertificateDetailsFormModelCacheKey}
+import views.vrm_assign.Confirm.KeeperEmailCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_assign.Fulfil.{FulfilCacheKey, FulfilResponseCodeCacheKey}
+import views.vrm_assign.Payment.{PaymentDetailsCacheKey, PaymentTransNoCacheKey}
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
 
@@ -21,8 +25,15 @@ object RelatedCacheKeys {
     VehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
+    CaptureCertificateDetailsCacheKey,
+    CaptureCertificateDetailsFormModelCacheKey,
     EnterAddressManuallyCacheKey,
-    REFERER
+    KeeperEmailCacheKey,
+    REFERER,
+    FulfilCacheKey,
+    FulfilResponseCodeCacheKey,
+    PaymentDetailsCacheKey,
+    PaymentTransNoCacheKey
   )
 
   val VehicleAndKeeperLookupSet = Set(

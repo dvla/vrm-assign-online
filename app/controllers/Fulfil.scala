@@ -7,9 +7,10 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.Fulfil._
@@ -28,11 +29,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[PaymentModel]) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), _) => //Some(paymentModel)) =>
-        fulfilVrm(vehiclesLookupForm, transactionId) //, paymentModel.trxRef.get)
-      case (_, Some(transactionId), _) => {
+      request.cookies.getString(TransactionIdCacheKey)) match {
+      case (Some(vehiclesLookupForm), Some(transactionId)) =>
+        fulfilVrm(vehiclesLookupForm, transactionId)
+      case (_, Some(transactionId)) => {
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -44,13 +44,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       }
       case _ =>
         Future.successful {
-          Redirect(routes.Error.present("user went to Fulfil mark without correct cookies"))
+          Redirect(routes.Error.present("user went to fulfil mark without correct cookies"))
         }
     }
   }
 
-  private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                        transactionId: String, trxRef: String = "") // TODO fix trxRef if no payment
+  private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String)
                        (implicit request: Request[_]): Future[Result] = {
 
     def fulfilSuccess(certificateNumber: String) = {
@@ -61,23 +60,39 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
-      //      var paymentModel = request.cookies.getModel[PaymentModel].get
-      //      paymentModel.paymentStatus = Some(Payment.SettledStatus)
-      //
-      //      auditService.send(AuditMessage.from(
-      //        pageMovement = AuditMessage.PaymentToSuccess,
-      //        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-      //        timestamp = dateService.dateTimeISOChronology,
-      //        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      //        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
-      //        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-      //        paymentModel = Some(paymentModel),
-      //        retentionCertId = Some(certificateNumber)))
-      
-      //      Redirect(routes.SuccessPayment.present()).
-      Redirect(routes.Success.present()).
-        //        withCookie(paymentModel).
-        withCookie(FulfilModel.from(certificateNumber, transactionTimestampWithZone))
+      // TODO need to tidy this up!!
+      val paymentModel = request.cookies.getModel[PaymentModel]
+
+      if (paymentModel.isDefined) {
+
+        paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
+
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToSuccess,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          paymentModel = paymentModel,
+          retentionCertId = Some(certificateNumber)))
+
+        Redirect(routes.FulfilSuccess.present()).
+          withCookie(paymentModel.get).
+          withCookie(FulfilModel.from(certificateNumber, transactionTimestampWithZone))
+      } else {
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToSuccess,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          retentionCertId = Some(certificateNumber)))
+
+        Redirect(routes.FulfilSuccess.present()).
+          withCookie(FulfilModel.from(certificateNumber, transactionTimestampWithZone))
+      }
     }
 
     def fulfilFailure(responseCode: String) = {
@@ -86,22 +101,39 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
 
-      //      var paymentModel = request.cookies.getModel[PaymentModel].get
-      //      paymentModel.paymentStatus = Some(Payment.CancelledStatus)
+      // TODO need to tidy this up!!
+      val paymentModel = request.cookies.getModel[PaymentModel]
 
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToPaymentFailure,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        //        paymentModel = Some(paymentModel),
-        rejectionCode = Some(responseCode)))
+      if (paymentModel.isDefined) {
 
-      Redirect(routes.FulfilFailure.present()).
-        //        withCookie(paymentModel).
-        withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+        paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
+
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+                  paymentModel = paymentModel,
+          rejectionCode = Some(responseCode)))
+
+        Redirect(routes.FulfilFailure.present()).
+                  withCookie(paymentModel.get).
+          withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+      } else {
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          rejectionCode = Some(responseCode)))
+
+        Redirect(routes.FulfilFailure.present()).
+          withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+      }
     }
 
     def microServiceErrorResult(message: String) = {

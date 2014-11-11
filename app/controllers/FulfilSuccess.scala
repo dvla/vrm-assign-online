@@ -23,7 +23,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class SuccessPayment @Inject()(pdfService: PdfService,
+final class FulfilSuccess @Inject()(pdfService: PdfService,
                                      emailService: EmailService,
                                      dateService: DateService,
                                      paymentSolveService: PaymentSolveService)
@@ -35,11 +35,12 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[CaptureCertificateDetailsModel],
-      request.cookies.getModel[FulfilModel],
-      request.cookies.getModel[PaymentModel]) match {
+      request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsModel), Some(fulfilModel), Some(paymentModel)) =>
+      Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
+
+        println("********* present 1 **********")
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -76,7 +77,16 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
             )
         }
 
-        callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
+        println("********* present 2 **********")
+
+        val paymentModel = request.cookies.getModel[PaymentModel]
+        if (paymentModel.isDefined) {
+          callUpdateWebPaymentService(paymentModel.get.trxRef.get, successViewModel,
+            isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
+        } else {
+          Future.successful(Ok(views.html.vrm_assign.success(successViewModel = successViewModel,
+            isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)))
+        }
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
     }
@@ -140,7 +150,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
       transNo = transNo,
       trxRef = trxRef,
-      authType = SuccessPayment.SETTLE_AUTH_CODE
+      authType = FulfilSuccess.SETTLE_AUTH_CODE
     )
     val trackingId = request.cookies.trackingId()
 
@@ -154,7 +164,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
   }
 }
 
-object SuccessPayment {
+object FulfilSuccess {
 
   private val SETTLE_AUTH_CODE = "Settle"
 }

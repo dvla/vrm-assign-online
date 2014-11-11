@@ -23,6 +23,8 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
 
       case (Some(transactionId), Some(paymentModel)) =>
         callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+      case (Some(transactionId), None) =>
+        Future.successful(Ok(views.html.vrm_assign.fulfil_failure())) // TODO need to switch the message to not mention payment if no payment was needed
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
     }
