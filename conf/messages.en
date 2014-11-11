@@ -548,7 +548,7 @@ vrm_assign_success_payment.button = Next
 
 #Success page
 vrm_assign_success.title = Summary
-vrm_assign_success.subtitle = Assign complete for
+vrm_assign_success.subtitle = Assignment complete for
 vrm_assign_success.replacementRegNumberLabel = Registration number
 vrm_assign_success.yourCert = Your Assign certificate number is
 vrm_assign_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
@@ -559,25 +559,22 @@ vrm_assign_success.makingUp-p1 = Making up the number plate for the replacement 
 vrm_assign_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_assign_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
 
-vrm_assign_success.notice1.h3 = New vehicles
-vrm_assign_success.notice1.p1 = Now that the assign has been completed, you are able to make use of the assign certificate number above to assign the registration number to a new vehicle in AFRL.
-
-vrm_assign_success.notice2.h3 = Used vehicles
-vrm_assign_success.notice2.p1 = In order to assign the retained registration to a used vehicle you will need to continue using the existing paper service. For additional information on that application please see
-vrm_assign_success.notice2.p1.link = 'Assigning a personalised number to a vehicle'
-
-
-vrm_assign_success.p1 = What happens next?
-vrm_assign_success.p2 = The following items will be sent separately to you at your registered address:
-vrm_assign_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
-vrm_assign_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
-vrm_assign_success.listItem3 = A V778 assign doument to showing you as the 'Grantee'
+vrm_assign_success.h2 = What to do next
+vrm_assign_success.h3a = Making up your new plates
+vrm_assign_success.p1a = You can remove your existing registration plates and put on your registration number,
+vrm_assign_success.p1b = on your vehicle. You can have your new plates made through one of our registered number plate suppliers. We recommend that you arrange this as soon as possible as we have updated your driver record.
+vrm_assign_success.p2= To have your new plates made up you need a V948 which you can take to your local number plate supplier who can suggest a variety of styles. You should receive this within 3-5 working days.
+vrm_assign_success.h3b = What you need to do now
+vrm_assign_success.p3 = The following items will be sent separately to you at your registered address:
+vrm_assign_success.listItem1 = Print this document, as it contains important information that you may require if there is a problem in the future
+vrm_assign_success.listItem2 = If you have provided your email address during the assignment of your personal registration you will get a summary of this transaction via email
+vrm_assign_success.listItem3 = Give your insurance company your new registration number
+vrm_assign_success.listItem4 = Wait for your V948 in the post to get new plates from a registered number plate supplier
+vrm_assign_success.listItem5 = Your old V5C and MOT certificate are no longer valid but you should keep them until your new documents arrive in the post
+vrm_assign_success.listItem6 = For more information about vehicle registration numbers and number plates, you can download our leaflet INF104 from the website www.gov.uk/displaying-number-plates
 
 vrm_assign_success.newDocumentsTitle = About your new documents
 vrm_assign_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
-vrm_assign_success.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
-vrm_assign_success.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
-vrm_assign_success.newDocumentsList-3 = A assign certificate for the retained registration number
 
 vrm_assign_success.aboutTransactionTitle = About this transaction
 vrm_assign_success.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
