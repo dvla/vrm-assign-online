@@ -73,9 +73,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       //        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       //        paymentModel = Some(paymentModel),
       //        retentionCertId = Some(certificateNumber)))
-
-      println("********************  ABOUT TO fulfilSuccess ********************")
-
+      
       //      Redirect(routes.SuccessPayment.present()).
       Redirect(routes.Success.present()).
         //        withCookie(paymentModel).

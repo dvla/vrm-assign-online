@@ -73,8 +73,6 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        println("********************  ABOUT TO REDIRECT TO PAYMENT ********************")
-
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
       } else {
         auditService.send(AuditMessage.from(
@@ -84,9 +82,6 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-        println("********************  ABOUT TO REDIRECT TO FULFIL ********************")
-
         Redirect(routes.Fulfil.fulfil()).withCookiesEx(cookies: _*)
       }
     }
