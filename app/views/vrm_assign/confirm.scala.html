@@ -19,14 +19,15 @@
 
             <h1>@Messages("vrm_assign_confirm.title")</h1>
             <dl class="playback first-line">
-                <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
-                <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
-                <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
-                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                <dt><strong>@Messages("vrm_assign_confirm.keeperLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</dt><br />
+                <dt><strong>@Messages("vrm_assign_confirm.keeperAddressLabel")</strong></dt>
+                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
                     @keeperAddressLine<br>
-                    }</dd>
-                <dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>
-                <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
+                    }</dt>
+                <br />
+                <dt><strong>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
             </dl>
         </div>
         <div class="first-col">
