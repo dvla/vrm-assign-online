@@ -33,7 +33,7 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
+        Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -42,7 +42,7 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt,
             keeperEmailOpt, fulfilModel, transactionId)
 
-        Ok(views.html.vrm_assign.success(successViewModel))
+        Ok(views.html.vrm_assign.success(successViewModel, true)) // TODO check for keeperEmail
       case _ =>
         Redirect(routes.MicroServiceError.present())
     }
@@ -97,6 +97,6 @@ final class Success @Inject()(pdfService: PdfService,
       transactionId = "stub-transactionId",
       transactionTimestamp = "stub-transactionTimestamp"
     )
-    Ok(views.html.vrm_assign.success(successViewModel))
+    Ok(views.html.vrm_assign.success(successViewModel, true))
   }
 }

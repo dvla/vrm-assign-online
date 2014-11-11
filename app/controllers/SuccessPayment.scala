@@ -145,11 +145,11 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
-      Ok(views.html.vrm_assign.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
+      Ok(views.html.vrm_assign.success(successViewModel = successViewModel, isKeeper = isKeeper))
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Ok(views.html.vrm_assign.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
+        Ok(views.html.vrm_assign.success(successViewModel = successViewModel, isKeeper = isKeeper))
     }
   }
 }

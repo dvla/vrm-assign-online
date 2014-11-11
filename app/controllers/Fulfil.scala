@@ -30,7 +30,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[PaymentModel]) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), None) => //Some(paymentModel)) =>
+      case (Some(vehiclesLookupForm), Some(transactionId), _) => //Some(paymentModel)) =>
         fulfilVrm(vehiclesLookupForm, transactionId) //, paymentModel.trxRef.get)
       case (_, Some(transactionId), _) => {
         auditService.send(AuditMessage.from(
@@ -44,7 +44,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       }
       case _ =>
         Future.successful {
-          Redirect(routes.Error.present("user went to Fulfil retainMark without correct cookies"))
+          Redirect(routes.Error.present("user went to Fulfil mark without correct cookies"))
         }
     }
   }
@@ -73,6 +73,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       //        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       //        paymentModel = Some(paymentModel),
       //        retentionCertId = Some(certificateNumber)))
+
+      println("********************  ABOUT TO fulfilSuccess ********************")
 
       //      Redirect(routes.SuccessPayment.present()).
       Redirect(routes.Success.present()).
