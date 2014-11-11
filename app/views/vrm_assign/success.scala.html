@@ -1,0 +1,69 @@
+@(successViewModel: models.SuccessViewModel)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config)
+
+@import views.html.vrm_assign.main
+@import views.vrm_assign.Success.FinishId
+
+@main(
+    title = Messages("vrm_assign_success.title"),
+    backNavigation = Some(controllers.routes.SuccessPayment.present())
+) {
+
+	<div class="two-col assign-success">
+		<div class="second-col">
+		    <div class="alert-complete">
+			    <h2>@Messages("vrm_assign_success.subtitle") <span class="reg-number">@successViewModel.registrationNumber</span> </h2>
+			    <p><strong>@Messages("vrm_assign_success.yourCert")</strong> <br /> @successViewModel.prVrm </p>
+			</div>
+
+			<h3>@Messages("vrm_assign_success.notice1.h3")</h3>
+			<div class="info-notice">
+				<p>@Messages("vrm_assign_success.notice1.p1")</p>
+			</div>
+
+			<h3>@Messages("vrm_assign_success.notice2.h3")</h3>
+			<div class="info-notice">
+				<p>@Messages("vrm_assign_success.notice2.p1")
+					<a href="https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number" target="_blank">@Messages("vrm_assign_success.notice2.p1.link")</a> @Messages("vrm_assign_success.notice2.p2")
+				</p>
+			</div>
+
+			<h3>@Messages("vrm_assign_success.p1")</h3>
+			<p>@Messages("vrm_assign_success.p2")</p>
+			<ul>
+				<li>@Messages("vrm_assign_success.listItem1") <strong>@successViewModel.prVrm</strong></li>
+				<li>@Messages("vrm_assign_success.listItem2")</li>
+				<li>@Messages("vrm_assign_success.listItem3")</li>
+			</ul>
+		</div>
+		<div class="first-col">
+			<div class="playback">
+				<h2>Application details</h2>
+				<p>Transaction ID:</p>
+				<p>@successViewModel.transactionId</p>
+			</div>
+			<div class="related">
+				<h2>Keeper details</h2>
+				<dl class="playback bg-plain">
+					<dt>Name:</dt>
+					<dd>@successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+					<dt>Keeper Address</dt>
+					<dd>
+						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+							@keeperAddressLine<br>
+					  }
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+    <div class="form-steps">
+	  <div class="step">
+	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+	    <br /><br />
+        <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
+	  </div>
+    </div>
+}

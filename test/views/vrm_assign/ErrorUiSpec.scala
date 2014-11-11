@@ -35,7 +35,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
       click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+      RelatedCacheKeys.AssignSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
   }
 }

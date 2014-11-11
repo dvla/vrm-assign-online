@@ -13,6 +13,6 @@ final class LeaveFeedback @Inject()()(implicit clientSideSessionFactory: ClientS
   def present = Action { implicit request =>
     Ok(views.html.vrm_assign.leave_feedback()).
       withNewSession.
-      discardingCookies(RelatedCacheKeys.RetainSet)
+      discardingCookies(RelatedCacheKeys.AssignSet)
   }
 }

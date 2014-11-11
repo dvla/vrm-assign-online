@@ -3,6 +3,8 @@ package composition
 import audit.{AuditService, AuditServiceImpl}
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import email.{EmailServiceImpl, EmailService}
+import pdf.{PdfServiceImpl, PdfService}
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
@@ -15,6 +17,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import utils.helpers.CookieFlagsassign
 import webserviceclients.paymentsolve.{PaymentSolveServiceImpl, PaymentSolveService, PaymentSolveWebServiceImpl, PaymentSolveWebService}
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
+import webserviceclients.vrmassignfulfil.{VrmAssignFulfilWebService, VrmAssignFulfilWebServiceImpl, VrmAssignFulfilServiceImpl, VrmAssignFulfilService}
 import webserviceclients.vrmretentioneligibility._
 
 /**
@@ -39,6 +42,8 @@ class DevModule extends ScalaModule {
     bind[CookieFlags].to[CookieFlagsassign].asEagerSingleton()
     bind[VrmAssignEligibilityWebService].to[VrmAssignEligibilityWebServiceImpl].asEagerSingleton()
     bind[VrmAssignEligibilityService].to[VrmAssignEligibilityServiceImpl].asEagerSingleton()
+    bind[VrmAssignFulfilWebService].to[VrmAssignFulfilWebServiceImpl].asEagerSingleton()
+    bind[VrmAssignFulfilService].to[VrmAssignFulfilServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 
@@ -52,6 +57,8 @@ class DevModule extends ScalaModule {
     bind[BruteForcePreventionWebService].to[bruteforceprevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
+    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
+    bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
   }

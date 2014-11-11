@@ -45,6 +45,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
         }
       case (Some(transactionId), Some(vehiclesLookupForm)) =>
+        println("********************  BEGIN WEB PAYMENT  ********************")
        callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
       case _ => {
         Future.successful {
@@ -104,11 +105,12 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+        val outstandingFees = request.cookies.getModel[CaptureCertificateDetailsModel].get.outstandingFees
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = 2500, // TODO
+          purchaseAmount = outstandingFees,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()
@@ -172,10 +174,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         paymentModel.totalAmountPaid = response.purchaseAmount
         paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
-//        Redirect(routes.Retain.retain())
-//          .discardingCookie(REFERER) // Not used again.
-//          .withCookie(paymentModel)
-        Redirect((routes.LeaveFeedback.present()))
+        Redirect(routes.Fulfil.fulfil())
+          .discardingCookie(REFERER) // Not used again.
+          .withCookie(paymentModel)
       } else {
         Logger.debug("The payment was not authorised.")
         paymentNotAuthorised

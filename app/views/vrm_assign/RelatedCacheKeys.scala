@@ -16,7 +16,7 @@ object RelatedCacheKeys {
 
   final val SeenCookieMessageKey = "seen_cookie_message"
 
-  val RetainSet = Set(
+  val AssignSet = Set(
     BruteForcePreventionViewModelCacheKey,
     VehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
@@ -40,7 +40,7 @@ object RelatedCacheKeys {
 
   def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-    RelatedCacheKeys.RetainSet ++ {
+    RelatedCacheKeys.AssignSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
   }

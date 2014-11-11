@@ -3,6 +3,7 @@ package controllers
 import audit._
 import com.google.inject.Inject
 import models._
+import org.joda.time.Period
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
@@ -31,6 +32,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     } yield {
       val formModel = ConfirmFormModel(None)
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetails, None, None)
+
       Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -59,12 +61,10 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
       val cookies = List(keeperEmail).flatten
 
-      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
-      // TODO calculate outstanding fees
-      val outstandingFees = 0.0
+      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       // check for outstanding fees
-      if (outstandingFees > 0.0) {
+      if (captureCertificateDetails.outstandingFees > 0) {
 
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.ConfirmToPayment,
@@ -73,6 +73,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        println("********************  ABOUT TO REDIRECT TO PAYMENT ********************")
 
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
       } else {
@@ -84,7 +85,9 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        Redirect(routes.LeaveFeedback.present()).withCookiesEx(cookies: _*)
+        println("********************  ABOUT TO REDIRECT TO FULFIL ********************")
+
+        Redirect(routes.Fulfil.fulfil()).withCookiesEx(cookies: _*)
       }
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))

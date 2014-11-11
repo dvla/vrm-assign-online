@@ -12,7 +12,7 @@ final case class CaptureCertificateDetailsFormModel(referenceNumber: String, prV
 object CaptureCertificateDetailsFormModel {
 
   implicit val JsonFormat = Json.format[CaptureCertificateDetailsFormModel]
-  implicit val Key = CacheKey[CaptureCertificateDetailsFormModel](CaptureCertificateDetailsCacheKey)
+  implicit val Key = CacheKey[CaptureCertificateDetailsFormModel](CaptureCertificateDetailsFormModelCacheKey)
 
   object Form {
 

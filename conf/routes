@@ -77,6 +77,21 @@ POST        /payment-not-authorised                        @controllers.PaymentN
 GET         /payment-prevent-back                          @controllers.PaymentPreventBack.present
 GET         /payment-prevent-back/return-to-success        @controllers.PaymentPreventBack.returnToSuccess
 
+# no form on payment page so is GET the right http verb for submit
+GET         /fulfil                                        @controllers.Fulfil.fulfil
+
+GET         /success-payment                               @controllers.SuccessPayment.present
+GET         /success-payment/create-pdf                    @controllers.SuccessPayment.createPdf
+GET         /success-payment/next                          @controllers.SuccessPayment.next
+GET         /email-stub                                    @controllers.SuccessPayment.emailStub
+
+GET         /success                                       @controllers.Success.present
+GET         /success/create-pdf                            @controllers.Success.createPdf
+GET         /success/finish                                @controllers.Success.finish
+GET         /success-stub                                  @controllers.Success.successStub
+
+GET         /fulfil-failure                                @controllers.FulfilFailure.present
+
 GET         /healthcheck                                   @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
 GET         /help                                          @controllers.Help.present

@@ -13,6 +13,6 @@ final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: Client
   def present = Action { implicit request =>
     Ok(views.html.vrm_assign.before_you_start()).
       withNewSession.
-      discardingCookies(RelatedCacheKeys.RetainSet)
+      discardingCookies(RelatedCacheKeys.AssignSet)
   }
 }

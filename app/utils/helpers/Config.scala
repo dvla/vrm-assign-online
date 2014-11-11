@@ -10,6 +10,7 @@ class Config {
   // Micro-service config // TODO take defaults off the timeouts
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
   val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty("vrmAssignEligibilityMicroServiceUrlBase", "NOT FOUND")
+  val vrmAssignFulfilMicroServiceUrlBase: String = getProperty("vrmAssignFulfilMicroServiceUrlBase", "NOT FOUND")
   val paymentSolveMicroServiceUrlBase: String = getProperty("paymentSolveMicroServiceUrlBase", "NOT FOUND")
   val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
@@ -48,4 +49,17 @@ class Config {
   val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
   val rabbitmqPort = getProperty("rabbitmq.port", 0)
   val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
+
+  // Payment Service
+  val renewalFee: String = getProperty("assign.renewalFee", "NOT FOUND")
+
+  // Email Service
+  val emailSmtpHost: String = getProperty("smtp.host", "")
+  val emailSmtpPort: Int = getProperty("smtp.port", 25)
+  val emailSmtpSsl: Boolean = getProperty("smtp.ssl", default = false)
+  val emailSmtpTls: Boolean = getProperty("smtp.tls", default = true)
+  val emailSmtpUser: String = getProperty("smtp.user", "")
+  val emailSmtpPassword: String = getProperty("smtp.password", "")
+  val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
+  val emailSenderAddress: String = getProperty("email.senderAddress", "")
 }

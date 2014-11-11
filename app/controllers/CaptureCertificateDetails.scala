@@ -20,7 +20,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import scala.Some
 import play.api.mvc.Result
 import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, VrmAssignEligibilityRequest}
-import org.joda.time.DateTime
+import org.joda.time.{Period, DateTime}
 import scala.util.control.NonFatal
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -126,8 +126,17 @@ final class CaptureCertificateDetails @Inject()(eligibilityService: VrmAssignEli
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
         routes.Confirm.present()
       }
+
+      var yearsOwedCount = 0
+      var renewalExpiryDate = lastDate.plus(Period.years(1))
+
+      while (renewalExpiryDate.isBeforeNow) {
+        renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
+        yearsOwedCount += 1
+      }
+
       Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(Some(lastDate)))
+        .withCookie(CaptureCertificateDetailsModel.from(Some(lastDate), (yearsOwedCount * config.renewalFee.toInt)))
         .withCookie(captureCertificateDetailsFormModel)
     }
 
