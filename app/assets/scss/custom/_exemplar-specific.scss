@@ -49,3 +49,21 @@ ul.hint-list {
         }
     }
 }
+
+
+.app ul.email-list li {
+  margin-bottom:0px;
+}
+
+.vrm-assign-online .first-col .playback {
+    .reg-number {
+      font-size: 20px;
+      padding: 0.1em;
+    }
+    .reg-number-zoomed {
+      @extend .reg-number;
+      font-size: 36px;
+      width:170px;
+      padding-bottom:0px;
+    }
+}

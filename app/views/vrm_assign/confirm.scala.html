@@ -19,15 +19,38 @@
 
             <h1>@Messages("vrm_assign_confirm.title")</h1>
             <dl class="playback first-line">
-                <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
-                <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
-                <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
-                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                <dt><strong>@Messages("vrm_assign_confirm.keeperLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</dt><br />
+                <dt><strong>@Messages("vrm_assign_confirm.keeperAddressLabel")</strong></dt>
+                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
                     @keeperAddressLine<br>
-                    }</dd>
-                <dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>
-                <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
+                    }</dt>
+                <br />
+                <dt><strong>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
             </dl>
+            <br/>
+            <h3>@Messages("vrm_assign_confirm.emailAddressLabel")</h3>
+            <p>@Messages("vrm_assign_confirm.emailHint1")</p>
+            <ul class="email-list">
+                <li>@Messages("vrm_assign_confirm.emailHint2")</li>
+                <li>@Messages("vrm_assign_confirm.emailHint3")</li>
+            </ul>
+            @valtechInputText(confirmForm(KeeperEmailId),
+            args = Map(
+            'NO_OPTIONAL_LABEL -> true,
+            '_label -> "",
+            'hint -> Messages("vrm_assign_confirm.emailAddressHint"),
+            '_showConstraints -> false,
+            'maxLength -> KeeperEmailMaxLength
+            )
+            )
+            <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
+            <p>@Messages("vrm_assign_confirm.newRegp1")</p>
+            <p>@Messages("vrm_assign_confirm.newRegp2")</p>
+            <div class="alert-warning">
+                <p><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></p>
+            </div>
         </div>
         <div class="first-col">
             <dl class="playback">
@@ -43,40 +66,30 @@
                     <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
                 }
                 <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                <dd class="reg-number" style="zoom:1.85;">@confirmViewModel.replacementRegistration</dd>
+                <dd class="reg-number-zoomed">@confirmViewModel.replacementRegistration</dd>
             </dl>
+
+            <div class="related">
+                <h2>@Messages("vrm_assign_contact.title")</h2>
+                <dl>
+                    <dt>@Messages("vrm_assign_contact.telLabel")</dt>
+                    <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
+                    <dt>@Messages("vrm_assign_contact.texLabel")</dt>
+                    <dd><strong>@Messages("vrm_assign_contact.texNumber")</strong></dd>
+                    <dt>@Messages("vrm_assign_contact.hoursLabel")</dt>
+                    <dd>
+                        <strong>@Messages("vrm_assign_contact.hoursMonFri")</strong>
+                        <br>
+                        <strong>@Messages("vrm_assign_contact.hoursSun")</strong>
+                    </dd>
+                </dl>
+            </div>
         </div>
+
     </div>
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
-            <div class="second-col">
-                <br/>
-                <h3>@Messages("vrm_assign_confirm.emailAddressLabel")</h3>
-                <p>@Messages("vrm_assign_confirm.emailHint1")</p>
-                <ul>
-                    <li>@Messages("vrm_assign_confirm.emailHint2")</li>
-                    <li>@Messages("vrm_assign_confirm.emailHint3")</li>
-                </ul>
-                @valtechInputText(confirmForm(KeeperEmailId),
-                    args = Map(
-                        'NO_OPTIONAL_LABEL -> true,
-                        '_label -> "",
-                        'hint -> Messages("vrm_assign_confirm.emailAddressHint"),
-                        '_showConstraints -> false,
-                        'maxLength -> KeeperEmailMaxLength
-                    )
-                )
-            <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
-            <p>@Messages("vrm_assign_confirm.newRegp1")</p>
-            <p>@Messages("vrm_assign_confirm.newRegp2")</p>
-            <div class="alert-warning">
-                    <p><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></p>
-                </div>
-            </div>
-        </div>
-
         <div class="form-steps">
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
             <br/>
