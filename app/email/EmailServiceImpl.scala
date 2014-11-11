@@ -98,7 +98,6 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     }
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
-      retentionCertId = fulfilModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = fulfilModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
@@ -123,7 +122,6 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                        isKeeper: Boolean): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
-      retentionCertId = fulfilModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = fulfilModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),

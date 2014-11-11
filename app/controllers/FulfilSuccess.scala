@@ -34,19 +34,17 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[CaptureCertificateDetailsModel],
+      request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
-
-        println("********* present 1 **********")
+        Some(captureCertificateDetailsFormModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
         val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt,
+          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId)
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
@@ -76,8 +74,6 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               isKeeper = false // US1589: Do not send keeper a pdf
             )
         }
-
-        println("********* present 2 **********")
 
         val paymentModel = request.cookies.getModel[PaymentModel]
         if (paymentModel.isDefined) {
@@ -133,7 +129,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         lastName = Some("stub-lastName"),
         address = Some(AddressModel(address = Seq("stub-business-line1", "stub-business-line2",
           "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
-      fulfilModel = FulfilModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
+      fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       htmlEmail = new HtmlEmail(),
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),

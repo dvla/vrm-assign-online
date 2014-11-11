@@ -29,17 +29,17 @@ final class Success @Inject()(pdfService: PdfService,
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[CaptureCertificateDetailsModel],
+      request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-        Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
+        Some(captureCertificateDetailsFormModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
         val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt,
+          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId)
 
         Ok(views.html.vrm_assign.success(successViewModel, true)) // TODO check for keeperEmail
@@ -93,7 +93,7 @@ final class Success @Inject()(pdfService: PdfService,
       businessContact = Some("stub-"),
       businessEmail = Some("stub-businessContact"),
       businessAddress = Some(AddressModel(address = Seq("stub-businessAddress-line1", "stub-businessAddress-line2"))),
-      prVrm = Some("A1"),
+      prVrm = "A1",
       transactionId = "stub-transactionId",
       transactionTimestamp = "stub-transactionTimestamp"
     )

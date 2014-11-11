@@ -52,7 +52,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
   private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String)
                        (implicit request: Request[_]): Future[Result] = {
 
-    def fulfilSuccess(certificateNumber: String) = {
+    def fulfilSuccess() = {
 
       // create the transaction timestamp
       val transactionTimestamp = dateService.today.toDateTimeMillis.get
@@ -74,12 +74,11 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-          paymentModel = paymentModel,
-          retentionCertId = Some(certificateNumber)))
+          paymentModel = paymentModel))
 
         Redirect(routes.FulfilSuccess.present()).
           withCookie(paymentModel.get).
-          withCookie(FulfilModel.from(certificateNumber, transactionTimestampWithZone))
+          withCookie(FulfilModel.from(transactionTimestampWithZone))
       } else {
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.PaymentToSuccess,
@@ -87,11 +86,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-          retentionCertId = Some(certificateNumber)))
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
         Redirect(routes.FulfilSuccess.present()).
-          withCookie(FulfilModel.from(certificateNumber, transactionTimestampWithZone))
+          withCookie(FulfilModel.from(transactionTimestampWithZone))
       }
     }
 
@@ -158,7 +156,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             // Happy path when there is no response code therefore no problem.
 //            response.certificateNumber match {
 //              case Some(certificateNumber) =>
-fulfilSuccess("1234567890")
+fulfilSuccess()
 //              case _ =>
 //                microServiceErrorResult(message = "Certificate number not found in response") // TODO tidy up when receive fulfil wsdl
 //            }

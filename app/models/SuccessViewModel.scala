@@ -14,7 +14,7 @@ final case class SuccessViewModel(registrationNumber: String,
                                   businessContact: Option[String],
                                   businessEmail: Option[String],
                                   businessAddress: Option[AddressModel],
-                                  prVrm: Option[String],
+                                  prVrm: String,
                                   transactionId: String,
                                   transactionTimestamp: String)
 
@@ -22,6 +22,7 @@ object SuccessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             businessDetailsModelOpt: Option[BusinessDetailsModel],
+            captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             keeperEmail: Option[String],
             fulfilModel: FulfilModel,
             transactionId: String): SuccessViewModel = {
@@ -46,13 +47,14 @@ object SuccessViewModel {
       businessAddress = for (businessDetails <- businessDetailsModelOpt) yield {
         businessDetails.address
       },
-      prVrm = Some("A1"), // TODO
+      prVrm = captureCertificateDetailsFormModel.prVrm,
       transactionId,
       fulfilModel.transactionTimestamp
     )
   }
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
+            captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             fulfilModel: FulfilModel,
             transactionId: String): SuccessViewModel = {
     SuccessViewModel(
@@ -68,7 +70,7 @@ object SuccessViewModel {
       businessContact = None,
       businessEmail = None,
       businessAddress = None,
-      prVrm = Some("A1"), // TODO
+      prVrm = captureCertificateDetailsFormModel.prVrm,
       transactionId,
       fulfilModel.transactionTimestamp
     )
