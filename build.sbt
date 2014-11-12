@@ -1,40 +1,42 @@
-import CommonResolvers._
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import templemore.sbt.cucumber.CucumberPlugin
-
-publishTo <<= version { v: String =>
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at s"$nexus/snapshots")
-  else
-    Some("releases" at s"$nexus/releases")
-}
+import Common._
 
 name := "vrm-assign-online"
 
-version := "1.0-SNAPSHOT"
+version := versionString
 
-organization := "dvla"
+organization := organisationString
 
-organizationName := "Driver & Vehicle Licensing Agency"
+organizationName := organisationNameString
 
-scalaVersion := "2.10.3"
+scalaVersion := scalaVersionString
 
-scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
+scalacOptions := scalaOptionsSeq
+
+publishTo.<<=(publishResolver)
+
+credentials += sbtCredentials
+
+resolvers ++= projectResolvers
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
+
+lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
+  .dependsOn(root % "test->test")
+  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
   Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
+    "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" %% "cucumber-scala" % "1.1.7" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.1.7" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-picocontainer" % "1.1.7" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.4" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
@@ -58,7 +60,9 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-stream-experimental" % "0.4",
     "com.rabbitmq" % "amqp-client" % "3.3.4",
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "junit" % "junit" % "4.11",
+    "junit" % "junit-dep" % "4.11"
   )
 }
 
