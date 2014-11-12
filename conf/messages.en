@@ -438,6 +438,10 @@ vrm_assign_capturecertificatedetails.prvrmlabel = Your personal registration num
 vrm_assign_capturecertificatedetails.prvrmhelper = Enter the new personal registration here without spaces, for example: ''AMV1''
 vrm_assign_capturecertificatedetails.button = Next
 
+error.validReferenceNumber = You must supply a Valid Certificate Document Reference Number
+error.validPrVrm = Must be valid format
+pr-vrm = Personal registration number
+reference-number = Certificate Document Reference Number
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper and new registration
