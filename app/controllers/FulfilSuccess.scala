@@ -24,11 +24,11 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
-                                     emailService: EmailService,
-                                     dateService: DateService,
-                                     paymentSolveService: PaymentSolveService)
-                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                     config: Config) extends Controller {
+                                    emailService: EmailService,
+                                    dateService: DateService,
+                                    paymentSolveService: PaymentSolveService)
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                    config: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -38,7 +38,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-        Some(captureCertificateDetailsFormModel), Some(fulfilModel)) =>
+      Some(captureCertificateDetailsFormModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -101,7 +101,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
               val newVRM = "A1" // TODO eligibilityModel.replacementVRM.replace(" ", "")
-              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+            val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",

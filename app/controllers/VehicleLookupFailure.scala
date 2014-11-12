@@ -17,9 +17,11 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey)) match {
-      case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm), Some(vehicleLookupResponseCode)) =>
+      case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm),
+      Some(vehicleLookupResponseCode)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse, vehicleAndKeeperDetails, vehicleLookupResponseCode)
+        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse,
+          vehicleAndKeeperDetails, vehicleLookupResponseCode)
       case _ => Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -49,7 +51,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
       attempts = bruteForcePreventionModel.attempts,
       maxAttempts = bruteForcePreventionModel.maxAttempts)
-    ).
-      discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    ).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
 }
