@@ -11,15 +11,15 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperFirstName: Option[String],
                                   keeperLastName: Option[String],
                                   keeperAddress: Option[AddressModel],
-                                  outstandingPaymentList: Option[List[String]],
-                                  outstandingPaymentAmount: Option[Double] )
+                                  outstandingPaymentList: List[String],
+                                  outstandingPaymentAmount: Double)
 
 object ConfirmViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             captureCertDetails: CaptureCertificateDetailsFormModel,
-            outstandingPaymentList: Option[List[String]],
-            outstandingPaymentAmount: Option[Double]): ConfirmViewModel =
+            outstandingPaymentList: List[String],
+            outstandingPaymentAmount: Double): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       replacementRegistration = captureCertDetails.prVrm,

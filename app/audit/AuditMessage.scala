@@ -1,6 +1,6 @@
 package audit
 
-import models.{PaymentModel, BusinessDetailsModel, VehicleAndKeeperDetailsModel}
+import models._
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.auditing.Message
 
@@ -101,6 +101,21 @@ object VehicleAndKeeperDetailsModelOptSeq {
   }
 }
 
+
+object CaptureCertificateDetailsFormModelOptSeq {
+
+  def from(captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel]) = {
+    captureCertificateDetailsFormModel match {
+      case Some(captureCertificateDetailsFormModel) => {
+        val referenceNumberOpt = Some(("referenceNumber", captureCertificateDetailsFormModel.referenceNumber))
+        val prVrmOpt = Some(("prVrm", captureCertificateDetailsFormModel.prVrm))
+        Seq(referenceNumberOpt, prVrmOpt)
+      }
+      case _ => Seq.empty
+    }
+  }
+}
+
 object PaymentModelOptSeq {
 
   def from(paymentModelOpt: Option[PaymentModel]) = {
@@ -134,15 +149,21 @@ object AuditMessage {
   final val VehicleLookupToVehicleLookupFailure = "VehicleLookupToVehicleLookupFailure"
   final val VehicleLookupToExit = "VehicleLookupToExit"
   final val VehicleLookupToMicroServiceError = "VehicleLookupToMicroServiceError"
+
   final val CaptureActorToConfirmBusiness = "CaptureActorToConfirmBusiness"
   final val CaptureActorToExit = "CaptureActorToExit"
+
+  final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
+  final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+
   final val CaptureCertificateDetailsToConfirm = "CaptureCertificateDetailsToConfirm"
   final val CaptureCertificateDetailsToMicroServiceError = "CaptureCertificateDetailsToMicroServiceError"
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
-  final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
-  final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+
   final val ConfirmToPayment = "ConfirmToPayment"
+  final val ConfirmToSuccess = "ConfirmToSuccess"
   final val ConfirmToExit = "ConfirmToExit"
+
   final val PaymentToSuccess = "PaymentToSuccess"
   final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"
   final val PaymentToPaymentFailure = "PaymentToPaymentFailure"
@@ -153,32 +174,29 @@ object AuditMessage {
            transactionId: String,
            timestamp: String,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
-           replacementVrm: Option[String] = None,
+           captureCertificateDetailFormsModel: Option[CaptureCertificateDetailsFormModel] = None,
            keeperEmail: Option[String] = None,
            businessDetailsModel: Option[BusinessDetailsModel] = None,
            paymentModel: Option[PaymentModel] = None,
-           retentionCertId: Option[String] = None,
            rejectionCode: Option[String] = None) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
-      val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVrm", replacementVrm))
+      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormsModel)
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
-      val retentionCertIdOpt = retentionCertId.map(retentionCertId => ("retentionCertId", retentionCertId))
       val rejectionCodeOpt = rejectionCode.map(rejectionCode => ("rejectionCode", rejectionCode))
 
       (Seq(
         transactionIdOpt,
         timestampOpt,
-        replacementVRMOpt,
         keeperEmailOpt,
-        retentionCertIdOpt,
         rejectionCodeOpt
-      ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq ++ paymentModelOptSeq).flatten
+      ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq
+        ++ captureCertificateDetailsFormModelOpt ++ paymentModelOptSeq).flatten
     }
     AuditMessage(pageMovement, PersonalisedRegServiceType, data: _*)
   }

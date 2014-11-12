@@ -3,6 +3,7 @@ package controllers
 import com.google.inject.Inject
 import models.{CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, CaptureCertificateDetailsFormModel}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import org.joda.time.format.DateTimeFormat
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -14,10 +15,10 @@ import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.VehicleLookup._
 import audit.{AuditMessage, AuditService}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.Future
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import scala.Some
 import play.api.mvc.Result
 import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, VrmAssignEligibilityRequest}
 import org.joda.time.{Period, DateTime}
@@ -127,16 +128,19 @@ final class CaptureCertificateDetails @Inject()(eligibilityService: VrmAssignEli
         routes.Confirm.present()
       }
 
+      // calculate number of years owed TODO tidy up after wireframe and wsdls
+      var outstandingDates = new ListBuffer[String]
       var yearsOwedCount = 0
-      var renewalExpiryDate = lastDate.plus(Period.years(1))
-
-      while (renewalExpiryDate.isBeforeNow) {
-        renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
+      var renewalExpiryDate = lastDate
+      var fmt = DateTimeFormat.forPattern("MM/dd/YYYY");
+      while (renewalExpiryDate.plus(Period.years(1)).isBeforeNow) {
         yearsOwedCount += 1
+        outstandingDates += (fmt.print(renewalExpiryDate) + " through to " + fmt.print(renewalExpiryDate.plus(Period.years(1))) + " " + (config.renewalFee.toInt / 100.0))
+        renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
       }
 
       Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(Some(lastDate), (yearsOwedCount * config.renewalFee.toInt)))
+        .withCookie(CaptureCertificateDetailsModel.from(Some(lastDate), outstandingDates.toList, (yearsOwedCount * config.renewalFee.toInt)))
         .withCookie(captureCertificateDetailsFormModel)
     }
 

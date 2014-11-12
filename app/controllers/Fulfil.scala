@@ -113,11 +113,11 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-                  paymentModel = paymentModel,
+          paymentModel = paymentModel,
           rejectionCode = Some(responseCode)))
 
         Redirect(routes.FulfilFailure.present()).
-                  withCookie(paymentModel.get).
+          withCookie(paymentModel.get).
           withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       } else {
         auditService.send(AuditMessage.from(
@@ -154,12 +154,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           case Some(responseCode) => fulfilFailure(responseCode) // There is only a response code when there is a problem.
           case None =>
             // Happy path when there is no response code therefore no problem.
-//            response.certificateNumber match {
-//              case Some(certificateNumber) =>
-fulfilSuccess()
-//              case _ =>
-//                microServiceErrorResult(message = "Certificate number not found in response") // TODO tidy up when receive fulfil wsdl
-//            }
+            //            response.certificateNumber match {
+            //              case Some(certificateNumber) =>
+            fulfilSuccess()
+          //              case _ =>
+          //                microServiceErrorResult(message = "Certificate number not found in response") // TODO tidy up when receive fulfil wsdl
+          //            }
         }
     }.recover {
       case NonFatal(e) =>

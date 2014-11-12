@@ -104,7 +104,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
             case Some(dto) =>
 
               val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).get // TOD will it exist? option?
+              val transactionId = request.cookies.getString(TransactionIdCacheKey).get // TODO will it exist? option?
 
               val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
 
@@ -139,7 +139,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
               }
 
             case None =>
-              throw new RuntimeException("No Dto in vehicleAndKeeperLookupService response")
+              throw new RuntimeException("No dto in vehicleAndKeeperLookupService response")
           }
       }
     }

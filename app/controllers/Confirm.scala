@@ -28,11 +28,12 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
+      captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
+      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
     } yield {
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetails, None, None)
-
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
+        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees)
       Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -93,10 +94,11 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
-    }
+      captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
+      captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]    }
     yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetails, None, None)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
+        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm))
     }
