@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf /opt/vrm-assign-online
+rm -rf /etc/init/vrm-assign-online.conf
+rm -rf /etc/monit.d/vrm-assign-online
