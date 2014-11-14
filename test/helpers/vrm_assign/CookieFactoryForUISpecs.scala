@@ -1,6 +1,7 @@
 package helpers.vrm_assign
 
 import models._
+import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
@@ -9,15 +10,22 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcode
 import views.vrm_assign
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.Confirm.{KeeperEmailCacheKey}
 import views.vrm_assign.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_assign.Fulfil.FulfilCacheKey
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
+import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import scala.Some
+import webserviceclients.fakes.VrmRetentionFulfilWebServiceConstants._
 
 object CookieFactoryForUISpecs {
 
@@ -146,6 +154,65 @@ object CookieFactoryForUISpecs {
   def storeBusinessDetailsConsent(consent: String)(implicit webDriver: WebDriver) = {
     val key = StoreBusinessDetailsCacheKey
     addCookie(key, consent)
+    this
+  }
+
+  def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
+    val key = KeeperEmailCacheKey
+    addCookie(key, keeperEmail)
+    this
+  }
+
+  def fulfilModel(transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
+    val key = FulfilCacheKey
+    val value = FulfilModel(transactionTimestamp = transactionTimestamp)
+    addCookie(key, value)
+    this
+  }
+
+  def paymentTransNo(paymentTransNo: String = PaymentTransNoValid)(implicit webDriver: WebDriver) = {
+    val key = PaymentTransNoCacheKey
+    addCookie(key, paymentTransNo)
+    this
+  }
+
+  def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
+                   paymentStatus: Option[String] =  None,
+                   maskedPAN: Option[String] =  MaskedPANValid,
+                   authCode: Option[String] =  AuthCodeValid,
+                   merchantId: Option[String] =  MerchantIdValid,
+                   paymentType: Option[String] =  PaymentTypeValid,
+                   cardType: Option[String] =  CardTypeValid,
+                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
+                   rejectionCode: Option[String] =  None)(implicit webDriver: WebDriver) = {
+    val key = vrm_assign.Payment.PaymentDetailsCacheKey
+    val value = PaymentModel(trxRef = trxRef,
+      paymentStatus = paymentStatus,
+      maskedPAN = maskedPAN,
+      authCode = authCode,
+      merchantId = merchantId,
+      paymentType = paymentType,
+      cardType = cardType,
+      totalAmountPaid = totalAmountPaid,
+      rejectionCode = rejectionCode
+    )
+    addCookie(key, value)
+    this
+  }
+
+  def captureCertificateDetailsModel(lastDate: Option[DateTime] = LastDateValid,
+                                      datesList: List[String] = DatesListValid, fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
+    val key = CaptureCertificateDetailsCacheKey
+    val value = CaptureCertificateDetailsModel(lastDate, datesList, fees)
+    addCookie(key, value)
+    this
+  }
+
+  def captureCertificateDetailsFormModel(referenceNumber: String = CertReferenceNumberValid,
+                                         prVrm: String = PrVrmValid)(implicit webDriver: WebDriver) = {
+    val key = CaptureCertificateDetailsFormModelCacheKey
+    val value = CaptureCertificateDetailsFormModel(referenceNumber, prVrm)
+    addCookie(key, value)
     this
   }
 }

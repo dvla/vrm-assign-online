@@ -2,6 +2,7 @@ package composition
 
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
+import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 
 trait TestComposition extends Composition {
@@ -12,6 +13,7 @@ trait TestComposition extends Composition {
     new TestOrdnanceSurvey,
     new TestVehicleAndKeeperLookupWebService,
     new TestRefererFromHeader,
+    new TestPaymentSolveWebService,
     new TestAuditService
   )
 

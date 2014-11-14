@@ -13,7 +13,6 @@ final class PaymentPreventBack @Inject()()(implicit clientSideSessionFactory: Cl
   }
 
   def returnToSuccess = Action { implicit request =>
-//    Redirect(routes.SuccessPayment.present()) // TODO
-    Redirect(routes.LeaveFeedback.present())
+    Redirect(routes.Success.present())
   }
 }
