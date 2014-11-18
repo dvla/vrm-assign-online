@@ -94,7 +94,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
               auditService.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-                transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
                 timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
@@ -104,7 +104,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
             case Some(dto) =>
 
               val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).get // TODO will it exist? option?
+              val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie")
 
               val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
 
