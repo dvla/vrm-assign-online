@@ -166,7 +166,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       // calculate number of years owed TODO tidy up after wireframe and wsdls
       var outstandingDates = new ListBuffer[String]
       var yearsOwedCount = 0
-      var renewalExpiryDate = certificateExpiryDate
+      var renewalExpiryDate = certificateExpiryDate.plus(Period.days(1))
       var fmt = DateTimeFormat.forPattern("dd/MM/YYYY");
       while (renewalExpiryDate.isBeforeNow) {
         yearsOwedCount += 1
