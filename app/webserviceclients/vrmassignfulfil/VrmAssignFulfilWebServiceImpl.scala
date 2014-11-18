@@ -16,7 +16,7 @@ final class VrmAssignFulfilWebServiceImpl @Inject()(config: Config) extends VrmA
   private val endPoint = s"${config.vrmAssignFulfilMicroServiceUrlBase}/vrm/assign/fulfil"
 
   override def invoke(request: VrmAssignFulfilRequest, trackingId: String): Future[WSResponse] = {
-    val vrm = LogFormats.anonymize(request.prVrm)
+    val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
     Logger.debug(s"Calling vrm assign fulfil micro-service with request $vrm and tracking id: $trackingId")
     WS.url(endPoint).

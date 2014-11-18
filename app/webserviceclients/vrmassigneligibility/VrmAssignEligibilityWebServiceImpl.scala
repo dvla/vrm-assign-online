@@ -15,7 +15,7 @@ final class VrmAssignEligibilityWebServiceImpl @Inject()(config: Config) extends
   private val endPoint = s"${config.vrmAssignEligibilityMicroServiceUrlBase}/vrm/assign/eligibility"
 
   override def invoke(request: VrmAssignEligibilityRequest, trackingId: String): Future[WSResponse] = {
-    val vrm = LogFormats.anonymize(request.prVrm)
+    val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
     Logger.debug(s"Calling vrm assign eligibility micro-service with request $vrm and tracking id: $trackingId")
     WS.url(endPoint).

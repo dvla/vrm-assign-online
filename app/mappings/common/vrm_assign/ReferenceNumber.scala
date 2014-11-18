@@ -7,8 +7,8 @@ import play.api.data.validation.Constraint
 import play.api.data.validation.Constraints._
 
 object ReferenceNumber {
-  final val MinLength = 12
-  final val MaxLength = 18
+  final val MinLength = 14
+  final val MaxLength = 20
 
   def referenceNumberMapping: Mapping[String] =
     nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validReferenceNumber

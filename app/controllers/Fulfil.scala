@@ -29,10 +29,11 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(TransactionIdCacheKey)) match {
-      case (Some(vehiclesLookupForm), Some(transactionId)) =>
-        fulfilVrm(vehiclesLookupForm, transactionId)
-      case (_, Some(transactionId)) => {
+      request.cookies.getString(TransactionIdCacheKey),
+      request.cookies.getModel[CaptureCertificateDetailsFormModel]) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel)) =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
+      case (_, Some(transactionId), _) => {
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -49,7 +50,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
   }
 
-  private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String)
+  private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String,
+                        captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel)
                        (implicit request: Request[_]): Future[Result] = {
 
     def fulfilSuccess() = {
@@ -140,9 +142,11 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
-      referenceNumber = vehicleAndKeeperLookupFormModel.registrationNumber, // TODO properly
-      prVrm = vehicleAndKeeperLookupFormModel.registrationNumber,
-      transactionTimestamp = dateService.today.toDateTimeMillis.get
+      currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
+      certificateNumber = captureCertificateDetailsFormModel.referenceNumber,
+      replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
+      v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
+      transactionTimestamp = dateService.now.toDateTime
     )
     val trackingId = request.cookies.trackingId()
 

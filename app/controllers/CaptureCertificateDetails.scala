@@ -153,7 +153,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       Redirect(routes.MicroServiceError.present())
     }
 
-    def eligibilitySuccess(lastDate: DateTime) = {
+    def eligibilitySuccess(certificateExpiryDate: DateTime) = {
       val redirectLocation = {
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
@@ -166,11 +166,11 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       // calculate number of years owed TODO tidy up after wireframe and wsdls
       var outstandingDates = new ListBuffer[String]
       var yearsOwedCount = 0
-      var renewalExpiryDate = lastDate
-      var fmt = DateTimeFormat.forPattern("MM/dd/YYYY");
-      while (renewalExpiryDate.plus(Period.years(1)).isBeforeNow) {
+      var renewalExpiryDate = certificateExpiryDate
+      var fmt = DateTimeFormat.forPattern("dd/MM/YYYY");
+      while (renewalExpiryDate.isBeforeNow) {
         yearsOwedCount += 1
-        outstandingDates += (fmt.print(renewalExpiryDate.plus(Period.years(1))) + " through to " + fmt.print(renewalExpiryDate.plus(Period.years(2))) + " " + (config.renewalFee.toInt / 100.0))
+        outstandingDates += (fmt.print(renewalExpiryDate.minus(Period.years(1))) + " through to " + fmt.print(renewalExpiryDate) + " " + (config.renewalFee.toInt / 100.0))
         renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
       }
 
@@ -180,7 +180,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       }
 
       Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(Some(lastDate), outstandingDates.toList, (yearsOwedCount * config.renewalFee.toInt)))
+        .withCookie(CaptureCertificateDetailsModel.from(Some(certificateExpiryDate), outstandingDates.toList, (yearsOwedCount * config.renewalFee.toInt)))
         .withCookie(captureCertificateDetailsFormModel)
     }
 
@@ -200,8 +200,10 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
-      referenceNumber = captureCertificateDetailsFormModel.referenceNumber,
-      prVrm = captureCertificateDetailsFormModel.prVrm,
+      currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
+      certificateNumber = captureCertificateDetailsFormModel.referenceNumber,
+      replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
+      v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
     val trackingId = request.cookies.trackingId()
@@ -212,8 +214,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           case Some(responseCode) => eligibilityFailure(responseCode) // There is only a response code when there is a problem.
           case None =>
             // Happy path when there is no response code therefore no problem.
-            response.lastDate match {
-              case Some(lastDate) => eligibilitySuccess(lastDate)
+            response.certificateExpiryDate match {
+              case Some(certificateExpiryDate) => eligibilitySuccess(certificateExpiryDate)
               case _ => microServiceErrorResult(message = "No lastDate found")
             }
         }

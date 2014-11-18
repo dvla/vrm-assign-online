@@ -5,7 +5,7 @@ import play.api.libs.json.Json.toJson
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 
-case class VrmAssignEligibilityResponse(lastDate: Option[DateTime], responseCode: Option[String])
+case class VrmAssignEligibilityResponse(certificateExpiryDate: Option[DateTime], responseCode: Option[String])
 
 object VrmAssignEligibilityResponse {
 

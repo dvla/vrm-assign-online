@@ -4,7 +4,11 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json._
 
-case class VrmAssignFulfilRequest(referenceNumber: String, prVrm: String, transactionTimestamp: DateTime)
+case class VrmAssignFulfilRequest(currentVehicleRegistrationMark: String,
+                                  certificateNumber: String,
+                                  replacementVehicleRegistrationMark: String,
+                                  v5DocumentReference: String,
+                                  transactionTimestamp: DateTime)
 
 object VrmAssignFulfilRequest {
 
