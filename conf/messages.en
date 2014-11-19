@@ -476,6 +476,8 @@ vrm_assign_confirm.emailWarnLinkText =
 vrm_assign_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_assign_confirm.storeDetailsConsent = Remember these details
 vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
+
+vrm_assign_confirm.outstandingFees =  Outstanding Renewal Fees
 vrm_assign_exit.button = Exit
 vrm_assign_finish.button = Finish
 vrm_assign_changedetails.button = Change Details

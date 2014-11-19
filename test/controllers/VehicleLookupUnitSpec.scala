@@ -1,20 +1,28 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import composition._
 import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito._
 import pages.vrm_assign._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{mock, when}
+import org.mockito.internal.stubbing.answers.DoesNothing
+import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.auditing.Message
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -290,6 +298,24 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 //          trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
 //      }
 //    }
+
+    "call audit service with 'no-transaction-id-cookie' when no transaction id cookie exists" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
+      val expected = new AuditMessage(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Assign",
+        ("transactionId","no-transaction-id-cookie"),
+        ("timestamp",dateService.dateTimeISOChronology),
+        ("rejectionCode","PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+      )
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result) {
+        r =>
+          verify(auditService, times(1)).send(expected)
+      }
+    }
   }
 
   "back" should {
@@ -308,13 +334,30 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
-                                 permitted: Boolean = true) = {
+                                 permitted: Boolean = true,
+                                 auditService: AuditService = mock[AuditService]) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService()
+      new TestVehicleAndKeeperLookupWebService(),
+      new TestAuditService(auditService),
+      new TestDateService()
     ).
       getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
+                                 permitted: Boolean = true
+                                 ) = {
+    val auditService = mock[AuditService]
+    val ioc = testInjector(
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestVehicleAndKeeperLookupWebService(),
+      new TestAuditService(auditService),
+      new TestDateService()
+    )
+    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
