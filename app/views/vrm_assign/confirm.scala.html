@@ -47,6 +47,17 @@
             )
             <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
             <p>@Messages("vrm_assign_confirm.newRegp1")</p>
+
+            @if(confirmViewModel.outstandingPaymentAmount > 0) {
+                <h3>@Messages("vrm_assign_confirm.outstandingFees")</h3>
+                @for(payment <- confirmViewModel.outstandingPaymentList) {
+                    @payment.split("£")(0)
+                    <span class="renewalFee">£@payment.split("£")(1)</span><br>
+                }
+            <hr/>
+            <br>
+            }
+
             <p>@Messages("vrm_assign_confirm.newRegp2")</p>
             <div class="alert-warning">
                 <p><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></p>
