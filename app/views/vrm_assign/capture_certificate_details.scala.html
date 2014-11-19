@@ -24,7 +24,7 @@
         <div class="two-col">
 
             <div class="second-col inline-form">
-                <h1>@Messages("vrm_assign_capturecertificatedetails.title")</h1>
+                <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
                 <div class="info-notice">
                     @Messages("vrm_assign_capturecertificatedetails.p1")
                 </div>
@@ -56,7 +56,7 @@
             </div>
             <div id="vehicle-details" class="first-col trader-details">
                     <dl class="playback">
-                <h2>@Messages("vrm_assign_vehicle_callback.title")</h2>
+                <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
                         <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                         <dd class="reg-number">@viewModel.registrationNumber</dd>
                         @if(viewModel.vehicleMake.isDefined) {
@@ -71,7 +71,7 @@
             </div>
             <div class="first-col">
                 <div class="related">
-                    <h2>@Messages("vrm_assign_contact.title")</h2>
+                    <h3>@Messages("vrm_assign_contact.title")</h3>
                     <dl>
                         <dt>@Messages("vrm_assign_contact.telLabel")</dt>
                         <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
@@ -86,7 +86,6 @@
                     </dl>
                 </div>
             </div>
-
         </div>
     }
 }

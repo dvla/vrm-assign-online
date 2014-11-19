@@ -16,7 +16,7 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h1>@Messages("vrm_assign_confirm_business.title")</h1>
+            <h2>@Messages("vrm_assign_confirm_business.title")</h2>
 
             <dl class="playback">
                 <dt>@Messages("vrm_assign_confirm.businessNameLabel")</dt>
@@ -43,7 +43,7 @@
         </div>
         <div class="first-col">
             <dl class="playback">
-                <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmBusinessViewModel.registrationNumber</dd>
                 @if(confirmBusinessViewModel.vehicleMake.isDefined) {
@@ -87,5 +87,4 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_assign_exit.button")</a>
         </div>
     }
-
 }

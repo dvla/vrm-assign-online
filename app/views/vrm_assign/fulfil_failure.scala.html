@@ -8,8 +8,7 @@
 @main(
     title = Messages("vrm_assign_failure.title")
 ) {
-
-    <h1>@Messages("vrm_assign_failure.title")</h1>
+    <h2>@Messages("vrm_assign_failure.title")</h2>
     <p>@Messages("vrm_assign_failure.text")</p>
 
     <div class="form-steps">
@@ -17,5 +16,4 @@
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_paymentfailure.exitbutton")</a>
     </div>
-
 }

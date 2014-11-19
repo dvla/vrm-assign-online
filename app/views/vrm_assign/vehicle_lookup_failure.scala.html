@@ -13,7 +13,7 @@
     <div class="two-col">
     <div id="vehicle-details" class="first-col trader-details">
                 <dl class="playback">
-                    <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
@@ -28,10 +28,10 @@
         </div>
         <div class="second-col">
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {
-                <h1>@Messages("vrm_assign_eligibility_direct_to_paper.title")</h1>
+                <h2>@Messages("vrm_assign_eligibility_direct_to_paper.title")</h2>
             }
             @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {
-            <h1>@Messages("vrm_assign_eligibility_failure.title")</h1>
+            <h2>@Messages("vrm_assign_eligibility_failure.title")</h2>
             }
 
             <p>Transaction Id @transactionId</p>
@@ -53,5 +53,4 @@
             </div>
         </div>
     </div>
-
 }

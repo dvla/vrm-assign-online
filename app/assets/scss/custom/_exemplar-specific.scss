@@ -72,3 +72,31 @@ ul.hint-list {
     float:right;
     font-weight:bold;
 }
+
+
+/*Custom styles requested by Clifton for PR
+so copied to assign may want to be moved to common*/
+
+.app h1 {
+    margin:0px;
+    font-size:48px;
+}
+
+.app h2 {
+    font-size:36px;
+}
+
+.app h3 {
+    font-size:27px;
+    font-weight:bold;
+    padding-bottom:10px;
+}
+
+
+.vrm-assign-online .form-item {
+   /* margin: 0px 0px 1.5em;*/
+}
+
+.vrm-assign-online label.form-radio, .vrm-assign-online label.form-checkbox {
+    margin:0px;
+}

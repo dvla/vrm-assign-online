@@ -17,7 +17,7 @@
     <div class="two-col">
         <div class="second-col">
 
-            <h1>@Messages("vrm_assign_confirm.title")</h1>
+            <h2>@Messages("vrm_assign_confirm.title")</h2>
             <dl class="playback first-line">
                 <dt><strong>@Messages("vrm_assign_confirm.keeperLabel")</strong></dt>
                 <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</dt><br />
@@ -45,7 +45,7 @@
             'maxLength -> KeeperEmailMaxLength
             )
             )
-            <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
+            <h3>@Messages("vrm_assign_confirm.newRegTitle")</h3>
             <p>@Messages("vrm_assign_confirm.newRegp1")</p>
 
             @if(confirmViewModel.outstandingPaymentAmount > 0) {
@@ -66,7 +66,7 @@
         </div>
         <div class="first-col">
             <dl class="playback">
-                <dt><h2>@Messages("vrm_assign_vehicle_callback.title")</h2></dt>
+                <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
@@ -82,7 +82,7 @@
             </dl>
 
             <div class="related">
-                <h2>@Messages("vrm_assign_contact.title")</h2>
+                <h3>@Messages("vrm_assign_contact.title")</h3>
                 <dl>
                     <dt>@Messages("vrm_assign_contact.telLabel")</dt>
                     <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
@@ -108,5 +108,4 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
         </div>
     }
-
 }
