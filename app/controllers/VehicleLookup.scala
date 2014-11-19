@@ -5,7 +5,7 @@ import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
@@ -78,10 +78,9 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
-
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             rejectionCode = Some(responseCode)))
@@ -94,7 +93,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
               auditService.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
+                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
                 timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
@@ -102,9 +101,8 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>
-
               val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie")
+              val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
 
               val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
 

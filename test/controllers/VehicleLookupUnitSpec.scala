@@ -11,6 +11,7 @@ import org.mockito.Mockito._
 import pages.vrm_assign._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -23,6 +24,8 @@ import org.mockito.Mockito.{mock, when}
 import org.mockito.internal.stubbing.answers.DoesNothing
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -299,20 +302,36 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 //      }
 //    }
 
-    "call audit service with 'no-transaction-id-cookie' when no transaction id cookie exists" in new WithApplication {
+    "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest)
+      val expected = new AuditMessage(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Assign",
+        ("transactionId",ClearTextClientSideSessionFactory.DefaultTrackingId),
+        ("timestamp",dateService.dateTimeISOChronology),
+        ("rejectionCode",RecordMismatch)
+      )
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result) { r =>
+        verify(auditService, times(1)).send(expected)
+      }
+    }
+
+    "call audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
       val expected = new AuditMessage(
         name = "VehicleLookupToVehicleLookupFailure",
         serviceType = "PR Assign",
-        ("transactionId","no-transaction-id-cookie"),
+        ("transactionId",ClearTextClientSideSessionFactory.DefaultTrackingId),
         ("timestamp",dateService.dateTimeISOChronology),
         ("rejectionCode","PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       )
       val result = vehicleLookup.submit(request)
 
-      whenReady(result) {
-        r =>
+      whenReady(result) { r =>
           verify(auditService, times(1)).send(expected)
       }
     }
@@ -347,13 +366,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
-                                 permitted: Boolean = true
+                                 permitted: Boolean = true,
+                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                  ) = {
     val auditService = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService(),
+      new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new TestAuditService(auditService),
       new TestDateService()
     )
