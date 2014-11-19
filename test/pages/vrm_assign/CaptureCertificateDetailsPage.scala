@@ -9,7 +9,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants._
 
 object CaptureCertificateDetailsPage extends Page with WebBrowserDSL {
 
-  def address = s"$applicationContext/capture_certificate-details"
+  def address = s"$applicationContext/capture-certificate-details"
   def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your certificate details"
 
