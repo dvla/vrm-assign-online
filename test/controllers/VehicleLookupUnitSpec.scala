@@ -4,13 +4,13 @@ import audit.{AuditMessage, AuditService}
 import composition._
 import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
+import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.mockito.Mockito._
-import pages.vrm_assign._
-import pages.vrm_assign.VehicleLookupFailurePage
+import pages.vrm_assign.{VehicleLookupFailurePage, _}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
@@ -22,15 +22,8 @@ import views.vrm_assign.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{mock, when}
-import org.mockito.internal.stubbing.answers.DoesNothing
-import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.auditing.Message
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
-import helpers.JsonUtils.deserializeJsonToModel
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{vehicleAndKeeperDetailsResponseVRMNotFound, _}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -221,10 +214,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
       whenReady(result) { r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(
-            PaymentTransNoCacheKey, TransactionIdCacheKey, BruteForcePreventionViewModelCacheKey,
-            VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(
+          PaymentTransNoCacheKey, TransactionIdCacheKey, BruteForcePreventionViewModelCacheKey,
+          VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
@@ -261,54 +254,31 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-//    "Send a request and a trackingId" in new WithApplication {
-//      val trackingId = "x" * 20
-//      val request = buildCorrectlyPopulatedRequest().
-//        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).
-//        thenReturn(Future {
-//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//      })
-//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//
-//      val vehiclesLookup = new vrm_assign.VehicleAndKeeperLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleAndKeeperLookupServiceImpl
-//      )
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) {
-//        r =>
-//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//          trackingIdCaptor.getValue should be(trackingId)
-//      }
-//    }
-//
-//    "Send the request and no trackingId if session is not present" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
-//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//      })
-//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//      val vehiclesLookup = new vrm_assign.VehicleAndKeeperLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleAndKeeperLookupServiceImpl)
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) {
-//        r =>
-//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//          trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
-//      }
-//    }
+    "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
+      val trackingId = "x" * 20
+      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+
+      whenReady(result, timeout) {
+        r =>
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = trackingId)
+      }
+    }
+
+    "send a request and default trackingId to the vehicleAndKeeperLookupWebService when cookie does not exist" in new WithApplication {
+      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+
+      whenReady(result, timeout) {
+        r =>
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId)
+      }
+    }
 
     "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
@@ -316,9 +286,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val expected = new AuditMessage(
         name = "VehicleLookupToVehicleLookupFailure",
         serviceType = "PR Assign",
-        ("transactionId",ClearTextClientSideSessionFactory.DefaultTrackingId),
-        ("timestamp",dateService.dateTimeISOChronology),
-        ("rejectionCode",RecordMismatch)
+        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", RecordMismatch)
       )
       val result = vehicleLookup.submit(request)
 
@@ -333,14 +303,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val expected = new AuditMessage(
         name = "VehicleLookupToVehicleLookupFailure",
         serviceType = "PR Assign",
-        ("transactionId",ClearTextClientSideSessionFactory.DefaultTrackingId),
-        ("timestamp",dateService.dateTimeISOChronology),
-        ("rejectionCode","PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       )
       val result = vehicleLookup.submit(request)
 
       whenReady(result) { r =>
-          verify(auditService, times(1)).send(expected)
+        verify(auditService, times(1)).send(expected)
       }
     }
   }
@@ -373,10 +343,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       getInstance(classOf[VehicleLookup])
   }
 
+  private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
+    testInjector(
+      new TestBruteForcePreventionWebService(permitted = true),
+      new TestConfig(isPrototypeBannerVisible = true),
+      new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
+      new TestAuditService(),
+      new TestDateService()
+    ).
+      getInstance(classOf[VehicleLookup])
+  }
+
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
-                                 permitted: Boolean = true,
-                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
-                                 ) = {
+                                         permitted: Boolean = true,
+                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
+                                          ) = {
     val auditService = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),

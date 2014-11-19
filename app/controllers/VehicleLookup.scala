@@ -1,12 +1,14 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.google.inject.Inject
+import mappings.common.ErrorCodes
 import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{FormError, Form => PlayForm}
-import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import play.api.mvc.{Call, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -14,23 +16,14 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
+import views.vrm_assign.Payment._
 import views.vrm_assign.RelatedCacheKeys
 import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.Payment._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditMessage, AuditService}
-import scala.Some
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
-import play.api.mvc.Call
-import mappings.common.ErrorCodes
-import views.vrm_assign.ConfirmBusiness._
-import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import scala.Some
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
-import play.api.mvc.Call
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
