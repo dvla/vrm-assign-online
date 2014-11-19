@@ -30,7 +30,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel]) match {
       case (_, _, Some(fulfilModel)) =>
         Future.successful {
@@ -44,8 +44,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         Future.successful {
           paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
         }
-      case (Some(transactionId), Some(vehiclesLookupForm), None) =>
-        callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None) =>
+        callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
         paymentFailure("Payment failed matching cookies")
       }
