@@ -17,8 +17,6 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
@@ -106,12 +104,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-//    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleDetailsResponseNotFoundResponseCode).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//    }
+    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotFoundResponseCode).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    }
 //
 //    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
 //      val request = buildCorrectlyPopulatedRequest()
@@ -365,12 +363,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
                                  permitted: Boolean = true,
-                                 auditService: AuditService = mock[AuditService]) = {
+                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService(),
-      new TestAuditService(auditService),
+      new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
+      new TestAuditService(),
       new TestDateService()
     ).
       getInstance(classOf[VehicleLookup])
