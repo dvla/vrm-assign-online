@@ -14,14 +14,13 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
   override def invoke(cmd: VrmAssignFulfilRequest,
                       trackingId: String): Future[VrmAssignFulfilResponse] =
 
-    Future.successful(new VrmAssignFulfilResponse(None, None))
-//    ws.invoke(cmd, trackingId).map { resp =>
-//      if (resp.status == Status.OK) resp.json.as[VrmAssignFulfilResponse]
-//      else throw new RuntimeException(
-//        s"Vrm Assign Fulfil web service call http status not OK, it " +
-//          s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or the VSS"
-//      )
-//    }.recover {
-//      case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
-//    }
+    ws.invoke(cmd, trackingId).map { resp =>
+      if (resp.status == Status.OK) resp.json.as[VrmAssignFulfilResponse]
+      else throw new RuntimeException(
+        s"Vrm Assign Fulfil web service call http status not OK, it " +
+          s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or the VSS"
+      )
+    }.recover {
+      case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
+    }
 }

@@ -137,6 +137,7 @@ resolvers ++= projectResolvers
 lazy val p1 = osAddressLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p3 = vehicleAndKeeperLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p4 = vrmAssignEligibility.disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val p5 = vrmAssignFulfil.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p6 = legacyStubs.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p7 = gatlingTests.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 val p8 = paymentSolve.disablePlugins(PlayScala, SassPlugin, SbtWeb)
