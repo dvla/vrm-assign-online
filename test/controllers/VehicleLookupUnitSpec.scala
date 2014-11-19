@@ -313,6 +313,28 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         verify(auditService, times(1)).send(expected)
       }
     }
+
+    "call audit service with expected values when the required cookies exist" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
+        withCookies(CookieFactoryForUnitSpecs.transactionId())
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
+      val expected = new AuditMessage(
+        name = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+        serviceType = "PR Assign",
+        ("transactionId", TransactionIdValid),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("currentVrm", RegistrationNumberWithSpaceValid),
+        ("make", VehicleMakeValid.get),
+        ("model", VehicleModelValid.get),
+        ("keeperName", "Mr David Jones"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, SWANSEA, SA1 1AA")
+      )
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result) { r =>
+        verify(auditService, times(1)).send(expected)
+      }
+    }
   }
 
   "back" should {
