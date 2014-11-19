@@ -65,6 +65,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       // TODO need to tidy this up!!
       val paymentModel = request.cookies.getModel[PaymentModel]
 
+      // if no payment model then no outstanding fees
       if (paymentModel.isDefined) {
 
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
@@ -150,24 +151,22 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     )
     val trackingId = request.cookies.trackingId()
 
-
-    // TODO when wsdl becomes available
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>
         response.responseCode match {
           case Some(responseCode) => fulfilFailure(responseCode) // There is only a response code when there is a problem.
           case None =>
             // Happy path when there is no response code therefore no problem.
-            //            response.certificateNumber match {
-            //              case Some(certificateNumber) =>
-            fulfilSuccess()
-          //              case _ =>
-          //                microServiceErrorResult(message = "Certificate number not found in response") // TODO tidy up when receive fulfil wsdl
-          //            }
+            response.documentNumber match {
+              case Some(documentNumber) =>
+                fulfilSuccess
+              case _ =>
+                microServiceErrorResult(message = "Document number not found in response")
+            }
         }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Fulfil web service call failed. Exception " + e.toString)
+        microServiceErrorResult(s"VRM Assign Fulfil web service call failed. Exception " + e.toString)
     }
   }
 }
