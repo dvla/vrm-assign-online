@@ -30,6 +30,17 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
+
+    "not display outstanding fees on page when no fees are due" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      cacheSetup()
+
+      go to ConfirmPage
+
+      page.source shouldNot contain("Outstanding Renewal Fees")
+      //page.url should equal(ConfirmPage.url)
+    }
   }
 
 //  "confirm button" should {
