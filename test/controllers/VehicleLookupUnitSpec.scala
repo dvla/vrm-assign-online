@@ -10,6 +10,7 @@ import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.mockito.Mockito._
 import pages.vrm_assign._
+import pages.vrm_assign.VehicleLookupFailurePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
@@ -27,6 +28,7 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 import helpers.JsonUtils.deserializeJsonToModel
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -110,14 +112,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
-//
-//    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleDetailsResponseVRMNotFound).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-//    }
-//
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
 //    "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
 //      val request = buildCorrectlyPopulatedRequest()
 //      val result = vehicleLookupStubs(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
