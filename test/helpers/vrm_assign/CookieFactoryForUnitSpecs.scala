@@ -4,24 +4,20 @@ import composition.TestComposition
 import models._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
-import scala.Some
-import play.api.mvc.Cookie
-import org.openqa.selenium.WebDriver
-import views.vrm_assign
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -161,5 +157,4 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     val key = StoreBusinessDetailsCacheKey
     createCookie(key, consent)
   }
-
 }
