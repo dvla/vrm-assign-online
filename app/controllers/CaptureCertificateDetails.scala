@@ -1,35 +1,31 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.google.inject.Inject
-import models.{CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, CaptureCertificateDetailsFormModel}
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.{DateTime, Period}
+import play.api.Logger
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.libs.json.Writes
-import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, ClientSideSessionFactory}
+import play.api.mvc.{Result, _}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
-import views.vrm_assign.Payment._
-import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
-import audit.{AuditMessage, AuditService}
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityService}
+
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import play.api.mvc.Result
-import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, VrmAssignEligibilityRequest}
-import org.joda.time.{Period, DateTime}
 import scala.util.Failure
 import scala.util.control.NonFatal
-import scala.concurrent.ExecutionContext.Implicits.global
-
 
 final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForcePreventionService,
                                                 eligibilityService: VrmAssignEligibilityService,
@@ -79,7 +75,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       )
   }
 
-
   def bruteForceAndLookup(prVrm: String, referenceNumber: String, form: Form)
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
@@ -87,7 +82,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         // TODO use a match
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+        val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
         checkVrmEligibility(form, vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId)
       }
       else Future.successful {
@@ -99,7 +94,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       resultFuture.map { result =>
         result.withCookie(bruteForcePreventionModel)
       }
-
     } recover {
       case exception: Throwable =>
         Logger.error(
@@ -111,12 +105,11 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       result.withCookie(form)
     }
 
-
   def exit = Action {
     implicit request =>
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)

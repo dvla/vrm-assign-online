@@ -280,7 +280,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
+    "call audit service once with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest)
       val expected = new AuditMessage(
@@ -297,7 +297,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
+    "call audit service once with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
       val expected = new AuditMessage(
@@ -314,7 +314,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service with expected values when the required cookies exist" in new WithApplication {
+    "call audit service once with expected values when the required cookies exist" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
         withCookies(CookieFactoryForUnitSpecs.transactionId())
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()

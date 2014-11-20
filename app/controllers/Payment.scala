@@ -8,7 +8,7 @@ import org.apache.commons.codec.binary.Base64
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
@@ -82,7 +82,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(""),
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
@@ -133,11 +133,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     def paymentNotAuthorised = {
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
-      var paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
@@ -200,7 +200,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),

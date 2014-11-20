@@ -30,12 +30,20 @@
                 <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
             </dl>
             <br/>
-            <h3>@Messages("vrm_assign_confirm.emailAddressLabel")</h3>
-            <p>@Messages("vrm_assign_confirm.emailHint1")</p>
-            <ul class="email-list">
-                <li>@Messages("vrm_assign_confirm.emailHint2")</li>
-                <li>@Messages("vrm_assign_confirm.emailHint3")</li>
-            </ul>
+            <details>
+                <summary><span class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
+                <div class="panel-indent">
+                    <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="#">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
+                </div>
+            </details>
+            <br>
+            <p><strong>@Messages("vrm_assign_confirm.emailAddressLabel")</strong>
+                <br />
+                <span class="form-hint form-hint-email">@Messages("vrm_assign_confirm.emailHint")</span>
+            </p>
             @valtechInputText(confirmForm(KeeperEmailId),
             args = Map(
             'NO_OPTIONAL_LABEL -> true,
@@ -60,8 +68,8 @@
             }
 
             <p>@Messages("vrm_assign_confirm.newRegp2")</p>
-            <div class="alert-warning">
-                <p><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></p>
+            <div class="info-notice">
+                <p><strong>@Messages("vrm_assign_confirm.outstandingFeesWarn")</strong></p>
             </div>
         </div>
         <div class="first-col">
