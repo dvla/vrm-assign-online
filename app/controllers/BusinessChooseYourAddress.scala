@@ -8,7 +8,7 @@ import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSession, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
@@ -90,7 +90,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   def exit = Action { implicit request =>
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
@@ -158,7 +158,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
 
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))

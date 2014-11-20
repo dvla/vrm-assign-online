@@ -82,7 +82,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         // TODO use a match
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+        val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
         checkVrmEligibility(form, vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId)
       }
       else Future.successful {

@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel, SetupBusinessDetailsFormModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
@@ -53,7 +53,7 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
     implicit request =>
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
