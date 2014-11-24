@@ -194,10 +194,10 @@ keeperConsent = Are you the registered keeper
 
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
+vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only 3 attempts can be made to retrieve the vehicle details.
+vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
@@ -209,7 +209,7 @@ error.address.postTown = Post town - Requires a minimum length of three characte
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 vrm_assign_eligibility_cert_number_mismatch.p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
 vrm_assign_eligibility_cert_number_mismatch.p2 = Please make sure you have the most recent V750 or V778 and try again.
-vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration number, only 3 attempts can be made to assign your registration mark to a vehicle.
+vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration number, there will be limited attempts to retrieve the vehicle details.
 
 
 # micro-service response codes
@@ -226,12 +226,6 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 #micro_service_error.back.button=Try again
 #micro_service_error.exit.button=Exit
 
-#duplicate-disposal error page
-duplicate_disposal_error.title=We are sorry
-duplicate_disposal_error.text=This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
-duplicate_disposal_error.back.button=Try again
-duplicate_disposal_error.exit.button=Exit
-
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
 soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
@@ -240,10 +234,10 @@ soap_endpoint_error.exit.button=Exit
 
 #vrm locked
 vrm_locked.title=Registration number is locked
-vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration number is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
+vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
-vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
-vrm_locked.text3.2=0300 790 6801
+vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
+
 
 vrm_locked.newdisposalbutton=Sell another vehicle
 vrm_locked.exit.button=Exit
