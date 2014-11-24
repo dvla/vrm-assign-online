@@ -373,10 +373,10 @@ vrm_assign_vehiclelookupfailure.button = Try again
 vrm_assign_vehiclelookupfailure.button2 = Exit
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
@@ -385,7 +385,7 @@ vrm_assign_eligibility_direct_to_paper.p1 = You are unable to continue with this
 vrm_assign_eligibility_direct_to_paper.p2 =
 vrm_assign_eligibility_direct_to_paper.p3 =
 vrm_assign_eligibility_failure.title = This registration number can not be assigned
-vrm_assign_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.  If you need further assistance please ring our Contact Centre on 0300 790 6801.
+vrm_assign_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_assign_eligibility_failure.p2 =
 vrm_assign_eligibility_failure.p3 =
 
@@ -655,3 +655,8 @@ vrm_assign_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful at
 vrm_assign_leave_feedback.title=Thank You
 vrm_assign_leave_feedback.feedback = leaving feedback
 vrm_assign_leave_feedback.p1=Please help us to improve this service by
+
+# Payment prevent back page
+payment-prevent-back-title = Back button prevented
+payment-prevent-back-text = You cannot use your browser back button after making a payment. No new payments have been taken.
+payment-prevent-back-return-to-success = Return to Success page
