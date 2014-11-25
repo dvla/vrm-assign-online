@@ -1,61 +1,83 @@
 @(successViewModel: models.SuccessViewModel, isKeeper: Boolean)(implicit lang: Lang,
-    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
 
-@import views.html.vrm_assign.main
-@import views.vrm_assign.Success.FinishId
+    @import views.html.vrm_assign.main
+    @import views.vrm_assign.Success.FinishId
 
-@main(
-    title = Messages("vrm_assign_success.title")
-) {
 
-<h2>@Messages("vrm_assign_success.title")</h2>
-<div class="two-col assign-success">
-		<div class="second-col">
-            <div class="alert-complete">
-			    <h2>@Messages("vrm_assign_success.subtitle") <span class="reg-number">@successViewModel.prVrm</span> </h2>
-			    <p><strong>Transaction ID:</strong> @successViewModel.transactionId</p>
-			    <p><strong>Date of assignment:</strong> @successViewModel.transactionTimestamp</p>
-			</div>
+    @main(
+        title = Messages("vrm_assign_success.title")
+    ) {
 
-			<h2>@Messages("vrm_assign_success.h2")</h2>
-			<h3>@Messages("vrm_assign_success.h3a")</h3>
-		</div>
-		<div class="first-col">
-            <div class="related" style="margin-top:0px;">
-                <h2>@Messages("vrm_assign_contact.title")</h2>
-                <dl>
-                    <dt>@Messages("vrm_assign_contact.telLabel")</dt>
-                    <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
-                    <dt>@Messages("vrm_assign_contact.texLabel")</dt>
-                    <dd><strong>@Messages("vrm_assign_contact.texNumber")</strong></dd>
-                    <dt>@Messages("vrm_assign_contact.hoursLabel")</dt>
-                    <dd>
-                        <strong>@Messages("vrm_assign_contact.hoursMonFri")</strong>
-                        <br>
-                        <strong>@Messages("vrm_assign_contact.hoursSun")</strong>
-                    </dd>
-                </dl>
+        <h2>@Messages("vrm_assign_success.title")</h2>
+        <div class="two-col assign-success">
+            <div class="second-col">
+                <div class="alert-complete">
+                    <h2>@Messages("vrm_assign_success.subtitle") <span class="reg-number">@successViewModel.prVrm</span> </h2>
+                    <p><strong>Transaction ID:</strong> @successViewModel.transactionId</p>
+                    <p><strong>Date of assignment:</strong> @successViewModel.transactionTimestamp</p>
+                </div>
+
+                <h2>@Messages("vrm_assign_success.h2")</h2>
+                <h3>@Messages("vrm_assign_success.h3a")</h3>
             </div>
-		</div>
-	</div>
-                <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")</p>
-            <p>@Messages("vrm_assign_success.p2")</p>
-            <h3>@Messages("vrm_assign_success.h3b")</h3>
-            <ul class="email-list">
-                <li>@Messages("vrm_assign_success.listItem1")</li>
-                <li>@Messages("vrm_assign_success.listItem2")</li>
-                <li>@Messages("vrm_assign_success.listItem3")</li>
-                <li>@Messages("vrm_assign_success.listItem4")</li>
-                <li>@Messages("vrm_assign_success.listItem5")</li>
-                <li>@Messages("vrm_assign_success.listItem6")</li>
-            </ul>
+            <div class="first-col">
+                <div class="related" style="margin-top : 0 px ;">
+                    <h2>@Messages("vrm_assign_contact.title")</h2>
+                    <dl>
+                        <dt>@Messages("vrm_assign_contact.telLabel")</dt>
+                        <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
+                        <dt>@Messages("vrm_assign_contact.texLabel")</dt>
+                        <dd><strong>@Messages("vrm_assign_contact.texNumber")</strong></dd>
+                        <dt>@Messages("vrm_assign_contact.hoursLabel")</dt>
+                        <dd>
+                            <strong>@Messages("vrm_assign_contact.hoursMonFri")</strong>
+                            <br>
+                            <strong>@Messages("vrm_assign_contact.hoursSun")</strong>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
 
-    <div class="form-steps">
-	  <div class="step">
-	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
-	    <br /><br />
-        <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
-	  </div>
-    </div>
-}
+        @if(isKeeper) {
+            <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")</p>
+            <p>@Messages("vrm_assign_success.p2")</p>
+        } else {
+            <div class="info-highlight two-col">
+                <div class="second-col">
+                    <h3>@Messages("vrm_assign_success_payment.p6")</h3>
+                    <p>@Messages("vrm_assign_success_payment.p7")</p>
+                </div>
+                <div class="first-col">
+                    <a class="pdf-link" href="@controllers.routes.Success.createPdf()">
+                        <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                        @Messages("vrm_assign_success.newPlateLink")
+                    </a>
+                </div>
+            </div>
+            <div class="info-notice">
+                <p>@Messages("vrm_assign_success_payment.p4")</p>
+                <p>@Messages("vrm_assign_success_payment.p5")</p>
+            </div>
+        }
+
+        <h3>@Messages("vrm_assign_success.h3b")</h3>
+        <ul class="email-list">
+            <li>@Messages("vrm_assign_success.listItem1")</li>
+            <li>@Messages("vrm_assign_success.listItem2")</li>
+            <li>@Messages("vrm_assign_success.listItem3")</li>
+            <li>@Messages("vrm_assign_success.listItem4")</li>
+            <li>@Messages("vrm_assign_success.listItem5")</li>
+            <li>@Messages("vrm_assign_success.listItem6")</li>
+        </ul>
+
+        <div class="form-steps">
+            <div class="step">
+                <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+                <br /><br />
+                <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
+            </div>
+        </div>
+    }

@@ -533,13 +533,17 @@ vrm_assign_success_payment.listItem3 = Destroy your old V5C, MOT certificate as 
 vrm_assign_success_payment.listItem4 = If you are selling your vehicle you will need to wait for a new V5C displaying the new registration number
 vrm_assign_success_payment.p4 = Please keep your eV948 in a safe place, we recommend printing it immediately as once you exit this service your certificate cannot be re- issued.
 vrm_assign_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
-vrm_assign_success_payment.p6 = Making up your replacement plates
-vrm_assign_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
+#vrm_assign_success_payment.p6 = Making up your replacement plates
+#vrm_assign_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
 success-payment-keeper-p1 = You will now be issued new paperwork for your vehicle to display the replacement number plate above
 success-payment-keeper-p2a = Take your existing registration number,
 success-payment-keeper-p2b = , off your vehicle
 success-payment-keeper-p3 = You can use your newly issued V5C to get your replacement registration made up through a registered number plate supplier
 vrm_assign_success_payment.print = Print full summary
+
+vrm_assign_success_payment.p6 = You’ll need this to make up the replacement plates
+vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download or print via one of the links on the right.
+
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
 vrm_assign_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
@@ -560,12 +564,16 @@ vrm_assign_success.subtitle = Assignment complete for
 vrm_assign_success.replacementRegNumberLabel = Registration number
 vrm_assign_success.yourCert = Your Assign certificate number is
 vrm_assign_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
-vrm_assign_success.replacementTitle = Your replacement registration number
-vrm_assign_success.retainConf-p1 = Your registration number
-vrm_assign_success.retainConf-p2 = has now been assigned. Put the following replacement registration number on the vehicle
-vrm_assign_success.makingUp-p1 = Making up the number plate for the replacement registration number
+vrm_assign_success.replacementTitle = Your personal registration number
+
+
+vrm_assign_success.assignConf-p1 = Your registration number
+vrm_assign_success.assignConf-p2 = has now be assigned. Put the following personal registration number on the vehicle
+vrm_assign_success.makingUp-p1 = Making up the number plate for the personal registration number
 vrm_assign_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_assign_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+vrm_assign_success.newPlateLink = Download a copy
+
+
 
 vrm_assign_success.h2 = What to do next
 vrm_assign_success.h3a = Making up your new plates
