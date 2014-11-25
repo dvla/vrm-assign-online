@@ -41,7 +41,7 @@ libraryDependencies ++= {
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
-    "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
     "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
     "com.google.guava" % "guava" % "15.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
