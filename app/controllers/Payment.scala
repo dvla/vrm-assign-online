@@ -97,9 +97,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                         (implicit request: Request[_],
                                          token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     refererFromHeader.fetch match {
-      case Some(referrer) =>
+      case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
-        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
+        val paymentCallback = refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe)
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val outstandingFees = request.cookies.getModel[CaptureCertificateDetailsModel].get.outstandingFees
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
