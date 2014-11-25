@@ -1,4 +1,5 @@
-@(transactionId: String, vrmLockedViewModel: models.VrmLockedViewModel)(implicit lang: Lang,
+@(transactionId: String, vrmLockedViewModel: models.VrmLockedViewModel,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
@@ -37,6 +38,10 @@
                     @if(vrmLockedViewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
                         <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
+                    }
+                    @if(captureCertificateDetailsFormModel.isDefined) {
+                        <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+                        <dd class="reg-number-zoomed">@captureCertificateDetailsFormModel.get.prVrm</dd>
                     }
                 </dl>
         </div>

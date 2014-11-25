@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.{CaptureCertificateDetailsFormModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -50,7 +50,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       data = vehicleAndKeeperLookupForm,
       responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
       attempts = bruteForcePreventionModel.attempts,
-      maxAttempts = bruteForcePreventionModel.maxAttempts)
+      maxAttempts = bruteForcePreventionModel.maxAttempts,
+      captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel])
     ).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
 }
