@@ -6,7 +6,7 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.MainPanel.back
-import pages.vrm_assign.{SetupBusinessDetailsPage, LeaveFeedbackPage, ConfirmBusinessPage, VehicleLookupPage, ConfirmPage, BeforeYouStartPage}
+import pages.vrm_assign._
 import pages.vrm_assign.ConfirmPage._
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
@@ -52,7 +52,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 //
 //      happyPath
 //
-//      page.url should equal(PaymentPage.url)
+//      page.url should equal(SuccessPage.url)
 //    }
 //  }
 

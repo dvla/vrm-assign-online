@@ -2,6 +2,7 @@ package helpers.vrm_assign
 
 import composition.TestComposition
 import models._
+import org.joda.time.DateTime
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -10,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForceP
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey,CaptureCertificateDetailsFormModelCacheKey}
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
@@ -17,6 +19,8 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLo
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
@@ -156,5 +160,19 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def storeBusinessDetailsConsent(consent: String = "true"): Cookie = {
     val key = StoreBusinessDetailsCacheKey
     createCookie(key, consent)
+  }
+
+  def captureCertificateDetailsModel(lastDate: Option[DateTime] = LastDateValid,
+                                     datesList: List[String] = DatesListValid, fees: Int = FeesValid): Cookie = {
+    val key = CaptureCertificateDetailsCacheKey
+    val value = CaptureCertificateDetailsModel(lastDate, datesList, fees)
+    createCookie(key, value)
+  }
+
+  def captureCertificateDetailsFormModel(referenceNumber: String = CertReferenceNumberValid,
+                                         prVrm: String = PrVrmValid): Cookie = {
+    val key = CaptureCertificateDetailsFormModelCacheKey
+    val value = CaptureCertificateDetailsFormModel(referenceNumber, prVrm)
+    createCookie(key, value)
   }
 }

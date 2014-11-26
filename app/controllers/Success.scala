@@ -42,7 +42,7 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId)
 
-        Ok(views.html.vrm_assign.success(successViewModel, true)) // TODO check for keeperEmail
+        Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
         Redirect(routes.MicroServiceError.present())
     }

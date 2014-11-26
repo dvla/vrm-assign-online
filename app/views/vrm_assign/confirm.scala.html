@@ -12,11 +12,13 @@
 @main(
     title = Messages("vrm_assign_confirm.title"),
     currentForm = Some(confirmForm),
-    backNavigation = Some(controllers.routes.VehicleLookup.present())
+    backNavigation = Some(controllers.routes.CaptureCertificateDetails.present())
 ) {
+
+    @form(action = controllers.routes.Confirm.submit()) {
+        @csrfTokenHiddenField()
     <div class="two-col">
         <div class="second-col">
-
             <h2>@Messages("vrm_assign_confirm.title")</h2>
             <dl class="playback first-line">
                 <dt><strong>@Messages("vrm_assign_confirm.keeperLabel")</strong></dt>
@@ -108,8 +110,6 @@
 
     </div>
 
-    @form(action = controllers.routes.Confirm.submit()) {
-        @csrfTokenHiddenField()
         <div class="form-steps">
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
             <br/>

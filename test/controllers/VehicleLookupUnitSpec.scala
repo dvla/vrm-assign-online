@@ -62,7 +62,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
+    "redirect to CaptureCertificateDetailsPage after a valid submit and true message returned from the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
