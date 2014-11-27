@@ -404,7 +404,7 @@ vrm_assign_payment.callback.message-when-javascript-disabled = The payment proce
 
 # Vehicle details partial view
 vrm_assign_vehicle_callback.title = Vehicle details
-vrm_assign_vehicle_callback.regNumLabel = Registration number
+vrm_assign_vehicle_callback.regNumLabel = Registration number:
 vrm_assign_vehicle_callback.makeLabel = Make
 vrm_assign_vehicle_callback.modelLabel = Model
 
