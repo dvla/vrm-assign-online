@@ -51,11 +51,11 @@
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 @if(responseCodeVehicleLookupMSErrorMessage.contains("vehicle_and_keeper_lookup_document_reference_mismatch")) {
-                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
+                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }
                 @if(responseCodeVehicleLookupMSErrorMessage.contains("vrm_assign_eligibility_cert_number_mismatch")) {
-                    <a class="button" id="@CaptureCertificateDetailsId" href="@controllers.routes.CaptureCertificateDetails.present()">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
+                    <a class="button" id="@CaptureCertificateDetailsId" href="@controllers.routes.CaptureCertificateDetails.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
