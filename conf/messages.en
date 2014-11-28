@@ -268,8 +268,8 @@ main.banner = Put a registration number on a vehicle
 # before you start
 vrm_assign_beforeyoustart.title = Assign a personal registration
 vrm_assign_beforeyoustart.p1 = You need to apply to DVLA to assign your personalised registration number to a vehicle.
-vrm_assign_beforeyoustart.list1item1 = It can only be used on a vehicle that''s registered (or about to be registered), taxed and used in the UK
-vrm_assign_beforeyoustart.list1item2 = It must be available for us to inspect
+vrm_assign_beforeyoustart.list1item1 = it can only be used on a vehicle that''s registered (or about to be registered), taxed and used in the UK
+vrm_assign_beforeyoustart.list1item2 = it must be available for us to inspect
 vrm_assign_beforeyoustart.list1item3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
 vrm_assign_beforeyoustart.p3 = You can't:
 vrm_assign_beforeyoustart.list2item1 = put a personalised registration number onto a vehicle displaying a ‘Q’ number plate
@@ -329,7 +329,7 @@ error.validEmail = Must be a valid email address
 vrm_assign_vehiclelookup.title = Getting started
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
-vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your Assign Document (V778) . Without these, you can not use the online service.
+vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your Retain Document (V778) . Without these, you can not use the online service.
 vrm_assign_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_assign_vehiclelookup.p1 = Vehicle being sold
 vrm_assign_vehiclelookup.p2 = Vehicle will be sold to
@@ -404,7 +404,7 @@ vrm_assign_payment.callback.message-when-javascript-disabled = The payment proce
 
 # Vehicle details partial view
 vrm_assign_vehicle_callback.title = Vehicle details
-vrm_assign_vehicle_callback.regNumLabel = Registration number
+vrm_assign_vehicle_callback.regNumLabel = Registration number:
 vrm_assign_vehicle_callback.makeLabel = Make
 vrm_assign_vehicle_callback.modelLabel = Model
 
