@@ -37,8 +37,8 @@
                         'maxLength -> ReferenceNumber.MaxLength))
                 </div>
                 <ul class="hint-list">
-                  <li>the certificate number from a V750 Certificate of Entitlement, or,</li>
-                  <li>the document reference number from a V778 Retention Document</li>
+                  <li>@Messages("capture-certificate-details-reference-number-helper-1")</li>
+                  <li>@Messages("capture-certificate-details-reference-number-helper-2")</li>
                 </ul>
 
                 <div class="uppercase-input">
@@ -49,7 +49,7 @@
                     'maxLength -> VehicleRegistrationNumber.MaxLength))
                 </div>
                 <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_capturecertificatedetails.button")</button>
+                    <button id="@SubmitId" type="submit" name="action" class="button" role="button">@Messages("vrm_assign_capturecertificatedetails.button")</button>
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>

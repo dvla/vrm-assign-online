@@ -169,7 +169,7 @@ object PdfServiceImpl {
   private val fontDefaultSize = 12
 
   private val v948Blank: Option[File] = {
-    val filename = "vrm-retention-online-v948-blank.pdf"
+    val filename = "vrm-assign-online-v948-blank.pdf"
     val file = new File(filename)
     if (file.exists()) {
       `PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.

@@ -3,7 +3,6 @@ package controllers
 import audit._
 import com.google.inject.Inject
 import models._
-import org.joda.time.Period
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
@@ -14,8 +13,7 @@ import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.CaptureCertificateDetails._
-import play.api.mvc.Result
+
 
 final class Confirm @Inject()(auditService: AuditService, dateService: DateService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -58,14 +56,15 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
+
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
+
       val cookies = List(keeperEmail).flatten
 
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       // check for outstanding fees
       if (captureCertificateDetails.outstandingFees > 0) {
-
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.ConfirmToPayment,
           timestamp = dateService.dateTimeISOChronology,
@@ -76,7 +75,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
       } else {
         auditService.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmToPayment, // TODO change to be ConfirmToSuccess
+          pageMovement = AuditMessage.ConfirmToSuccess,
           timestamp = dateService.dateTimeISOChronology,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

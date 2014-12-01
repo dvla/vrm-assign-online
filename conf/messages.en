@@ -268,10 +268,10 @@ main.banner = Put a registration number on a vehicle
 # before you start
 vrm_assign_beforeyoustart.title = Assign a personal registration
 vrm_assign_beforeyoustart.p1 = You need to apply to DVLA to assign your personalised registration number to a vehicle.
-vrm_assign_beforeyoustart.list1item1 = It can only be used on a vehicle that''s registered (or about to be registered), taxed and used in the UK
-vrm_assign_beforeyoustart.list1item2 = It must be available for us to inspect
+vrm_assign_beforeyoustart.list1item1 = it can only be used on a vehicle that''s registered (or about to be registered), taxed and used in the UK
+vrm_assign_beforeyoustart.list1item2 = it must be available for us to inspect
 vrm_assign_beforeyoustart.list1item3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
-vrm_assign_beforeyoustart.p3 = You can't:
+vrm_assign_beforeyoustart.p3 = You can''t:
 vrm_assign_beforeyoustart.list2item1 = put a personalised registration number onto a vehicle displaying a ‘Q’ number plate
 vrm_assign_beforeyoustart.list2item2 = make the vehicle look newer than it actually is
 vrm_assign_beforeyoustart.p4 = You will need:
@@ -329,7 +329,7 @@ error.validEmail = Must be a valid email address
 vrm_assign_vehiclelookup.title = Getting started
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
-vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your Assign Document (V778) . Without these, you can not use the online service.
+vrm_assign_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C together with either your Certificate of Entitlement (V750) or your Retain Document (V778) . Without these, you can not use the online service.
 vrm_assign_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_assign_vehiclelookup.p1 = Vehicle being sold
 vrm_assign_vehiclelookup.p2 = Vehicle will be sold to
@@ -345,7 +345,7 @@ vrm_assign_vehiclelookup.button2 = Edit
 vrm_assign_vehiclelookup.businessnamelabel = Business name
 vrm_assign_vehiclelookup.businessaddresslabel = Business address
 vrm_assign_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed on the V5C
-vrm_assign_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper's behalf and have their consent
+vrm_assign_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper''s behalf and have their consent
 vrm_assign_vehiclelookup.postcodelabel = Keeper postcode
 vrm_assign_vehiclelookup.postcodeHint = Example: SA6 7JL
 vrm_assign_vehiclelookup.keeper = Yes, I am the registered keeper
@@ -389,7 +389,7 @@ vrm_assign_payment.iframe.title = Payment iframe
 vrm_assign_payment.javascript-disabled.message = You are seeing this additional message as we have detected that you have Javascript disabled. Please do not click the Continue button below until you are told that the payment process has ended.
 vrm_assign_payment.javascript-disabled.button = Continue
 vrm_assign_payment.cancel.button = Cancel
-vrm_assign_payment.p1 = If you do not have a credit or debit card to complete this transaction you will need to use the paper service in order to retain your personalised registration where alternative payment options are available.
+vrm_assign_payment.p1 = If you do not have a credit or debit card to complete this transaction you will need to use the paper service in order to assign your personalised registration where alternative payment options are available.
 vrm_assign_payment.title2 = Pay by credit or debit card
 vrm_assign_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_assign_paymentfailure.tryagainbutton = Try again
@@ -404,7 +404,7 @@ vrm_assign_payment.callback.message-when-javascript-disabled = The payment proce
 
 # Vehicle details partial view
 vrm_assign_vehicle_callback.title = Vehicle details
-vrm_assign_vehicle_callback.regNumLabel = Registration number
+vrm_assign_vehicle_callback.regNumLabel = Registration number:
 vrm_assign_vehicle_callback.makeLabel = Make
 vrm_assign_vehicle_callback.modelLabel = Model
 
@@ -429,6 +429,8 @@ vrm_assign_capturecertificatedetails.title = Your personal registration number
 vrm_assign_capturecertificatedetails.p1 = You will need either your Certificate of Entitlement (V750) or your Retention Document (V778) to assign your registration mark to a vehicle
 vrm_assign_capturecertificatedetails.referencenumberlabel = Your reference number
 vrm_assign_capturecertificatedetails.referencenumberhelper = This will be either:
+capture-certificate-details-reference-number-helper-1 = the 14 to 20 character certificate number from a V750 Certificate of Entitlement, or,
+capture-certificate-details-reference-number-helper-2 = the 14 to 20 character document reference number from a V778 Retention Document
 vrm_assign_capturecertificatedetails.prvrmlabel = Your personal registration number
 vrm_assign_capturecertificatedetails.prvrmhelper = Enter the new personal registration here without spaces, for example: ''AMV1''
 vrm_assign_capturecertificatedetails.button = Next
@@ -441,7 +443,7 @@ reference-number = Certificate Document Reference Number
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper and new registration
 vrm_assign_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
-vrm_assign_confirm.warn = If any of these details are incorrect, please 'Exit' the service and update the details before returning to take a registration number off a vehicle
+vrm_assign_confirm.warn = If any of these details are incorrect, please ''Exit'' the service and update the details before returning to take a registration number off a vehicle
 vrm_assign_confirm.toAssign = Registration number to assign:
 vrm_assign_confirm.keeperTitle = Keeper details
 vrm_assign_confirm.keeperLabel = Registered keeper
@@ -470,7 +472,7 @@ vrm_assign_confirm.newRegp1 = We have successfully matched the certificate refer
 vrm_assign_confirm.newRegp2 = If you wish to continue with this transaction and place this registration number on the vehicle identified above please select ''Next'' below.
 vrm_assign_confirm.emailWarn = Incorrect Details?
 vrm_assign_confirm.emailWarnp1 = You must update your registration certificate (V5C) if there are any mistakes on it, or if you make a number of changes to your vehicle.
-vrm_assign_confirm.emailWarnp2 = You'll need to send your updated certificate to DVLA with any necessary evidence.
+vrm_assign_confirm.emailWarnp2 = You''ll need to send your updated certificate to DVLA with any necessary evidence.
 vrm_assign_confirm.emailWarnp3 = Depending on the changes, your vehicle may have to be inspected, but DVLA will tell you if your vehicle needs inspection.
 vrm_assign_confirm.emailWarnp4 = For more information
 vrm_assign_confirm.emailWarnp4link = click here
@@ -533,13 +535,17 @@ vrm_assign_success_payment.listItem3 = Destroy your old V5C, MOT certificate as 
 vrm_assign_success_payment.listItem4 = If you are selling your vehicle you will need to wait for a new V5C displaying the new registration number
 vrm_assign_success_payment.p4 = Please keep your eV948 in a safe place, we recommend printing it immediately as once you exit this service your certificate cannot be re- issued.
 vrm_assign_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
-vrm_assign_success_payment.p6 = Making up your replacement plates
-vrm_assign_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
+#vrm_assign_success_payment.p6 = Making up your replacement plates
+#vrm_assign_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
 success-payment-keeper-p1 = You will now be issued new paperwork for your vehicle to display the replacement number plate above
 success-payment-keeper-p2a = Take your existing registration number,
 success-payment-keeper-p2b = , off your vehicle
 success-payment-keeper-p3 = You can use your newly issued V5C to get your replacement registration made up through a registered number plate supplier
 vrm_assign_success_payment.print = Print full summary
+
+vrm_assign_success_payment.p6 = You’ll need this to make up the replacement plates
+vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download or print via one of the links on the right.
+
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
 vrm_assign_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
@@ -560,12 +566,16 @@ vrm_assign_success.subtitle = Assignment complete for
 vrm_assign_success.replacementRegNumberLabel = Registration number
 vrm_assign_success.yourCert = Your Assign certificate number is
 vrm_assign_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
-vrm_assign_success.replacementTitle = Your replacement registration number
-vrm_assign_success.retainConf-p1 = Your registration number
-vrm_assign_success.retainConf-p2 = has now been assigned. Put the following replacement registration number on the vehicle
-vrm_assign_success.makingUp-p1 = Making up the number plate for the replacement registration number
+vrm_assign_success.replacementTitle = Your personal registration number
+
+
+vrm_assign_success.assignConf-p1 = Your registration number
+vrm_assign_success.assignConf-p2 = has now be assigned. Put the following personal registration number on the vehicle
+vrm_assign_success.makingUp-p1 = Making up the number plate for the personal registration number
 vrm_assign_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_assign_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+vrm_assign_success.newPlateLink = Download a copy
+
+
 
 vrm_assign_success.h2 = What to do next
 vrm_assign_success.h3a = Making up your new plates
@@ -600,12 +610,12 @@ micro_service_error.exit.button=Exit
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Assign successful for {0}
 email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
-email.line2 = Your application to retain a vehicle registration number
-email.line3 = Assign Certificate Number
+email.line2 = Your application to assign a vehicle registration number
+email.line3 = Retention Certificate Number
 email.line4 = Transaction Completed
 email.line5 = Your Transaction ID is:
 email.line6 = Assign successful for {0}
-email.line7 = A Certificate of Assign will be now be issued to the registered keeper.
+email.line7 = A Certificate of Retention will be now be issued to the registered keeper.
 email.line8 = We have also sent to you details of the replacement registration number, which are detailed below.
 email.line8.with-pdf = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the Letter of Authorisation (V948) which can be downloaded or printed using the link provided.
 email.line9 = Replacement Registration
