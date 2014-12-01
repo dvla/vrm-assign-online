@@ -1,7 +1,6 @@
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
-import templemore.sbt.cucumber.CucumberPlugin
 import Common._
 
 name := "vrm-assign-online"
@@ -29,6 +28,7 @@ lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-t
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
 
+
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
   Seq(
@@ -51,7 +51,7 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2", // TODO we should upgrade to 1.5.2 only after we have an email test suite inplace
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.4-SNAPSHOT" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.4-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -66,17 +66,17 @@ libraryDependencies ++= {
   )
 }
 
-CucumberPlugin.cucumberSettings ++
-  Seq(
-    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-assign/",
-    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
-    CucumberPlugin.cucumberJunitReport := false,
-    CucumberPlugin.cucumberHtmlReport := false,
-    CucumberPlugin.cucumberPrettyReport := false,
-    CucumberPlugin.cucumberJsonReport := false,
-    CucumberPlugin.cucumberStrict := true,
-    CucumberPlugin.cucumberMonochrome := false
-  )
+//CucumberPlugin.cucumberSettings ++
+//  Seq(
+//    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-assign/",
+//    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
+//    CucumberPlugin.cucumberJunitReport := false,
+//    CucumberPlugin.cucumberHtmlReport := false,
+//    CucumberPlugin.cucumberPrettyReport := false,
+//    CucumberPlugin.cucumberJsonReport := false,
+//    CucumberPlugin.cucumberStrict := true,
+//    CucumberPlugin.cucumberMonochrome := false
+//  )
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
