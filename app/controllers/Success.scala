@@ -53,8 +53,10 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-        pdfService.create(transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
-          vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+        pdfService.create(transactionId,
+          vehicleAndKeeperDetails.title.getOrElse("") + " " +
+            vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
+            vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)

@@ -144,7 +144,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
-      certificateNumber = captureCertificateDetailsFormModel.referenceNumber,
+      certificateDate = "10115", // TODO replace these four vars with validated form values
+      certificateTime = "123059",
+      certificateDocumentCount = "1",
+      certificateRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
