@@ -21,7 +21,7 @@
           <p>
               @csrfTokenHiddenField()
               @* Note the reverse routing syntax for the hyperlink *@
-              <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_assign_beforeyoustart.button")</a>
+              <a class="button" id="@NextId" href="@VehicleLookup.present()" role="button">@Messages("vrm_assign_beforeyoustart.button")</a>
           </p>
           <p><strong>@Messages("vrm_assign_beforeyoustart.p3")</strong></p>
           <ul>
