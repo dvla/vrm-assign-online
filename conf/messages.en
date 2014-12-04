@@ -439,6 +439,16 @@ error.validPrVrm = Must be valid format
 pr-vrm = Personal registration number
 reference-number = Certificate Document Reference Number
 
+certificate-document-count = Certificate document count
+certificate-date = Certificate date
+certificate-time = Certificate time
+certificate-registration-mark = Certificate registration mark
+
+error.validCertificateDocumentCount = Must not be blank
+error.validCertificateDate = Must be 5 digits
+error.validCertificateTime = Must be 6 digits
+error.validCertificateRegistrationMark = Must be valid format
+
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper and new registration
 vrm_assign_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
