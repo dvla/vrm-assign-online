@@ -5,8 +5,11 @@ import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnValid
 
 object AddressLookupServiceConstants {
 
-  final val CertificateReferenceNumberValid = "12345678990"
-  final val CertificatePrVrmValid = "AA11"
+//  final val CertificateDocumentCountValid = "1"
+//  final val CertificateDateValid = "12345"
+//  final val CertificateTimeValid = "123456"
+//  final val CertificateRegistrationMarkValid = "CV12QAS"
+//  final val CertificatePrVrmValid = "AA11"
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
   final val TraderBusinessEmailValid = "business.example@email.com"

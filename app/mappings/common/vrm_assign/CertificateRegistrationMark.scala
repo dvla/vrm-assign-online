@@ -14,7 +14,7 @@ object CertificateRegistrationMark {
 
   // TODO move to a constraints package
   def validCertificateRegistrationMark: Constraint[String] = pattern(
-    regex = """^[0-9][0-9\s\-\'\,]*$""".r,
+    regex = """^[a-zA-Z0-9][a-zA-Z0-9\s\-\'\,]*$""".r,
     name = "constraint.validCertificateRegistrationMark",
     error = "error.validCertificateRegistrationMark")
 }

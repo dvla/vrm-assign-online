@@ -69,13 +69,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         validForm => {
           bruteForceAndLookup(
             validForm.prVrm,
-            validForm.referenceNumber,
             validForm)
         }
       )
   }
 
-  def bruteForceAndLookup(prVrm: String, referenceNumber: String, form: Form)
+  def bruteForceAndLookup(prVrm: String, form: Form)
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
@@ -117,7 +116,10 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
   private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) =
     (form /: List(
-      (ReferenceNumberId, "error.validReferenceNumber"),
+      (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
+      (CertificateDateId, "error.validCertificateDate"),
+      (CertificateTimeId, "error.validCertificateTime"),
+      (CertificateRegistrationMarkId, "error.validCertificateRegistrationMark"),
       (PrVrmId, "error.validPrVrm"))) {
       (form, error) =>
         form.replaceError(error._1, FormError(
@@ -197,7 +199,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
       certificateDate = captureCertificateDetailsFormModel.certificateDate,
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
-      certificateDocumentCount =captureCertificateDetailsFormModel.certificateDocumentCount,
+      certificateDocumentCount = captureCertificateDetailsFormModel.certificateDocumentCount,
       certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
       replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
