@@ -195,10 +195,10 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
-      certificateDate = "10115", // TODO replace these four vars with validated form values
-      certificateTime = "123059",
-      certificateDocumentCount = "1",
-      certificateRegistrationMark = captureCertificateDetailsFormModel.prVrm,
+      certificateDate = captureCertificateDetailsFormModel.certificateDate,
+      certificateTime = captureCertificateDetailsFormModel.certificateTime,
+      certificateDocumentCount =captureCertificateDetailsFormModel.certificateDocumentCount,
+      certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
       replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
