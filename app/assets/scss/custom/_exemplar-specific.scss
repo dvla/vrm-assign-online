@@ -111,3 +111,39 @@ so copied to assign may want to be moved to common*/
 .vrm-assign-online .alert-warning {
     color:#000;
 }
+
+.vrm-assign-online .certificate-details {
+    .form-item {
+        margin: 0px;
+        padding: 0px;
+        clear:none;
+        padding-bottom: 0px;
+    }
+    label {
+        padding-bottom: 0px;
+    }
+    .form-hint {
+        clear: both;
+        padding-top:20px;
+    }
+
+    #certificate-document-count {
+        float:left;
+        width:30px;
+        text-align:center;
+    }
+
+    #certificate-date, #certificate-time, #certificate-registration-mark {
+        float:left;
+        width:95px;
+        margin-left:10px;
+        text-align:center;
+    }
+    #certificate-date {
+        width:80px;
+    }
+    #certificate-registration-mark {
+        width:105px;
+    }
+
+}

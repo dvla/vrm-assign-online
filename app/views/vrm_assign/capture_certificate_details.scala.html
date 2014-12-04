@@ -24,35 +24,37 @@
         <div class="two-col">
 
             <div class="second-col inline-form">
-                <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
-                <div class="uppercase-input">
-                @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
-                    args =
-                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberlabel"),
-                                '_showConstraints -> false,
-                                'maxLength -> CertificateDocumentCount.MaxLength))
-                @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
-                    args =
-                            Map('_label -> "",
-                                '_showConstraints -> false,
-                                'maxLength -> CertificateDate.MaxLength))
-                @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
-                    args =
-                            Map('_label -> "",
-                                '_showConstraints -> false,
-                                'maxLength -> CertificateTime.MaxLength))
-                @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
-                    args =
-                            Map('_label -> "",
-                                '_showConstraints -> false,
-                                'minLength -> CertificateRegistrationMark.MinLength,
-                                'maxLength -> CertificateRegistrationMark.MaxLength))
-                <span class="form-hint">
-                    @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
-                    </br>@Messages("capture-certificate-details-reference-number-helper-1")
-                    </br>@Messages("capture-certificate-details-reference-number-helper-2")
-                </span>
-                </br>
+                <div class="certificate-details">
+                    <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
+                    <div class="uppercase-input">
+                    @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
+                        args =
+                        Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberlabel"),
+                                    '_showConstraints -> false,
+                                    'maxLength -> CertificateDocumentCount.MaxLength))
+                    @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
+                        args =
+                                Map('_label -> "",
+                                    '_showConstraints -> false,
+                                    'maxLength -> CertificateDate.MaxLength))
+                    @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
+                        args =
+                                Map('_label -> "",
+                                    '_showConstraints -> false,
+                                    'maxLength -> CertificateTime.MaxLength))
+                    @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
+                        args =
+                                Map('_label -> "",
+                                    '_showConstraints -> false,
+                                    'minLength -> CertificateRegistrationMark.MinLength,
+                                    'maxLength -> CertificateRegistrationMark.MaxLength))
+                    <span class="form-hint">
+                        @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
+                        </br>@Messages("capture-certificate-details-reference-number-helper-1")
+                        </br>@Messages("capture-certificate-details-reference-number-helper-2")
+                    </span>
+                    </br>
+                    </div>
                 </div>
                 <div class="uppercase-input">
                 @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
