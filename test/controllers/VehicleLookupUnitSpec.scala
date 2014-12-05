@@ -339,7 +339,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         ("currentVrm", RegistrationNumberWithSpaceValid),
         ("make", VehicleMakeValid.get),
         ("model", VehicleModelValid.get),
-        ("keeperName", "Mr David Jones"),
+        ("keeperName", "MR DAVID JONES"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, SWANSEA, SA1 1AA")
       )
       val result = vehicleLookup.submit(request)

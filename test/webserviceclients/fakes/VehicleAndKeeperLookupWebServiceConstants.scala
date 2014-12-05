@@ -21,9 +21,9 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val BusinessConsentValid = "Business"
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
-  final val KeeperTitleValid = Some("Mr")
-  final val KeeperLastNameValid = Some("Jones")
-  final val KeeperFirstNameValid = Some("David")
+  final val KeeperTitleValid = Some("MR")
+  final val KeeperLastNameValid = Some("JONES")
+  final val KeeperFirstNameValid = Some("DAVID")
   final val KeeperAddressLine1Valid = Some("1 High Street")
   final val KeeperAddressLine2Valid = Some("Skewen")
   final val KeeperAddressLine3Valid = None
