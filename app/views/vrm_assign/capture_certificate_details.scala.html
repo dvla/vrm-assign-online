@@ -22,49 +22,58 @@
         @csrfTokenHiddenField()
 
         <div class="two-col">
-
             <div class="second-col inline-form">
                 <div class="certificate-details">
-                    <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
-                    <div class="uppercase-input">
-                    @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
-                        args =
-                        Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberlabel"),
-                                    '_showConstraints -> false,
-                                    'maxLength -> CertificateDocumentCount.MaxLength))
-                    @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
-                        args =
-                                Map('_label -> "",
-                                    '_showConstraints -> false,
-                                    'maxLength -> CertificateDate.MaxLength))
-                    @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
-                        args =
-                                Map('_label -> "",
-                                    '_showConstraints -> false,
-                                    'maxLength -> CertificateTime.MaxLength))
-                    @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
-                        args =
-                                Map('_label -> "",
-                                    '_showConstraints -> false,
-                                    'minLength -> CertificateRegistrationMark.MinLength,
-                                    'maxLength -> CertificateRegistrationMark.MaxLength))
-                    <span class="form-hint">
+                    <h2>
+                        @Messages("vrm_assign_capturecertificatedetails.title")
+                    </h2>
+                    <label class="reference-number-label">
+                        @Messages("vrm_assign_capturecertificatedetails.referencenumberlabel")
+                    </label>
+                    <div class="form-hint">
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
-                        </br>@Messages("capture-certificate-details-reference-number-helper-1")
-                        </br>@Messages("capture-certificate-details-reference-number-helper-2")
-                    </span>
-                    </br>
+                    </div>
+                    <div class="uppercase-input">
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateDocumentCount.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateDate.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateTime.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'minLength -> CertificateRegistrationMark.MinLength,
+                                        'maxLength -> CertificateRegistrationMark.MaxLength))
+                    </div>
+                    <div class="form-hint">
+                        @Messages("capture-certificate-details-reference-number-helper-1")
+                        <br />
+                        @Messages("capture-certificate-details-reference-number-helper-2")
                     </div>
                 </div>
+                <br />
                 <div class="uppercase-input">
-                @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
-                    args =
-                            Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
-                                '_showConstraints -> false,
-                                'maxLength -> VehicleRegistrationNumber.MaxLength))
+                    @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
+                        args =
+                                Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
+                                    '_showConstraints -> false,
+                                    'maxLength -> VehicleRegistrationNumber.MaxLength))
                 </div>
                 <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_capturecertificatedetails.button")</button>
+                    <button id="@SubmitId" type="submit" name="action" class="button">
+                        @Messages("vrm_assign_capturecertificatedetails.button")
+                    </button>
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>
