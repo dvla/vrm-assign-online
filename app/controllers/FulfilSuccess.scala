@@ -35,10 +35,11 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
+      request.cookies.getModel[CaptureCertificateDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsFormModel), Some(fulfilModel)) =>
+      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -55,6 +56,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               businessDetails.email,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
+              captureCertificateDetailsModel,
               fulfilModel,
               transactionId,
               confirmFormModel,
@@ -69,6 +71,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               keeperEmail,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
+              captureCertificateDetailsModel,
               fulfilModel,
               transactionId,
               confirmFormModel,
@@ -96,7 +99,10 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          pdfService.create(transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " + vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+          pdfService.create(transactionId,
+            vehicleAndKeeperDetails.firstName.getOrElse("") + " " + vehicleAndKeeperDetails.lastName.getOrElse(""),
+            vehicleAndKeeperDetails.address,
+            captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)
               val dataContent = Enumerator.fromStream(inputStream)
@@ -137,7 +143,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         certificateTime = "111111",
         certificateRegistrationMark = "A1",
         prVrm = "A1"),
-      fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
+      captureCertificateDetailsModel = CaptureCertificateDetailsModel(None, List.empty, 0),
+        fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       htmlEmail = new HtmlEmail(),
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),

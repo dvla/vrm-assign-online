@@ -6,7 +6,8 @@ keeperName: String,
 keeperAddress: String,
 amount: String,
 replacementVRM: String,
-crownContentId: String,
+        outstandingDates: List[String],
+        crownContentId: String,
 openGovernmentLicenceContentId: String,
 crestId: String,
 keeperEmail: Option[String],
@@ -20,7 +21,7 @@ isKeeper: Boolean)(implicit lang: Lang)
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@Messages("email.title", vrm)</title>
+    <title>@Messages("email.title", replacementVRM)</title>
     <!-- Targeting Windows Mobile -->
     <!--[if IEMobile 7]>
     <style type="text/css">
@@ -172,7 +173,7 @@ isKeeper: Boolean)(implicit lang: Lang)
                         style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif; text-align: center; color: #fff; background: #28A287; padding: 0 30px;"
                         align="center" bgcolor="#28A287">
                         <h1 style="color: #fff !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line6", vrm)</h1>
+                            @Messages("email.line6", replacementVRM)</h1>
 
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line7")</p>
@@ -227,7 +228,6 @@ isKeeper: Boolean)(implicit lang: Lang)
                             </div>
                         }
 
-
                         <div class="oneThird" style="width: 33%; float: left;">
                             <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
@@ -242,6 +242,24 @@ isKeeper: Boolean)(implicit lang: Lang)
                                 }
                             </div>
                         </div>
+
+                        @if(!outstandingDates.isEmpty) {
+
+                            <div class="twoThirds" style="width : 66 % ; float : left ;">
+                            <div style="padding : 5 px ;">
+                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <strong>@Messages("email.line29")</strong></p>
+                                <p>@Messages("email.line30")</p>
+
+                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                @for(payment <- outstandingDates) {
+                                    @payment.split("£")(0)
+                                    <span class="renewalFee">£@payment.split("£")(1)</span><br>
+                                    }
+                            </div>
+                        </div>
+                        }
+
                         <div class="clearfix" style="clear: both;"></div>
                     </td>
                 </tr>

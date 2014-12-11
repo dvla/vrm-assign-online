@@ -56,7 +56,8 @@ final class Success @Inject()(pdfService: PdfService,
         pdfService.create(transactionId,
           vehicleAndKeeperDetails.title.getOrElse("") + " " +
             vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
-            vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+            vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address,
+            captureCertificateDetailsFormModel.prVrm.replace(" ","")).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)

@@ -647,6 +647,10 @@ email.line25 = A Retention Certificate for the assigned registration number
 email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed above and we will do our upmost to resolve their query promptly.
 email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
 email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
+email.line29 = Outstanding Renewal Fees Paid
+email.line30 = Having identified outstanding renewal fees for the registration number you assigned, you agreed to pay those fees a summary of which is below:
+
+
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
 email.email_service_impl.subject = Your Assign of Registration Number
