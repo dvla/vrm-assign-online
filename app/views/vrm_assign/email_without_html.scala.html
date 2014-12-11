@@ -1,5 +1,6 @@
 @(vrm: String,
-transactionId: String,
+        retentionCertId: String,
+        transactionId: String,
 transactionTimestamp: String,
 keeperName: String,
 keeperAddress: String,
@@ -15,6 +16,7 @@ isKeeper: Boolean)(implicit lang: Lang)
 @Messages("email.line1")
 @Messages("email.line2")
 @Messages("email.line3")
+    @retentionCertId
 @Messages("email.line4")
 @transactionTimestamp
 @Messages("email.line5")

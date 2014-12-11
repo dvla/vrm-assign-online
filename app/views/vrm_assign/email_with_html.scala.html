@@ -1,5 +1,6 @@
 @(vrm: String,
-transactionId: String,
+        retentionCertId: String,
+        transactionId: String,
 transactionTimestamp: String,
 keeperName: String,
 keeperAddress: String,
@@ -147,6 +148,11 @@ isKeeper: Boolean)(implicit lang: Lang)
                         <table class="transDetails"
                                style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                             <tr>
+                                <td style="border-collapse: collapse; width: 33%; text-align: center; padding: 30px 0; font-family: Helvetica, Arial, sans, serif;"
+                                align="center">
+                                    @Messages("email.line3")
+                                <br/><strong>@retentionCertId</strong>
+                                </td>
                                 <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; width: 33%; text-align: center; padding: 30px 0;"
                                     align="center">
                                     @Messages("email.line4")

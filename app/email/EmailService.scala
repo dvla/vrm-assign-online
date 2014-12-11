@@ -8,6 +8,7 @@ trait EmailService {
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                 fulfilModel: FulfilModel,
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
@@ -15,6 +16,7 @@ trait EmailService {
                 isKeeper: Boolean)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                  captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                   fulfilModel: FulfilModel,
                   transactionId: String,
                   htmlEmail: HtmlEmail,
