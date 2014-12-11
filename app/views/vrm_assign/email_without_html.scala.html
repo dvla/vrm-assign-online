@@ -27,12 +27,7 @@ isKeeper: Boolean)(implicit lang: Lang)
     @Messages("email.line8")
 }
 @Messages("email.line8")
-@Messages("email.line9")
-@Html(Messages("email.line10") + vrm + Messages("email.line11"))
-@replacementVRM
-@if(!isKeeper) {
-    @Messages("email.line12")
-}
+
 @Messages("email.line13")
 @businessDetailsModel.map { businessDetails =>
     @Messages("email.line14")
