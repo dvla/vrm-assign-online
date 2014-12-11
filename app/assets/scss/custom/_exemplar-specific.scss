@@ -115,13 +115,16 @@ so copied to assign may want to be moved to common*/
         padding: 0px;
         clear:none;
         padding-bottom: 0px;
+        display: inline-block;
+        // below fix for IE7 inline-block
+        zoom: 1;
+        *display: inline;
     }
     label {
         padding-bottom: 0px;
     }
     .form-hint {
         clear: both;
-        padding-top:20px;
     }
 
     #certificate-document-count {
