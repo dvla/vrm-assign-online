@@ -3,6 +3,8 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
+    @import uk.gov.dvla.vehicles.presentation.common
+    @import common.views.html.widgets.base.valtechDeclareCheck
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
@@ -32,6 +34,14 @@
                 <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
             </dl>
             <br/>
+            @valtechDeclareCheck(confirmForm(GranteeConsentId),
+                args = Map(
+                    '_showConstraints -> false,
+                    'autofocus -> true,
+                    '_label -> Messages("vrm_assign_confirm.granteeConsent")
+                )
+            )
+            </br>
             <details>
                 <summary><span class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
                 <div class="panel-indent">
