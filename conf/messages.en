@@ -439,11 +439,10 @@ error.validPrVrm = Must be valid format
 pr-vrm = Personal registration number
 reference-number = Certificate Document Reference Number
 
-certificate-document-count = Certificate document count
-certificate-date = Certificate date
-certificate-time = Certificate time
-certificate-id = Certificate ID
-certificate-registration-mark = Certificate registration mark
+certificate-document-count = Box 1, Certificate document count
+certificate-date = Box 2, Certificate date
+certificate-time = Box 3, Certificate time
+certificate-registration-mark = Box 4, Certificate registration mark
 
 error.validCertificateDocumentCount = Must not be blank
 error.validCertificateDate = Must be 5 digits
