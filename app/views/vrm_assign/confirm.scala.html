@@ -65,23 +65,16 @@
             'maxLength -> KeeperEmailMaxLength
             )
             )
-            <h3>@Messages("vrm_assign_confirm.newRegTitle")</h3>
-            <p>@Messages("vrm_assign_confirm.newRegp1")</p>
+            <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
 
             @if(confirmViewModel.outstandingPaymentAmount > 0) {
                 <p>@Messages("vrm_assign_confirm.outstandingFees")</p>
-                <h3>@Messages("vrm_assign_confirm.outstandingFees.h1")</h3>
                 @for(payment <- confirmViewModel.outstandingPaymentList) {
                     @payment.split("£")(0)
                     <span class="renewalFee">£@payment.split("£")(1)</span><br>
                 }
-            <hr/>
             <br>
 
-            <p>@Messages("vrm_assign_confirm.newRegp2")</p>
-            <div class="info-notice">
-                <p><strong>@Messages("vrm_assign_confirm.outstandingFeesWarn")</strong></p>
-            </div>
             }
         </div>
         <div class="first-col">
