@@ -114,7 +114,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.postcode, session.trackingId)
+    addressLookupService.fetchAddressesForPostcode(postcode = model.postcode, trackingId = session.trackingId, showBusinessName = Some(true))
 
   private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {

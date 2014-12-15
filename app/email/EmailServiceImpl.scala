@@ -24,6 +24,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+                         captureCertificateDetailsModel: CaptureCertificateDetailsModel,
                          fulfilModel: FulfilModel,
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
@@ -31,7 +33,10 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          isKeeper: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if ((config.emailWhitelist(0) == "") || (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase)) {
-      pdfService.create(transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
+      pdfService.create(transactionId,
+        vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
+        vehicleAndKeeperDetailsModel.address,
+        captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
@@ -50,8 +55,10 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "eV948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
-            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
-            val message = htmlMessage(vehicleAndKeeperDetailsModel, fulfilModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, isKeeper).toString()
+            val plainTextMessage = populateEmailWithoutHtml(
+              vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
+              confirmFormModel, businessDetailsModel, isKeeper)
+            val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, isKeeper).toString()
             val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
 
             htmlEmail.
@@ -78,6 +85,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   }
 
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                           captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+                           captureCertificateDetailsModel: CaptureCertificateDetailsModel,
                            fulfilModel: FulfilModel,
                            transactionId: String,
                            htmlEmail: HtmlEmail,
@@ -98,12 +107,17 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     }
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
+      retentionCertId = captureCertificateDetailsFormModel.certificateDocumentCount + " " +
+        captureCertificateDetailsFormModel.certificateDate + " " +
+        captureCertificateDetailsFormModel.certificateTime + " " +
+        captureCertificateDetailsFormModel.certificateRegistrationMark,
       transactionId = transactionId,
       transactionTimestamp = fulfilModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.renewalFee.toDouble / 100.0).toString,
-      replacementVRM = "A1", // TODO eligibilityModel.replacementVRM,
+      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+      outstandingDates = captureCertificateDetailsModel.outstandingDates,
       crownContentId = crownContentId,
       openGovernmentLicenceContentId = openGovernmentLicenceContentId,
       crestId = crestId,
@@ -115,6 +129,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   }
 
   private def populateEmailWithoutHtml(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                       captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+                                       captureCertificateDetailsModel: CaptureCertificateDetailsModel,
                                        fulfilModel: FulfilModel,
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
@@ -122,12 +138,17 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                        isKeeper: Boolean): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
+      retentionCertId = captureCertificateDetailsFormModel.certificateDocumentCount + " " +
+        captureCertificateDetailsFormModel.certificateDate + " " +
+        captureCertificateDetailsFormModel.certificateTime + " " +
+        captureCertificateDetailsFormModel.certificateRegistrationMark,
       transactionId = transactionId,
       transactionTimestamp = fulfilModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.renewalFee.toDouble / 100.0).toString,
-      replacementVRM = "A1", // TODO eligibilityModel.replacementVRM,
+      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+      outstandingDates = captureCertificateDetailsModel.outstandingDates,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),

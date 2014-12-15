@@ -11,7 +11,7 @@ import views.vrm_assign
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails._
-import views.vrm_assign.Confirm.{KeeperEmailCacheKey}
+import views.vrm_assign.Confirm.{GranteeConsentCacheKey, KeeperEmailCacheKey}
 import views.vrm_assign.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
@@ -160,6 +160,12 @@ object CookieFactoryForUISpecs {
   def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
     val key = KeeperEmailCacheKey
     addCookie(key, keeperEmail)
+    this
+  }
+
+  def granteeConsent(granteeConsent: String = GranteeConsentValid)(implicit webDriver: WebDriver) = {
+    val key = GranteeConsentCacheKey
+    addCookie(key, granteeConsent)
     this
   }
 

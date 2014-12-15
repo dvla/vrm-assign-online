@@ -18,7 +18,7 @@
                 </div>
 
                 <p><strong>Transaction ID:</strong> @successViewModel.transactionId</p>
-                <p><strong>Date of assignment:</strong> @successViewModel.transactionTimestamp</p>
+                <p><strong>Date of Transaction:</strong> @successViewModel.transactionTimestamp</p>
 
                 <h2>@Messages("vrm_assign_success.h2")</h2>
                 <h3>@Messages("vrm_assign_success.h3a")</h3>
@@ -43,8 +43,8 @@
         </div>
 
         @if(isKeeper) {
-            <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")</p>
-            <p>@Messages("vrm_assign_success.p2")</p>
+            <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")
+            @Messages("vrm_assign_success.p2")</p>
         } else {
             <div class="info-highlight two-col">
                 <div class="second-col">
