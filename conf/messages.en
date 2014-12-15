@@ -439,6 +439,7 @@ reference-number = Certificate Document Reference Number
 certificate-document-count = Certificate document count
 certificate-date = Certificate date
 certificate-time = Certificate time
+certificate-id = Certificate ID
 certificate-registration-mark = Certificate registration mark
 
 error.validCertificateDocumentCount = Must not be blank
