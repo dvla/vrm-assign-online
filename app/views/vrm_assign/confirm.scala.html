@@ -53,7 +53,10 @@
                 </details>
                 <br>
                 </br>
-                @valtechInputText(confirmForm(KeeperEmailId), hintText = Some(Messages("vrm_assign_confirm.emailHint")),
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    hintText = {
+                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_assign_confirm.emailKeeper")) else Some(Messages("vrm_assign_confirm.emailTrade"))
+                    },
                     args = Map(
                         'optionalFieldKey -> true,
                         '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),

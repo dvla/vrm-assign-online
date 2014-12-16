@@ -483,7 +483,8 @@ vrm_assign_confirm.emailWarnp4 = For more information on how to update your deta
 vrm_assign_confirm.emailWarnp4link = ''Change vehicle details on a V5C registration certificate (log book)''
 vrm_assign_confirm.emailWarnLinkText = update your details
 vrm_assign_confirm.outstandingFeesWarn = All outstanding fees need to be paid in full prior to the registration number being put on a vehicle
-vrm_assign_confirm.emailHint = Supply the keeper''s email address to receive a summary of the transaction
+vrm_assign_confirm.emailKeeper = Supply an email address to receive a summary of the transaction and payment receipt if renewal fees are due
+vrm_assign_confirm.emailTrade = Supply your customer''s email address to receive a summary of the transaction
 vrm_assign_confirm.storeDetailsConsent = Remember these details
 vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
 
