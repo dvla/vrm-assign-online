@@ -14,13 +14,55 @@
         <div class="two-col assign-success">
             <div class="second-col">
                 <div class="alert-complete">
-                    <h2>@Messages("vrm_assign_success.subtitle") <span class="reg-number">@successViewModel.prVrm</span> </h2>
+                    <h2>@Messages("vrm_assign_success.subtitle")</h2>
+                    <span class="reg-number">@successViewModel.prVrm</span> 
                 </div>
 
                 <p><strong>Date of Transaction:</strong> @successViewModel.transactionTimestamp</p>
 
                 <h2>@Messages("vrm_assign_success.h2")</h2>
                 <h3>@Messages("vrm_assign_success.h3a")</h3>
+
+                @if(isKeeper) {
+                    <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")
+                    @Messages("vrm_assign_success.p2")</p>
+                } else {
+                    <div class="info-highlight two-col">
+                        <div class="second-col">
+                            <h3>@Messages("vrm_assign_success_payment.p6")</h3>
+                            <p>@Messages("vrm_assign_success_payment.p7")</p>
+                        </div>
+                        <div class="first-col">
+                            <a class="pdf-link" href="@controllers.routes.Success.createPdf()">
+                                <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                                @Messages("vrm_assign_success.newPlateLink")
+                            </a>
+                        </div>
+                    </div>
+                    <div class="info-notice">
+                        <p>@Messages("vrm_assign_success_payment.p4")</p>
+                        <p>@Messages("vrm_assign_success_payment.p5")</p>
+                    </div>
+                }
+
+                <h3>@Messages("vrm_assign_success.h3b")</h3>
+                <ul class="email-list">
+                    <li>@Messages("vrm_assign_success.listItem1")</li>
+                    <li>@Messages("vrm_assign_success.listItem2")</li>
+                    <li>@Messages("vrm_assign_success.listItem3")</li>
+                    <li>@Messages("vrm_assign_success.listItem4")</li>
+                    <li>@Messages("vrm_assign_success.listItem5")</li>
+                    <li>@Messages("vrm_assign_success.listItem6")</li>
+                </ul>
+
+                <div class="form-steps">
+                    <div class="step">
+                        <button id="printDisposalSuccess" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+                        <br /><br />
+                        <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
+                    </div>
+                </div>
+                
             </div>
             <div class="first-col">
                 <div class="playback">
@@ -42,45 +84,6 @@
                     </dl>
                 </div>
             </div>
-        </div>
 
-        @if(isKeeper) {
-            <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong> @Messages("vrm_assign_success.p1b")
-            @Messages("vrm_assign_success.p2")</p>
-        } else {
-            <div class="info-highlight two-col">
-                <div class="second-col">
-                    <h3>@Messages("vrm_assign_success_payment.p6")</h3>
-                    <p>@Messages("vrm_assign_success_payment.p7")</p>
-                </div>
-                <div class="first-col">
-                    <a class="pdf-link" href="@controllers.routes.Success.createPdf()">
-                        <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
-                        @Messages("vrm_assign_success.newPlateLink")
-                    </a>
-                </div>
-            </div>
-            <div class="info-notice">
-                <p>@Messages("vrm_assign_success_payment.p4")</p>
-                <p>@Messages("vrm_assign_success_payment.p5")</p>
-            </div>
-        }
-
-        <h3>@Messages("vrm_assign_success.h3b")</h3>
-        <ul class="email-list">
-            <li>@Messages("vrm_assign_success.listItem1")</li>
-            <li>@Messages("vrm_assign_success.listItem2")</li>
-            <li>@Messages("vrm_assign_success.listItem3")</li>
-            <li>@Messages("vrm_assign_success.listItem4")</li>
-            <li>@Messages("vrm_assign_success.listItem5")</li>
-            <li>@Messages("vrm_assign_success.listItem6")</li>
-        </ul>
-
-        <div class="form-steps">
-            <div class="step">
-                <button id="printDisposalSuccess" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
-                <br /><br />
-                <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
-            </div>
         </div>
     }
