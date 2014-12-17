@@ -5,7 +5,10 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json._
 
 case class VrmAssignEligibilityRequest(currentVehicleRegistrationMark: String,
-                                       certificateNumber: String,
+                                       certificateDocumentCount: String,
+                                       certificateRegistrationMark: String,
+                                       certificateDate: String,
+                                       certificateTime: String,
                                        replacementVehicleRegistrationMark: String,
                                        v5DocumentReference: String,
                                        transactionTimestamp: DateTime)

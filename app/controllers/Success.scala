@@ -49,19 +49,22 @@ final class Success @Inject()(pdfService: PdfService,
   }
 
   def createPdf = Action.async { implicit request =>
-    (request.cookies.getModel[CaptureCertificateDetailsModel],
+    (request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-      case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-        pdfService.create(transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
-          vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+      case (Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
+        pdfService.create(transactionId,
+          vehicleAndKeeperDetails.title.getOrElse("") + " " +
+            vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
+            vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address,
+            captureCertificateDetailsFormModel.prVrm.replace(" ","")).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)
             // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
             // and manually test after making any change.
-            val newVRM = "" // TODO eligibilityModel.replacementVRM.replace(" ", "")
-          val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+            val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ","")
+          val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
             Ok.feed(dataContent).
               withHeaders(
                 CONTENT_TYPE -> "application/pdf",

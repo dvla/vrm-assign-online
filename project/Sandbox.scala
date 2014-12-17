@@ -9,8 +9,8 @@ import sbt._
 import scala.sys.process.Process
 
 object Sandbox extends Plugin {
-  final val VersionOsAddressLookup = "0.4-SNAPSHOT"
-  final val VersionVehicleAndKeeperLookup = "0.2-SNAPSHOT"
+  final val VersionOsAddressLookup = "0.7-SNAPSHOT"
+  final val VersionVehicleAndKeeperLookup = "0.4-SNAPSHOT"
   final val VersionVrmAssignEligibility = "0.3-SNAPSHOT"
   final val VersionVrmAssignFulfil = "0.3-SNAPSHOT"
   final val VersionPaymentSolve= "0.3-SNAPSHOT"

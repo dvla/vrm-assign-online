@@ -31,20 +31,22 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getModel[FulfilModel]) match {
-      case (_, _, Some(fulfilModel)) =>
+      request.cookies.getModel[FulfilModel],
+      request.cookies.getString(GranteeConsentCacheKey)) match {
+      case (_, _, Some(fulfilModel), _) =>
         Future.successful {
           Redirect(routes.PaymentPreventBack.present())
         }
-      case (None, _, None) =>
+      case (None, _, None, _) =>
         Future.successful {
           paymentFailure("missing TransactionIdCacheKey cookie")
         }
-      case (_, None, None) =>
+      case (_, None, None, _) =>
         Future.successful {
           paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
         }
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None) =>
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
+        if (granteeConsent == "true") =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
         paymentFailure("Payment failed matching cookies")

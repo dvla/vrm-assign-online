@@ -21,17 +21,17 @@ import scala.concurrent.Future
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
-  def create(transactionId: String, name: String, address: Option[AddressModel]): Future[Array[Byte]] = Future {
+  def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Future[Array[Byte]] = Future {
     val output = new ByteArrayOutputStream()
-    v948(transactionId, name, address, output)
+    v948(transactionId, name, address, prVrm, output)
     output.toByteArray
   }
 
-  private def v948(transactionId: String, name: String, address: Option[AddressModel], output: OutputStream) = {
+  private def v948(transactionId: String, name: String, address: Option[AddressModel], prVrm: String, output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
-    document.addPage(page1(transactionId, name, address, document))
+    document.addPage(page1(transactionId, name, address, prVrm, document))
     document.addPage(blankPage)
     var documentWatermarked: PDDocument = null
     try {
@@ -46,14 +46,14 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit transactionId: String, name: String, address: Option[AddressModel], document: PDDocument): PDPage = {
+  private def page1(implicit transactionId: String, name: String, address: Option[AddressModel], prVrm: String, document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
       contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
       writeCustomerNameAndAddress(name, address)
-      writeVrn("A1") // TODO eligibilityModel.replacementVRM)
+      writeVrn(prVrm)
       writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {

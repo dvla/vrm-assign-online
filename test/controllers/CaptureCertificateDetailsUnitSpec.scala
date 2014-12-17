@@ -62,7 +62,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         ("currentVrm", RegistrationNumberValid),
         ("make", VehicleMakeValid.get),
         ("model", VehicleModelValid.get),
-        ("keeperName", "Mr David Jones"),
+        ("keeperName", "MR DAVID JONES"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
       )
 
@@ -88,7 +88,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         ("currentVrm", RegistrationNumberValid),
         ("make", VehicleMakeValid.get),
         ("model", VehicleModelValid.get),
-        ("keeperName", "Mr David Jones"),
+        ("keeperName", "MR DAVID JONES"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
       )
 

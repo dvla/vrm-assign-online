@@ -1,25 +1,28 @@
 @(vrm: String,
-transactionId: String,
+        retentionCertId: String,
+        transactionId: String,
 transactionTimestamp: String,
 keeperName: String,
 keeperAddress: String,
 amount: String,
 replacementVRM: String,
-keeperEmail: Option[String],
+        outstandingDates: List[String],
+        keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
 isKeeper: Boolean)(implicit lang: Lang)
 
 @Messages("email.withoutHtml")
-@Messages("email.title", vrm)
+@Messages("email.title", replacementVRM)
 @Messages("email.line1")
 @Messages("email.line2")
 @Messages("email.line3")
+    @retentionCertId
 @Messages("email.line4")
 @transactionTimestamp
 @Messages("email.line5")
 @transactionId
-@Messages("email.line6", vrm)
+@Messages("email.line6", replacementVRM)
 @Messages("email.line7")
 @if(isKeeper) {
     @Messages("email.line8.with-pdf")
@@ -27,12 +30,7 @@ isKeeper: Boolean)(implicit lang: Lang)
     @Messages("email.line8")
 }
 @Messages("email.line8")
-@Messages("email.line9")
-@Html(Messages("email.line10") + vrm + Messages("email.line11"))
-@replacementVRM
-@if(!isKeeper) {
-    @Messages("email.line12")
-}
+
 @Messages("email.line13")
 @businessDetailsModel.map { businessDetails =>
     @Messages("email.line14")
@@ -44,6 +42,12 @@ isKeeper: Boolean)(implicit lang: Lang)
 @keeperName
 @keeperAddress
 @keeperEmail.getOrElse("")
+@Messages("email.line29")
+@Messages("email.line30")
+@for(payment <- outstandingDates) {
+    @payment.split("£")(0)
+    £@payment.split("£")(1)
+}
 @Messages("email.line21")
 @Messages("email.line22")
 @Messages("email.line23")

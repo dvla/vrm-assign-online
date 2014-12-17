@@ -28,9 +28,9 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
     } yield {
-      val formModel = ConfirmFormModel(None)
+      val formModel = ConfirmFormModel(None, "")
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
-        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees)
+        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
       Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -51,15 +51,18 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
         key = id,
         message = msgId,
         args = Seq.empty
-      )
+      )).replaceError(
+        GranteeConsentId,
+        "error.required",
+        FormError(key = GranteeConsentId, message = "vrm_assign_confirm.grantee_consent.notgiven", args = Seq.empty)
     )
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
 
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
-
-      val cookies = List(keeperEmail).flatten
+      val granteeConsent = Some(CookieKeyValue(GranteeConsentCacheKey, model.granteeConsent))
+      val cookies = List(keeperEmail, granteeConsent).flatten
 
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
@@ -96,7 +99,8 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]    }
     yield {
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
-        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees)
+        captureCertDetails.outstandingDates, captureCertDetails.outstandingFees,
+        vehicleAndKeeperLookupForm.userType)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm))
     }

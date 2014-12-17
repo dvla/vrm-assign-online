@@ -108,8 +108,8 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
                 VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
                   withCookie(VehicleAndKeeperDetailsModel.from(dto)))
               } else {
-                if (storeBusinessDetails) {
-                  val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+                val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+                if (storeBusinessDetails && businessDetailsModel.isDefined) {
                   auditService.send(AuditMessage.from(
                     pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
                     transactionId = transactionId,

@@ -30,7 +30,7 @@
                             '_showConstraints -> false,
                             'maxLength -> BusinessName.MaxLength))
                 </div>
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessemailhelper")), args =
                         Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessemaillabel"),
                             '_showConstraints -> false,
                             'maxLength -> BusinessEmailMaxLength))
@@ -45,7 +45,7 @@
                             'maxLength -> Postcode.MaxLength))
                 </div>
                 <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button" role="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
+                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>

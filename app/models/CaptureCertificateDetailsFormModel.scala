@@ -5,9 +5,13 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import views.vrm_assign.CaptureCertificateDetails._
 import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
-import mappings.common.vrm_assign.ReferenceNumber
+import mappings.common.vrm_assign._
 
-final case class CaptureCertificateDetailsFormModel(referenceNumber: String, prVrm: String)
+final case class CaptureCertificateDetailsFormModel(certificateDocumentCount: String,
+                                                    certificateDate: String,
+                                                    certificateTime: String,
+                                                    certificateRegistrationMark: String,
+                                                    prVrm: String)
 
 object CaptureCertificateDetailsFormModel {
 
@@ -17,7 +21,10 @@ object CaptureCertificateDetailsFormModel {
   object Form {
 
     final val Mapping = mapping(
-      ReferenceNumberId -> ReferenceNumber.referenceNumberMapping,
+      CertificateDocumentCountId -> CertificateDocumentCount.certificateDocumentCountMapping,
+      CertificateDateId -> CertificateDate.certificateDateMapping,
+      CertificateTimeId -> CertificateTime.certificateTimeMapping,
+      CertificateRegistrationMarkId -> CertificateRegistrationMark.certificateRegistrationMarkMapping,
       PrVrmId -> VehicleRegistrationNumber.registrationNumber
     )(CaptureCertificateDetailsFormModel.apply)(CaptureCertificateDetailsFormModel.unapply)
   }

@@ -11,7 +11,7 @@ import views.vrm_assign
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails._
-import views.vrm_assign.Confirm.{KeeperEmailCacheKey}
+import views.vrm_assign.Confirm.{GranteeConsentCacheKey, KeeperEmailCacheKey}
 import views.vrm_assign.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
@@ -163,6 +163,12 @@ object CookieFactoryForUISpecs {
     this
   }
 
+  def granteeConsent(granteeConsent: String = GranteeConsentValid)(implicit webDriver: WebDriver) = {
+    val key = GranteeConsentCacheKey
+    addCookie(key, granteeConsent)
+    this
+  }
+
   def fulfilModel(transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
     val key = FulfilCacheKey
     val value = FulfilModel(transactionTimestamp = transactionTimestamp)
@@ -208,10 +214,13 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def captureCertificateDetailsFormModel(referenceNumber: String = CertReferenceNumberValid,
+  def captureCertificateDetailsFormModel(certificateDocumentCount: String = CertificateDocumentCountValid,
+                                         certificateDate: String = CertificateDateValid,
+                                         certificateTime: String = CertificateTimeValid,
+                                         certificateRegistrationMark: String = CertificateRegistrationMarkValid,
                                          prVrm: String = PrVrmValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsFormModelCacheKey
-    val value = CaptureCertificateDetailsFormModel(referenceNumber, prVrm)
+    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
     addCookie(key, value)
     this
   }

@@ -13,7 +13,6 @@ import views.vrm_assign.VehicleLookup._
 import helpers.common.CookieHelper._
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import utils.helpers.CookieFlagsassign
 import scala.concurrent.duration.DurationInt
 import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._
@@ -69,7 +68,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
 //        ("currentVrm", "AB12AWR"),
 //        ("make", "Alfa Romeo"),
 //        ("model", "Alfasud ti"),
-//        ("keeperName","Mr David Jones"),
+//        ("keeperName","MR DAVID JONES"),
 //        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
 //        ("businessName", "example trader contact"),
 //        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),

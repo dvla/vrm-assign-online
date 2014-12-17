@@ -22,69 +22,76 @@
         @csrfTokenHiddenField()
 
         <div class="two-col">
-
             <div class="second-col inline-form">
-                <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
-                <div class="info-notice">
-                    @Messages("vrm_assign_capturecertificatedetails.p1")
+                <div class="certificate-details">
+                    <h2>
+                        @Messages("vrm_assign_capturecertificatedetails.title")
+                    </h2>
+                    <label class="reference-number-label">
+                        @Messages("vrm_assign_capturecertificatedetails.referencenumberlabel")
+                    </label>
+                    <div class="form-hint">
+                        @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
+                    </div>
+                    <div class="uppercase-input">
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateDocumentCount.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateDate.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'maxLength -> CertificateTime.MaxLength))
+                        @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
+                            args =
+                                    Map('_label -> "",
+                                        '_showConstraints -> false,
+                                        'minLength -> CertificateRegistrationMark.MinLength,
+                                        'maxLength -> CertificateRegistrationMark.MaxLength))
+                    </div>
+                    <div class="form-hint">
+                        @Messages("capture-certificate-details-reference-number-helper-1")
+                        <br />
+                        @Messages("capture-certificate-details-reference-number-helper-2")
+                    </div>
                 </div>
+                <br />
                 <div class="uppercase-input">
-                @valtechInputText(captureCertificateDetailsFormModel(ReferenceNumberId),
-                    hintText = Some(Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")),
-                    args =
-                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberlabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> ReferenceNumber.MaxLength))
-                </div>
-                <ul class="hint-list">
-                  <li>@Messages("capture-certificate-details-reference-number-helper-1")</li>
-                  <li>@Messages("capture-certificate-details-reference-number-helper-2")</li>
-                </ul>
-
-                <div class="uppercase-input">
-                @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
-                    args =
-                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
-                    '_showConstraints -> false,
-                    'maxLength -> VehicleRegistrationNumber.MaxLength))
+                    @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
+                        args =
+                                Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
+                                    '_showConstraints -> false,
+                                    'maxLength -> VehicleRegistrationNumber.MaxLength))
                 </div>
                 <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button" role="button">@Messages("vrm_assign_capturecertificatedetails.button")</button>
+                    <button id="@SubmitId" type="submit" name="action" class="button">
+                        @Messages("vrm_assign_capturecertificatedetails.button")
+                    </button>
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                    <dl class="playback">
-                <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                        <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                        <dd class="reg-number">@viewModel.registrationNumber</dd>
-                        @if(viewModel.vehicleMake.isDefined) {
-                            <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                            <dd>@viewModel.vehicleMake.get.take(20)</dd>
-                        }
-                        @if(viewModel.vehicleModel.isDefined) {
-                            <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                            <dd>@viewModel.vehicleModel.get.take(20)</dd>
-                        }
-                    </dl>
-            </div>
-            <div class="first-col">
-                <div class="related">
-                    <h3>@Messages("vrm_assign_contact.title")</h3>
-                    <dl>
-                        <dt>@Messages("vrm_assign_contact.telLabel")</dt>
-                        <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
-                        <dt>@Messages("vrm_assign_contact.texLabel")</dt>
-                        <dd><strong>@Messages("vrm_assign_contact.texNumber")</strong></dd>
-                        <dt>@Messages("vrm_assign_contact.hoursLabel")</dt>
-                        <dd>
-                            <strong>@Messages("vrm_assign_contact.hoursMonFri")</strong>
-                            <br>
-                            <strong>@Messages("vrm_assign_contact.hoursSun")</strong>
-                        </dd>
-                    </dl>
-                </div>
+                <dl class="playback">
+                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
+                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                    <dd class="reg-number">@viewModel.registrationNumber</dd>
+                    @if(viewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(viewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                    }
+                </dl>
             </div>
         </div>
     }
