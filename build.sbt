@@ -2,7 +2,6 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import Common._
-import templemore.sbt.cucumber.CucumberPlugin
 
 name := "vrm-assign-online"
 
@@ -36,7 +35,7 @@ libraryDependencies ++= {
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.4" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
@@ -61,18 +60,6 @@ libraryDependencies ++= {
     "junit" % "junit-dep" % "4.11"
   )
 }
-
-CucumberPlugin.cucumberSettings ++
-  Seq(
-    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-assign/",
-    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
-    CucumberPlugin.cucumberJunitReport := false,
-    CucumberPlugin.cucumberHtmlReport := false,
-    CucumberPlugin.cucumberPrettyReport := false,
-    CucumberPlugin.cucumberJsonReport := false,
-    CucumberPlugin.cucumberStrict := true,
-    CucumberPlugin.cucumberMonochrome := false
-  )
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
