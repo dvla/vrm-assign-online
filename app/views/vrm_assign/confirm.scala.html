@@ -3,8 +3,8 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-    @import uk.gov.dvla.vehicles.presentation.common
-    @import common.views.html.widgets.base.valtechDeclareCheck
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.base.valtechDeclareCheck
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
@@ -19,99 +19,82 @@
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-    <div class="two-col">
-        <div class="second-col">
-            <h2>@Messages("vrm_assign_confirm.title")</h2>
-            <dl>
-                <dt><strong>@Messages("vrm_assign_confirm.keeperLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</dt><br />
-                <dt><strong>@Messages("vrm_assign_confirm.keeperAddressLabel")</strong></dt>
-                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
-                    @keeperAddressLine<br>
-                    }</dt>
-                <br />
-                <dt><strong>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
-            </dl>
-            <br/>
-            @valtechDeclareCheck(confirmForm(GranteeConsentId),
-                args = Map(
-                    '_showConstraints -> false,
-                    'autofocus -> true,
-                    '_label -> Messages("vrm_assign_confirm.granteeConsent")
-                )
-            )
-            </br>
-            <details>
-                <summary><span class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
-                <div class="panel-indent">
-                    <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="#">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
-                </div>
-            </details>
-            <br>
-            <p><strong>@Messages("vrm_assign_confirm.emailAddressLabel")</strong>
-                <br />
-                <span class="form-hint form-hint-email">@Messages("vrm_assign_confirm.emailHint")</span>
-            </p>
-            @valtechInputText(confirmForm(KeeperEmailId),
-            args = Map(
-            'NO_OPTIONAL_LABEL -> true,
-            '_label -> "",
-            'hint -> Messages("vrm_assign_confirm.emailAddressHint"),
-            '_showConstraints -> false,
-            'maxLength -> KeeperEmailMaxLength
-            )
-            )
-            <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
-
-            @if(confirmViewModel.outstandingPaymentAmount > 0) {
-                <p>@Messages("vrm_assign_confirm.outstandingFees")</p>
-                @for(payment <- confirmViewModel.outstandingPaymentList) {
-                    @payment.split("£")(0)
-                    <span class="renewalFee">£@payment.split("£")(1)</span><br>
-                }
-            <br>
-
-            }
-        </div>
-        <div class="first-col">
-            <dl class="playback">
-                <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
-                @if(confirmViewModel.vehicleMake.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
-                }
-                @if(confirmViewModel.vehicleModel.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
-                }
-                <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                <dd class="reg-number">@confirmViewModel.replacementRegistration</dd>
-            </dl>
-
-            <div class="related">
-                <h3>@Messages("vrm_assign_contact.title")</h3>
+        <div class="two-col">
+            <div class="second-col">
+                <h2>@Messages("vrm_assign_confirm.title")</h2>
                 <dl>
-                    <dt>@Messages("vrm_assign_contact.telLabel")</dt>
-                    <dd><strong>@Messages("vrm_assign_contact.telNumber")</strong></dd>
-                    <dt>@Messages("vrm_assign_contact.texLabel")</dt>
-                    <dd><strong>@Messages("vrm_assign_contact.texNumber")</strong></dd>
-                    <dt>@Messages("vrm_assign_contact.hoursLabel")</dt>
-                    <dd>
-                        <strong>@Messages("vrm_assign_contact.hoursMonFri")</strong>
-                        <br>
-                        <strong>@Messages("vrm_assign_contact.hoursSun")</strong>
-                    </dd>
+                    <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
+                    <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
+                    <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
+                    <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                        <strong>@keeperAddressLine </strong><br>
+                        }</dt>
+                    <br />
+                    <dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>
+                    <dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>
+                </dl>
+                <br/>
+                @valtechDeclareCheck(confirmForm(GranteeConsentId),
+                    args = Map(
+                        '_showConstraints -> false,
+                        'autofocus -> true,
+                        '_label -> Messages("vrm_assign_confirm.granteeConsent")
+                    )
+                )
+                </br>
+                <details>
+                    <summary><span class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
+                    <div class="panel-indent">
+                        <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
+                        <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
+                        <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
+                        <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="#">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
+                    </div>
+                </details>
+                <br>
+                </br>
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    hintText = {
+                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_assign_confirm.emailKeeper")) else Some(Messages("vrm_assign_confirm.emailTrade"))
+                    },
+                    args = Map(
+                        'optionalFieldKey -> true,
+                        '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> KeeperEmailMaxLength
+                    )
+                )
+
+                @if(confirmViewModel.outstandingPaymentAmount > 0) {
+                    <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
+                    <p>@Messages("vrm_assign_confirm.outstandingFees")</p>
+                    @for(payment <- confirmViewModel.outstandingPaymentList) {
+                        @payment.split("£")(0)
+                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+                    }
+                    <br>
+
+                    }
+            </div>
+            <div class="first-col">
+                <dl class="playback">
+                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
+                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                    <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
+                    @if(confirmViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                        <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(confirmViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                        <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
+                    }
+                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+                    <dd class="reg-number">@confirmViewModel.replacementRegistration</dd>
                 </dl>
             </div>
-        </div>
 
-    </div>
+        </div>
 
         <div class="form-steps">
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
