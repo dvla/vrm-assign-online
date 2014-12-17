@@ -50,7 +50,7 @@
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
-                @if(responseCodeVehicleLookupMSErrorMessage.contains("vehicle_and_keeper_lookup_document_reference_mismatch")) {
+                @if(Seq("vehicle_and_keeper_lookup_document_reference_mismatch", "vehicle_and_keeper_lookup_keeper_postcode_mismatch").contains(responseCodeVehicleLookupMSErrorMessage)) {
                     <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }
