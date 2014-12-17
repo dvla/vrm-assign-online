@@ -432,13 +432,13 @@ vrm_assign_capturecertificatedetails.button = Next
 
 error.validReferenceNumber = You must supply a Valid Certificate Document Reference Number
 error.validPrVrm = Must be valid format
-pr-vrm = Personal registration number
+pr-vrm = Registration number
 reference-number = Certificate Document Reference Number
 
-certificate-document-count = Reference Number Box 1
-certificate-date = Reference Number Box 2
-certificate-time = Reference Number Box 3
-certificate-registration-mark = Reference Number Box 4
+certificate-document-count = Reference number Box 1
+certificate-date = Reference number Box 2
+certificate-time = Reference number Box 3
+certificate-registration-mark = Reference number Box 4
 
 error.validCertificateDocumentCount = Must not be blank
 error.validCertificateDate = Must be 5 digits
