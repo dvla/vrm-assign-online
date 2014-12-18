@@ -21,6 +21,12 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
             return false;
         });
 
+        // jQuery fallback for HTML5 summary tag
+        $('summary ~ div').hide();
+        $('summary').click(function() {
+            $('summary ~ div').toggle();
+        });
+
         // Print button
         $('.print-button').click(function() {
             window.print();
