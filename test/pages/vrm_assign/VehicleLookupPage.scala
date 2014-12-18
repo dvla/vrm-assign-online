@@ -1,6 +1,6 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_assign.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}

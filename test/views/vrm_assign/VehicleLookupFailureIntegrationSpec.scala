@@ -3,7 +3,7 @@ package views.vrm_assign
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_assign.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}

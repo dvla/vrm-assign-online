@@ -1,6 +1,6 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_assign.VehicleLookupFailure
 import VehicleLookupFailure.{ExitId, VehicleLookupId}
 import pages.ApplicationContext.applicationContext

@@ -4,7 +4,7 @@ import helpers.UiSpec
 import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.common.MainPanel.back

@@ -1,7 +1,7 @@
 package helpers.steps.hooks
 
 import cucumber.api.java.After
-import helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import org.openqa.selenium.WebDriver
 
 final class WebBrowserHooks(webBrowserDriver: WebBrowserDriver) {

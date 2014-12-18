@@ -1,6 +1,6 @@
 package pages.common
 
-import helpers.webbrowser.{Element, WebBrowserDSL}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Element, WebBrowserDSL}
 import org.openqa.selenium.WebDriver
 import views.vrm_assign.Main.BackId
 

@@ -3,7 +3,7 @@ package views.vrm_assign
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_assign._
 import views.vrm_assign.RelatedCacheKeys.{BusinessDetailsSet, AssignSet}

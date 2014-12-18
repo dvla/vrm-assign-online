@@ -1,7 +1,7 @@
 package PersonalizedAssignment
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
 
 

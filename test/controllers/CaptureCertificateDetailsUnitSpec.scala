@@ -1,9 +1,9 @@
 package controllers
 
 import audit.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestBruteForcePreventionWebService, TestDateService}
+import composition.{TestAuditService, TestBruteForcePreventionWebService, TestDateService, WithApplication}
+import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito._
 import pages.vrm_assign.LeaveFeedbackPage
 import play.api.http.Status.OK

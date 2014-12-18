@@ -1,6 +1,6 @@
 package pages.vrm_assign
 
-import helpers.webbrowser._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 import views.vrm_assign.SetupBusinessDetails
 import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
 import org.openqa.selenium.WebDriver

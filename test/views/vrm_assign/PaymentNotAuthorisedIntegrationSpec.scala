@@ -4,7 +4,7 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import pages.vrm_assign.{PaymentNotAuthorisedPage, BeforeYouStartPage, LeaveFeedbackPage}
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_assign.PaymentNotAuthorisedPage.{exit, tryAgain}
 

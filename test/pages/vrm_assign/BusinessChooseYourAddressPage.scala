@@ -1,6 +1,6 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId}

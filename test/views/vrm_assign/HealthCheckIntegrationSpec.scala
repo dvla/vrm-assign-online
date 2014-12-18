@@ -1,11 +1,12 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
-import helpers.webbrowser.{TestHarness, WebDriverFactory}
 import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost, HttpPut, HttpRequestBase}
 import org.apache.http.impl.client.HttpClients
 import pages.ApplicationContext.applicationContext
 import play.mvc.Http.Status
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
 

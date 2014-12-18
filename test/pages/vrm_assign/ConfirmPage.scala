@@ -1,6 +1,6 @@
 package pages.vrm_assign
 
-import helpers.webbrowser._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_assign.Confirm._

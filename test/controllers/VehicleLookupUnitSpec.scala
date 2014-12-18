@@ -5,9 +5,9 @@ import composition._
 import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.mockito.Mockito._

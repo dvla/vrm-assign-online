@@ -1,6 +1,6 @@
 package pages.common
 
-import helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import org.openqa.selenium.{By, WebDriver}
 
 object Accessibility extends WebBrowserDSL {
