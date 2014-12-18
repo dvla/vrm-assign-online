@@ -1,13 +1,14 @@
 package pages.vrm_assign
 
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.Page
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-object PaymentCallbackPage extends Page with WebBrowserDSL {
+object PaymentCallbackPage extends Page {
 
   def address = s"$applicationContext/payment/callback"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = "Payment processing"
 }

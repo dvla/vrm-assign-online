@@ -5,6 +5,7 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.VrmLockedPage.exit
 import pages.vrm_assign.{LeaveFeedbackPage, BeforeYouStartPage, VrmLockedPage}
 
@@ -12,15 +13,15 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup
       go to VrmLockedPage
 
-      page.url should equal(VrmLockedPage.url)
+      currentUrl should equal(VrmLockedPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VrmLockedPage
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
@@ -31,17 +32,17 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   "exit button" should {
 
-    "redirect to feedback page" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
 
       click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage

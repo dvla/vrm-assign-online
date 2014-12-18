@@ -11,56 +11,57 @@ import pages.vrm_assign.{BeforeYouStartPage, BusinessChooseYourAddressPage, Conf
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import org.scalatest.selenium.WebBrowser._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.url should equal(BusinessChooseYourAddressPage.url)
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
 
-    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
+    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowserForSelenium {
       go to BusinessChooseYourAddressPage
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
 
-    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
+    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+      pageSource.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
 
-    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
+    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.source.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
+      pageSource.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
     }
 
-    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
+    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -73,28 +74,28 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "back button" should {
-    "display previous page" taggedAs UiTag in new WebBrowser {
+    "display previous page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
       click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 
   "select button" should {
-    
-    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
+
+    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       happyPath
 
-      page.url should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
 
-    "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
+    "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       sadPath
@@ -102,7 +103,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().enterAddressManually()
       happyPath

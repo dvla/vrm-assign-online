@@ -1,6 +1,7 @@
 package views.vrm_assign
 
 import helpers.vrm_assign.CookieFactoryForUISpecs
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.{PaymentNotAuthorisedPage, BeforeYouStartPage, LeaveFeedbackPage}
 import helpers.UiSpec
 import helpers.tags.UiTag
@@ -13,20 +14,20 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowser {
+    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheNotAuthorisedSetup()
 
       go to PaymentNotAuthorisedPage
 
-      page.url should equal(PaymentNotAuthorisedPage.url)
+      currentUrl should equal(PaymentNotAuthorisedPage.url)
     }
   }
 
   // TODO restore when payment iframe is back
 //  "try again button" should {
-//    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowser {
+//    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
 //      go to BeforeYouStartPage
 //
 //      cacheNotAuthorisedSetup()
@@ -35,12 +36,12 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 //
 //      click on tryAgain
 //
-//      page.url should equal(PaymentPage.url)
+//    currentUrlrl should equal(PaymentPage.url)
 //    }
 //  }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheNotAuthorisedSetup()
@@ -49,7 +50,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
