@@ -1,6 +1,5 @@
 Feature: Registered Keeper
 
-  @HappyPath
   Scenario Outline:
     Given User is on the start page
     When he clicks starts now

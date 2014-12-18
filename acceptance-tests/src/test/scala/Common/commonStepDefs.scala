@@ -1,4 +1,4 @@
-package Common
+package common
 
 
 class commonStepDefs {
