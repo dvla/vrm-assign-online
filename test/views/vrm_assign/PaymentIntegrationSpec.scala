@@ -3,24 +3,25 @@ package views.vrm_assign
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign._
 import views.vrm_assign.RelatedCacheKeys.{BusinessDetailsSet, AssignSet}
 
 final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
       go to PaymentPage
 
-      page.url should equal(PaymentPage.url)
+      currentUrl should equal(PaymentPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VehicleLookupPage
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
@@ -28,13 +29,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowser {
+    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().fulfilModel()
 
       go to PaymentPage
 
-      page.url should equal(PaymentPreventBackPage.url)
+      currentUrl should equal(PaymentPreventBackPage.url)
     }
   }
 
@@ -42,17 +43,17 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 //  "pay now button" should
 
   "cancel" should {
-    "redirect to mock feedback page" taggedAs UiTag in new WebBrowser {
+    "redirect to mock feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
 
       click on PaymentPage.cancel
 
-      page.url should equal(LeaveFeedbackPage.url)
+  currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove AssignSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowser {
+    "remove AssignSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
@@ -65,7 +66,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove AssignSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowser {
+    "remove AssignSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().
@@ -85,7 +86,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove AssignSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowser {
+    "remove AssignSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().

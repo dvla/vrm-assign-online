@@ -3,8 +3,9 @@ package views.vrm_assign
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
 
@@ -12,39 +13,39 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the lookup unsuccessful page for a doc ref mismatch" taggedAs UiTag in new WebBrowser {
+    "display the lookup unsuccessful page for a doc ref mismatch" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.title)
+      pageTitle should equal(VehicleLookupFailurePage.title)
     }
 
-    "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowser {
+    "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDirectToPaperSetup()
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
     }
 
-    "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowser {
+    "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheFailureSetup()
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.failureTitle)
+      pageTitle should equal(VehicleLookupFailurePage.failureTitle)
     }
   }
 
   "try again button" should {
-    "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
@@ -53,12 +54,12 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on tryAgain
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
@@ -67,7 +68,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 

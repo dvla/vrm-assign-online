@@ -1,9 +1,10 @@
 package helpers.common
 
-import helpers.webbrowser.TestGlobal
+import composition.TestGlobal
 import play.api.test.FakeApplication
 
 object ProgressBar {
+
   val fakeApplicationWithProgressBarFalse = FakeApplication(
     withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("progressBar.enabled" -> "false"))

@@ -1,17 +1,18 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
-import helpers.webbrowser.{TestHarness, WebDriverFactory}
 import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost, HttpPut, HttpRequestBase}
 import org.apache.http.impl.client.HttpClients
 import pages.ApplicationContext.applicationContext
 import play.mvc.Http.Status
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
 
   "Accessing the /healthcheck url" should {
 
-    "return 200 for GET and POST" in new WebBrowser {
+    "return 200 for GET and POST" in new WebBrowserForSelenium {
       var httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
       finally httpResponse.close()
@@ -21,7 +22,7 @@ final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
       finally httpResponse.close()
     }
 
-    "return 404 for PUT etc." in new WebBrowser {
+    "return 404 for PUT etc." in new WebBrowserForSelenium {
       val httpResponse = execute(new HttpPut(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.NOT_FOUND)
       finally httpResponse.close()

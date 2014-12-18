@@ -2,7 +2,7 @@ package PersonalizedAssignment.StepDefs
 
 import cucumber.api.java.en.{Then, Given, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 import org.scalatest.Matchers
 
 class VehiclePersonalAssignmentStepDefs (implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {

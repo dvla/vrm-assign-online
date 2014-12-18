@@ -422,24 +422,23 @@ vrm_assign_confirm_business.title = Confirm your business details
 vrm_assign_confirm_business.button = Confirm
 
 #Capture Certificate Details
-vrm_assign_capturecertificatedetails.title = Your registration number
-vrm_assign_capturecertificatedetails.referencenumberlabel = Certificate number
+vrm_assign_capturecertificatedetails.title = Enter Certificate Details
 vrm_assign_capturecertificatedetails.referencenumberhelper = This will be a 14 to 20 reference number from either the online retention service, the V750 Certificate of Entitlement or the V778 Retention Document
 capture-certificate-details-reference-number-helper-1 = Example:  1 - 14316 - 054027 - GK64BCC
 capture-certificate-details-reference-number-helper-2 = Where the number in box 3 only displays 5 digits on the printed certificate, please add a '0' to the beginning of the number e.g. '54027' would become '054027'
-vrm_assign_capturecertificatedetails.prvrmlabel = Your registration number
+vrm_assign_capturecertificatedetails.prvrmlabel = Registration number
 vrm_assign_capturecertificatedetails.prvrmhelper = Enter the new personal registration here without spaces, for example: ''AMV1''
 vrm_assign_capturecertificatedetails.button = Next
 
 error.validReferenceNumber = You must supply a Valid Certificate Document Reference Number
 error.validPrVrm = Must be valid format
-pr-vrm = Personal registration number
+pr-vrm = Registration number
 reference-number = Certificate Document Reference Number
 
-certificate-document-count = Box 1, Certificate document count
-certificate-date = Box 2, Certificate date
-certificate-time = Box 3, Certificate time
-certificate-registration-mark = Box 4, Certificate registration mark
+certificate-document-count = Reference number Box 1
+certificate-date = Reference number Box 2
+certificate-time = Reference number Box 3
+certificate-registration-mark = Reference number Box 4
 
 error.validCertificateDocumentCount = Must not be blank
 error.validCertificateDate = Must be 5 digits
@@ -473,7 +472,7 @@ vrm_assign_confirm.emailHint1 = We require your email to send you:
 vrm_assign_confirm.emailHint2 = your payment receipt
 vrm_assign_confirm.emailHint3 = a summary of this transaction
 vrm_assign_confirm.button = Next
-vrm_assign_confirm.newRegTitle = Your registration number
+vrm_assign_confirm.newRegTitle = Renewal fees for registration number
 vrm_assign_confirm.newRegp2 = If you wish to continue with this transaction and place this registration number on the vehicle identified above please select ''Next'' below.
 vrm_assign_confirm.emailWarn = Incorrect Details?
 vrm_assign_confirm.emailWarnp1 = You must update your registration certificate (V5C) if there are any mistakes on it, or if you make a number of changes to your vehicle.
@@ -492,7 +491,7 @@ vrm_assign_confirm.grantee_consent.notgiven = You must confirm that you have con
 grantee-consent-id = Grantee Consent
 vrm_assign_confirm.granteeConsent = I have consent to put this registration number on this vehicle
 
-vrm_assign_confirm.outstandingFees.h1 =  Outstanding Renewal Fees
+vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
 vrm_assign_confirm.outstandingFees = You owe
 vrm_assign_exit.button = Exit
 vrm_assign_finish.button = Finish

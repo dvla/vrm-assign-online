@@ -3,22 +3,23 @@ package views.vrm_assign
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_assign.BeforeYouStartPage.startNow
 import pages.vrm_assign.{VehicleLookupPage, BeforeYouStartPage}
+import org.scalatest.selenium.WebBrowser._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      page.url should equal(BeforeYouStartPage.url)
+      currentUrl should equal(BeforeYouStartPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().
@@ -37,12 +38,12 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "startNow button" should {
 
-    "go to next page" taggedAs UiTag in new WebBrowser {
+    "go to next page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       click on startNow
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 }

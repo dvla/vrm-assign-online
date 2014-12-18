@@ -1,18 +1,21 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import views.vrm_assign.UprnNotFound
-import UprnNotFound._
-import pages.ApplicationContext.applicationContext
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
+import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import views.vrm_assign.UprnNotFound._
 
-object UprnNotFoundPage extends Page with WebBrowserDSL {
+object UprnNotFoundPage extends Page {
 
   def address = s"$applicationContext/uprn-not-found"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
+
   final override val title: String = "Error confirming post code"
 
-  def setupTradeDetails(implicit driver: WebDriver): Element = find(id(SetupBusinessDetailsId)).get
+  def setupTradeDetails(implicit driver: WebDriver) = find(id(SetupBusinessDetailsId)).get
 
-  def manualAddress(implicit driver: WebDriver): Element = find(id(ManualAddressId)).get
+  def manualAddress(implicit driver: WebDriver) = find(id(ManualAddressId)).get
 }

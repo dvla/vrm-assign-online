@@ -102,6 +102,7 @@ so copied to assign may want to be moved to common*/
     color:#005EA5;
     text-decoration:underline;
     margin-bottom:15px;
+    cursor: pointer;
 }
 
 
@@ -150,7 +151,12 @@ so copied to assign may want to be moved to common*/
     #certificate-registration-mark {
         width:105px;
     }
-
+    .certificate-id-input {
+        line-height: 2.75;
+        .form-item {
+            margin-right: 10px;
+        }
+    }
 }
 
 .vrm-assign-online .alert-complete {

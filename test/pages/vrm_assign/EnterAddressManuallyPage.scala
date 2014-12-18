@@ -1,37 +1,39 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.Page
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_assign.EnterAddressManually.NextId
 import views.vrm_assign.Main.BackId
 import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
-object EnterAddressManuallyPage extends Page with WebBrowserDSL {
+object EnterAddressManuallyPage extends Page {
 
   def address = s"$applicationContext/enter-address-manually"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = "Enter address"
 
-  def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField =
+  def addressBuildingNameOrNumber(implicit driver: WebDriver) =
     textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
-  def addressLine2(implicit driver: WebDriver): TextField =
+  def addressLine2(implicit driver: WebDriver) =
     textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
-  def addressLine3(implicit driver: WebDriver): TextField =
+  def addressLine3(implicit driver: WebDriver) =
     textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressPostTown(implicit driver: WebDriver): TextField =
+  def addressPostTown(implicit driver: WebDriver) =
     textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
 
-  def next(implicit driver: WebDriver): Element = find(id(NextId)).get
+  def next(implicit driver: WebDriver) = find(id(NextId)).get
 
-  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
+  def back(implicit driver: WebDriver) = find(id(BackId)).get
 
   def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid,
                 line2: String = Line2Valid,

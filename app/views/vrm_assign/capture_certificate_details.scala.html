@@ -27,28 +27,25 @@
                     <h2>
                         @Messages("vrm_assign_capturecertificatedetails.title")
                     </h2>
-                    <label class="reference-number-label">
-                        @Messages("vrm_assign_capturecertificatedetails.referencenumberlabel")
-                    </label>
                     <div class="form-hint">
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
                     </div>
-                    <div class="uppercase-input">
+                    <div class="uppercase-input certificate-id-input">
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDocumentCount.MaxLength))
+                                        'maxLength -> CertificateDocumentCount.MaxLength)) -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDate.MaxLength))
+                                        'maxLength -> CertificateDate.MaxLength)) -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateTime.MaxLength))
+                                        'maxLength -> CertificateTime.MaxLength)) -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
                             args =
                                     Map('_label -> "",

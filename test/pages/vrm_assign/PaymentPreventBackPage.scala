@@ -1,17 +1,19 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.PaymentPreventBack.ReturnToSuccessId
 
-object PaymentPreventBackPage extends Page with WebBrowserDSL {
+object PaymentPreventBackPage extends Page {
 
   def address = s"$applicationContext/payment-prevent-back"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = ""
 
-  def returnToSuccess(implicit driver: WebDriver): Element = find(id(ReturnToSuccessId)).get
+  def returnToSuccess(implicit driver: WebDriver) = find(id(ReturnToSuccessId)).get
 }

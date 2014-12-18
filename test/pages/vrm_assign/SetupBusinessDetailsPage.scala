@@ -1,45 +1,48 @@
 package pages.vrm_assign
 
-import helpers.webbrowser._
-import views.vrm_assign.SetupBusinessDetails
-import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import views.vrm_assign.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
 import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
 
-object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
+object SetupBusinessDetailsPage extends Page {
 
   def address = s"$applicationContext/setup-business-details"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
+
   final override val title: String = "Provide your business details"
 
-  def traderName(implicit driver: WebDriver): TextField = textField(id(BusinessNameId))
+  def traderName(implicit driver: WebDriver) = textField(id(BusinessNameId))
 
-  def traderContact(implicit driver: WebDriver): TextField = textField(id(BusinessContactId))
+  def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
 
   def traderEmail(implicit driver: WebDriver): EmailField = emailField(id(BusinessEmailId))
 
-  def traderPostcode(implicit driver: WebDriver): TextField = textField(id(BusinessPostcodeId))
+  def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
 
-  def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
+  def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
   def happyPath(traderBusinessName: String = TraderBusinessNameValid,
                 traderBusinessEmail: String = TraderBusinessEmailValid,
                 traderBusinessPostcode: String = PostcodeValid)
                (implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
-    traderName enter traderBusinessName
-    traderEmail enter traderBusinessEmail
-    traderPostcode enter traderBusinessPostcode
+    traderName.value = traderBusinessName
+    traderEmail.value = traderBusinessEmail
+    traderPostcode.value = traderBusinessPostcode
     click on lookup
   }
 
   def submitInvalidPostcode(implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
-    traderName enter TraderBusinessNameValid
-    traderContact enter TraderBusinessContactValid
-    traderEmail enter TraderBusinessEmailValid
-    traderPostcode enter PostcodeInvalid
+    traderName.value = TraderBusinessNameValid
+    traderContact.value = TraderBusinessContactValid
+    traderEmail.value = TraderBusinessEmailValid
+    traderPostcode.value = PostcodeInvalid
     click on lookup
   }
 }
