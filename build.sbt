@@ -29,7 +29,6 @@ lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-t
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.4"
   Seq(
     cache,
     filters,
