@@ -4,21 +4,26 @@ import com.google.inject.Inject
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookie
 import utils.helpers.CookieFlagsRetention._
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 import scala.concurrent.duration.DurationInt
 
-
-final class CookieFlagsRetention @Inject()() extends CookieFlags {
+final class CookieFlagsRetention @Inject()()(implicit val config: Config) extends CookieFlags {
 
   override def applyToCookie(cookie: Cookie, key: String): Cookie = {
-    val maxAge = if (List(StoreBusinessDetailsCacheKey,BusinessDetailsCacheKey).contains(key)) storeBusinessDetailsMaxAge else defaultMaxAge
-    cookie.copy(
-      secure = secureCookies,
-      maxAge = Some(maxAge)
-    )
+    if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {
+      cookie.
+        withSecure(secureCookies).
+        withMaxAge(storeBusinessDetailsMaxAge).
+        withDomain(config.sessionDomainForSharingCookies)
+    } else {
+      cookie.
+        withSecure(secureCookies).
+        withMaxAge(defaultMaxAge)
+    }
   }
 
   override def applyToCookie(cookie: Cookie): Cookie = applyToCookie(cookie, key = "")
