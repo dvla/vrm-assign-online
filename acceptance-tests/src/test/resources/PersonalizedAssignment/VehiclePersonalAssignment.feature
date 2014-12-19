@@ -5,6 +5,7 @@ Feature: Assignment of Vehicle
     Given that I have started the PR Assign Service
 
   Scenario Outline: Keeper Acting and Fees Due
+    Given I visit assign web portal
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention
     And I indicate that the keeper is acting
     And enter <CertificateIdBox1>,<CertificateIdBox2>,<CertificateIdBox3>,<CertificateIdBox4>  and <RegistrationNumber>

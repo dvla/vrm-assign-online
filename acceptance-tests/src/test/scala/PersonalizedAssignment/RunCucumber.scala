@@ -11,5 +11,4 @@ import org.junit.runner.RunWith
   plugin = Array("pretty", "html:target/cucumber-report"),
   tags = Array("@HappyPath")
 )
-class RunCucumber {
-}
+class RunCucumber

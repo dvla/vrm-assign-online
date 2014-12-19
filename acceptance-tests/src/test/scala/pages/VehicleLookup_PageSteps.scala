@@ -13,33 +13,33 @@ class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver) extends Scal
     this
   }
 
-//  def enter(registrationNumber: String, docRefNumber: String, postcode: String) = {
-//    vehicleRegistrationNumber.value = registrationNumber
-//    documentReferenceNumber.value = docRefNumber
-//    keeperPostcode.value = postcode
-//    this
-//  }
-//
-//  def `keeper is acting` = {
-//    click on currentKeeperYes
-//    this
-//  }
-//
-//  def `keeper is not acting` = {
-//    click on currentKeeperNo
-//    this
-//  }
-//
-//  def `find vehicle` = {
-//    click on findVehicleDetails
-//    this
-//  }
-//
-//  def `has error messages` = {
-//    pageSource contains "Vehicle registration number - Must be valid format"
-//    pageSource contains "Document reference number - Document reference number must be an 11-digit number"
-//    this
-//  }
+  def enter(registrationNumber: String, docRefNumber: String, postcode: String) = {
+    vehicleRegistrationNumber.value = registrationNumber
+    documentReferenceNumber.value = docRefNumber
+    keeperPostcode.value = postcode
+    this
+  }
+
+  def `keeper is acting` = {
+    click on currentKeeperYes
+    this
+  }
+
+  def `keeper is not acting` = {
+    click on currentKeeperNo
+    this
+  }
+
+  def `find vehicle` = {
+    click on findVehicleDetails
+    this
+  }
+
+  def `has error messages` = {
+    pageSource contains "Vehicle registration number - Must be valid format"
+    pageSource contains "Document reference number - Document reference number must be an 11-digit number"
+    this
+  }
 
 
 }

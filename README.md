@@ -88,6 +88,18 @@ To emulate production-level logging:
 
         http://localhost:9000/
 
+
+### Testing the application
+
+Unit and Selenium tests written using Scalatest can be run using `sbt test`
+
+Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
+
+Acceptance tests feature can also be run on Firefox as`sbt acceptance-tests/test-only -Dbrowser.type=firefox`
+
+Acceptance tests Reporting
+
+
 Session encryption
 ------------------
 
