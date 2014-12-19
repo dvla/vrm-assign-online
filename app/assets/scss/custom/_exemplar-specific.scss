@@ -98,6 +98,13 @@ so copied to assign may want to be moved to common*/
     margin-left: 1em;
 }
 
+summary {
+    &:focus {
+        border: none;
+        outline: 0;
+    }
+}
+
 .summary {
     color:#005EA5;
     text-decoration:underline;

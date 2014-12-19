@@ -53,11 +53,11 @@
                 <br/>
                 <div class="form-item-radio">
                     @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
+                        optionsWithHint = Seq(
+                            RadioWithHint(UserType_Business, Messages("vrm_assign_vehiclelookup.business"), ""),
+                            RadioWithHint(UserType_Keeper, Messages("vrm_assign_vehiclelookup.keeper"), "")
+                        ),
                         args = Map(
-                            'itemsWithHints -> Seq(
-                                RadioWithHint(UserType_Business, Messages("vrm_assign_vehiclelookup.business"), ""),
-                                RadioWithHint(UserType_Keeper, Messages("vrm_assign_vehiclelookup.keeper"), "")
-                            ),
                             '_label -> Messages("vrm_assign_vehiclelookup.label")
                         )
                     )

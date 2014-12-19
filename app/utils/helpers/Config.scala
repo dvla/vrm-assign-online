@@ -1,6 +1,7 @@
 package utils.helpers
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getDurationProperty, getProperty}
+import play.api.Play
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import scala.concurrent.duration.DurationInt
 
 class Config {
@@ -35,9 +36,7 @@ class Config {
   val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval", 7.days.toMillis)
 
   // Google analytics
-  val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
-  val googleAnalyticsTrackingId: String = getProperty("googleAnalytics.id", "NOT FOUND")
-  val googleAnalyticsDomain: String = getProperty("googleAnalytics.domain.assign", "NOT FOUND")
+  val googleAnalyticsTrackingId: String = getProperty("googleAnalytics.id.assign", "NOT FOUND")
 
   // Progress step indicator
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
@@ -62,4 +61,6 @@ class Config {
   val emailSmtpPassword: String = getProperty("smtp.password", "")
   val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
   val emailSenderAddress: String = getProperty("email.senderAddress", "")
+
+  val sessionDomainForSharingCookies: String = getProperty("session-domain-for-sharing-cookies", "NOT FOUND")
 }
