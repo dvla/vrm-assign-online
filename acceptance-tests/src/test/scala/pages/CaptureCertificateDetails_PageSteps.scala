@@ -28,8 +28,9 @@ class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver) 
 
   }
 
-  def `submit details`= {
+  def `submit details` = {
     click on lookup
+    this
   }
 
 }
