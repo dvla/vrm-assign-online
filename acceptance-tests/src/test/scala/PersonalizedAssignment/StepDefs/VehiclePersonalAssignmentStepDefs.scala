@@ -48,6 +48,7 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     captureCertificateDetails.`enter certificate details`(box1, box2, box3, box4)
     captureCertificateDetails.`enter registration number`(registrationNumber)
     captureCertificateDetails.`submit details`
+    printf("The Totle"+webDriver.getTitle)
   }
 
   @Then("^the enter confirm details page is displayed and the payment required section is shown$")
@@ -133,11 +134,18 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   //Scenario 6
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is not eligible for retention$")
   def `i enter data in the and for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-
+    //    vehicleLookup.
+    //      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
+    //      `keeper is acting`.
+    //      `find vehicle`
+    //    user.`enterCertificateDetails`
   }
 
   @Then("^the vehicle not eligible page is displayed$")
   def `the vehicle not eligible page is displayed`() {
+    //    vehicleNotFound.
+    //      `is displayed`.
+    //      `has 'not found' message`
     user.`quit the browser`
   }
 

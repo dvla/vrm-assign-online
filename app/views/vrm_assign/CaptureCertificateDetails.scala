@@ -10,5 +10,6 @@ object CaptureCertificateDetails {
   final val CaptureCertificateDetailsCacheKey = "capture-certificate-details"
   final val CaptureCertificateDetailsFormModelCacheKey = "capture-certificate-details-form-model"
   final val SubmitId = "submit"
+  final val SubmitName = "action"
   final val ExitId = "exit"
 }
