@@ -150,9 +150,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmAssignFulfil.value
 }
 
-// Add the following line back in once the gatling tests are all working
-//SandboxSettings.gatlingSimulation := "uk.gov.dvla.assign.Simulate"
-SandboxSettings.gatlingSimulation := ""
+SandboxSettings.gatlingSimulation := "uk.gov.dvla.assign.Simulate"
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
