@@ -20,10 +20,11 @@ class commonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
 
   def `start the Assign service` = {
-    val TestUrl = "test.url"
-    val value = s"http://localhost:9000/"
-    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
-    sys.props += ((TestUrl, value))
+// IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
+//    val TestUrl = "test.url"
+//    val value = s"http://localhost:9000/"
+//    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
+//    sys.props += ((TestUrl, value))
   }
 
   def `before you start` = {
