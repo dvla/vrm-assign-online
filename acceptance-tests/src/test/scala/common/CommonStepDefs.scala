@@ -10,7 +10,7 @@ import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-class commonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
+class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
   lazy val beforeYouStart = new BeforeYouStart_PageSteps
   lazy val vehicleLookup = new VehicleLookup_PageSteps

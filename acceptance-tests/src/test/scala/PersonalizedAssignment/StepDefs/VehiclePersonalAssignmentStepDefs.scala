@@ -1,6 +1,6 @@
 package PersonalizedAssignment.StepDefs
 
-import _root_.common.commonStepDefs
+import _root_.common.CommonStepDefs
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  lazy val user = new commonStepDefs
+  lazy val user = new CommonStepDefs
   lazy val vehicleLookup = new VehicleLookup_PageSteps
   lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
   lazy val confirm = new Confirm_PageSteps
