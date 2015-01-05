@@ -1,4 +1,4 @@
-package PersonalizedAssignment.StepDefs
+package personalizedAssignment.stepDefs
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers

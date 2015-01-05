@@ -1,4 +1,4 @@
-package PersonalizedAssignment.StepDefs
+package personalizedAssignment.stepDefs
 
 import _root_.common.CommonStepDefs
 import cucumber.api.java.en.{Given, Then, When}
