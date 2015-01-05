@@ -4,6 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import utils.helpers.Config
+
 import scala.concurrent.duration.DurationInt
 
 class TestConfig(
