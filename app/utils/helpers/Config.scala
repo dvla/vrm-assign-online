@@ -63,4 +63,9 @@ class Config {
   val emailSenderAddress: String = getProperty("email.senderAddress", "")
 
   val sessionDomainForSharingCookies: String = getProperty("session-domain-for-sharing-cookies", "NOT FOUND")
+
+  // Cookie flags
+  val secureCookies = getProperty("secureCookies", default = true)
+  val cookieMaxAge = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
+  val storeBusinessDetailsMaxAge = getProperty("storeBusinessDetails.cookieMaxAge", 7.days.toSeconds.toInt)
 }
