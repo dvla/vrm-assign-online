@@ -1,4 +1,5 @@
 package pages
+
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
@@ -21,5 +22,4 @@ class SetupBusinessDetails_PageSteps(implicit webDriver: WebBrowserDriver) exten
     click on lookup
     this
   }
-
 }

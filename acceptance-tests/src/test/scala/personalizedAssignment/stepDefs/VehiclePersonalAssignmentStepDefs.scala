@@ -18,7 +18,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   lazy val vrmLocked = new VrmLocked_PageSteps
   lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps
 
-
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
     user.`start the Assign service`
@@ -28,7 +27,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   @Given("^I visit vehicle assign portal$")
   def `i visit assign web portal`() {
     user.`before you start`
-
   }
 
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention$")
@@ -48,7 +46,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     captureCertificateDetails.`enter certificate details`(box1, box2, box3, box4)
     captureCertificateDetails.`enter registration number`(registrationNumber)
     captureCertificateDetails.`submit details`
-    printf("The Totle"+webDriver.getTitle)
   }
 
   @Then("^the enter confirm details page is displayed and the payment required section is shown$")
@@ -58,7 +55,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     confirm.`proceed to confirm`
     payment.`is displayed`
     user.`quit the browser`
-
   }
 
   //Scenario 2
@@ -90,7 +86,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     vehicleNotFound.`is displayed`
       .`has 'not found' message`
     user.`quit the browser`
-
   }
 
   //Scenario 4
@@ -187,5 +182,4 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     user.confirmBusinessDetailsIsDisplayed
     user.`quit the browser`
   }
-
 }

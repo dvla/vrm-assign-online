@@ -6,7 +6,6 @@ import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
-import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
@@ -20,11 +19,12 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
 
   def `start the Assign service` = {
-// IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
-//    val TestUrl = "test.url"
-//    val value = s"http://localhost:9000/"
-//    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
-//    sys.props += ((TestUrl, value))
+    // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
+    //    val TestUrl = "test.url"
+    //    val value = s"http://localhost:9000/"
+    //    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
+    //    sys.props += ((TestUrl, value))
+    this
   }
 
   def `before you start` = {
@@ -37,6 +37,7 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
 
   def `quit the browser` = {
     webDriver.quit()
+    this
   }
 
   def `vehicleLookupDoesNotMatchRecord`(registrationNumber: String, docRefNumber: String, postcode: String) = {
@@ -60,6 +61,7 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     captureCertificateDetails.`submit details`
     this
   }
+
   def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
     vehicleLookup.
       enter(RegistrationNumber, DocRefNumber, Postcode).
@@ -68,6 +70,7 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     //confirmBusiness.`is displayed`
     this
   }
+
   def provideBusinessDetails = {
     setupBusinessDetails.`is displayed`
     setupBusinessDetails.`enter business details`
@@ -107,6 +110,4 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     c.expiry should be(None)
     this
   }
-
-
 }

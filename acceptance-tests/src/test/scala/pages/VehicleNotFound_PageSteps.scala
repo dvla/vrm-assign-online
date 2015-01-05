@@ -7,6 +7,7 @@ import pages.vrm_assign.VehicleLookupFailurePage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 class VehicleNotFound_PageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+
   def `is displayed` = {
     currentUrl should equal(url)
     this

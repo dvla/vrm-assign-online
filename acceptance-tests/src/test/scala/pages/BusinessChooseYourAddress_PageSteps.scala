@@ -16,5 +16,4 @@ class BusinessChooseYourAddress_PageSteps(implicit webDriver: WebBrowserDriver) 
     org.scalatest.selenium.WebBrowser.click on BusinessChooseYourAddressPage.select
     this
   }
-
 }

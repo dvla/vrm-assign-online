@@ -3,8 +3,8 @@ package pages
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import pages.vrm_assign.VehicleLookupPage._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
@@ -40,6 +40,4 @@ class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver) extends Scal
     pageSource contains "Document reference number - Document reference number must be an 11-digit number"
     this
   }
-
-
 }

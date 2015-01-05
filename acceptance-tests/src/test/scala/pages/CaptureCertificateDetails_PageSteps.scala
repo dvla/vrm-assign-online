@@ -6,7 +6,6 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.CaptureCertificateDetailsPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-
 class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
@@ -22,15 +21,13 @@ class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver) 
     this
   }
 
-  def `enter registration number`(registrationNumber:String) = {
+  def `enter registration number`(registrationNumber: String) = {
     prVrm.value = registrationNumber
     this
-
   }
 
   def `submit details` = {
     click on lookup
     this
   }
-
 }
