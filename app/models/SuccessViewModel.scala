@@ -16,7 +16,9 @@ final case class SuccessViewModel(registrationNumber: String,
                                   businessAddress: Option[AddressModel],
                                   prVrm: String,
                                   transactionId: String,
-                                  transactionTimestamp: String)
+                                  transactionTimestamp: String,
+                                  outstandingPaymentList: List[String],
+                                  outstandingPaymentAmount: Double)
 
 object SuccessViewModel {
 
@@ -25,7 +27,9 @@ object SuccessViewModel {
             captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             keeperEmail: Option[String],
             fulfilModel: FulfilModel,
-            transactionId: String): SuccessViewModel = {
+            transactionId: String,
+            outstandingPaymentList: List[String],
+            outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
@@ -49,14 +53,18 @@ object SuccessViewModel {
       },
       prVrm = captureCertificateDetailsFormModel.prVrm,
       transactionId,
-      fulfilModel.transactionTimestamp
+      fulfilModel.transactionTimestamp,
+      outstandingPaymentList = outstandingPaymentList,
+      outstandingPaymentAmount = outstandingPaymentAmount
     )
   }
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             fulfilModel: FulfilModel,
-            transactionId: String): SuccessViewModel = {
+            transactionId: String,
+            outstandingPaymentList: List[String],
+            outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
@@ -72,7 +80,9 @@ object SuccessViewModel {
       businessAddress = None,
       prVrm = captureCertificateDetailsFormModel.prVrm,
       transactionId,
-      fulfilModel.transactionTimestamp
+      fulfilModel.transactionTimestamp,
+      outstandingPaymentList = outstandingPaymentList,
+      outstandingPaymentAmount = outstandingPaymentAmount
     )
   }
 }

@@ -46,7 +46,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
-            keeperEmailOpt, fulfilModel, transactionId)
+            keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
+            captureCertificateDetailsModel.outstandingFees)
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
@@ -109,7 +110,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
               val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
-            val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
@@ -144,7 +145,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         certificateRegistrationMark = "A1",
         prVrm = "A1"),
       captureCertificateDetailsModel = CaptureCertificateDetailsModel(None, List.empty, 0),
-        fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
+      fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       htmlEmail = new HtmlEmail(),
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), granteeConsent = "true")),
