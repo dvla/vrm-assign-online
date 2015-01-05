@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array("acceptance-tests/src/test/resources/PersonalizedAssignment"),
   glue = Array("PersonalizedAssignment.StepDefs"),
-  plugin = Array("pretty", "html:target/cucumber-report"),
+//  plugin = Array("pretty", "html:target/cucumber-report"),
   tags = Array("@HappyPath")
 )
 class RunCucumber

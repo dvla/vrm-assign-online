@@ -2,6 +2,16 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import Common._
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.gatlingTests
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignEligibility
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
+import uk.gov.dvla.vehicles.sandbox.Sandbox
+import uk.gov.dvla.vehicles.sandbox.SandboxSettings
+import uk.gov.dvla.vehicles.sandbox.Tasks
 
 name := "vrm-assign-online"
 
@@ -102,24 +112,52 @@ CoverallsPlugin.coverallsSettings
 
 resolvers ++= projectResolvers
 
-runMicroServicesTask
+// ====================== Sandbox Settings ==========================
+lazy val osAddressLookupProject = osAddressLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.4-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.4-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val gatlingProject = gatlingTests().disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
-sandboxTask
+SandboxSettings.portOffset := 21000
 
-runAsyncTask
+SandboxSettings.applicationContext := ""
 
-testGatlingTask
+SandboxSettings.webAppSecrets := "ui/dev/vrm-assign-online.conf.enc"
 
-sandboxAsyncTask
+SandboxSettings.osAddressLookupProject := osAddressLookupProject
 
-gatlingTask
+SandboxSettings.vehicleAndKeeperLookupProject := vehicleAndKeeperLookupProject
 
-resolvers ++= projectResolvers
+SandboxSettings.paymentSolveProject := paymentSolveProject
 
-lazy val p1 = osAddressLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p3 = vehicleAndKeeperLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p4 = vrmAssignEligibility.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p5 = vrmAssignFulfil.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p6 = legacyStubs.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p7 = gatlingTests.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-val p8 = paymentSolve.disablePlugins(PlayScala, SassPlugin, SbtWeb)
+SandboxSettings.vrmAssignEligibilityProject := vrmAssignEligibilityProject
+
+SandboxSettings.vrmAssignFulfilProject := vrmAssignFulfilProject
+
+SandboxSettings.legacyStubsProject := legacyStubsProject
+
+SandboxSettings.gatlingTestsProject := gatlingProject
+
+SandboxSettings.runAllMicroservices := {
+  Tasks.runLegacyStubs.value
+  Tasks.runOsAddressLookup.value
+  Tasks.runVehicleAndKeeperLookup.value
+  Tasks.runPaymentSolve.value
+  Tasks.runVrmAssignEligibility.value
+  Tasks.runVrmAssignFulfil.value
+}
+
+SandboxSettings.gatlingSimulation := "uk.gov.dvla.assign.Simulate"
+
+SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
+
+Sandbox.sandboxTask
+
+Sandbox.sandboxAsyncTask
+
+Sandbox.gatlingTask
+
+Sandbox.acceptTask
