@@ -1,6 +1,7 @@
 package personalizedAssignment.stepDefs
 
 import _root_.common.CommonStepDefs
+import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
@@ -54,7 +55,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     confirm.`select consent`
     confirm.`proceed to confirm`
     payment.`is displayed`
-    user.`quit the browser`
   }
 
   //Scenario 2
@@ -69,7 +69,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed$")
   def `the error messages for invalid data in the Vehicle Registration Number Doc Ref ID and Postcode fields are displayed`() {
     vehicleLookup.`has error messages`
-    user.`quit the browser`
   }
 
   //Scenario 3
@@ -85,7 +84,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   def `the vehicle not found page is displayed`() {
     vehicleNotFound.`is displayed`
       .`has 'not found' message`
-    user.`quit the browser`
   }
 
   //Scenario 4
@@ -105,7 +103,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() {
     vrmLocked
-    user.`quit the browser`
   }
 
   //Scenario 5
@@ -123,7 +120,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     //    vehicleNotFound.
     //      `is displayed`.
     //      `has 'direct to paper' message`
-    user.`quit the browser`
   }
 
   //Scenario 6
@@ -141,7 +137,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     //    vehicleNotFound.
     //      `is displayed`.
     //      `has 'not found' message`
-    user.`quit the browser`
   }
 
   //Scenario 7
@@ -156,7 +151,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   @Then("^the supply business details page is displayed$")
   def `the_supply_business_details_page_is_displayed`() {
     setupBusinessDetails.`is displayed`
-    user.`quit the browser`
   }
 
   //Scenario 8
@@ -180,6 +174,9 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   @Then("^the confirm business details page is displayed$")
   def `the_confirm_business_details_page_is_displayed`() {
     user.confirmBusinessDetailsIsDisplayed
-    user.`quit the browser`
   }
+
+  /** DO NOT REMOVE **/
+  @After()
+  def teardown() = webDriver.quit()
 }
