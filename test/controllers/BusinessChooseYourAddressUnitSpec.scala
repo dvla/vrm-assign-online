@@ -8,23 +8,16 @@ import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import org.mockito.Mockito._
-import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.SetupBusinessDetailsPage
-import pages.vrm_assign.UprnNotFoundPage
 import pages.vrm_assign.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_assign.BusinessChooseYourAddress._
 import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.BusinessDetails._
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
-import views.vrm_assign.EnterAddressManually._
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
@@ -140,59 +133,58 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   "submit (use UPRN enabled)" should {
 
-//    "redirect to Confirm Business page after a valid submit" in new WithApplication {
-//      val mockAuditService = mock[AuditService]
-//
-//      val injector = testInjector(
-//        new TestOrdnanceSurvey,
-//        new TestVehicleAndKeeperLookupWebService,
-//        new ScalaModule() {
-//          override def configure(): Unit = {
-//            bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-//          }
-//        },
-//        new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-//        new TestAuditService(mockAuditService),
-//        new TestDateService)
-//
-//      val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
-//      val dateService = injector.getInstance(classOf[DateService])
-//
-//      val data = Seq(("transactionId", "ABC123123123123"),
-//        ("timestamp", dateService.dateTimeISOChronology),
-//        ("replacementVrm", "SA11AA"),
-//        ("currentVrm", "AB12AWR"),
-//        ("make", "Alfa Romeo"),
-//        ("model", "Alfasud ti"),
-//        ("keeperName", "Mr David Jones"),
-//        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
-//        ("businessName", "example trader contact"),
-//        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
-//        ("businessEmail", "business.example@email.com"))
-//      val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.PersonalisedRegServiceType, data: _*)
-//      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
-//        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-//        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-//        withCookies(CookieFactoryForUnitSpecs.businessDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-//      val result = businessChooseYourAddress.submit(request)
-//      whenReady(result) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-//        verify(mockAuditService).send(auditMessage)
-//      }
-//    }
-//
-//    "return a bad request if not address selected" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
-//        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-//      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
-//      whenReady(result) { r =>
-//        r.header.status should equal(BAD_REQUEST)
-//      }
-//    }
-//
+    "redirect to Confirm Business page after a valid submit" in new WithApplication {
+      val mockAuditService = mock[AuditService]
+
+      val injector = testInjector(
+        new TestOrdnanceSurvey,
+        new TestVehicleAndKeeperLookupWebService,
+        new ScalaModule() {
+          override def configure(): Unit = {
+            bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
+          }
+        },
+        new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
+        new TestAuditService(mockAuditService),
+        new TestDateService)
+
+      val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
+      val dateService = injector.getInstance(classOf[DateService])
+
+      val data = Seq(("transactionId", "ABC123123123123"),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("currentVrm", "AB12AWR"),
+        ("make", "Alfa Romeo"),
+        ("model", "Alfasud ti"),
+        ("keeperName", "MR DAVID JONES"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
+        ("businessName", "example trader contact"),
+        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
+        ("businessEmail", "business.example@email.com"))
+      val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress.submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
+        verify(mockAuditService).send(auditMessage)
+      }
+    }
+
+    "return a bad request if not address selected" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
+      }
+    }
+
     "display expected drop-down values when no address selected" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(addressSelected = "").
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
