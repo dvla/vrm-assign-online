@@ -13,6 +13,7 @@ import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
+import GatlingPlugin.Gatling
 
 name := "vrm-assign-online"
 
@@ -155,7 +156,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmAssignFulfil.value
 }
 
-SandboxSettings.gatlingSimulation := "uk.gov.dvla.assign.Simulate"
+SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
