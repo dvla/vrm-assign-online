@@ -41,8 +41,8 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     vehicleLookup.`find vehicle`
   }
 
-  @When("^enter \"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"  and \"(.*?)\"$")
-  def `enter and`(box1: String, box2: String, box3: String, box4: String, registrationNumber: String) {
+  @When("^I enter certificate \"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
+  def `I enter certificate and`(box1: String, box2: String, box3: String, box4: String, registrationNumber: String) {
     captureCertificateDetails.`is displayed`
     captureCertificateDetails.`enter certificate details`(box1, box2, box3, box4)
     captureCertificateDetails.`enter registration number`(registrationNumber)
