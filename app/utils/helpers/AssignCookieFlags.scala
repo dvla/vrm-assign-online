@@ -7,20 +7,18 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
-final class RetentionCrossDomainFlags @Inject()()(implicit val config: Config) extends CookieFlags {
+final class AssignCookieFlags @Inject()()(implicit val config: Config) extends CookieFlags {
 
-  override def applyToCookie(cookie: Cookie, key: String): Cookie = {
+  override def applyToCookie(cookie: Cookie, key: String): Cookie =
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {
       cookie.
         withSecure(config.secureCookies).
-        withMaxAge(config.storeBusinessDetailsMaxAge).
-        withDomain(config.sessionDomainForSharingCookies)
+        withMaxAge(config.storeBusinessDetailsMaxAge)
     } else {
       cookie.
         withSecure(config.secureCookies).
         withMaxAge(config.cookieMaxAge)
     }
-  }
 
   override def applyToCookie(cookie: Cookie): Cookie = applyToCookie(cookie, key = "")
 }
