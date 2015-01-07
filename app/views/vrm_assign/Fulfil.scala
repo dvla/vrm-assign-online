@@ -2,6 +2,6 @@ package views.vrm_assign
 
 object Fulfil {
 
-  final val FulfilCacheKey = "fulfil"
-  final val FulfilResponseCodeCacheKey = "fulfil-response-code"
+  final val FulfilCacheKey = "asn-fulfil"
+  final val FulfilResponseCodeCacheKey = "asn-fulfil-response-code"
 }
