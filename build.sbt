@@ -119,11 +119,11 @@ CoverallsPlugin.coverallsSettings
 resolvers ++= projectResolvers
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.4-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.4-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.8").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.4").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.5").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.4").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.4").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val gatlingProject = gatlingTests().disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
