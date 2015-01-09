@@ -3,14 +3,18 @@ package common
 import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
+import scala.concurrent.duration.DurationInt
+
 class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
+  implicit val interval = PatienceConfig(timeout = 30.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps
   lazy val vehicleLookup = new VehicleLookup_PageSteps
   lazy val vrmLocked = new VrmLocked_PageSteps
