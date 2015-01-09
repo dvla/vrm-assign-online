@@ -21,6 +21,7 @@ final class VrmAssignFulfilWebServiceImpl @Inject()(config: Config) extends VrmA
     Logger.debug(s"Calling vrm assign fulfil micro-service with request $vrm and tracking id: $trackingId")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.vrmAssignFulfilRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 }
