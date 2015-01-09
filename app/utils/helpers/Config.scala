@@ -28,9 +28,9 @@ class Config {
   val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
   val bruteForcePreventionExpiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
 
-  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 5.seconds.toMillis.toInt)
-  val vrmAssignEligibilityRequestTimeout: Int = getProperty("vrmAssignEligibility.requesttimeout", 5.seconds.toMillis.toInt)
-  val vrmAssignFulfilRequestTimeout: Int = getProperty("vrmAssignFulfil.requesttimeout", 5.seconds.toMillis.toInt)
+  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 30.seconds.toMillis.toInt)
+  val vrmAssignEligibilityRequestTimeout: Int = getProperty("vrmAssignEligibility.requesttimeout", 30.seconds.toMillis.toInt)
+  val vrmAssignFulfilRequestTimeout: Int = getProperty("vrmAssignFulfil.requesttimeout", 30.seconds.toMillis.toInt)
 
   // Prototype message in html
   val isPrototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
