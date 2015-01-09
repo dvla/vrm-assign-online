@@ -13,15 +13,25 @@ import scala.concurrent.duration.DurationInt
 
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
-  lazy val user = new CommonStepDefs
-  lazy val vehicleLookup = new VehicleLookup_PageSteps
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
-  lazy val confirm = new Confirm_PageSteps
-  lazy val payment = new Payment_PageSteps
-  lazy val vehicleNotFound = new VehicleNotFound_PageSteps
-  lazy val vrmLocked = new VrmLocked_PageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps
+  val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStart_PageSteps
+  val vehicleLookup = new VehicleLookup_PageSteps
+  val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
+  val confirm = new Confirm_PageSteps
+  val payment = new Payment_PageSteps
+  val vehicleNotFound = new VehicleNotFound_PageSteps
+  val vrmLocked = new VrmLocked_PageSteps
+  val setupBusinessDetails = new SetupBusinessDetails_PageSteps
+  val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
+  val user = new CommonStepDefs(
+    timeout,
+    beforeYouStart,
+    vehicleLookup,
+    vrmLocked,
+    captureCertificateDetails,
+    setupBusinessDetails,
+    businessChooseYourAddress
+  )
 
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
@@ -106,7 +116,7 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() {
-    vrmLocked
+    vrmLocked.`is displayed`
   }
 
   //Scenario 5
