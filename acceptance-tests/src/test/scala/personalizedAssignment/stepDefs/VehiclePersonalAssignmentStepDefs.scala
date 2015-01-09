@@ -14,15 +14,15 @@ import scala.concurrent.duration.DurationInt
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   implicit val timeout = PatienceConfig(timeout = 30.seconds)
-  val beforeYouStart = new BeforeYouStart_PageSteps
-  val vehicleLookup = new VehicleLookup_PageSteps
-  val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
-  val confirm = new Confirm_PageSteps
-  val payment = new Payment_PageSteps
-  val vehicleNotFound = new VehicleNotFound_PageSteps
-  val vrmLocked = new VrmLocked_PageSteps
-  val setupBusinessDetails = new SetupBusinessDetails_PageSteps
-  val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
+  val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  val payment = new Payment_PageSteps()(webDriver, timeout)
+  val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
+  val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
+  val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
   val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -30,7 +30,7 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     captureCertificateDetails,
     setupBusinessDetails,
     businessChooseYourAddress
-  )
+  )(webDriver, timeout)
 
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
