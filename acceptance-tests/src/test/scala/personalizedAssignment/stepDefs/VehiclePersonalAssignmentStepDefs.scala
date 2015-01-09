@@ -13,7 +13,7 @@ import scala.concurrent.duration.DurationInt
 
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  val timeout = PatienceConfig(timeout = 30.seconds)
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   val beforeYouStart = new BeforeYouStart_PageSteps
   val vehicleLookup = new VehicleLookup_PageSteps
   val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
@@ -24,7 +24,6 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
   val setupBusinessDetails = new SetupBusinessDetails_PageSteps
   val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
   val user = new CommonStepDefs(
-    timeout,
     beforeYouStart,
     vehicleLookup,
     vrmLocked,

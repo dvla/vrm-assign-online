@@ -11,14 +11,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 class CommonStepDefs(
-                      timeout: PatienceConfig,
                       beforeYouStart: BeforeYouStart_PageSteps,
                       vehicleLookup: VehicleLookup_PageSteps,
                       vrmLocked: VrmLocked_PageSteps,
                       captureCertificateDetails: CaptureCertificateDetails_PageSteps,
                       setupBusinessDetails: SetupBusinessDetails_PageSteps,
                       businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
-                      )(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
+                      )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
     // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
