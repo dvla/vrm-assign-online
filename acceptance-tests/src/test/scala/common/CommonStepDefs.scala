@@ -10,11 +10,8 @@ import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-import scala.concurrent.duration.DurationInt
+class CommonStepDefs(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  implicit val interval = PatienceConfig(timeout = 30.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps
   lazy val vehicleLookup = new VehicleLookup_PageSteps
   lazy val vrmLocked = new VrmLocked_PageSteps

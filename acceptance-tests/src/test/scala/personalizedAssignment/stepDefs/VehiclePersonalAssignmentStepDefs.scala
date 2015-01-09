@@ -5,11 +5,15 @@ import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 
+import scala.concurrent.duration.DurationInt
+
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val user = new CommonStepDefs
   lazy val vehicleLookup = new VehicleLookup_PageSteps
   lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
