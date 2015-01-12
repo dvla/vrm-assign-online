@@ -30,7 +30,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          businessDetailsModel: Option[BusinessDetailsModel],
                          isKeeper: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
-    if ((config.emailWhitelist(0) == "") || (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase)) {
+    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
       pdfService.create(transactionId,
         vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
         vehicleAndKeeperDetailsModel.address,

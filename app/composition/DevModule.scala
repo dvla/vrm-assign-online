@@ -47,12 +47,7 @@ class DevModule extends ScalaModule {
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 
-    if (getProperty("encryptCookies", default = true)) {
-      bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
-      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
-    } else
-      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
+    bindSessionFactory()
 
     bind[BruteForcePreventionWebService].to[bruteforceprevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
@@ -61,5 +56,14 @@ class DevModule extends ScalaModule {
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
+  }
+
+  protected def bindSessionFactory(): Unit = {
+    if (getProperty[Boolean]("encryptCookies")) {
+      bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
+      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
+      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
+    } else
+      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
   }
 }
