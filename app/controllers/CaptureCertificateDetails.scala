@@ -158,6 +158,46 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         routes.Confirm.present()
       }
 
+      // calculate number of years owed if any
+      val outstandingDates = calculateYearsOwed(certificateExpiryDate)
+
+      bruteForceService.reset(captureCertificateDetailsFormModel.prVrm).onComplete {
+        case scala.util.Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
+        case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
+      }
+
+      Redirect(redirectLocation)
+        .withCookie(CaptureCertificateDetailsModel.from(Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+        .withCookie(captureCertificateDetailsFormModel)
+    }
+
+    def eligibilityFailure(responseCode: String, certificateExpiryDate: Option[DateTime]) = {
+      Logger.debug(s"VrmAssignEligibility encountered a problem with request" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
+
+      // calculate number of years owed if any
+      // may not have an expry date so check before calling function
+      val outstandingDates: ListBuffer[String] = {
+        certificateExpiryDate match {
+          case Some(expiryDate) => calculateYearsOwed(expiryDate)
+          case _ => new ListBuffer[String]
+        }
+      }
+
+      Redirect(routes.VehicleLookupFailure.present()).
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1)).
+        withCookie(CaptureCertificateDetailsModel.from(certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+    }
+
+    def calculateYearsOwed(certificateExpiryDate: DateTime): ListBuffer[String] = {
       // calculate number of years owed
       var outstandingDates = new ListBuffer[String]
       var yearsOwedCount = 0
@@ -169,30 +209,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           + fmt.print(renewalExpiryDate) + "   £" + (config.renewalFee.toInt / 100.0) + "0")
         renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
       }
-
-      bruteForceService.reset(captureCertificateDetailsFormModel.prVrm).onComplete {
-        case scala.util.Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
-        case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
-      }
-
-      Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(Some(certificateExpiryDate), outstandingDates.toList, (yearsOwedCount * config.renewalFee.toInt)))
-        .withCookie(captureCertificateDetailsFormModel)
-    }
-
-    def eligibilityFailure(responseCode: String) = {
-      Logger.debug(s"VrmAssignEligibility encountered a problem with request" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
-
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(responseCode)))
-      Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+      outstandingDates
     }
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
@@ -210,7 +227,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
       response =>
         response.responseCode match {
-          case Some(responseCode) => eligibilityFailure(responseCode) // There is only a response code when there is a problem.
+          case Some(responseCode) =>
+            eligibilityFailure(responseCode, response.certificateExpiryDate)
           case None =>
             // Happy path when there is no response code therefore no problem.
             response.certificateExpiryDate match {
@@ -223,4 +241,5 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception " + e.toString)
     }
   }
+
 }
