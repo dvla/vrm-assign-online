@@ -165,7 +165,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       val fmt = DateTimeFormat.forPattern("dd/MM/YYYY")
       while (renewalExpiryDate.isBeforeNow) {
         yearsOwedCount += 1
-        outstandingDates += (fmt.print(renewalExpiryDate.minus(Period.years(1))) + "  -  "
+        outstandingDates += (fmt.print(renewalExpiryDate.minus(Period.years(1)).plus(Period.days(1))) + "  -  "
           + fmt.print(renewalExpiryDate) + "   £" + (config.renewalFee.toInt / 100.0) + "0")
         renewalExpiryDate = renewalExpiryDate.plus(Period.years(1))
       }
