@@ -5,19 +5,32 @@ import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 
+import scala.concurrent.duration.DurationInt
+
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  lazy val user = new CommonStepDefs
-  lazy val vehicleLookup = new VehicleLookup_PageSteps
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
-  lazy val confirm = new Confirm_PageSteps
-  lazy val payment = new Payment_PageSteps
-  lazy val vehicleNotFound = new VehicleNotFound_PageSteps
-  lazy val vrmLocked = new VrmLocked_PageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  val payment = new Payment_PageSteps()(webDriver, timeout)
+  val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
+  val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
+  val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  val user = new CommonStepDefs(
+    beforeYouStart,
+    vehicleLookup,
+    vrmLocked,
+    captureCertificateDetails,
+    setupBusinessDetails,
+    businessChooseYourAddress
+  )(webDriver, timeout)
 
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
@@ -41,8 +54,8 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
     vehicleLookup.`find vehicle`
   }
 
-  @When("^enter \"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"  and \"(.*?)\"$")
-  def `enter and`(box1: String, box2: String, box3: String, box4: String, registrationNumber: String) {
+  @When("^I enter certificate \"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
+  def `I enter certificate and`(box1: String, box2: String, box3: String, box4: String, registrationNumber: String) {
     captureCertificateDetails.`is displayed`
     captureCertificateDetails.`enter certificate details`(box1, box2, box3, box4)
     captureCertificateDetails.`enter registration number`(registrationNumber)
@@ -102,7 +115,7 @@ class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) ex
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() {
-    vrmLocked
+    vrmLocked.`is displayed`
   }
 
   //Scenario 5

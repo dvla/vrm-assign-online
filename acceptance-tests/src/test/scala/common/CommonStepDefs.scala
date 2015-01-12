@@ -3,20 +3,21 @@ package common
 import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  lazy val beforeYouStart = new BeforeYouStart_PageSteps
-  lazy val vehicleLookup = new VehicleLookup_PageSteps
-  lazy val vrmLocked = new VrmLocked_PageSteps
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps
+class CommonStepDefs(
+                      beforeYouStart: BeforeYouStart_PageSteps,
+                      vehicleLookup: VehicleLookup_PageSteps,
+                      vrmLocked: VrmLocked_PageSteps,
+                      captureCertificateDetails: CaptureCertificateDetails_PageSteps,
+                      setupBusinessDetails: SetupBusinessDetails_PageSteps,
+                      businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
+                      )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
     // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi

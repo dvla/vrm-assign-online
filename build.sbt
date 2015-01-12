@@ -13,6 +13,7 @@ import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
+import GatlingPlugin.Gatling
 
 name := "vrm-assign-online"
 
@@ -64,8 +65,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.10-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.10-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.11-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.11-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -118,13 +119,12 @@ CoverallsPlugin.coverallsSettings
 resolvers ++= projectResolvers
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.9-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.4-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val gatlingProject = gatlingTests().disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 
@@ -144,8 +144,6 @@ SandboxSettings.vrmAssignFulfilProject := vrmAssignFulfilProject
 
 SandboxSettings.legacyStubsProject := legacyStubsProject
 
-SandboxSettings.gatlingTestsProject := gatlingProject
-
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
   Tasks.runOsAddressLookup.value
@@ -155,7 +153,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmAssignFulfil.value
 }
 
-SandboxSettings.gatlingSimulation := "uk.gov.dvla.assign.Simulate"
+SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
@@ -166,3 +164,7 @@ Sandbox.sandboxAsyncTask
 Sandbox.gatlingTask
 
 Sandbox.acceptTask
+
+Sandbox.cucumberTask
+
+Sandbox.acceptRemoteTask

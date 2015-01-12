@@ -19,8 +19,6 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
-  private val openGovernmentLicenceUrl = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png")
-  private val crestUrl = Play.resource(name = "public/images/govuk-crest.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -77,7 +75,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
           commonsMail.setSmtpPort(config.emailSmtpPort)
           commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
           commonsMail.send()
-          Logger.debug("Email sent")
+          if (isKeeper) Logger.debug("Keeper email sent")
+          else Logger.debug("Non-keeper email sent")
       }
     } else {
       Logger.error("Email not sent as not in whitelist")
@@ -97,14 +96,6 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""
     }
-    val openGovernmentLicenceContentId = openGovernmentLicenceUrl match {
-      case Some(url) => "cid:" + htmlEmail.embed(url, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-      case _ => ""
-    }
-    val crestId = crestUrl match {
-      case Some(url) => "cid:" + htmlEmail.embed(url, "govuk-crest.png")
-      case _ => ""
-    }
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = captureCertificateDetailsFormModel.certificateDocumentCount + " " +
@@ -119,8 +110,6 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       replacementVRM = captureCertificateDetailsFormModel.prVrm,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
       crownContentId = crownContentId,
-      openGovernmentLicenceContentId = openGovernmentLicenceContentId,
-      crestId = crestId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),

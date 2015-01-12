@@ -20,6 +20,7 @@ final class VrmAssignEligibilityWebServiceImpl @Inject()(config: Config) extends
     Logger.debug(s"Calling vrm assign eligibility micro-service with request $vrm and tracking id: $trackingId")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.vrmAssignEligibilityRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 }
