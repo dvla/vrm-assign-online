@@ -1,22 +1,9 @@
 package composition
 
-import audit.AuditService
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
-import com.tzavellas.sse.guice.ScalaModule
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import org.scalatest.mock.MockitoSugar
-import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, NoCookieFlags, CookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.filters.{DateTimeZoneServiceImpl, DateTimeZoneService}
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import utils.helpers.Config
-import webserviceclients.paymentsolve.PaymentSolveWebService
 
 
 trait TestComposition extends Composition {
