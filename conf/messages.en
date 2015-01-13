@@ -324,7 +324,7 @@ error.validBusinessContact = Must be between two and 58 characters and only cont
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_assign_vehiclelookup.title = Enter Details
+vrm_assign_vehiclelookup.title = Enter details
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
 vrm_assign_vehiclelookup.note =
