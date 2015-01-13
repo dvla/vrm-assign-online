@@ -29,7 +29,7 @@
                     }
                     @if(captureCertificateDetailsFormModel.isDefined) {
                         <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                        <dd class="reg-number">@captureCertificateDetailsFormModel.get.prVrm</dd>
+                        <dd class="reg-number">@captureCertificateDetailsModel.get.prVrm</dd>
                     }
                 </dl>
         </div>
@@ -44,7 +44,6 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {
                <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">Download V317</a></p>
             }
@@ -52,7 +51,9 @@
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
-                @if(Seq("vehicle_and_keeper_lookup_document_reference_mismatch", "vehicle_and_keeper_lookup_keeper_postcode_mismatch").contains(responseCodeVehicleLookupMSErrorMessage)) {
+                @if(Seq("vehicle_and_keeper_lookup_document_reference_mismatch",
+                    "vehicle_and_keeper_lookup_keeper_postcode_mismatch",
+                    "vehicle_and_keeper_lookup_vrm_not_found").contains(responseCodeVehicleLookupMSErrorMessage)) {
                     <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }

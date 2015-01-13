@@ -167,7 +167,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       }
 
       Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+        .withCookie(CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
         .withCookie(captureCertificateDetailsFormModel)
     }
 
@@ -194,7 +194,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1)).
-        withCookie(CaptureCertificateDetailsModel.from(certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+        withCookie(CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
     }
 
     def calculateYearsOwed(certificateExpiryDate: DateTime): ListBuffer[String] = {
