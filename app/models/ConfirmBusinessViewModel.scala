@@ -1,6 +1,7 @@
 package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class ConfirmBusinessViewModel(registrationNumber: String,
                                           vehicleMake: Option[String],
@@ -19,7 +20,7 @@ object ConfirmBusinessViewModel {
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             businessDetailsOpt: Option[BusinessDetailsModel]): ConfirmBusinessViewModel =
     ConfirmBusinessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       keeperTitle = vehicleAndKeeperDetails.title,

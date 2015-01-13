@@ -2,6 +2,7 @@ package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class BusinessChooseYourAddressViewModel(registrationNumber: String,
                                                     vehicleMake: Option[String],
@@ -20,7 +21,7 @@ object BusinessChooseYourAddressViewModel {
   def apply(businessDetailsForm: SetupBusinessDetailsFormModel,
             vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessChooseYourAddressViewModel =
     BusinessChooseYourAddressViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       name = businessDetailsForm.name,

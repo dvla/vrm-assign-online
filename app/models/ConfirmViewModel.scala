@@ -1,6 +1,7 @@
 package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 
 final case class ConfirmViewModel(registrationNumber: String,
@@ -23,8 +24,8 @@ object ConfirmViewModel {
             outstandingPaymentAmount: Double,
             userType: String): ConfirmViewModel =
     ConfirmViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      replacementRegistration = captureCertDetails.prVrm,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
+      replacementRegistration = formatVrm(captureCertDetails.prVrm),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       keeperTitle = vehicleAndKeeperDetails.title,

@@ -10,7 +10,7 @@ object VehicleLookupFailureViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): VehicleLookupFailureViewModel =
     VehicleLookupFailureViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       make = vehicleAndKeeperDetails.make,
       model = vehicleAndKeeperDetails.model)
 

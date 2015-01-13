@@ -2,7 +2,9 @@
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
         maxAttempts: Int,
-        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel])(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import views.html.vrm_assign.main
@@ -58,6 +60,18 @@
                     <a class="button" id="@CaptureCertificateDetailsId" href="@controllers.routes.CaptureCertificateDetails.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
                     <br/>
                 }
+                @if(captureCertificateDetailsModel.isDefined) {
+                    @if(captureCertificateDetailsModel.get.outstandingDates.size > 0) {
+                    <p>@Messages("vrm_assign_eligibility_failure.noticePayment.p1")</p>
+                    <strong>@Messages("vrm_assign_eligibility_failure.noticePayment.desc1")</strong>
+                    <p/>
+                    @for(payment <- captureCertificateDetailsModel.get.outstandingDates) {
+                        @payment.split("£")(0)
+                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+                    }
+                    <p/>
+                }
+            }
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
             </div>
         </div>

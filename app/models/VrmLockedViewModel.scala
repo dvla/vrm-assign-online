@@ -14,7 +14,7 @@ object VrmLockedViewModel {
             timeString: String,
             javascriptTimestamp: Long): VrmLockedViewModel =
     VrmLockedViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       timeString,
