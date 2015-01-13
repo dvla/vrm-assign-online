@@ -1,15 +1,17 @@
 package views.vrm_assign
 
+import models.CacheKeyPrefix
+
 object VehicleLookup {
 
   final val DocumentReferenceNumberId = "document-reference-number"
   final val VehicleRegistrationNumberId = "vehicle-registration-number"
   final val PostcodeId = "postcode"
   final val KeeperConsentId = "keeper-consent"
-  final val VehicleAndKeeperLookupDetailsCacheKey = "asn-vehicle-and-keeper-lookup-details"
-  final val VehicleAndKeeperLookupResponseCodeCacheKey = "asn-vehicle-and-keeper-lookup-response-code"
-  final val VehicleAndKeeperLookupFormModelCacheKey = "asn-vehicle-and-keeper-lookup-form-model"
-  final val TransactionIdCacheKey = "asn-transaction-Id"
+  final val VehicleAndKeeperLookupDetailsCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-details"
+  final val VehicleAndKeeperLookupResponseCodeCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-response-code"
+  final val VehicleAndKeeperLookupFormModelCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-form-model"
+  final val TransactionIdCacheKey = s"${CacheKeyPrefix}transaction-Id"
   final val SubmitId = "submit"
   final val ExitId = "exit"
   final val UserType_Keeper = "Keeper"
