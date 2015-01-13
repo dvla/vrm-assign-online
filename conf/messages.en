@@ -380,6 +380,8 @@ vrm_assign_eligibility_failure.title = This registration number can not be assig
 vrm_assign_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_assign_eligibility_failure.p2 =
 vrm_assign_eligibility_failure.p3 =
+vrm_assign_eligibility_failure.noticePayment.p1 = There are outstanding renewal fees. You owe
+vrm_assign_eligibility_failure.noticePayment.desc1 = Description
 
 # Payment page
 vrm_assign_payment.title = Payment

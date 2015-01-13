@@ -1,6 +1,7 @@
 package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class SuccessViewModel(registrationNumber: String,
                                   vehicleMake: Option[String],
@@ -31,7 +32,7 @@ object SuccessViewModel {
             outstandingPaymentList: List[String],
             outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       keeperTitle = vehicleAndKeeperDetails.title,
@@ -51,7 +52,7 @@ object SuccessViewModel {
       businessAddress = for (businessDetails <- businessDetailsModelOpt) yield {
         businessDetails.address
       },
-      prVrm = captureCertificateDetailsFormModel.prVrm,
+      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
       fulfilModel.transactionTimestamp,
       outstandingPaymentList = outstandingPaymentList,
@@ -66,7 +67,7 @@ object SuccessViewModel {
             outstandingPaymentList: List[String],
             outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       keeperTitle = vehicleAndKeeperDetails.title,
@@ -78,7 +79,7 @@ object SuccessViewModel {
       businessContact = None,
       businessEmail = None,
       businessAddress = None,
-      prVrm = captureCertificateDetailsFormModel.prVrm,
+      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
       fulfilModel.transactionTimestamp,
       outstandingPaymentList = outstandingPaymentList,
