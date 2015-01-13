@@ -40,7 +40,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       content should include(BusinessAddressLine1Valid)
       content should include(BusinessAddressLine2Valid)
       content should include(BusinessAddressPostTownValid)
-      content should include(RegistrationNumberValid)
+      content should include(RegistrationNumberWithSpaceValid)
       content should include(VehicleMakeValid.get)
       content should include(VehicleModelValid.get)
     }
