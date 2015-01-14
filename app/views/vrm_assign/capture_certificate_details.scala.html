@@ -2,7 +2,6 @@
         viewModel: models.CaptureCertificateDetailsViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
-@import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 
 @import controllers.routes.CaptureCertificateDetails
 @import mappings.common.vrm_assign._
@@ -12,6 +11,7 @@
 @import views.html.vrm_assign.main
 @import views.vrm_assign.CaptureCertificateDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 
 @main(
     title = Messages("vrm_assign_capturecertificatedetails.title"),
@@ -35,7 +35,10 @@
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDocumentCount.MaxLength)) -
+                                        'maxLength -> CertificateDocumentCount.MaxLength,
+                                        Symbol("aria-describedby") -> s"""$CertificateDocumentCountId-hint""")
+                        )
+                        -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
                             args =
                                     Map('_label -> "",
@@ -53,7 +56,7 @@
                                         'minLength -> CertificateRegistrationMark.MinLength,
                                         'maxLength -> CertificateRegistrationMark.MaxLength))
                     </div>
-                    <div class="form-hint">
+                    <div id="@{s"""$CertificateDocumentCountId-hint"""}" class="form-hint">
                         @Messages("capture-certificate-details-reference-number-helper-1")
                         <br />
                         @Messages("capture-certificate-details-reference-number-helper-2")

@@ -8,6 +8,11 @@ main.back = Back
 main.banner.help = Help
 main.banner.feedback = leave feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Assign%20a%20Personalised%20Number%20Feedback
+crown-copyright = Crown Copyright
+open-government-licence = Open Government Licence v2.0
+open-government-licence-p1 = All content is available under the
+open-government-licence-p2 = , except where otherwise stated
+gov-uk = GOV.UK
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
@@ -324,7 +329,7 @@ error.validBusinessContact = Must be between two and 58 characters and only cont
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_assign_vehiclelookup.title = Enter Details
+vrm_assign_vehiclelookup.title = Enter details
 vrm_assign_vehiclelookup.intro = You will need
 vrm_assign_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
 vrm_assign_vehiclelookup.note =
@@ -364,23 +369,23 @@ vrm_assign_vehiclelookupfailure.p1 = The service is temporarily unavailable. Ple
 vrm_assign_vehiclelookupfailure.button = Try again
 vrm_assign_vehiclelookupfailure.button2 = Exit
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
-vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again. For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again. For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
 vrm_assign_eligibility_direct_to_paper.title = This registration number can not be assigned online
-vrm_assign_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line please submit a V317. You must send both application pages and the appropriate documents to DVLA Personalised Registrations, Swansea SA99 1DS.  All documents must be originals, not photocopies or faxed copies.
-vrm_assign_eligibility_direct_to_paper.p2 =
-vrm_assign_eligibility_direct_to_paper.p3 =
+vrm_assign_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line.
+vrm_assign_eligibility_direct_to_paper.p2a = You must send the V750 or V778 and the V5C along with a cheque for the above total payable to ‘DVLA Swansea’ to:
+vrm_assign_eligibility_direct_to_paper.p2b = You must send the V750 or V778 and the V5C to:
+vrm_assign_eligibility_direct_to_paper.p3a = DVLA Personalised Registrations
+vrm_assign_eligibility_direct_to_paper.p3b = Swansea
+vrm_assign_eligibility_direct_to_paper.p3c = SA99 1DS
+vrm_assign_eligibility_direct_to_paper.p4 = All documents must be originals, not photocopies or faxed copies.
 vrm_assign_eligibility_failure.title = This registration number can not be assigned
 vrm_assign_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_assign_eligibility_failure.p2 =
-vrm_assign_eligibility_failure.p3 =
-vrm_assign_eligibility_failure.noticePayment.p1 = There are outstanding renewal fees. You owe
+vrm_assign_eligibility_failure.noticePayment.p1a = There are outstanding renewal fees:
 vrm_assign_eligibility_failure.noticePayment.desc1 = Description
 
 # Payment page
@@ -621,7 +626,6 @@ micro_service_error.text=The service is temporarily unavailable. Please try agai
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
-gov-uk = GOV.UK
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Putting a registration number on a vehicle complete for {0}
 email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
