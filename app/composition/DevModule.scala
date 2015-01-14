@@ -6,7 +6,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailServiceImpl, EmailService}
 import pdf.{PdfServiceImpl, PdfService}
 import play.api.{Logger, LoggerLike}
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
@@ -59,7 +59,7 @@ class DevModule extends ScalaModule {
   }
 
   protected def bindSessionFactory(): Unit = {
-    if (getProperty[Boolean]("encryptCookies")) {
+    if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
       bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
