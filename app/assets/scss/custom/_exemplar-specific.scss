@@ -89,6 +89,11 @@ so copied to assign may want to be moved to common*/
     padding-bottom:10px;
 }
 
+.price-total {
+    border-top: 1px solid;
+    padding-top: 1em;
+}
+
 .panel-indent {
     margin-top: 1em;
     margin-left: 1em;
@@ -99,6 +104,10 @@ summary {
         border: none;
         outline: 0;
     }
+}
+
+.error ~ .form-checkbox {
+    margin-top: 1em !important;
 }
 
 .summary {
