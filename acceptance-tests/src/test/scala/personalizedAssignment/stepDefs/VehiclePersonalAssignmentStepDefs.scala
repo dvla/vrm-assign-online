@@ -14,16 +14,16 @@ import scala.concurrent.duration.DurationInt
 class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   implicit val timeout = PatienceConfig(timeout = 30.seconds)
-  val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
-  val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
-  val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
-  val confirm = new Confirm_PageSteps()(webDriver, timeout)
-  val payment = new Payment_PageSteps()(webDriver, timeout)
-  val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
-  val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
-  val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
-  val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
-  val user = new CommonStepDefs(
+  lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  lazy val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  lazy val payment = new Payment_PageSteps()(webDriver, timeout)
+  lazy val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
+  lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
+  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  lazy val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
     vrmLocked,
