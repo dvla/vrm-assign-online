@@ -6,7 +6,7 @@
 #main.banner = Sell a vehicle into the motor trade
 main.back = Back
 main.banner.help = Help
-main.banner.feedback = leave feedback
+main.banner.feedback = your feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Assign%20a%20Personalised%20Number%20Feedback
 crown-copyright = Crown Copyright
 open-government-licence = Open Government Licence v2.0
@@ -37,7 +37,7 @@ footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
 prototype.banner.part1 = This is a new service -
-prototype.banner.part2 = to help us improve it
+prototype.banner.part2 = will help us improve it
 
 #page 2
 keeperstatus.title = Change of keeper address2
