@@ -23,6 +23,9 @@
             <div class="second-col">
                 <h2>@Messages("vrm_assign_confirm.title")</h2>
                 <dl>
+                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+                    <dd class="reg-number">@confirmViewModel.replacementRegistration</dd>
+                    <br/>
                     <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
                     <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
                     <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
@@ -89,8 +92,6 @@
                         <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
                         <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
                     }
-                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@confirmViewModel.replacementRegistration</dd>
                 </dl>
             </div>
 

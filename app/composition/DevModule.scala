@@ -6,7 +6,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailServiceImpl, EmailService}
 import pdf.{PdfServiceImpl, PdfService}
 import play.api.{Logger, LoggerLike}
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
@@ -47,12 +47,7 @@ class DevModule extends ScalaModule {
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 
-    if (getProperty("encryptCookies", default = true)) {
-      bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
-      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
-      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
-    } else
-      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
+    bindSessionFactory()
 
     bind[BruteForcePreventionWebService].to[bruteforceprevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
@@ -61,5 +56,14 @@ class DevModule extends ScalaModule {
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
+  }
+
+  protected def bindSessionFactory(): Unit = {
+    if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
+      bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
+      bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
+      bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
+    } else
+      bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
   }
 }

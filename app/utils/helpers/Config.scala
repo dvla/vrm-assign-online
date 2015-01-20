@@ -6,60 +6,61 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  val isCsrfPreventionEnabled = getProperty("csrf.prevention", default = true)
+  lazy val isCsrfPreventionEnabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(true)
 
   // Micro-service config // TODO take defaults off the timeouts
-  val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
-  val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty("vrmAssignEligibilityMicroServiceUrlBase", "NOT FOUND")
-  val vrmAssignFulfilMicroServiceUrlBase: String = getProperty("vrmAssignFulfilMicroServiceUrlBase", "NOT FOUND")
-  val paymentSolveMicroServiceUrlBase: String = getProperty("paymentSolveMicroServiceUrlBase", "NOT FOUND")
-  val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  lazy val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
+  lazy val vrmAssignEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmAssignEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
+  lazy val vrmAssignFulfilMicroServiceUrlBase: String = getOptionalProperty[String]("vrmAssignFulfilMicroServiceUrlBase").getOrElse("NOT FOUND")
+  lazy val paymentSolveMicroServiceUrlBase: String = getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse("NOT FOUND")
+  lazy val paymentSolveMsRequestTimeout: Int = getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse( 5.seconds.toMillis.toInt)
 
   // Ordnance survey config
-  val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
-  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requesttimeout", 5.seconds.toMillis.toInt)
-  val ordnanceSurveyUseUprn: Boolean = getProperty("ordnancesurvey.useUprn", default = false)
+  lazy val ordnanceSurveyMicroServiceUrl: String = getOptionalProperty[String]("ordnancesurvey.ms.url").getOrElse("NOT FOUND")
+  lazy val ordnanceSurveyRequestTimeout: Int = getOptionalProperty[Int]("ordnancesurvey.requesttimeout").getOrElse( 5.seconds.toMillis.toInt)
+  lazy val ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)//, default = false)
 
-  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 30.seconds.toMillis.toInt)
-  val vrmAssignEligibilityRequestTimeout: Int = getProperty("vrmAssignEligibility.requesttimeout", 30.seconds.toMillis.toInt)
-  val vrmAssignFulfilRequestTimeout: Int = getProperty("vrmAssignFulfil.requesttimeout", 30.seconds.toMillis.toInt)
+  lazy val vehicleAndKeeperLookupRequestTimeout: Int = getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse( 30.seconds.toMillis.toInt)
+  lazy val vrmAssignEligibilityRequestTimeout: Int = getOptionalProperty[Int]("vrmAssignEligibility.requesttimeout").getOrElse( 30.seconds.toMillis.toInt)
+  lazy val vrmAssignFulfilRequestTimeout: Int = getOptionalProperty[Int]("vrmAssignFulfil.requesttimeout").getOrElse( 30.seconds.toMillis.toInt)
 
   // Prototype message in html
-  val isPrototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
+  lazy val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)//, default = true)
 
   // Prototype survey URL
-  val prototypeSurveyUrl: String = getProperty("survey.url", "")
-  val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval", 7.days.toMillis)
+  lazy val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")//, "")
+  lazy val prototypeSurveyPrepositionInterval: Long = getOptionalProperty[Long]("survey.interval").getOrElse( 7.days.toMillis)
 
   // Google analytics
-  val googleAnalyticsTrackingId: String = getProperty("googleAnalytics.id.assign", "NOT FOUND")
+  lazy val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.assign")
 
   // Progress step indicator
-  val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
+  lazy val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)//, default = true)
 
   // Audit Service
-  val auditServiceUseRabbit = getProperty("auditService.useRabbit", default = false)
+  lazy val auditServiceUseRabbit = getOptionalProperty[Boolean]("auditService.useRabbit").getOrElse(false)//, default = false)
 
   // Rabbit-MQ
-  val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
-  val rabbitmqPort = getProperty("rabbitmq.port", 0)
-  val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
+  lazy val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
+  lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)//, 0)
+  lazy val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
 
   // Payment Service
-  val renewalFee: String = getProperty("assign.renewalFee", "NOT FOUND")
+  lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee").getOrElse("NOT FOUND")//, "NOT FOUND")
 
   // Email Service
-  val emailSmtpHost: String = getProperty("smtp.host", "")
-  val emailSmtpPort: Int = getProperty("smtp.port", 25)
-  val emailSmtpSsl: Boolean = getProperty("smtp.ssl", default = false)
-  val emailSmtpTls: Boolean = getProperty("smtp.tls", default = true)
-  val emailSmtpUser: String = getProperty("smtp.user", "")
-  val emailSmtpPassword: String = getProperty("smtp.password", "")
-  val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
-  val emailSenderAddress: String = getProperty("email.senderAddress", "")
+  lazy val emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
+  lazy val emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)//, 25)
+  lazy val emailSmtpSsl: Boolean = getOptionalProperty[Boolean]("smtp.ssl").getOrElse(false)//, default = false)
+  lazy val emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)//, default = true)
+  lazy val emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
+  lazy val emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
+  lazy val emailWhitelist: Option[List[String]] = getOptionalProperty[String]("email.whitelist").map(_.split(",").toList)
+  //getOptionalProperty[("email.whitelist", "").split(",")
+  lazy val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")//, "")
 
   // Cookie flags
-  val secureCookies = getProperty("secureCookies", default = true)
-  val cookieMaxAge = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
-  val storeBusinessDetailsMaxAge = getProperty("storeBusinessDetails.cookieMaxAge", 7.days.toSeconds.toInt)
+  lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)//, default = true)
+  lazy val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
+  lazy val storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
 }
