@@ -74,6 +74,17 @@ ul.hint-list {
 /*Custom styles requested by Clifton for PR
 so copied to assign may want to be moved to common*/
 
+details {
+    position: relative;
+}
+
+summary::-webkit-details-marker {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+
+
 .app h1 {
     margin:0px;
     font-size:48px;
