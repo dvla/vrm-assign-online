@@ -63,4 +63,11 @@ class Config {
   lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)//, default = true)
   lazy val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
   lazy val storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
+
+  // Web headers
+  val applicationCode: String = getProperty[String]("webHeader.applicationCode")
+  val serviceTypeCode: String = getProperty[String]("webHeader.serviceTypeCode")
+  val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
+  val channelCode: String = getProperty[String]("webHeader.channelCode")
+  val contactId: Long = getProperty[Long]("webHeader.contactId")
 }

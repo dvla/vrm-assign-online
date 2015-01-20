@@ -69,6 +69,14 @@ class TestConfig(
     when(config.secureCookies).thenReturn(secureCookies)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
+
+    // Web headers
+    when(config.applicationCode).thenReturn("test-applicationCode")
+    when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
+    when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
+    when(config.channelCode).thenReturn("test-channelCode")
+    when(config.contactId).thenReturn(42)
+
     config
   }
 

@@ -15,12 +15,14 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Payment._
 import views.vrm_assign.RelatedCacheKeys
 import views.vrm_assign.VehicleLookup._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -67,8 +69,14 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     Redirect(routes.BeforeYouStart.present())
   }
 
-  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] =
-    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form, dateService.now.toDateTime), trackingId).map { response =>
+  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] = {
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
+      dmsHeader = buildHeader(trackingId),
+      referenceNumber = form.referenceNumber,
+      registrationNumber = form.registrationNumber,
+      transactionTimestamp = dateService.now.toDateTime
+    )
+    vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
           auditService.send(AuditMessage.from(
@@ -134,6 +142,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           }
       }
     }
+  }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
     val transactionTimestamp = dateService.today.toDateTimeMillis.get
@@ -162,5 +171,28 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
     // prepend with zeros
     "%06d".format(tenthSecondsFromMidnight)
+  }
+
+  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
+    val alwaysLog = true
+    val englishLanguage = "EN"
+    DmsWebHeaderDto(conversationId = trackingId,
+      originDateTime = dateService.now.toDateTime,
+      applicationCode = config.applicationCode,
+      channelCode = config.channelCode,
+      contactId = config.contactId,
+      eventFlag = alwaysLog,
+      serviceTypeCode = config.serviceTypeCode,
+      languageCode = englishLanguage,
+      endUser = buildEndUser)
+  }
+
+  private def buildEndUser: DmsWebEndUserDto = {
+    DmsWebEndUserDto(endUserTeamCode = config.applicationCode,
+      endUserTeamDesc = config.applicationCode,
+      endUserRole = config.applicationCode,
+      endUserId = config.applicationCode,
+      endUserIdDesc = config.applicationCode,
+      endUserLongNameDesc = config.applicationCode)
   }
 }
