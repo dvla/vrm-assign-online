@@ -1,12 +1,12 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import audit1.AuditMessage
 import com.google.inject.Inject
 import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, Period}
 import play.api.Logger
-import play.api.data.{FormError, Form => PlayForm}
+import play.api.data.{Form => PlayForm, FormError}
 import play.api.libs.json.Writes
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -19,6 +19,8 @@ import utils.helpers.Config
 import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityService}
 
 import scala.collection.mutable.ListBuffer
@@ -27,9 +29,13 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.control.NonFatal
 
-final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForcePreventionService,
-                                                eligibilityService: VrmAssignEligibilityService,
-                                                auditService: AuditService, dateService: DateService)
+final class CaptureCertificateDetails @Inject()(
+                                                 val bruteForceService: BruteForcePreventionService,
+                                                 eligibilityService: VrmAssignEligibilityService,
+                                                 auditService1: audit1.AuditService,
+                                                 auditService2: audit2.AuditService,
+                                                 dateService: DateService
+                                                 )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
@@ -106,7 +112,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
   def exit = Action {
     implicit request =>
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
@@ -140,7 +151,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToMicroServiceError,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology
+      ))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToMicroServiceError,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology
@@ -150,7 +166,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
     def eligibilitySuccess(certificateExpiryDate: DateTime) = {
       val redirectLocation = {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
@@ -176,7 +197,13 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
@@ -242,5 +269,4 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception " + e.toString)
     }
   }
-
 }

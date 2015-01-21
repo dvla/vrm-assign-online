@@ -5,7 +5,6 @@ import com.google.inject.{Guice, Injector, Module}
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 
-
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
@@ -15,7 +14,8 @@ trait TestComposition extends Composition {
     new TestVehicleAndKeeperLookupWebService,
     new TestRefererFromHeader,
     new TestPaymentSolveWebService,
-    new TestAuditService
+    new audit1.AuditLocalService,
+    new audit2.AuditServiceDoesNothing
   )
 
   def testInjector(modules: Module*) = {

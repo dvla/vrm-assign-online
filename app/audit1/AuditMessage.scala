@@ -143,7 +143,7 @@ object PaymentModelOptSeq {
 object AuditMessage {
 
   // service types
-  final val PersonalisedRegServiceType = "PR Assign"
+  final val AuditServiceType = "PR Assign"
 
   // page movement names
   final val VehicleLookupToCaptureCertificateDetails = "VehicleLookupToCaptureCertificateDetails"
@@ -201,6 +201,6 @@ object AuditMessage {
       ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq
         ++ captureCertificateDetailsFormModelOpt ++ paymentModelOptSeq).flatten
     }
-    AuditMessage(pageMovement, PersonalisedRegServiceType, data: _*)
+    AuditMessage(pageMovement, AuditServiceType, data: _*)
   }
 }

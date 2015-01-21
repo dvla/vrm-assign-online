@@ -1,9 +1,7 @@
 package controllers
 
-import views.vrm_assign.Confirm._
-import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
 import java.io.ByteArrayInputStream
+
 import com.google.inject.Inject
 import models._
 import pdf.PdfService
@@ -14,14 +12,19 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_assign.Confirm._
+import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
+import views.vrm_assign.VehicleLookup._
 import webserviceclients.paymentsolve.PaymentSolveService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-
-final class Success @Inject()(pdfService: PdfService,
-                              dateService: DateService,
-                              paymentSolveService: PaymentSolveService)
+final class Success @Inject()(
+                               pdfService: PdfService,
+                               dateService: DateService,
+                               paymentSolveService: PaymentSolveService
+                               )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
@@ -42,7 +45,7 @@ final class Success @Inject()(pdfService: PdfService,
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
-          captureCertificateDetailsModel.outstandingFees)
+            captureCertificateDetailsModel.outstandingFees)
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
@@ -59,14 +62,14 @@ final class Success @Inject()(pdfService: PdfService,
           vehicleAndKeeperDetails.title.getOrElse("") + " " +
             vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
             vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address,
-            captureCertificateDetailsFormModel.prVrm.replace(" ","")).map {
+          captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)
             // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
             // and manually test after making any change.
-            val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ","")
-          val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
+            val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
+            val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
             Ok.feed(dataContent).
               withHeaders(
                 CONTENT_TYPE -> "application/pdf",

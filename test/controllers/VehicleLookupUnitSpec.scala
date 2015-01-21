@@ -1,8 +1,10 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition._
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.vehicleandkeeperlookup._
+import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -18,7 +20,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import views.vrm_assign.Payment._
 import views.vrm_assign.VehicleLookup._
@@ -382,7 +384,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditService(),
+      new AuditLocalService,
+      new AuditServiceDoesNothing,
       new TestDateService()
     ).
       getInstance(classOf[VehicleLookup])
@@ -393,7 +396,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
-      new TestAuditService(),
+      new AuditLocalService,
+      new AuditServiceDoesNothing,
       new TestDateService()
     )
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
@@ -403,15 +407,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                          permitted: Boolean = true,
                                          vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                           ) = {
-    val auditService = mock[AuditService]
+    val auditService1 = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditService(auditService),
+      new AuditLocalService(auditService1 = auditService1),
+      new AuditServiceDoesNothing,
       new TestDateService()
     )
-    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[audit1.AuditService]))
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
@@ -460,7 +465,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
+      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[VehicleLookup])
   }
@@ -470,7 +476,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallVRMNotFound()
+      new VehicleAndKeeperDetailsCallVRMNotFound(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[VehicleLookup])
   }

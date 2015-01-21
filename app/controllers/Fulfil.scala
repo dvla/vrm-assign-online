@@ -7,23 +7,27 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.Fulfil._
 import views.vrm_assign.VehicleLookup._
-import webserviceclients.vrmassignfulfil.{VrmAssignFulfilResponse, VrmAssignFulfilRequest, VrmAssignFulfilService}
-import scala.concurrent.ExecutionContext.Implicits.global
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
+import webserviceclients.vrmassignfulfil.{VrmAssignFulfilRequest, VrmAssignFulfilService}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
-                             dateService: DateService,
-                             auditService: AuditService)
+final class Fulfil @Inject()(
+                              vrmAssignFulfilService: VrmAssignFulfilService,
+                              dateService: DateService,
+                              auditService1: audit1.AuditService,
+                              auditService2: audit2.AuditService
+                              )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
@@ -34,9 +38,14 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       request.cookies.getString(GranteeConsentCacheKey)) match {
       case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent))
         if (granteeConsent == "true") =>
-          fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
       case (_, Some(transactionId), _, _) => {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToMicroServiceError,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology
+        ))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
@@ -72,7 +81,15 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
 
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToSuccess,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          paymentModel = paymentModel))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
@@ -85,7 +102,14 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           withCookie(paymentModel.get).
           withCookie(FulfilModel.from(transactionTimestampWithZone))
       } else {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToSuccess,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
@@ -111,7 +135,16 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
 
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          paymentModel = paymentModel,
+          rejectionCode = Some(responseCode)))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToPaymentFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
@@ -125,7 +158,15 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           withCookie(paymentModel.get).
           withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       } else {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          rejectionCode = Some(responseCode)))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToPaymentFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,

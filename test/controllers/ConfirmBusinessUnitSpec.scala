@@ -2,7 +2,9 @@ package controllers
 
 
 import audit1.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestDateService, WithApplication}
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
@@ -49,10 +51,11 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "submit" should {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
+        new AuditLocalService(auditService1),
+        new AuditServiceDoesNothing,
         new TestDateService)
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
@@ -68,7 +71,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@email.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data: _*)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -80,7 +83,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        verify(mockAuditService).send(auditMessage)
+        verify(auditService1).send(auditMessage)
       }
     }
 
@@ -143,7 +146,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector(
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().

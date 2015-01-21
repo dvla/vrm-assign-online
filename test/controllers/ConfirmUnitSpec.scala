@@ -1,6 +1,8 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig, TestDateService, WithApplication}
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
+import composition.{TestConfig, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import play.api.test.FakeRequest
@@ -62,7 +64,8 @@ final class ConfirmUnitSpec extends UnitSpec {
   private def setUpBusinessDetailsPrototypeNotVisible() = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new TestAuditService(),
+      new AuditLocalService,
+      new AuditServiceDoesNothing,
       new TestDateService()
     ).
       getInstance(classOf[Confirm])

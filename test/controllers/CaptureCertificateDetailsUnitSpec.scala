@@ -1,7 +1,9 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestBruteForcePreventionWebService, TestDateService, WithApplication}
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
+import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito._
@@ -101,11 +103,12 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   private def checkEligibility() = {
-    val auditService = mock[AuditService]
+    val auditService1 = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new TestAuditService(auditService)
+      new AuditLocalService(auditService1),
+      new AuditServiceDoesNothing
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }

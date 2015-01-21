@@ -13,9 +13,14 @@ import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-
-final class Confirm @Inject()(auditService: AuditService, dateService: DateService)
+final class Confirm @Inject()(
+                               auditService1: audit1.AuditService,
+                               auditService2: audit2.AuditService,
+                               dateService: DateService
+                               )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
@@ -68,7 +73,14 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
 
       // check for outstanding fees
       if (captureCertificateDetails.outstandingFees > 0) {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmToPayment,
+          timestamp = dateService.dateTimeISOChronology,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = model.keeperEmail,
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToPayment,
           timestamp = dateService.dateTimeISOChronology,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -77,7 +89,14 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
       } else {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmToSuccess,
+          timestamp = dateService.dateTimeISOChronology,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = model.keeperEmail,
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToSuccess,
           timestamp = dateService.dateTimeISOChronology,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -109,7 +128,14 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
+      pageMovement = AuditMessage.ConfirmToExit,
+      timestamp = dateService.dateTimeISOChronology,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+    auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),

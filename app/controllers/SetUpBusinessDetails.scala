@@ -1,23 +1,27 @@
 package controllers
 
+import audit1.AuditMessage
 import com.google.inject.Inject
-import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel, SetupBusinessDetailsFormModel}
+import models.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.SetupBusinessDetails._
 import views.vrm_assign.VehicleLookup._
-import scala.Some
-import views.vrm_assign.RelatedCacheKeys
-import audit1.{AuditMessage, AuditService}
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+final class SetUpBusinessDetails @Inject()(
+                                            auditService1: audit1.AuditService,
+                                            auditService2: audit2.AuditService,
+                                            dateService: DateService
+                                            )(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                              config: Config) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -51,7 +55,12 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
 
   def exit = Action {
     implicit request =>
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
