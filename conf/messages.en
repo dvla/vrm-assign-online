@@ -597,6 +597,10 @@ vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/de
 vrm_assign_success.noticePayment.desc1 = Description
 
 vrm_assign_success.h2 = What to do next
+vrm_assign_success.h2a = What happens next?
+vrm_assign_success.p4 = We will send the following items to the keeper at their registered address:
+vrm_assign_success.p5 = A new registration certificate (V5C) with the replacement registration number
+vrm_assign_success.p6 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_assign_success.h3a = Making up your new plates
 vrm_assign_success.p1a = You can remove your existing registration plates and put on your registration number
 vrm_assign_success.p1b = on your vehicle. You can have your new plates made through one of our registered number plate suppliers. We recommend that you arrange this as soon as possible as we have updated your driver record.

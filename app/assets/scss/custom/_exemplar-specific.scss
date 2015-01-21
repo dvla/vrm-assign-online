@@ -47,9 +47,8 @@ ul.hint-list {
     }
 }
 
-
-.app ul.email-list li {
-  margin-bottom:0px;
+.app ol li, .app ul li {
+    margin-bottom: .1em;
 }
 
 .vrm-assign-online .first-col .playback {
@@ -78,9 +77,13 @@ details {
     position: relative;
 }
 
+summary {
+  padding-left: 14px;
+}
+
 summary::-webkit-details-marker {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 10px;
 }
 
