@@ -10,7 +10,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicle
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupWebService}
 import scala.concurrent.Future
 
-class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {
+final class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]

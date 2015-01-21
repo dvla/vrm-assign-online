@@ -4,7 +4,7 @@ import akka.actor.Actor
 import com.rabbitmq.client.Channel
 import uk.gov.dvla.auditing.Message
 
-class SendingActor(channel: Channel, queue: String) extends Actor {
+final class SendingActor(channel: Channel, queue: String) extends Actor {
 
   def receive = {
     case auditMessage: Message =>

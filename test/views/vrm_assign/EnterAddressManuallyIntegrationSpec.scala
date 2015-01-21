@@ -1,10 +1,9 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
-import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
@@ -54,7 +53,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath()
 
-    currentUrl should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
 
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowserForSelenium {
@@ -85,7 +84,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       go to EnterAddressManuallyPage
       click on back
 
-currentUrl should equal(BusinessChooseYourAddressPage.url)
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
   }
 

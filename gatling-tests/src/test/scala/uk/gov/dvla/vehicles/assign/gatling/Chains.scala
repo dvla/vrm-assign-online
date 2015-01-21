@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.core.feeder.RecordSeqFeederBuilder
 import io.gatling.http.Predef._
 
-class Chains(data: RecordSeqFeederBuilder[String]) {
+final class Chains(data: RecordSeqFeederBuilder[String]) {
 
   def assetsAreAccessible =
     exec(

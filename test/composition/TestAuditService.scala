@@ -8,7 +8,7 @@ import org.mockito.internal.stubbing.answers.DoesNothing
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
 
-class TestAuditService(auditService: AuditService = mock(classOf[AuditService])) extends ScalaModule with MockitoSugar {
+final class TestAuditService(auditService: AuditService = mock(classOf[AuditService])) extends ScalaModule with MockitoSugar {
 
   def configure() = {
     when(auditService.send(any[Message])).thenAnswer(new DoesNothing)

@@ -4,7 +4,7 @@ import composition.{TestConfig, WithApplication}
 import helpers.UnitSpec
 import uk.gov.dvla.auditing.Message
 
-class AuditServiceImplSpec extends UnitSpec {
+final class AuditServiceImplSpec extends UnitSpec {
 
   "send" should {
     "add message to a queue" in new WithApplication {
@@ -14,7 +14,7 @@ class AuditServiceImplSpec extends UnitSpec {
     }
   }
 
-  private lazy val auditService = testInjector(
+  private def auditService = testInjector(
     new TestConfig(
       //auditServiceUseRabbit = true,
       rabbitmqHost = "TODO",

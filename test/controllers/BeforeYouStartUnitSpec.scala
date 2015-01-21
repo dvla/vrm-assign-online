@@ -29,10 +29,10 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val beforeYouStartPrototypeNotVisible = {
+  private def beforeYouStartPrototypeNotVisible = {
     testInjector(new TestConfig(isPrototypeBannerVisible = false)).
       getInstance(classOf[BeforeYouStart])
   }
 
-  private lazy val beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])
+  private def beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])
 }

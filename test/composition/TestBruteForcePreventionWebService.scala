@@ -15,7 +15,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseS
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
 import scala.concurrent.Future
 
-class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
+final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val bruteForceStatus = if (permitted) OK else FORBIDDEN

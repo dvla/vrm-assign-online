@@ -7,7 +7,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.VehicleLookupPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {
