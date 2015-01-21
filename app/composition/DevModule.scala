@@ -1,6 +1,6 @@
 package composition
 
-import audit.{AuditService, AuditServiceImpl}
+import audit1.{AuditService, AuditLocalServiceImpl}
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailServiceImpl, EmailService}
@@ -54,7 +54,7 @@ final class DevModule extends ScalaModule {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
+    bind[AuditService].to[AuditLocalServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
   }
 

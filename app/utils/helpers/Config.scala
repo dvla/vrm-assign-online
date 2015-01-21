@@ -37,13 +37,13 @@ class Config {
   // Progress step indicator
   lazy val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)//, default = true)
 
-  // Audit Service
-  lazy val auditServiceUseRabbit = getOptionalProperty[Boolean]("auditService.useRabbit").getOrElse(false)//, default = false)
-
   // Rabbit-MQ
   lazy val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
-  lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)//, 0)
+  lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
   lazy val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
+  lazy val rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
+  lazy val rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
+  lazy val rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
 
   // Payment Service
   lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee.price").getOrElse("NOT FOUND")//, "NOT FOUND")

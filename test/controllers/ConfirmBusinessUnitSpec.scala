@@ -1,7 +1,7 @@
 package controllers
 
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import composition.{TestAuditService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._

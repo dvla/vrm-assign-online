@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import composition.{TestAuditService, TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._

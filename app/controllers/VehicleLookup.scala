@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._

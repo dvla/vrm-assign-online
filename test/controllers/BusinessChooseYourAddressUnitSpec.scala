@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.{TestAuditService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}

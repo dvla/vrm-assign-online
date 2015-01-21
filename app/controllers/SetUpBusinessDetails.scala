@@ -13,7 +13,7 @@ import views.vrm_assign.SetupBusinessDetails._
 import views.vrm_assign.VehicleLookup._
 import scala.Some
 import views.vrm_assign.RelatedCacheKeys
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,

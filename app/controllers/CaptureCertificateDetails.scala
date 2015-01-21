@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditMessage, AuditService}
 import com.google.inject.Inject
 import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.DateTimeFormat

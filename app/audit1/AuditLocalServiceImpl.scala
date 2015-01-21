@@ -1,4 +1,4 @@
-package audit
+package audit1
 
 import java.util.concurrent.TimeUnit
 import akka.actor.Props
@@ -12,21 +12,21 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
 import uk.gov.dvla.auditing.Message
 
-final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
+final class AuditLocalServiceImpl @Inject()(config: Config) extends AuditService {
 
   private lazy val sendingChannel: Channel = {
     val connection = new RabbitMQConnection(config).getConnection
     val channel = connection.createChannel()
-    // Uncomment the queueDeclare to create a queue if one does not exist at the address.
+    // QueueDeclare is idempotent - it creates a queue if one does not exist.
     // If one does already exist it connects to it without erasing any messages already in the queue.
-    //channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
+    // Parameters are:
+    // (java.lang.String queue, boolean durable, boolean exclusive, boolean autoDelete, java.util.Map<java.lang.String,java.lang.Object> arguments)
+    channel.queueDeclare(config.rabbitmqQueue, true, false, false, null)
     channel
   }
 
   override def send(auditMessage: Message): Unit = {
-    if (config.auditServiceUseRabbit) {
-      sendingChannel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
-
+    if (config.rabbitmqHost != "NOT FOUND") {
       Akka.system.scheduler.scheduleOnce(
         delay = FiniteDuration(0, TimeUnit.SECONDS),
         receiver = Akka.system.actorOf(
@@ -34,8 +34,7 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
         ),
         message = auditMessage
       )
-    } else {
-      Logger.debug(s"Audit message: $auditMessage")
     }
+    Logger.info(s"Audit message: $auditMessage")
   }
 }

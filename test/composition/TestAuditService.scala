@@ -1,6 +1,6 @@
 package composition
 
-import audit.AuditService
+import audit1.AuditService
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
