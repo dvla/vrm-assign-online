@@ -46,7 +46,8 @@ class Config {
   lazy val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
 
   // Payment Service
-  lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee").getOrElse("NOT FOUND")//, "NOT FOUND")
+  lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee.price").getOrElse("NOT FOUND")//, "NOT FOUND")
+  lazy val renewalFeeAbolitionDate: String = getOptionalProperty[String]("assign.renewalFee.abolitionDate").getOrElse("NOT FOUND")//, "NOT FOUND")
 
   // Email Service
   lazy val emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
