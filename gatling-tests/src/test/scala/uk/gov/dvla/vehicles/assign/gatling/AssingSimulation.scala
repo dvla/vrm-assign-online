@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import Helper.httpConf
 import Scenarios._
 
-class AssingSimulation extends Simulation {
+final class AssingSimulation extends Simulation {
 
   private val oneUser = atOnceUsers(1)
 

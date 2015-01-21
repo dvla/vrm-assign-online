@@ -49,8 +49,8 @@ final class ConfirmUnitSpec extends UnitSpec {
   //    }
   //  }
 
-  private lazy val confirm = testInjector().getInstance(classOf[Confirm])
-  private lazy val present = {
+  private def confirm = testInjector().getInstance(classOf[Confirm])
+  private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel()).
       withCookies(vehicleAndKeeperLookupFormModel()).

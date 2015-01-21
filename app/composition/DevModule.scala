@@ -30,7 +30,7 @@ import webserviceclients.vrmretentioneligibility._
  *
  * Look in build.scala for where we import the sse-guice library
  */
-class DevModule extends ScalaModule {
+final class DevModule extends ScalaModule {
 
   def configure() {
 

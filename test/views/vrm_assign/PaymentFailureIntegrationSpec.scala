@@ -1,13 +1,13 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentFailurePage, VehicleLookupPage}
 import pages.vrm_assign.PaymentFailurePage.{exit, tryAgain}
+import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentFailurePage, VehicleLookupPage}
 
 final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -48,7 +48,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       click on exit
 
-  currentUrl should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
