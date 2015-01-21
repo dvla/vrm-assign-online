@@ -7,7 +7,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.CaptureCertificateDetailsPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {

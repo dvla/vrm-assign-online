@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
 
 import scala.concurrent.duration.DurationInt
 
-class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)

@@ -10,7 +10,7 @@ import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-class CommonStepDefs(
+final class CommonStepDefs(
                       beforeYouStart: BeforeYouStart_PageSteps,
                       vehicleLookup: VehicleLookup_PageSteps,
                       vrmLocked: VrmLocked_PageSteps,
