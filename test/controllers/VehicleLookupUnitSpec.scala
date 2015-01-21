@@ -486,15 +486,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       eventFlag = alwaysLog,
       serviceTypeCode = "test-serviceTypeCode",
       languageCode = englishLanguage,
-      endUser = buildEndUser)
-  }
-
-  private def buildEndUser: DmsWebEndUserDto = {
-    DmsWebEndUserDto(endUserTeamCode = "test-applicationCode",
-      endUserTeamDesc = "test-applicationCode",
-      endUserRole = "test-applicationCode",
-      endUserId = "test-applicationCode",
-      endUserIdDesc = "test-applicationCode",
-      endUserLongNameDesc = "test-applicationCode")
+      endUser = None)
   }
 }
