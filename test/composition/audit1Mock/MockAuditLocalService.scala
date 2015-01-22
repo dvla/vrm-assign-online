@@ -1,4 +1,4 @@
-package composition.audit1
+package composition.audit1Mock
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
@@ -8,13 +8,17 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
 import webserviceclients.audit2
 
-final class AuditLocalService(
+final class MockAuditLocalService(
                              auditService1: audit1.AuditService = mock(classOf[audit1.AuditService]),
                              auditService2: audit2.AuditService = mock(classOf[audit2.AuditService])
                              ) extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  def build() = {
     when(auditService1.send(any[Message])).thenAnswer(new DoesNothing)
-    bind[audit1.AuditService].toInstance(auditService1)
+    auditService1
+  }
+  def configure() = {
+
+    bind[audit1.AuditService].toInstance(build())
   }
 }

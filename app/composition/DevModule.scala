@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import utils.helpers.AssignCookieFlags
+import utils.helpers.{ConfigImpl, Config, AssignCookieFlags}
 import webserviceclients.paymentsolve.{PaymentSolveServiceImpl, PaymentSolveService, PaymentSolveWebServiceImpl, PaymentSolveWebService}
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import webserviceclients.vrmassignfulfil.{VrmAssignFulfilWebService, VrmAssignFulfilWebServiceImpl, VrmAssignFulfilServiceImpl, VrmAssignFulfilService}
@@ -32,6 +32,8 @@ import webserviceclients.vrmretentioneligibility._
 final class DevModule extends ScalaModule {
 
   def configure() {
+
+    bind[Config].to[ConfigImpl].asEagerSingleton()
 
     bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
     bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()

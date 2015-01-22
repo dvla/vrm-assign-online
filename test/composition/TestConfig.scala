@@ -17,7 +17,8 @@ final class TestConfig(
                   vehicleAndKeeperLookupMicroServiceBaseUrl: String = "NOT FOUND",
                   secureCookies: Boolean = true,
                   cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
-                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt
+                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
+                  auditMicroServiceUrlBase: String = ""
                   ) extends ScalaModule with MockitoSugar {
 
   val notFound = "NOT FOUND"
@@ -69,7 +70,7 @@ final class TestConfig(
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 
-    when(config.auditMicroServiceUrlBase).thenReturn("")
+    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
     when(config.auditMsRequestTimeout).thenReturn(30000)
 
     // Web headers

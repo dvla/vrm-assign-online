@@ -17,7 +17,7 @@ import scala.concurrent.Future
 
 final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  def build() = {
     val bruteForceStatus = if (permitted) OK else FORBIDDEN
     val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
@@ -36,7 +36,14 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
     when(bruteForcePreventionWebService.reset(any[String])).
       thenReturn(Future.successful(new FakeResponse(status = play.api.http.Status.OK)))
 
-    bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
+    bruteForcePreventionWebService
+
+  }
+
+  def configure() = {
+
+
+    bind[BruteForcePreventionWebService].toInstance(build())
   }
 
   private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))

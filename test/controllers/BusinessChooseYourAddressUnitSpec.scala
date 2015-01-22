@@ -2,7 +2,7 @@ package controllers
 
 import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalService
+import composition.audit1Mock.MockAuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
@@ -148,7 +148,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestDateService,
-        new AuditLocalService(auditService1),
+        new MockAuditLocalService(auditService1),
         new AuditServiceDoesNothing
       )
 
@@ -354,7 +354,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         }
       },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
-      new AuditLocalService,
+      new MockAuditLocalService,
       new AuditServiceDoesNothing
     ).getInstance(classOf[BusinessChooseYourAddress])
   }

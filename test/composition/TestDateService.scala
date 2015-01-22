@@ -10,7 +10,7 @@ import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearV
 
 final class TestDateService extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  def build() = {
     val dateTimeISOChronology: String = new DateTime(
       YearValid.toInt,
       MonthValid.toInt,
@@ -34,6 +34,12 @@ final class TestDateService extends ScalaModule with MockitoSugar {
     when(dateService.dateTimeISOChronology).thenReturn(dateTimeISOChronology)
     when(dateService.today).thenReturn(today)
     when(dateService.now).thenReturn(now)
-    bind[DateService].toInstance(dateService)
+
+    dateService
+  }
+
+  def configure() = {
+
+    bind[DateService].toInstance(build())
   }
 }

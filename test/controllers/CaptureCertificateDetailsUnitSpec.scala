@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalService
+import composition.audit1Mock.MockAuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -107,7 +107,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new AuditLocalService(auditService1),
+      new MockAuditLocalService(auditService1),
       new AuditServiceDoesNothing
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))

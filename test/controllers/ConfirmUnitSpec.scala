@@ -1,6 +1,6 @@
 package controllers
 
-import composition.audit1.AuditLocalService
+import composition.audit1Mock.MockAuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -64,7 +64,7 @@ final class ConfirmUnitSpec extends UnitSpec {
   private def setUpBusinessDetailsPrototypeNotVisible() = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalService,
+      new MockAuditLocalService,
       new AuditServiceDoesNothing,
       new TestDateService()
     ).

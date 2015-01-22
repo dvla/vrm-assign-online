@@ -14,7 +14,7 @@ import scala.concurrent.Future
 
 final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  def build() = {
     val webService = mock[PaymentSolveWebService]
 
     when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
@@ -29,8 +29,12 @@ final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
     when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
 
+    webService
+  }
 
-    bind[PaymentSolveWebService].toInstance(webService)
+  def configure() = {
+
+    bind[PaymentSolveWebService].toInstance(build())
   }
 }
 
