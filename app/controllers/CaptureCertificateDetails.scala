@@ -211,10 +211,10 @@ final class CaptureCertificateDetails @Inject()(
         rejectionCode = Some(responseCode)))
 
       // calculate number of years owed if any
-      // may not have an expry date so check before calling function
+      // may not have an expiry date so check before calling function
       val outstandingDates: ListBuffer[String] = {
         certificateExpiryDate match {
-          case Some(expiryDate) => calculateYearsOwed(expiryDate)
+          case Some(expiryDate) if (responseCode contains("vrm_assign_eligibility_direct_to_paper")) => calculateYearsOwed(expiryDate)
           case _ => new ListBuffer[String]
         }
       }
