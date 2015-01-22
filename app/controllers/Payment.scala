@@ -77,10 +77,10 @@ final class Payment @Inject()(
 
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-      case (Some(transactionId), Some(paymentDetails)) =>
-        callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get)
-      case _ => Future.successful {
-        paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
+      case (Some(transactionId), Some(paymentModel)) =>
+        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+      case (transactionId, paymentModel) => Future.successful {
+        paymentFailure(s"Payment cancel missing either TransactionIdCacheKey: $transactionId or paymentModel $paymentModel cookie")
       }
     }
   }

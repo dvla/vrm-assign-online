@@ -4,11 +4,15 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.audit2.AuditServiceReal
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import email.{EmailService, EmailServiceImpl}
+import org.mockito.Matchers._
+import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
+import play.api.i18n.Lang
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
@@ -18,6 +22,8 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
 import utils.helpers.{AssignCookieFlags, Config}
+import webserviceclients.fakes.AddressLookupServiceConstants._
+import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.paymentsolve.{PaymentSolveServiceImpl, PaymentSolveService, PaymentSolveWebService}
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupService, VehicleAndKeeperLookupWebService}
 import webserviceclients.vrmassignfulfil.{VrmAssignFulfilService, VrmAssignFulfilServiceImpl, VrmAssignFulfilWebService, VrmAssignFulfilWebServiceImpl}
@@ -25,20 +31,13 @@ import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, V
 
 trait TestComposition extends Composition {
 
-  override lazy val injector: Injector = testInjector(
-    new TestConfig,
-    new TestBruteForcePreventionWebService,   //
-    new TestDateService,                      //
-    new TestOrdnanceSurvey,
-    new TestVehicleAndKeeperLookupWebService, //
-    new TestRefererFromHeader,
-    new TestPaymentSolveWebService,           //
-    new composition.audit1Mock.MockAuditLocalService, //
-    new audit2.AuditServiceDoesNothing                //
-  )
+  override lazy val injector: Injector = testInjector()
 
   def testInjector(modules: Module*) = {
-    val overriddenDevModule = Modules.`override`(new TestModule()).`with`(modules: _*)
+    val overriddenDevModule = Modules.`override`(
+      new TestModule(),
+      new TestOrdnanceSurvey
+    ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
 }
@@ -49,8 +48,6 @@ final class TestModule extends ScalaModule with MockitoSugar {
 
     bind[Config].toInstance(new TestConfig().build)
 
-    bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
-    bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupWebService].toInstance(new TestVehicleAndKeeperLookupWebService().build())
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DateService].toInstance(new TestDateService().build())

@@ -1,13 +1,13 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign._
-import views.vrm_assign.RelatedCacheKeys.{BusinessDetailsSet, AssignSet}
+import views.vrm_assign.RelatedCacheKeys.{AssignSet, BusinessDetailsSet}
 
 final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
@@ -39,24 +39,26 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-//  Cannot test without mocking up the html of the Solve payment iframe
-//  "pay now button" should
+  //  Cannot test without mocking up the html of the Solve payment iframe
+  //  "pay now button" should
 
   "cancel" should {
     "redirect to mock feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
+      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
-  currentUrl should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
 
     "remove AssignSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
+      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
@@ -73,6 +75,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
+      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
@@ -93,6 +96,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
+      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
