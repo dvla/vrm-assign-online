@@ -3,26 +3,23 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.vrmassigneligibility.{VrmAssignEligibilityCallNotEligibleError, VrmAssignEligibilityCallDirectToPaperError, TestVrmAssignEligibilityWebService}
+import composition.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
+import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import models.{CaptureCertificateDetailsModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, CaptureCertificateDetailsFormModel}
+import models.{CaptureCertificateDetailsModel, CaptureCertificateDetailsFormModel}
 import org.mockito.Mockito._
-import pages.vrm_assign.{ConfirmPage, MicroServiceErrorPage, LeaveFeedbackPage, VehicleLookupFailurePage}
+import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, MicroServiceErrorPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.CaptureCertificateDetails._
-import views.vrm_assign.SetupBusinessDetails._
-import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.JsonUtils.deserializeJsonToModel
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityWebService
 
 final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
@@ -94,6 +91,15 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
+              model.outstandingDates.size should equal(2)
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 
@@ -108,6 +114,15 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
+              model.outstandingDates.size should equal(0)
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 
