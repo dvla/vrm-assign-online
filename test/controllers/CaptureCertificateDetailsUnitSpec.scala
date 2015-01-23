@@ -4,13 +4,13 @@ import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.vrmassigneligibility.TestVrmAssignEligibilityWebService
+import composition.vrmassigneligibility.{VrmAssignEligibilityCallNotEligibleError, VrmAssignEligibilityCallDirectToPaperError, TestVrmAssignEligibilityWebService}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import models.{CaptureCertificateDetailsModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, CaptureCertificateDetailsFormModel}
 import org.mockito.Mockito._
-import pages.vrm_assign.{ConfirmPage, MicroServiceErrorPage, LeaveFeedbackPage}
+import pages.vrm_assign.{ConfirmPage, MicroServiceErrorPage, LeaveFeedbackPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -46,7 +46,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "redirect to VehicleLookup page is required cookies do not exist" in new WithApplication {
+    "redirect to MicroServiceError page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val (captureCertificateDetails, dateService, auditService) = checkEligibility()
       val result = captureCertificateDetails.submit(request)
@@ -82,6 +82,35 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           }
       }
     }
+
+    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = checkEligibilityDirectToPaper()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = checkEligibilityNotEligible()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
   }
 
   "exit" should {
@@ -160,6 +189,30 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       new AuditLocalService(auditService1),
       new AuditServiceDoesNothing,
       new TestVrmAssignEligibilityWebService(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
+    )
+    (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+  }
+
+  private def checkEligibilityDirectToPaper() = {
+    val auditService1 = mock[AuditService]
+    val ioc = testInjector(
+      new TestBruteForcePreventionWebService(permitted = true),
+      new TestDateService(),
+      new AuditLocalService(auditService1),
+      new AuditServiceDoesNothing,
+      new VrmAssignEligibilityCallDirectToPaperError
+    )
+    (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+  }
+
+  private def checkEligibilityNotEligible() = {
+    val auditService1 = mock[AuditService]
+    val ioc = testInjector(
+      new TestBruteForcePreventionWebService(permitted = true),
+      new TestDateService(),
+      new AuditLocalService(auditService1),
+      new AuditServiceDoesNothing,
+      new VrmAssignEligibilityCallNotEligibleError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
