@@ -6,6 +6,6 @@ object CaptureCertificateDetailsFormWebServiceConstants {
   final val CertificateDateValid = "12345"
   final val CertificateTimeValid = "123456"
   final val CertificateRegistrationMarkValid = "CD12QAS"
-  final val PrVrmValid = "CTY81"
+  final val PrVrmValid = "AB12AWR" // use this VRM so it passes brute force
 
 }

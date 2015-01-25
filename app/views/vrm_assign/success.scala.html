@@ -3,7 +3,7 @@
         config: utils.helpers.Config)
 
 @import views.html.vrm_assign.main
-@import views.vrm_assign.Success.FinishId
+@import views.vrm_assign.Success.{FinishId, CreatePdfId, PrintId}
 
 
 @main(
@@ -43,7 +43,7 @@
                         <p>@Messages("vrm_assign_success_payment.p7")</p>
                     </div>
                     <div class="first-col">
-                        <a class="pdf-link" href="@controllers.routes.Success.createPdf()">
+                        <a id="@CreatePdfId" class="pdf-link" href="@controllers.routes.Success.createPdf()">
                             <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
                             @Messages("vrm_assign_success.newPlateLink")
                         </a>
@@ -71,7 +71,7 @@
 
             <div class="form-steps">
                 <div class="step">
-                    <button id="printDisposalSuccess" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+                    <button id="@PrintId" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
                     <br /><br />
                     <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
                 </div>
@@ -100,4 +100,12 @@
         </div>
 
     </div>
+}
+
+@if(config.googleAnalyticsTrackingId.isDefined) {
+    <script type="text/javascript">
+        track('@CreatePdfId', 'click');
+        track('@PrintId', 'click');
+        track('@FinishId', 'click');
+    </script>
 }
