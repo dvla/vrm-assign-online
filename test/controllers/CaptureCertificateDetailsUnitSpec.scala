@@ -41,92 +41,92 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
   }
 
-//  "submit" should {
-//
-//    "redirect to MicroServiceError page is required cookies do not exist" in new WithApplication {
-//      val request = FakeRequest()
-//      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
-//      val result = captureCertificateDetails.submit(request)
-//      whenReady(result) {
-//        r =>
-//          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//      }
-//    }
-//
-//    "redirect to confirm page when the form is completed successfully" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//        .withCookies(vehicleAndKeeperDetailsModel())
-//        .withCookies(vehicleAndKeeperLookupFormModel())
-//        .withCookies(captureCertificateDetailsFormModel())
-//        .withCookies(captureCertificateDetailsModel())
-//      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
-//      val result = captureCertificateDetails.submit(request)
-//      whenReady(result) {
-//        r =>
-//          r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
-//          val cookies = fetchCookiesFromHeaders(r)
-//          val cookieName = CaptureCertificateDetailsFormModelCacheKey
-//          cookies.find(_.name == cookieName) match {
-//            case Some(cookie) =>
-//              val json = cookie.value
-//              val model = deserializeJsonToModel[CaptureCertificateDetailsFormModel](json)
-//              model.certificateDate should equal(CertificateDateValid.toUpperCase)
-//              model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
-//              model.certificateRegistrationMark should equal(CertificateRegistrationMarkValid.toUpperCase)
-//              model.certificateTime should equal(CertificateTimeValid.toUpperCase)
-//              model.prVrm should equal(PrVrmValid.toUpperCase)
-//            case None => fail(s"$cookieName cookie not found")
-//          }
-//      }
-//    }
-//
-//    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//        .withCookies(vehicleAndKeeperDetailsModel())
-//        .withCookies(vehicleAndKeeperLookupFormModel())
-//        .withCookies(captureCertificateDetailsFormModel())
-//        .withCookies(captureCertificateDetailsModel())
-//      val (captureCertificateDetails, dateService, auditService) = checkEligibilityDirectToPaper()
-//      val result = captureCertificateDetails.submit(request)
-//      whenReady(result) {
-//        r =>
-//          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//          val cookies = fetchCookiesFromHeaders(r)
-//          val cookieName = CaptureCertificateDetailsCacheKey
-//          cookies.find(_.name == cookieName) match {
-//            case Some(cookie) =>
-//              val json = cookie.value
-//              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-//              model.outstandingDates.size should equal(2)
-//            case None => fail(s"$cookieName cookie not found")
-//          }
-//      }
-//    }
-//
-//    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//        .withCookies(vehicleAndKeeperDetailsModel())
-//        .withCookies(vehicleAndKeeperLookupFormModel())
-//        .withCookies(captureCertificateDetailsFormModel())
-//        .withCookies(captureCertificateDetailsModel())
-//      val (captureCertificateDetails, dateService, auditService) = checkEligibilityNotEligible()
-//      val result = captureCertificateDetails.submit(request)
-//      whenReady(result) {
-//        r =>
-//          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//          val cookies = fetchCookiesFromHeaders(r)
-//          val cookieName = CaptureCertificateDetailsCacheKey
-//          cookies.find(_.name == cookieName) match {
-//            case Some(cookie) =>
-//              val json = cookie.value
-//              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-//              model.outstandingDates.size should equal(0)
-//            case None => fail(s"$cookieName cookie not found")
-//          }
-//      }
-//    }
-//
-//  }
+  "submit" should {
+
+    "redirect to MicroServiceError page is required cookies do not exist" in new WithApplication {
+      val request = FakeRequest()
+      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to confirm page when the form is completed successfully" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsFormModelCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsFormModel](json)
+              model.certificateDate should equal(CertificateDateValid.toUpperCase)
+              model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
+              model.certificateRegistrationMark should equal(CertificateRegistrationMarkValid.toUpperCase)
+              model.certificateTime should equal(CertificateTimeValid.toUpperCase)
+              model.prVrm should equal(PrVrmValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
+      }
+    }
+
+    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = checkEligibilityDirectToPaper()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
+              model.outstandingDates.size should equal(2)
+            case None => fail(s"$cookieName cookie not found")
+          }
+      }
+    }
+
+    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = checkEligibilityNotEligible()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
+              model.outstandingDates.size should equal(0)
+            case None => fail(s"$cookieName cookie not found")
+          }
+      }
+    }
+
+  }
 
   "exit" should {
 

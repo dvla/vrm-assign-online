@@ -54,7 +54,8 @@ final class TestConfig(
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
-    when(config.renewalFee).thenReturn(notFound)
+    when(config.renewalFee).thenReturn("8000")
+    when(config.renewalFeeAbolitionDate).thenReturn("01/03/2015")
 
     when(config.emailSmtpHost).thenReturn(notFound)
     when(config.emailSmtpHost).thenReturn(notFound)
