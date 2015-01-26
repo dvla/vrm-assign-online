@@ -7,7 +7,7 @@ import utils.helpers.ErrorStrategy
 
 trait Composition {
 
-  lazy val injector = Guice.createInjector(new DevModule)
+  lazy val injector = Guice.createInjector(new DevModule, new AuditService)
 
   lazy val filters = Array(
     injector.getInstance(classOf[EnsureSessionCreatedFilter]),

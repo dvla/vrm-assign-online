@@ -58,7 +58,6 @@ final class DevModule extends ScalaModule {
     bind[audit1.AuditService].to[audit1.AuditLocalServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
     bind[webserviceclients.audit2.AuditMicroService].to[webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
-    bind[webserviceclients.audit2.AuditService].to[webserviceclients.audit2.AuditServiceImpl].asEagerSingleton()
   }
 
   protected def bindSessionFactory(): Unit = {
