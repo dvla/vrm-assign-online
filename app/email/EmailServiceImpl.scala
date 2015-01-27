@@ -38,7 +38,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
-          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
+          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html;charset=UTF-8")
           mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
           mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain")
           mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed")
