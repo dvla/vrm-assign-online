@@ -57,6 +57,7 @@ trait Config {
   def emailSenderAddress: String
 
   // Cookie flags
+  def encryptCookies: Boolean
   def secureCookies: Boolean
   def cookieMaxAge: Int
   def storeBusinessDetailsMaxAge:Int

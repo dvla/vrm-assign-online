@@ -129,10 +129,14 @@ final class Payment @Inject()(
         val trackingId = request.cookies.trackingId()
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
+          println("paymentSolveBeginRequest")
           if (response.status == Payment.CardDetailsStatus) {
+            val ret =
             Ok(views.html.vrm_assign.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(response.trxRef.get))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
+       println("ret = " + ret)
+            ret
           } else {
             paymentFailure(s"The begin web request to Solve was not validated. Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
           }

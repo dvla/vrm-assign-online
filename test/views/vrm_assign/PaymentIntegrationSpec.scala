@@ -47,7 +47,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
@@ -58,7 +57,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
@@ -75,7 +73,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
-      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 
@@ -96,7 +93,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
-      CookieFactoryForUISpecs.paymentModel()
 
       click on PaymentPage.cancel
 

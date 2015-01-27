@@ -21,7 +21,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
-import utils.helpers.{AssignCookieFlags, Config}
+import utils.helpers.{ConfigImpl, AssignCookieFlags, Config}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.paymentsolve.{PaymentSolveServiceImpl, PaymentSolveService, PaymentSolveWebService}
@@ -47,6 +47,7 @@ final class TestModule extends ScalaModule with MockitoSugar {
   def configure() {
 
     bind[Config].toInstance(new TestConfig().build)
+//    bind[Config].to[ConfigImpl].asEagerSingleton()
 
     bind[VehicleAndKeeperLookupWebService].toInstance(new TestVehicleAndKeeperLookupWebService().build())
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
