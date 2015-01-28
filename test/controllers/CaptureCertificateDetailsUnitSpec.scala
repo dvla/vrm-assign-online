@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1Mock.MockAuditLocalService
+import composition.audit1Mock.AuditLocalServiceBinding
 import composition.audit2.AuditServiceDoesNothing
 import composition.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
@@ -201,7 +201,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new MockAuditLocalService(auditService1),
+      new AuditLocalServiceBinding(auditService1),
       new AuditServiceDoesNothing,
       new TestVrmAssignEligibilityWebService()//(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
     )
@@ -213,7 +213,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new MockAuditLocalService(auditService1),
+      new AuditLocalServiceBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallDirectToPaperError
     )
@@ -225,7 +225,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new MockAuditLocalService(auditService1),
+      new AuditLocalServiceBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallNotEligibleError
     )

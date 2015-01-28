@@ -8,7 +8,7 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
 import webserviceclients.audit2
 
-final class MockAuditLocalService(
+final class AuditLocalServiceBinding(
                              auditService1: audit1.AuditService = mock(classOf[audit1.AuditService]),
                              auditService2: audit2.AuditService = mock(classOf[audit2.AuditService])
                              ) extends ScalaModule with MockitoSugar {

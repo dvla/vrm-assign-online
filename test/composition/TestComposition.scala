@@ -58,7 +58,7 @@ final class TestModule extends ScalaModule with MockitoSugar {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[audit1.AuditService].toInstance(new composition.audit1Mock.MockAuditLocalService().build())
+    bind[audit1.AuditService].toInstance(new composition.audit1Mock.AuditLocalServiceBinding().build())
     bind[RefererFromHeader].toInstance(new TestRefererFromHeader().build)
     bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
     bind[_root_.webserviceclients.audit2.AuditService].toInstance(new audit2.AuditServiceDoesNothing().build())

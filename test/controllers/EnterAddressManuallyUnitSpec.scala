@@ -1,6 +1,6 @@
 package controllers
 
-import composition.audit1Mock.MockAuditLocalService
+import composition.audit1Mock.AuditLocalServiceBinding
 import composition.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
@@ -273,7 +273,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   private def enterAddressManuallyPrototypeNotVisible = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new MockAuditLocalService,
+      new AuditLocalServiceBinding,
       new AuditServiceDoesNothing
     ).getInstance(classOf[EnterAddressManually])
   }
@@ -286,7 +286,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def enterAddressManually = testInjector(
-    new MockAuditLocalService,
+    new AuditLocalServiceBinding,
     new AuditServiceDoesNothing
   ).getInstance(classOf[EnterAddressManually])
 
