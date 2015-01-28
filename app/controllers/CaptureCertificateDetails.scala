@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, Cle
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebHeaderDto, VssWebEndUserDto}
 import utils.helpers.Config
 import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
@@ -240,7 +241,10 @@ final class CaptureCertificateDetails @Inject()(
       outstandingDates
     }
 
+    val trackingId = request.cookies.trackingId()
+
     val eligibilityRequest = VrmAssignEligibilityRequest(
+      buildWebHeader(trackingId),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
       certificateDate = captureCertificateDetailsFormModel.certificateDate,
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
@@ -250,7 +254,6 @@ final class CaptureCertificateDetails @Inject()(
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
-    val trackingId = request.cookies.trackingId()
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
       response =>
@@ -268,5 +271,17 @@ final class CaptureCertificateDetails @Inject()(
       case NonFatal(e) =>
         microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception " + e.toString)
     }
+  }
+
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId,
+      originDateTime = new DateTime,
+      applicationCode = config.applicationCode,
+      serviceTypeCode = config.serviceTypeCode,
+      buildEndUser())
+  }
+
+  private def buildEndUser(): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
 }

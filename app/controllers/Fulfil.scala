@@ -3,6 +3,7 @@ package controllers
 import audit1._
 import com.google.inject.Inject
 import models._
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
@@ -10,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.Fulfil._
@@ -185,17 +187,19 @@ final class Fulfil @Inject()(
       Redirect(routes.MicroServiceError.present())
     }
 
+    val trackingId = request.cookies.trackingId()
+
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
+      buildWebHeader(trackingId),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
-      certificateDate = "10115", // TODO replace these four vars with validated form values
-      certificateTime = "123059",
-      certificateDocumentCount = "1",
-      certificateRegistrationMark = captureCertificateDetailsFormModel.prVrm,
+      certificateDate = captureCertificateDetailsFormModel.certificateDate,
+      certificateTime = captureCertificateDetailsFormModel.certificateTime,
+      certificateDocumentCount = captureCertificateDetailsFormModel.certificateDocumentCount,
+      certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
       replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
-    val trackingId = request.cookies.trackingId()
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>
@@ -214,5 +218,17 @@ final class Fulfil @Inject()(
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Assign Fulfil web service call failed. Exception " + e.toString)
     }
+  }
+
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId,
+      originDateTime = new DateTime,
+      applicationCode = config.applicationCode,
+      serviceTypeCode = config.serviceTypeCode,
+      buildEndUser())
+  }
+
+  private def buildEndUser(): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
 }

@@ -3,8 +3,10 @@ package webserviceclients.vrmretentioneligibility
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json._
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 
-case class VrmAssignEligibilityRequest(currentVehicleRegistrationMark: String,
+case class VrmAssignEligibilityRequest(webHeader: VssWebHeaderDto,
+                                       currentVehicleRegistrationMark: String,
                                        certificateDocumentCount: String,
                                        certificateRegistrationMark: String,
                                        certificateDate: String,
@@ -23,5 +25,7 @@ object VrmAssignEligibilityRequest {
     }
   }
 
+  implicit val JsonFormatVssWebEndUserDto = Json.writes[VssWebEndUserDto]
+  implicit val JsonFormatVssWebHeaderDto = Json.writes[VssWebHeaderDto]
   implicit val JsonFormat = Json.format[VrmAssignEligibilityRequest]
 }
