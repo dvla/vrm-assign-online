@@ -1,13 +1,18 @@
 package composition
 
 import com.google.inject.Guice
+import composition.webserviceclients.audit2.AuditServiceBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
 
 trait Composition {
 
-  lazy val injector = Guice.createInjector(new DevModule, new AuditService)
+  lazy val injector = Guice.createInjector(
+    new DevModule,
+    new AuditServiceBinding,
+    new ConfigBinding
+  )
 
   lazy val filters = Array(
     injector.getInstance(classOf[EnsureSessionCreatedFilter]),

@@ -2,13 +2,11 @@ package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 
-import scala.concurrent.duration.DurationInt
-
 class ConfigImpl extends Config {
 
   val isCsrfPreventionEnabled = getProperty[Boolean]("csrf.prevention")
 
-  // Micro-service config // TODO take defaults off the timeouts
+  // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase")
   val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty[String]("vrmAssignEligibilityMicroServiceUrlBase")
   val vrmAssignFulfilMicroServiceUrlBase: String = getProperty[String]("vrmAssignFulfilMicroServiceUrlBase")

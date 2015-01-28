@@ -1,6 +1,7 @@
 package webserviceclients.audit2
 
 import composition.audit2.{AuditMicroServiceCallFails, AuditMicroServiceCallNotOk}
+import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.{TestConfig, WithApplication}
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
@@ -22,7 +23,7 @@ final class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
 
   private def request = mock[AuditRequest]
 
-  private def auditServiceCallFails = testInjector(new TestConfig(), new AuditMicroServiceCallFails, new composition.AuditService).getInstance(classOf[webserviceclients.audit2.AuditService])
+  private def auditServiceCallFails = testInjector(new TestConfig(), new AuditMicroServiceCallFails, new AuditServiceBinding).getInstance(classOf[webserviceclients.audit2.AuditService])
 
-  private def auditServiceCallNotOk = testInjector(new TestConfig(), new AuditMicroServiceCallNotOk, new composition.AuditService).getInstance(classOf[webserviceclients.audit2.AuditService])
+  private def auditServiceCallNotOk = testInjector(new TestConfig(), new AuditMicroServiceCallNotOk, new AuditServiceBinding).getInstance(classOf[webserviceclients.audit2.AuditService])
 }
