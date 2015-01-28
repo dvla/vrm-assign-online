@@ -38,7 +38,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
-          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html;charset=UTF-8")
+          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
           mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
           mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain")
           mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed")
@@ -62,6 +62,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             htmlEmail.
               setTextMsg(plainTextMessage).
               setHtmlMsg(message)
+
+            htmlEmail.setCharset("UTF-8")
 
             if (isKeeper) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
 
