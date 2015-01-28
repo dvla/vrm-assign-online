@@ -8,8 +8,8 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
@@ -61,7 +61,7 @@ final class TestModule extends ScalaModule with MockitoSugar {
     bind[audit1.AuditService].toInstance(new composition.audit1Mock.AuditLocalServiceBinding().build())
     bind[RefererFromHeader].toInstance(new TestRefererFromHeader().build)
     bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
-    bind[_root_.webserviceclients.audit2.AuditService].toInstance(new audit2.AuditServiceDoesNothing().build())
+    bind[_root_.webserviceclients.audit2.AuditService].toInstance(new composition.webserviceclients.audit2.AuditServiceDoesNothing().build())
   }
 
   protected def bindSessionFactory(): Unit = {

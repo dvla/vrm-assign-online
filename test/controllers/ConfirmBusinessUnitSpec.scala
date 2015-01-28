@@ -3,7 +3,7 @@ package controllers
 
 import audit1.{AuditMessage, AuditService}
 import composition.audit1Mock.AuditLocalServiceBinding
-import composition.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._

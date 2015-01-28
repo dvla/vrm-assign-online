@@ -2,8 +2,8 @@ package controllers
 
 import audit1.{AuditMessage, AuditService}
 import composition.audit1Mock.AuditLocalServiceBinding
-import composition.audit2.AuditServiceDoesNothing
-import composition.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec

@@ -1,7 +1,7 @@
 package controllers
 
 import composition.audit1Mock.AuditLocalServiceBinding
-import composition.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}

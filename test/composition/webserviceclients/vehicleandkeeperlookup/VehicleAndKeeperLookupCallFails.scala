@@ -1,4 +1,4 @@
-package composition.vehicleandkeeperlookup
+package composition.webserviceclients.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any

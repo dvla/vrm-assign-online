@@ -1,6 +1,6 @@
 package webserviceclients.audit2
 
-import composition.audit2.{AuditMicroServiceCallFails, AuditMicroServiceCallNotOk}
+import composition.webserviceclients.audit2.{AuditMicroServiceCallFails, AuditMicroServiceCallNotOk}
 import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.{TestConfig, WithApplication}
 import helpers.UnitSpec

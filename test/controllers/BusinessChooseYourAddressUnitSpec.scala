@@ -3,8 +3,8 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1Mock.AuditLocalServiceBinding
-import composition.audit2.AuditServiceDoesNothing
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec

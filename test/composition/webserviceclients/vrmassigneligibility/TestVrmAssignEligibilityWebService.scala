@@ -1,4 +1,4 @@
-package composition.vrmassigneligibility
+package composition.webserviceclients.vrmassigneligibility
 
 import TestVrmAssignEligibilityWebService.createResponse
 import com.tzavellas.sse.guice.ScalaModule

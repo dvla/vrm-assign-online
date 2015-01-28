@@ -2,8 +2,8 @@ package controllers
 
 import audit1.{AuditMessage, AuditService}
 import composition.audit1Mock.AuditLocalServiceBinding
-import composition.audit2.AuditServiceDoesNothing
-import composition.vehicleandkeeperlookup._
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.vehicleandkeeperlookup._
 import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
