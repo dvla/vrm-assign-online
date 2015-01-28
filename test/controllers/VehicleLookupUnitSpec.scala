@@ -29,16 +29,9 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.DateServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{vehicleAndKeeperDetailsResponseVRMNotFound, _}
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
-
-  private val dateTime = new DateTime(
-    YearValid.toInt,
-    MonthValid.toInt,
-    DayValid.toInt,
-    0,
-    0)
 
   "present" should {
 

@@ -3,7 +3,7 @@ package webserviceclients.fakes
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
 
