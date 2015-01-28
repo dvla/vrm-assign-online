@@ -7,12 +7,12 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import webserviceclients.fakes.FakeResponse
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseFirstAttempt
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseSecondAttempt
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import _root_.webserviceclients.fakes.FakeResponse
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseFirstAttempt
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseSecondAttempt
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
 import scala.concurrent.Future
 
 final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {

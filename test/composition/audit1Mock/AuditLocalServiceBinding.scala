@@ -6,11 +6,9 @@ import org.mockito.Mockito.{mock, when}
 import org.mockito.internal.stubbing.answers.DoesNothing
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
-import webserviceclients.audit2
 
 final class AuditLocalServiceBinding(
-                             auditService1: audit1.AuditService = mock(classOf[audit1.AuditService]),
-                             auditService2: audit2.AuditService = mock(classOf[audit2.AuditService])
+                             auditService1: audit1.AuditService = mock(classOf[audit1.AuditService])
                              ) extends ScalaModule with MockitoSugar {
 
   def build() = {

@@ -27,7 +27,9 @@ trait TestComposition extends Composition {
 
   def testInjector(modules: Module*) = {
     val overriddenDevModule = Modules.`override`(
+      // Real implementations (but no external calls)
       new TestModule(),
+      // Completely mocked web services below...
       new TestOrdnanceSurvey
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
