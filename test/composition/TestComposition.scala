@@ -1,8 +1,6 @@
 package composition
 
 import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService}
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import _root_.webserviceclients.vrmassignfulfil.{VrmAssignFulfilService, VrmAssignFulfilServiceImpl, VrmAssignFulfilWebService, VrmAssignFulfilWebServiceImpl}
 import _root_.webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, VrmAssignEligibilityServiceImpl, VrmAssignEligibilityWebService, VrmAssignEligibilityWebServiceImpl}
 import com.google.inject.name.Names
@@ -10,6 +8,7 @@ import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
@@ -19,7 +18,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import utils.helpers.{AssignCookieFlags, Config}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
+import utils.helpers.AssignCookieFlags
 
 trait TestComposition extends Composition {
 
@@ -30,7 +30,8 @@ trait TestComposition extends Composition {
       // Real implementations (but no external calls)
       new TestModule(),
       // Completely mocked web services below...
-      new TestOrdnanceSurvey
+      new TestConfig,
+      new TestOrdnanceSurveyBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -39,9 +40,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-
-    bind[Config].toInstance(new TestConfig().build)
-
     bind[VehicleAndKeeperLookupWebService].toInstance(new TestVehicleAndKeeperLookupWebService().build())
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DateService].toInstance(new TestDateService().build())

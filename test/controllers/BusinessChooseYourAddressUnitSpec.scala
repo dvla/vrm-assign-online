@@ -5,7 +5,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1Mock.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition.{TestConfig, TestDateService, TestOrdnanceSurveyBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -139,7 +139,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val auditService1 = mock[AuditService]
 
       val injector = testInjector(
-        new TestOrdnanceSurvey,
+        new TestOrdnanceSurveyBinding,
         new TestVehicleAndKeeperLookupWebService,
         new ScalaModule() {
           override def configure(): Unit = {
@@ -346,7 +346,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestOrdnanceSurvey,
+      new TestOrdnanceSurveyBinding,
       new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
         override def configure(): Unit = {
