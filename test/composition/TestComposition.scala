@@ -9,7 +9,7 @@ import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
-import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding$}
+import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding$}
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
@@ -31,6 +31,7 @@ trait TestComposition extends Composition {
       // Real implementations (but no external calls)
       new TestModule(),
       new AddressLookupServiceBinding,
+      new VehicleAndKeeperLookupServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
