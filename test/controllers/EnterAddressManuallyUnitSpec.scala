@@ -1,6 +1,6 @@
 package controllers
 
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
@@ -273,7 +273,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   private def enterAddressManuallyPrototypeNotVisible = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalServiceBinding,
+      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing
     ).getInstance(classOf[EnterAddressManually])
   }
@@ -286,7 +286,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def enterAddressManually = testInjector(
-    new AuditLocalServiceBinding,
+    new AuditLocalServiceDoesNothingBinding,
     new AuditServiceDoesNothing
   ).getInstance(classOf[EnterAddressManually])
 

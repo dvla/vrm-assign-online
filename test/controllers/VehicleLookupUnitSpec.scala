@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup._
 import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
@@ -374,7 +374,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalServiceBinding,
+      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
       new TestDateService()
     ).
@@ -386,7 +386,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
-      new AuditLocalServiceBinding,
+      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
       new TestDateService()
     )
@@ -402,7 +402,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalServiceBinding(auditService1 = auditService1),
+      new AuditLocalServiceDoesNothingBinding(auditService1 = auditService1),
       new AuditServiceDoesNothing,
       new TestDateService()
     )

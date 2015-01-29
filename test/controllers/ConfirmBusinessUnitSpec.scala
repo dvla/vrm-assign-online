@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -52,7 +52,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val auditService1 = mock[AuditService]
 
       val injector = testInjector(
-        new AuditLocalServiceBinding(auditService1),
+        new AuditLocalServiceDoesNothingBinding(auditService1),
         new AuditServiceDoesNothing,
         new TestDateService)
 
@@ -144,7 +144,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmBusiness = testInjector(
-    new AuditLocalServiceBinding,
+    new AuditLocalServiceDoesNothingBinding,
     new AuditServiceDoesNothing
   ).getInstance(classOf[ConfirmBusiness])
 

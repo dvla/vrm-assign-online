@@ -1,6 +1,6 @@
 package controllers
 
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -65,7 +65,7 @@ final class ConfirmUnitSpec extends UnitSpec {
   private def setUpBusinessDetailsPrototypeNotVisible() = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalServiceBinding,
+      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
       new TestDateService()
     ).

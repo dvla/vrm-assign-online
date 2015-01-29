@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
@@ -199,7 +199,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new AuditLocalServiceBinding(auditService1),
+      new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new TestVrmAssignEligibilityWebService() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
     )
@@ -211,7 +211,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new AuditLocalServiceBinding(auditService1),
+      new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallDirectToPaperError
     )
@@ -223,7 +223,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestDateService(),
-      new AuditLocalServiceBinding(auditService1),
+      new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallNotEligibleError
     )

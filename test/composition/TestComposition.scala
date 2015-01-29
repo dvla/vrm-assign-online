@@ -3,7 +3,7 @@ package composition
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
@@ -32,7 +32,7 @@ trait TestComposition extends Composition {
       new LoggerLikeBinding,
       new PdfServiceBinding,
       new EmailServiceBinding,
-      new AuditLocalServiceBinding,
+      new AuditLocalServiceDoesNothingBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,

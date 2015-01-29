@@ -15,6 +15,6 @@ import com.tzavellas.sse.guice.ScalaModule
 final class DevModule extends ScalaModule {
 
   def configure() {
-    bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
+
   }
 }
