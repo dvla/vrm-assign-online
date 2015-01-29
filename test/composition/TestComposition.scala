@@ -5,7 +5,7 @@ import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
-import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
+import composition.webserviceclients.bruteforceprevention.{TestBruteForcePreventionWebServiceBinding, BruteForcePreventionServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
@@ -37,11 +37,11 @@ trait TestComposition extends Composition {
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
       new TestVehicleAndKeeperLookupWebServiceBinding,
-      new TestDateService,
+      new TestDateServiceBinding,
       new TestVrmAssignEligibilityWebServiceBinding,
       //  VrmAssignFulfilWebService, // TODO there should be a stubbed version of this web service!
       new TestPaymentWebServiceBinding,
-      new TestBruteForcePreventionWebService,
+      new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)

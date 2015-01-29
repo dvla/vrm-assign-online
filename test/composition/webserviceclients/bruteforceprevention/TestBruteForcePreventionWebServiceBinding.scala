@@ -1,4 +1,4 @@
-package composition
+package composition.webserviceclients.bruteforceprevention
 
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 
 import scala.concurrent.Future
 
-final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
+final class TestBruteForcePreventionWebServiceBinding(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
 
   def build() = {
     val bruteForceStatus = if (permitted) OK else FORBIDDEN

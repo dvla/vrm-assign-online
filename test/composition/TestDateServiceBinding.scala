@@ -8,7 +8,7 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
-final class TestDateService extends ScalaModule with MockitoSugar {
+final class TestDateServiceBinding extends ScalaModule with MockitoSugar {
 
   def build() = {
     val dateTimeISOChronology: String = new DateTime(

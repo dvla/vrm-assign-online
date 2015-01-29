@@ -3,8 +3,9 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
-import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
+import composition.{TestDateServiceBinding, WithApplication}
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -197,8 +198,8 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibility() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebService(permitted = true),
-      new TestDateService(),
+      new TestBruteForcePreventionWebServiceBinding(permitted = true),
+      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new TestVrmAssignEligibilityWebServiceBinding() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
@@ -209,8 +210,8 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibilityDirectToPaper() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebService(permitted = true),
-      new TestDateService(),
+      new TestBruteForcePreventionWebServiceBinding(permitted = true),
+      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallDirectToPaperError
@@ -221,8 +222,8 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibilityNotEligible() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebService(permitted = true),
-      new TestDateService(),
+      new TestBruteForcePreventionWebServiceBinding(permitted = true),
+      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallNotEligibleError

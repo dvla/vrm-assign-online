@@ -5,7 +5,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
-import composition.{TestAddressLookupWebServiceBinding, TestConfig, TestDateService, WithApplication}
+import composition.{TestAddressLookupWebServiceBinding, TestConfig, TestDateServiceBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -147,7 +147,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           }
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestDateService,
+        new TestDateServiceBinding,
         new AuditLocalServiceDoesNothingBinding(auditService1),
         new AuditServiceDoesNothing
       )

@@ -2,7 +2,7 @@ package controllers
 
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestConfig, TestDateService, WithApplication}
+import composition.{TestConfig, TestDateServiceBinding, WithApplication}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import play.api.test.FakeRequest
@@ -67,7 +67,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       new TestConfig(isPrototypeBannerVisible = false),
       new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
-      new TestDateService()
+      new TestDateServiceBinding()
     ).
       getInstance(classOf[Confirm])
   }

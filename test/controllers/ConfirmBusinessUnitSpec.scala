@@ -3,7 +3,7 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateService, WithApplication}
+import composition.{TestDateServiceBinding, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
@@ -54,7 +54,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val injector = testInjector(
         new AuditLocalServiceDoesNothingBinding(auditService1),
         new AuditServiceDoesNothing,
-        new TestDateService)
+        new TestDateServiceBinding)
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])

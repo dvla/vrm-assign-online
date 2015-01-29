@@ -3,8 +3,9 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup._
-import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
+import composition.{TestConfig, TestDateServiceBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -371,24 +372,24 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                  permitted: Boolean = true,
                                  vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
-      new TestDateService()
+      new TestDateServiceBinding()
     ).
       getInstance(classOf[VehicleLookup])
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
-      new TestBruteForcePreventionWebService(permitted = true),
+      new TestBruteForcePreventionWebServiceBinding(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
       new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
-      new TestDateService()
+      new TestDateServiceBinding()
     )
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
   }
@@ -399,12 +400,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                           ) = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalServiceDoesNothingBinding(auditService1 = auditService1),
       new AuditServiceDoesNothing,
-      new TestDateService()
+      new TestDateServiceBinding()
     )
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[audit1.AuditService]))
   }
@@ -423,7 +424,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleAndKeeperLookupCallFails(isPrototypeBannerVisible: Boolean = true,
                                               permitted: Boolean = true) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
     ).
@@ -433,7 +434,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleAndKeeperDetailsCallNoResponse(isPrototypeBannerVisible: Boolean = true,
                                                     permitted: Boolean = true) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
     ).
@@ -443,7 +444,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleAndKeeperDetailsCallServerDown(isPrototypeBannerVisible: Boolean = true,
                                                     permitted: Boolean = true) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
     ).
@@ -453,7 +454,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleAndKeeperDetailsCallDocRefNumberNotLatest(isPrototypeBannerVisible: Boolean = true,
                                                                permitted: Boolean = true) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
       new AuditServiceDoesNothing
@@ -464,7 +465,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleAndKeeperDetailsCallVRMNotFound(isPrototypeBannerVisible: Boolean = true,
                                                      permitted: Boolean = true) = {
     testInjector(
-      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallVRMNotFound(),
       new AuditServiceDoesNothing
