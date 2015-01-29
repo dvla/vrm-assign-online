@@ -1,16 +1,16 @@
 package composition
 
 import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService}
-import _root_.webserviceclients.vrmassignfulfil.{VrmAssignFulfilService, VrmAssignFulfilServiceImpl, VrmAssignFulfilWebService, VrmAssignFulfilWebServiceImpl}
-import _root_.webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityService, VrmAssignEligibilityServiceImpl, VrmAssignEligibilityWebService, VrmAssignEligibilityWebServiceImpl}
+import _root_.webserviceclients.vrmassignfulfil.{VrmAssignFulfilService, VrmAssignFulfilServiceImpl}
 import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
-import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding$}
-import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityServiceBinding, TestVrmAssignEligibilityWebService, VrmAssignEligibilityWebServiceBinding}
+import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
+import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityServiceBinding}
+import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
@@ -18,10 +18,7 @@ import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
-import utils.helpers.AssignCookieFlags
 
 trait TestComposition extends Composition {
 
@@ -35,12 +32,15 @@ trait TestComposition extends Composition {
       new VehicleAndKeeperLookupServiceBinding,
       new CookieFlagsBinding,
       new VrmAssignEligibilityServiceBinding,
+      new VrmAssignFulfilWebServiceBinding,
+      new VrmAssignFulfilServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
       new TestVehicleAndKeeperLookupWebServiceBinding,
       new TestDateService,
       new TestVrmAssignEligibilityWebService
+      //  VrmAssignFulfilWebService, // TODO there should be a stubbed version of this web service!
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -49,8 +49,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[VrmAssignFulfilWebService].to[VrmAssignFulfilWebServiceImpl].asEagerSingleton()
-    bind[VrmAssignFulfilService].to[VrmAssignFulfilServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].toInstance(new TestPaymentSolveWebService().build())
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 

@@ -1,6 +1,6 @@
 package webserviceclients.fakes
 
-object VrmRetentionFulfilWebServiceConstants {
+object VrmAssignFulfilWebServiceConstants {
 
   final val TransactionTimestampValid = "2014-10-11 11:51"
 }

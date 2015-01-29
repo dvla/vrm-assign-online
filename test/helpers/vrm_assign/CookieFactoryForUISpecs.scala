@@ -25,7 +25,7 @@ import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes.VrmRetentionFulfilWebServiceConstants._
+import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants._
 
 object CookieFactoryForUISpecs {
 

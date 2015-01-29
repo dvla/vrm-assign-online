@@ -1,10 +1,11 @@
 package composition
 
 import com.google.inject.Guice
-import composition.webserviceclients.addresslookup.{AddressLookupWebServiceBinding, AddressLookupServiceBinding}
+import composition.webserviceclients.addresslookup.{AddressLookupServiceBinding, AddressLookupWebServiceBinding}
 import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityServiceBinding, VrmAssignEligibilityWebServiceBinding}
+import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
@@ -22,7 +23,9 @@ trait Composition {
     new DateServiceBinding,
     new CookieFlagsBinding,
     new VrmAssignEligibilityWebServiceBinding,
-    new VrmAssignEligibilityServiceBinding
+    new VrmAssignEligibilityServiceBinding,
+    new VrmAssignFulfilWebServiceBinding,
+    new VrmAssignFulfilServiceBinding
   )
 
   lazy val filters = Array(
