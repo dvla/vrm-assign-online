@@ -8,7 +8,7 @@ import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
-import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityServiceBinding}
+import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
 import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
 import org.scalatest.mock.MockitoSugar
 
@@ -38,7 +38,7 @@ trait TestComposition extends Composition {
       new TestAddressLookupWebServiceBinding,
       new TestVehicleAndKeeperLookupWebServiceBinding,
       new TestDateService,
-      new TestVrmAssignEligibilityWebService,
+      new TestVrmAssignEligibilityWebServiceBinding,
       //  VrmAssignFulfilWebService, // TODO there should be a stubbed version of this web service!
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebService,

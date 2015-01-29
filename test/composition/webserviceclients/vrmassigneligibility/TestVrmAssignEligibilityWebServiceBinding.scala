@@ -1,7 +1,7 @@
 package composition.webserviceclients.vrmassigneligibility
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebService.createResponse
+import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebServiceBinding.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
@@ -12,7 +12,7 @@ import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, V
 
 import scala.concurrent.Future
 
-final class TestVrmAssignEligibilityWebService(vrmAssignEligibilityWebService: VrmAssignEligibilityWebService = mock(classOf[VrmAssignEligibilityWebService]), // This can be passed in so the calls to the mock can be verified
+final class TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityWebService: VrmAssignEligibilityWebService = mock(classOf[VrmAssignEligibilityWebService]), // This can be passed in so the calls to the mock can be verified
                                                statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess
                                                 ) extends ScalaModule with MockitoSugar {
 
@@ -22,7 +22,7 @@ final class TestVrmAssignEligibilityWebService(vrmAssignEligibilityWebService: V
   }
 }
 
-object TestVrmAssignEligibilityWebService {
+object TestVrmAssignEligibilityWebServiceBinding {
 
   def createResponse(response: (Int, Option[VrmAssignEligibilityResponse])) = {
     val (status, dto) = response

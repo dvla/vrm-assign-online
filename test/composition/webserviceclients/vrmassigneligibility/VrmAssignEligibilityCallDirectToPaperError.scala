@@ -1,7 +1,7 @@
 package composition.webserviceclients.vrmassigneligibility
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebService.createResponse
+import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebServiceBinding.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar

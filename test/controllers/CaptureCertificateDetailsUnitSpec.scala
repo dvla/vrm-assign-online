@@ -3,7 +3,7 @@ package controllers
 import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
+import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -201,7 +201,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       new TestDateService(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
       new AuditServiceDoesNothing,
-      new TestVrmAssignEligibilityWebService() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
+      new TestVrmAssignEligibilityWebServiceBinding() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
