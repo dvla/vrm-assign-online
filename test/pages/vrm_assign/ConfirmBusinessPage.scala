@@ -5,8 +5,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.ConfirmBusiness.{ConfirmId, ExitId}
-import views.vrm_assign.ConfirmBusiness._
+import views.vrm_assign.ConfirmBusiness.{ConfirmId, ExitId, _}
 
 object ConfirmBusinessPage extends Page {
 

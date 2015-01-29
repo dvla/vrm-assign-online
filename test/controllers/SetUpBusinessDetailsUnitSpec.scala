@@ -125,6 +125,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   private def setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
+
   private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel())

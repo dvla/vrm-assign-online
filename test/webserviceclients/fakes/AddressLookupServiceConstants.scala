@@ -5,11 +5,11 @@ import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnValid
 
 object AddressLookupServiceConstants {
 
-//  final val CertificateDocumentCountValid = "1"
-//  final val CertificateDateValid = "12345"
-//  final val CertificateTimeValid = "123456"
-//  final val CertificateRegistrationMarkValid = "CV12QAS"
-//  final val CertificatePrVrmValid = "AA11"
+  //  final val CertificateDocumentCountValid = "1"
+  //  final val CertificateDateValid = "12345"
+  //  final val CertificateTimeValid = "123456"
+  //  final val CertificateRegistrationMarkValid = "CV12QAS"
+  //  final val CertificatePrVrmValid = "AA11"
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
   final val TraderBusinessEmailValid = "business.example@email.com"
@@ -21,17 +21,21 @@ object AddressLookupServiceConstants {
   final val BusinessAddressLine1Valid = "business line1 stub"
   final val BusinessAddressLine2Valid = "business line2 stub"
   final val BusinessAddressPostTownValid = "business postTown stub"
+
   def addressWithUprn = AddressModel(
     uprn = Some(traderUprnValid),
     address = Seq(BusinessAddressLine1Valid, BusinessAddressLine2Valid, BusinessAddressPostTownValid, PostcodeValid)
   )
+
   def addressWithoutUprn = addressWithUprn.copy(uprn = None)
+
   final val BuildingNameOrNumberValid = "1234"
   final val Line2Valid = "line2 stub"
   final val Line3Valid = "line3 stub"
   final val PostTownValid = "postTown stub"
   final val PostcodeValidWithSpace = "QQ9 9QQ"
   final val PostcodeNoResults = "SA99 1DD"
+
   def fetchedAddresses = Seq(
     traderUprnValid.toString -> addressWithUprn.address.mkString(", "),
     traderUprnValid2.toString -> addressWithUprn.address.mkString(", ")

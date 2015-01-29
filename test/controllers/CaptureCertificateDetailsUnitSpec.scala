@@ -1,7 +1,7 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1Mock.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import composition.{TestBruteForcePreventionWebService, TestDateService, WithApplication}
@@ -9,7 +9,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import models.{CaptureCertificateDetailsModel, CaptureCertificateDetailsFormModel}
+import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
 import org.mockito.Mockito._
 import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, MicroServiceErrorPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
@@ -20,7 +20,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.CaptureCertificateDetails._
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityWebService
 
 final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
@@ -125,7 +124,6 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           }
       }
     }
-
   }
 
   "exit" should {
@@ -203,7 +201,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       new TestDateService(),
       new AuditLocalServiceBinding(auditService1),
       new AuditServiceDoesNothing,
-      new TestVrmAssignEligibilityWebService()//(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
+      new TestVrmAssignEligibilityWebService() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
@@ -244,5 +242,4 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       CertificateTimeId -> certificateTime,
       PrVrmId -> prVrm)
   }
-
 }

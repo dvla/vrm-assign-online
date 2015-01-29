@@ -3,9 +3,7 @@ package webserviceclients.audit2
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import composition.{TestConfig, WithApplication}
 import helpers.{UnitSpec, WireMockFixture}
-import org.mockito.Mockito._
 import play.api.libs.json.Json
-import utils.helpers.Config
 
 final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
 

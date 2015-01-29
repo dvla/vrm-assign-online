@@ -1,8 +1,7 @@
 package controllers
 
-
 import audit1.{AuditMessage, AuditService}
-import composition.audit1Mock.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -17,7 +16,6 @@ import views.vrm_assign.ConfirmBusiness._
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -139,7 +137,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
   }
 
-
   private def buildRequest(storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(
       StoreDetailsConsentId -> storeDetailsConsent.toString
@@ -160,5 +157,4 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       )
     confirmBusiness.present(request)
   }
-
 }

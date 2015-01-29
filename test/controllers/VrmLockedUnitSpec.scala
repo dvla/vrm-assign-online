@@ -55,6 +55,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       withCookies(vehicleAndKeeperDetailsModel())
     vrmLocked.present(request)
   }
+
   private def vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {

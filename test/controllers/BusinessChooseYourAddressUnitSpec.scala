@@ -2,7 +2,7 @@ package controllers
 
 import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1Mock.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
 import composition.{TestAddressLookupWebServiceBinding, TestConfig, TestDateService, WithApplication}

@@ -46,7 +46,7 @@ object TestPaymentWebServiceBinding {
   private[paymentsolve] val invalidResponse = "INVALID"
 
   private[paymentsolve] def beginResponseWithValidDefaults(response: String = "validated",
-                                                                     status: String = "CARD_DETAILS") = {
+                                                           status: String = "CARD_DETAILS") = {
     val paymentSolveBeginResponse = PaymentSolveBeginResponse(
       response = response,
       status = status,
@@ -58,7 +58,7 @@ object TestPaymentWebServiceBinding {
   }
 
   private[paymentsolve] def getResponseWithValidDefaults(response: String = "validated",
-                                                                   status: String = "AUTHORISED") = {
+                                                         status: String = "AUTHORISED") = {
     val paymentSolveGetResponse = PaymentSolveGetResponse(
       response = response,
       status = status,
@@ -74,7 +74,7 @@ object TestPaymentWebServiceBinding {
   }
 
   private[paymentsolve] def cancelResponseWithValidDefaults(response: String = "validated",
-                                                                      status: String = "AUTHORISED") = {
+                                                            status: String = "AUTHORISED") = {
     val paymentSolveCancelResponse = PaymentSolveCancelResponse(
       response = response,
       status = status
@@ -84,7 +84,7 @@ object TestPaymentWebServiceBinding {
   }
 
   private[paymentsolve] def updateResponseWithValidDefaults(response: String = "validated",
-                                                                      status: String = "CARD_DETAILS") = {
+                                                            status: String = "CARD_DETAILS") = {
     val update = PaymentSolveUpdateResponse(
       response = response,
       status = status

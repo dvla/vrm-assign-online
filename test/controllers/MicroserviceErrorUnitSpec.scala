@@ -35,5 +35,6 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private def present = microServiceError.present(FakeRequest())
+
   private def microServiceError = testInjector().getInstance(classOf[MicroServiceError])
 }

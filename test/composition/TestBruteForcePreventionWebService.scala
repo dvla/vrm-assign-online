@@ -1,18 +1,16 @@
 package composition
 
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import _root_.webserviceclients.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
 import com.tzavellas.sse.guice.ScalaModule
-import org.mockito.Mockito.when
 import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import _root_.webserviceclients.fakes.FakeResponse
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseFirstAttempt
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseSecondAttempt
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
+
 import scala.concurrent.Future
 
 final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
@@ -37,11 +35,9 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
       thenReturn(Future.successful(new FakeResponse(status = play.api.http.Status.OK)))
 
     bruteForcePreventionWebService
-
   }
 
   def configure() = {
-
 
     bind[BruteForcePreventionWebService].toInstance(build())
   }

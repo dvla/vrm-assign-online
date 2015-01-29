@@ -1,11 +1,13 @@
 package helpers.steps.hooks
 
-import cucumber.api.java.{After, Before}
 import composition.TestGlobal
+import cucumber.api.java.{After, Before}
 import play.api.test.{FakeApplication, TestServer}
 
 final class TestServerHooks {
-  import TestServerHooks._
+
+  import helpers.steps.hooks.TestServerHooks._
+
   private val testServer: TestServer = TestServer(port = port, application = fakeAppWithTestGlobal)
 
   @Before(order = 500)
@@ -20,6 +22,7 @@ final class TestServerHooks {
 }
 
 object TestServerHooks {
+
   private final val port: Int = 9005
   private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal))
 }

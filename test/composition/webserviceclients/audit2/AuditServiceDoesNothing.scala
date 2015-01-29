@@ -12,7 +12,7 @@ final class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
 
   def build() = {
     val service = mock[AuditService]
-    when(service.send(auditRequest = any[AuditRequest])).thenReturn(Future.successful{})
+    when(service.send(auditRequest = any[AuditRequest])).thenReturn(Future.successful {})
     service
   }
 

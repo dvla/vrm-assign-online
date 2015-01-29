@@ -32,6 +32,7 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
   }
 
   private def present = soapEndpointError.present(FakeRequest())
+
   private def soapEndpointError = testInjector().getInstance(classOf[SoapEndpointError])
 
   private def soapEndpointErrorPrototypeNotVisible = {

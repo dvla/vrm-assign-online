@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForceP
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey,CaptureCertificateDetailsFormModelCacheKey}
+import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey, CaptureCertificateDetailsFormModelCacheKey}
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey

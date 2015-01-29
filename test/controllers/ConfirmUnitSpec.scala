@@ -1,6 +1,6 @@
 package controllers
 
-import composition.audit1Mock.AuditLocalServiceBinding
+import composition.audit1.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -52,6 +52,7 @@ final class ConfirmUnitSpec extends UnitSpec {
   //  }
 
   private def confirm = testInjector().getInstance(classOf[Confirm])
+
   private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel()).

@@ -1,14 +1,14 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_assign._
 import pages.vrm_assign.ConfirmPage._
+import pages.vrm_assign._
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -44,18 +44,18 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "confirm button" should {
-//
-//    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      happyPath
-//
-//  currentUrl should equal(SuccessPage.url)
-//    }
-//  }
+  //  "confirm button" should {
+  //
+  //    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
+  //      go to BeforeYouStartPage
+  //
+  //      cacheSetup()
+  //
+  //      happyPath
+  //
+  //  currentUrl should equal(SuccessPage.url)
+  //    }
+  //  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {

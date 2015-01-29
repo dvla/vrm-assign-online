@@ -1,14 +1,14 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.common.MainPanel.back
-import pages.vrm_assign.ConfirmBusinessPage.{confirm, exit}
-import pages.vrm_assign._
 import org.scalatest.selenium.WebBrowser._
+import pages.common.MainPanel.back
+import pages.vrm_assign.ConfirmBusinessPage.exit
+import pages.vrm_assign._
 
 final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -27,15 +27,15 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
   "confirm button" should {
 
     // TODO
-//    "redirect to Confirm business page" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to ConfirmBusinessPage
-//
-//      click on confirm
-//
-//      currentUrl should equal(CaptureCertificateDetailsPage.url)
-//    }
+    //    "redirect to Confirm business page" taggedAs UiTag in new WebBrowserForSelenium {
+    //      go to BeforeYouStartPage
+    //      cacheSetup()
+    //      go to ConfirmBusinessPage
+    //
+    //      click on confirm
+    //
+    //      currentUrl should equal(CaptureCertificateDetailsPage.url)
+    //    }
   }
 
   "exit button" should {

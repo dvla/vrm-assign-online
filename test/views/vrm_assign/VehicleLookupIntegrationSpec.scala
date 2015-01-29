@@ -1,9 +1,9 @@
 package views.vrm_assign
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
@@ -33,21 +33,21 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "findVehicleDetails button" should {
 
-//    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//
-//      happyPath(isCurrentKeeper = true)
-//
-//      currentUrl should equal(LeaveFeedbackPage.url)
-//    }
-//
-//    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//
-//      happyPath(isCurrentKeeper = false)
-//
-//      currentUrl should equal(SetupBusinessDetailsPage.url)
-//    }
+    //    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
+    //      go to BeforeYouStartPage
+    //
+    //      happyPath(isCurrentKeeper = true)
+    //
+    //      currentUrl should equal(LeaveFeedbackPage.url)
+    //    }
+    //
+    //    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowserForSelenium {
+    //      go to BeforeYouStartPage
+    //
+    //      happyPath(isCurrentKeeper = false)
+    //
+    //      currentUrl should equal(SetupBusinessDetailsPage.url)
+    //    }
 
     "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage

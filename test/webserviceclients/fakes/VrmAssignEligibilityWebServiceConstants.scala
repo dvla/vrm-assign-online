@@ -1,6 +1,6 @@
 package webserviceclients.fakes
 
-import org.joda.time.{Period, Duration, DateTime}
+import org.joda.time.{DateTime, Period}
 import play.api.http.Status._
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityResponse
 
@@ -17,5 +17,4 @@ object VrmAssignEligibilityWebServiceConstants {
   def vrmAssignEligibilityResponseNotEligibleError: (Int, Option[VrmAssignEligibilityResponse]) = {
     (OK, Some(VrmAssignEligibilityResponse(certificateExpiryDate = Some(new DateTime().minus(Period.years(2))), responseCode = Some("U1122 - vrm_assign_eligibility_failure"))))
   }
-
 }

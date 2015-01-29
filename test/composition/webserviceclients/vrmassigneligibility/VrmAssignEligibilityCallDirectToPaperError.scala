@@ -6,7 +6,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseDirectToPaperError
-import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityWebService, VrmAssignEligibilityRequest}
+import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityWebService}
 
 import scala.concurrent.Future
 
@@ -18,5 +18,4 @@ final class VrmAssignEligibilityCallDirectToPaperError extends ScalaModule with 
       thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseDirectToPaperError)))
     bind[VrmAssignEligibilityWebService].toInstance(vrmAssignEligibilityWebService)
   }
-
 }

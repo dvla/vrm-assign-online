@@ -19,7 +19,7 @@ object ConfirmPage extends Page {
 
   def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 
-  def GranteeConsent(implicit driver:WebDriver) = find(id(GranteeConsentId)).get
+  def GranteeConsent(implicit driver: WebDriver) = find(id(GranteeConsentId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage

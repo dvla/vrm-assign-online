@@ -12,7 +12,7 @@ import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCache
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.Confirm.{GranteeConsentCacheKey, KeeperEmailCacheKey}
-import views.vrm_assign.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
@@ -21,8 +21,8 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLo
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants._
@@ -183,14 +183,14 @@ object CookieFactoryForUISpecs {
   }
 
   def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
-                   paymentStatus: Option[String] =  None,
-                   maskedPAN: Option[String] =  MaskedPANValid,
-                   authCode: Option[String] =  AuthCodeValid,
-                   merchantId: Option[String] =  MerchantIdValid,
-                   paymentType: Option[String] =  PaymentTypeValid,
-                   cardType: Option[String] =  CardTypeValid,
-                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
-                   rejectionCode: Option[String] =  None)(implicit webDriver: WebDriver) = {
+                   paymentStatus: Option[String] = None,
+                   maskedPAN: Option[String] = MaskedPANValid,
+                   authCode: Option[String] = AuthCodeValid,
+                   merchantId: Option[String] = MerchantIdValid,
+                   paymentType: Option[String] = PaymentTypeValid,
+                   cardType: Option[String] = CardTypeValid,
+                   totalAmountPaid: Option[Long] = TotalAmountPaidValid,
+                   rejectionCode: Option[String] = None)(implicit webDriver: WebDriver) = {
     val key = vrm_assign.Payment.PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,
@@ -207,7 +207,7 @@ object CookieFactoryForUISpecs {
   }
 
   def captureCertificateDetailsModel(prVrm: String = PrVrmValid, lastDate: Option[DateTime] = LastDateValid,
-                                      datesList: List[String] = DatesListValid, fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
+                                     datesList: List[String] = DatesListValid, fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
     addCookie(key, value)
