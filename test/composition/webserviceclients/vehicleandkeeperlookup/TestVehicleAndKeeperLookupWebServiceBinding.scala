@@ -1,7 +1,7 @@
 package composition.webserviceclients.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService.createResponse
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 
 import scala.concurrent.Future
 
-final class TestVehicleAndKeeperLookupWebService(
+final class TestVehicleAndKeeperLookupWebServiceBinding(
                                             vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
                                             statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                             ) extends ScalaModule with MockitoSugar {
@@ -29,7 +29,7 @@ final class TestVehicleAndKeeperLookupWebService(
   }
 }
 
-object TestVehicleAndKeeperLookupWebService {
+object TestVehicleAndKeeperLookupWebServiceBinding {
 
   def createResponse(response: (Int, Option[VehicleAndKeeperDetailsResponse])) = {
     val (status, dto) = response

@@ -3,6 +3,7 @@ package composition
 import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.{AddressLookupWebServiceBinding, AddressLookupServiceBinding}
 import composition.webserviceclients.audit2.AuditServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
@@ -14,7 +15,8 @@ trait Composition {
     new AuditServiceBinding,
     new ConfigBinding,
     new AddressLookupServiceBinding,
-    new AddressLookupWebServiceBinding
+    new AddressLookupWebServiceBinding,
+    new VehicleAndKeeperLookupWebServiceBinding
   )
 
   lazy val filters = Array(

@@ -376,7 +376,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
+      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalServiceBinding,
       new AuditServiceDoesNothing,
       new TestDateService()
@@ -388,7 +388,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
-      new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
+      new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
       new AuditLocalServiceBinding,
       new AuditServiceDoesNothing,
       new TestDateService()
@@ -404,7 +404,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
+      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalServiceBinding(auditService1 = auditService1),
       new AuditServiceDoesNothing,
       new TestDateService()

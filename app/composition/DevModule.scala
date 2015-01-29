@@ -32,7 +32,7 @@ import utils.helpers.{AssignCookieFlags, Config, ConfigImpl}
 final class DevModule extends ScalaModule {
 
   def configure() {
-    bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
+
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[AssignCookieFlags].asEagerSingleton()

@@ -4,8 +4,8 @@ import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1Mock.AuditLocalServiceBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestConfig, TestDateService, TestAddressLookupWebServiceBinding, WithApplication}
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
+import composition.{TestAddressLookupWebServiceBinding, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -140,7 +140,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
       val injector = testInjector(
         new TestAddressLookupWebServiceBinding,
-        new TestVehicleAndKeeperLookupWebService,
+        new TestVehicleAndKeeperLookupWebServiceBinding,
         new ScalaModule() {
           override def configure(): Unit = {
             bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
@@ -347,7 +347,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
       new TestAddressLookupWebServiceBinding,
-      new TestVehicleAndKeeperLookupWebService,
+      new TestVehicleAndKeeperLookupWebServiceBinding,
       new ScalaModule() {
         override def configure(): Unit = {
           bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()

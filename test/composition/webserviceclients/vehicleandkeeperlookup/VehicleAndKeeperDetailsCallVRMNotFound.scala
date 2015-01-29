@@ -1,7 +1,7 @@
 package composition.webserviceclients.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService.createResponse
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
