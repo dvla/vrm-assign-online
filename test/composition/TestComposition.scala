@@ -6,7 +6,7 @@ import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding
+import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityServiceBinding}
 import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
@@ -33,6 +33,7 @@ trait TestComposition extends Composition {
       new VrmAssignEligibilityServiceBinding,
       new VrmAssignFulfilWebServiceBinding,
       new VrmAssignFulfilServiceBinding,
+      new PaymentServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -49,8 +50,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
-
     bindSessionFactory()
 
     bind[BruteForcePreventionWebService].toInstance(new TestBruteForcePreventionWebService().build())

@@ -32,8 +32,6 @@ import utils.helpers.{AssignCookieFlags, Config, ConfigImpl}
 final class DevModule extends ScalaModule {
 
   def configure() {
-    bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
-
     bindSessionFactory()
 
     bind[BruteForcePreventionWebService].to[bruteforceprevention.WebServiceImpl].asEagerSingleton()
