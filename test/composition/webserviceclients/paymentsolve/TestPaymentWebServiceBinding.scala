@@ -1,7 +1,7 @@
 package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, updateResponseWithValidDefaults}
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, updateResponseWithValidDefaults}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
@@ -12,7 +12,7 @@ import webserviceclients.paymentsolve._
 
 import scala.concurrent.Future
 
-final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
+final class TestPaymentWebServiceBinding extends ScalaModule with MockitoSugar {
 
   def build() = {
     val webService = mock[PaymentSolveWebService]
@@ -38,7 +38,7 @@ final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
   }
 }
 
-object TestPaymentSolveWebService {
+object TestPaymentWebServiceBinding {
 
   val loadBalancerUrl = "somewhere-in-load-balancer-land"
   val beginWebPaymentUrl = "somewhere-in-payment-land"

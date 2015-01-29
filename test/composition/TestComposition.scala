@@ -1,13 +1,12 @@
 package composition
 
-import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService}
-import _root_.webserviceclients.vrmassignfulfil.{VrmAssignFulfilService, VrmAssignFulfilServiceImpl}
+import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl}
 import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
-import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityServiceBinding}
 import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
@@ -39,8 +38,9 @@ trait TestComposition extends Composition {
       new TestAddressLookupWebServiceBinding,
       new TestVehicleAndKeeperLookupWebServiceBinding,
       new TestDateService,
-      new TestVrmAssignEligibilityWebService
+      new TestVrmAssignEligibilityWebService,
       //  VrmAssignFulfilWebService, // TODO there should be a stubbed version of this web service!
+      new TestPaymentWebServiceBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -49,7 +49,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[PaymentSolveWebService].toInstance(new TestPaymentSolveWebService().build())
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 
     bindSessionFactory()
