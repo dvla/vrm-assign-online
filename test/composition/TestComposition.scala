@@ -5,7 +5,7 @@ import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.audit2.{AuditMicroServiceCallNotOk, AuditServiceDoesNothing}
 import composition.webserviceclients.bruteforceprevention.{TestBruteForcePreventionWebServiceBinding, BruteForcePreventionServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
@@ -44,7 +44,8 @@ trait TestComposition extends Composition {
       new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding,
       new AuditLocalServiceDoesNothingBinding,
-      new AuditServiceDoesNothing
+      new AuditServiceDoesNothing,
+      new AuditMicroServiceCallNotOk
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -53,6 +54,5 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
   }
 }
