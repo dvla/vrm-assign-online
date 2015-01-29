@@ -32,6 +32,7 @@ trait TestComposition extends Composition {
       new TestModule(),
       new AddressLookupServiceBinding,
       new VehicleAndKeeperLookupServiceBinding,
+      new CookieFlagsBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -45,8 +46,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
-    bind[CookieFlags].to[AssignCookieFlags].asEagerSingleton()
     bind[VrmAssignEligibilityWebService].to[VrmAssignEligibilityWebServiceImpl].asEagerSingleton()
     bind[VrmAssignEligibilityService].to[VrmAssignEligibilityServiceImpl].asEagerSingleton()
     bind[VrmAssignFulfilWebService].to[VrmAssignFulfilWebServiceImpl].asEagerSingleton()

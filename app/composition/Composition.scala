@@ -18,7 +18,8 @@ trait Composition {
     new AddressLookupWebServiceBinding,
     new VehicleAndKeeperLookupWebServiceBinding,
     new VehicleAndKeeperLookupServiceBinding,
-    new DateServiceBinding
+    new DateServiceBinding,
+    new CookieFlagsBinding
   )
 
   lazy val filters = Array(
