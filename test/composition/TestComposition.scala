@@ -34,6 +34,7 @@ trait TestComposition extends Composition {
       new PaymentServiceBinding,
       new SessionFactoryBinding,
       new BruteForcePreventionServiceBinding,
+      new LoggerLikeBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -52,7 +53,6 @@ final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
-    bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[audit1.AuditService].toInstance(new composition.audit1Mock.AuditLocalServiceBinding().build())

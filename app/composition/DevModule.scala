@@ -1,12 +1,8 @@
 package composition
 
-import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
 import pdf.{PdfService, PdfServiceImpl}
-import play.api.{Logger, LoggerLike}
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
 
 /**
  * Provides real implementations of traits
@@ -21,7 +17,6 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 final class DevModule extends ScalaModule {
 
   def configure() {
-    bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[audit1.AuditService].to[audit1.AuditLocalServiceImpl].asEagerSingleton()
