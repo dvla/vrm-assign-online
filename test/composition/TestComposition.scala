@@ -4,8 +4,8 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestBruteForcePreventionWebService
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
+import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityServiceBinding}
@@ -15,7 +15,7 @@ import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
 
 trait TestComposition extends Composition {
 
@@ -33,6 +33,7 @@ trait TestComposition extends Composition {
       new VrmAssignFulfilServiceBinding,
       new PaymentServiceBinding,
       new SessionFactoryBinding,
+      new BruteForcePreventionServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
