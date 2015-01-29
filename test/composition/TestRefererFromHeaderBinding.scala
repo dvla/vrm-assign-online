@@ -6,7 +6,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Request
 
-final class TestRefererFromHeader extends ScalaModule with MockitoSugar {
+final class TestRefererFromHeaderBinding extends ScalaModule with MockitoSugar {
 
   def build = {
     val refererFromHeader = mock[RefererFromHeader]
