@@ -9,11 +9,9 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 
-final class TestOrdnanceSurveyBinding extends ScalaModule with MockitoSugar {
+final class TestAddressLookupWebServiceBinding extends ScalaModule with MockitoSugar {
 
   def configure() = {
-    bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
-
     val stubbedWebServiceImpl = mock[AddressLookupWebService]
     when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String], showBusinessName = any[Option[Boolean]])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForPostcodeToAddress)
     when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase), any[String], showBusinessName = any[Option[Boolean]])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseWhenPostcodeInvalid)

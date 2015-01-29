@@ -7,6 +7,7 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import email.{EmailService, EmailServiceImpl}
@@ -29,9 +30,10 @@ trait TestComposition extends Composition {
     val overriddenDevModule = Modules.`override`(
       // Real implementations (but no external calls)
       new TestModule(),
+      new AddressLookupServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
-      new TestOrdnanceSurveyBinding
+      new TestAddressLookupWebServiceBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
