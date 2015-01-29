@@ -10,6 +10,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding, TestVehicleAndKeeperLookupWebServiceBinding$}
+import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebService, VrmAssignEligibilityWebServiceBinding}
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
@@ -37,7 +38,8 @@ trait TestComposition extends Composition {
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
       new TestVehicleAndKeeperLookupWebServiceBinding,
-      new TestDateService
+      new TestDateService,
+      new TestVrmAssignEligibilityWebService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -46,7 +48,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
-    bind[VrmAssignEligibilityWebService].to[VrmAssignEligibilityWebServiceImpl].asEagerSingleton()
     bind[VrmAssignEligibilityService].to[VrmAssignEligibilityServiceImpl].asEagerSingleton()
     bind[VrmAssignFulfilWebService].to[VrmAssignFulfilWebServiceImpl].asEagerSingleton()
     bind[VrmAssignFulfilService].to[VrmAssignFulfilServiceImpl].asEagerSingleton()

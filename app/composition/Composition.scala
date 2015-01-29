@@ -4,6 +4,7 @@ import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.{AddressLookupWebServiceBinding, AddressLookupServiceBinding}
 import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebServiceBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
@@ -19,7 +20,8 @@ trait Composition {
     new VehicleAndKeeperLookupWebServiceBinding,
     new VehicleAndKeeperLookupServiceBinding,
     new DateServiceBinding,
-    new CookieFlagsBinding
+    new CookieFlagsBinding,
+    new VrmAssignEligibilityWebServiceBinding
   )
 
   lazy val filters = Array(
