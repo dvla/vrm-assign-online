@@ -33,7 +33,8 @@ trait Composition {
     new SessionFactoryBinding,
     new BruteForcePreventionWebServiceBinding,
     new BruteForcePreventionServiceBinding,
-    new LoggerLikeBinding
+    new LoggerLikeBinding,
+    new PdfServiceBinding
   )
 
   lazy val filters = Array(

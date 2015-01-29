@@ -2,7 +2,6 @@ package composition
 
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
-import pdf.{PdfService, PdfServiceImpl}
 
 /**
  * Provides real implementations of traits
@@ -17,7 +16,6 @@ import pdf.{PdfService, PdfServiceImpl}
 final class DevModule extends ScalaModule {
 
   def configure() {
-    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[audit1.AuditService].to[audit1.AuditLocalServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()

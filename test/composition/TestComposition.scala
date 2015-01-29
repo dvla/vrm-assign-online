@@ -1,6 +1,5 @@
 package composition
 
-import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
@@ -12,9 +11,6 @@ import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibil
 import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
 import email.{EmailService, EmailServiceImpl}
 import org.scalatest.mock.MockitoSugar
-import pdf.{PdfService, PdfServiceImpl}
-import play.api.{Logger, LoggerLike}
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
 
 trait TestComposition extends Composition {
@@ -35,6 +31,7 @@ trait TestComposition extends Composition {
       new SessionFactoryBinding,
       new BruteForcePreventionServiceBinding,
       new LoggerLikeBinding,
+      new PdfServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -53,7 +50,6 @@ final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
-    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[audit1.AuditService].toInstance(new composition.audit1Mock.AuditLocalServiceBinding().build())
     bind[RefererFromHeader].toInstance(new TestRefererFromHeader().build)
