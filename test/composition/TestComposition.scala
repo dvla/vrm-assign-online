@@ -35,7 +35,8 @@ trait TestComposition extends Composition {
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
-      new TestVehicleAndKeeperLookupWebServiceBinding
+      new TestVehicleAndKeeperLookupWebServiceBinding,
+      new TestDateService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -45,7 +46,6 @@ final class TestModule extends ScalaModule with MockitoSugar {
 
   def configure() {
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
-    bind[DateService].toInstance(new TestDateService().build())
     bind[CookieFlags].to[AssignCookieFlags].asEagerSingleton()
     bind[VrmAssignEligibilityWebService].to[VrmAssignEligibilityWebServiceImpl].asEagerSingleton()
     bind[VrmAssignEligibilityService].to[VrmAssignEligibilityServiceImpl].asEagerSingleton()
