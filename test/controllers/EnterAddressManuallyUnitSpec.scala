@@ -1,7 +1,5 @@
 package controllers
 
-import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel

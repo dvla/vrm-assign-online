@@ -1,7 +1,6 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceDoesNothingBinding
+import audit1.AuditMessage
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup._
 import composition.{TestConfig, WithApplication}
@@ -393,10 +392,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
-    val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalServiceDoesNothingBinding(auditService1 = auditService1)
+      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[audit1.AuditService]))
   }

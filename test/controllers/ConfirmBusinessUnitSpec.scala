@@ -1,9 +1,8 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import audit1.AuditMessage
+import composition.WithApplication
 import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateServiceBinding, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
@@ -49,12 +48,11 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "submit" should {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val auditService1 = mock[AuditService]
+      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
 
       val injector = testInjector(
-        new AuditLocalServiceDoesNothingBinding(auditService1),
-        new AuditServiceDoesNothing,
-        new TestDateServiceBinding)
+        auditLocalService1
+      )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])
@@ -81,7 +79,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        verify(auditService1).send(auditMessage)
+        verify(auditLocalService1.stub).send(auditMessage)
       }
     }
 
