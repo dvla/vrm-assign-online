@@ -10,7 +10,7 @@ import scala.concurrent.Future
 
 final class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
 
-  def build() = {
+  val stub = {
     val service = mock[AuditService]
     when(service.send(auditRequest = any[AuditRequest])).thenReturn(Future.successful {})
     service
@@ -18,6 +18,6 @@ final class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
 
   def configure() = {
 
-    bind[AuditService].toInstance(build())
+    bind[AuditService].toInstance(stub)
   }
 }

@@ -136,7 +136,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val auditService1 = mock[AuditService]
+      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
 
       val injector = testInjector(
         new TestAddressLookupWebServiceBinding,
@@ -148,7 +148,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestDateServiceBinding,
-        new AuditLocalServiceDoesNothingBinding(auditService1),
+        auditLocalService1,
         new AuditServiceDoesNothing
       )
 
@@ -175,7 +175,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(auditService1).send(auditMessage)
+        verify(auditLocalService1.stub).send(auditMessage)
       }
     }
 
