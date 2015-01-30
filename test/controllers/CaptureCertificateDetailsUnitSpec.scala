@@ -1,11 +1,8 @@
 package controllers
 
 import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
-import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
-import composition.{TestDateServiceBinding, WithApplication}
+import composition.WithApplication
+import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -196,27 +193,19 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   private def checkEligibility() = {
-    val auditService1 = mock[AuditService]
-    val ioc = testInjector(
-      new AuditLocalServiceDoesNothingBinding(auditService1),
-      new TestVrmAssignEligibilityWebServiceBinding() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
-    )
+    val ioc = testInjector()
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
   private def checkEligibilityDirectToPaper() = {
-    val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new AuditLocalServiceDoesNothingBinding(auditService1),
       new VrmAssignEligibilityCallDirectToPaperError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
   private def checkEligibilityNotEligible() = {
-    val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new AuditLocalServiceDoesNothingBinding(auditService1),
       new VrmAssignEligibilityCallNotEligibleError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
