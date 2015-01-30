@@ -24,7 +24,7 @@
 @transactionId
 @Messages("email.line6", replacementVRM)
 @Messages("email.line7")
-@if(isKeeper) {
+@if(!isKeeper) {
     @Messages("email.line8.with-pdf")
 } else {
     @Messages("email.line8")

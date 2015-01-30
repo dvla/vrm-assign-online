@@ -65,7 +65,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
             htmlEmail.setCharset("UTF-8")
 
-            if (isKeeper) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
+            if (!isKeeper) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
 
             htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
