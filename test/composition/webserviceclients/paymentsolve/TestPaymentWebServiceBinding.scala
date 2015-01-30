@@ -14,7 +14,7 @@ import scala.concurrent.Future
 
 final class TestPaymentWebServiceBinding extends ScalaModule with MockitoSugar {
 
-  def build() = {
+  val stub = {
     val webService = mock[PaymentSolveWebService]
 
     when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
@@ -32,10 +32,7 @@ final class TestPaymentWebServiceBinding extends ScalaModule with MockitoSugar {
     webService
   }
 
-  def configure() = {
-
-    bind[PaymentSolveWebService].toInstance(build())
-  }
+  def configure = bind[PaymentSolveWebService].toInstance(stub)
 }
 
 object TestPaymentWebServiceBinding {

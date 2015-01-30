@@ -19,5 +19,5 @@ final class AuditMicroServiceCallNotOk extends ScalaModule with MockitoSugar {
     webService
   }
 
-  def configure() = bind[AuditMicroService].toInstance(stub)
+  def configure = bind[AuditMicroService].toInstance(stub)
 }
