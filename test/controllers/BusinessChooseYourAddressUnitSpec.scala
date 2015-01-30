@@ -142,15 +142,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
-        new TestAddressLookupWebServiceBinding,
-        new TestVehicleAndKeeperLookupWebServiceBinding,
-        new ScalaModule() {
-          override def configure(): Unit = {
-            bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-          }
-        },
-        new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestDateServiceBinding,
+        new TestConfig(ordnanceSurveyUseUprn = true),
         auditLocalService1,
         auditService2
       )
