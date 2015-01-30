@@ -5,7 +5,7 @@ import com.google.inject.{Guice, Injector, Module}
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2
-import composition.webserviceclients.audit2.AuditServiceBinding
+import composition.webserviceclients.audit2.{AuditServiceDoesNothing, AuditServiceBinding}
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
@@ -31,7 +31,6 @@ trait TestComposition extends Composition {
       new LoggerLikeBinding,
       new PdfServiceBinding,
       new EmailServiceBinding,
-      new AuditServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -43,6 +42,7 @@ trait TestComposition extends Composition {
       new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding,
       new AuditLocalServiceDoesNothingBinding,
+      new AuditServiceDoesNothing,
       new audit2.AuditMicroServiceCallNotOk
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)

@@ -1,5 +1,6 @@
 package controllers
 
+import org.mockito.Matchers.any
 import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
@@ -20,6 +21,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
@@ -137,6 +139,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
       val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
+      val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
         new TestAddressLookupWebServiceBinding,
@@ -149,7 +152,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestDateServiceBinding,
         auditLocalService1,
-        new AuditServiceDoesNothing
+        auditService2
       )
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
@@ -166,6 +169,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@email.com"))
       val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data: _*)
+      val auditRequest = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
@@ -176,6 +180,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
         verify(auditLocalService1.stub).send(auditMessage)
+        verify(auditService2.stub).send(auditRequest)
       }
     }
 

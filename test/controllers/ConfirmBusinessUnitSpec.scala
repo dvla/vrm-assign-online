@@ -3,6 +3,7 @@ package controllers
 import audit1.AuditMessage
 import composition.WithApplication
 import composition.audit1.AuditLocalServiceDoesNothingBinding
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
@@ -13,6 +14,7 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.ConfirmBusiness._
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
@@ -49,9 +51,11 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
       val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
+      val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
-        auditLocalService1
+        auditLocalService1,
+        auditService2
       )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
@@ -68,6 +72,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@email.com"))
       val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data: _*)
+      val auditRequest = new AuditRequest(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -80,6 +85,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
         verify(auditLocalService1.stub).send(auditMessage)
+        verify(auditService2.stub).send(auditRequest)
       }
     }
 

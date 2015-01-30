@@ -16,7 +16,5 @@ final class AuditLocalServiceDoesNothingBinding(
     auditService1
   }
 
-  def configure() = {
-    bind[audit1.AuditService].toInstance(stub)
-  }
+  def configure() = bind[audit1.AuditService].toInstance(stub)
 }
