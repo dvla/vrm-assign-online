@@ -174,13 +174,14 @@
                             @Messages("email.line6", replacementVRM)</h1>
 
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line7")</p>
+                            @* @Messages("email.line7")</p> *@
 
-                            @if(!isKeeper) {
+                            @*      @if(!isKeeper) {
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8.with-pdf")</p>
                             } else {
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
                             }
+                                *@
                     </td>
                 </tr>
                 @*<tr>*@
@@ -210,6 +211,7 @@
                         <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line13")</h1>
 
+                        @if(!isKeeper) {
                         @businessDetailsModel.map { businessDetails =>
                             <div class="twoThirds" style="width : 66 % ; float : left ;">
                                 <div style="padding : 5 px ;">
@@ -225,7 +227,7 @@
                                 </div>
                             </div>
                         }
-
+                        }
                         <div class="oneThird" style="width: 33%; float: left;">
                             <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
@@ -277,9 +279,11 @@
                             <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line24")
                             </li>
+                            @*
                             <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line25")
                             </li>
+                            *@
                         </ul>
 
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">

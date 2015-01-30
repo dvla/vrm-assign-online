@@ -23,12 +23,14 @@
 @Messages("email.line5")
 @transactionId
 @Messages("email.line6", replacementVRM)
-@Messages("email.line7")
+@* @Messages("email.line7") *@
+    @*
 @if(!isKeeper) {
     @Messages("email.line8.with-pdf")
 } else {
     @Messages("email.line8")
 }
+    *@
 @Messages("email.line8")
 
 @Messages("email.line13")
@@ -52,6 +54,6 @@
 @Messages("email.line22")
 @Messages("email.line23")
 @Messages("email.line24")
-@Messages("email.line25")
+    @* @Messages("email.line25") *@
 @Messages("email.line26")
 @Messages("email.line27")
