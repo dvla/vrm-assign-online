@@ -12,14 +12,17 @@ import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, V
 
 import scala.concurrent.Future
 
-final class TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityWebService: VrmAssignEligibilityWebService = mock(classOf[VrmAssignEligibilityWebService]), // This can be passed in so the calls to the mock can be verified
-                                               statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess
-                                                ) extends ScalaModule with MockitoSugar {
+final class TestVrmAssignEligibilityWebServiceBinding(
+                                                       statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess
+                                                       ) extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    when(vrmAssignEligibilityWebService.invoke(any[VrmAssignEligibilityRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
-    bind[VrmAssignEligibilityWebService].toInstance(vrmAssignEligibilityWebService)
+  val stub = {
+    val webService: VrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService]
+    when(webService.invoke(any[VrmAssignEligibilityRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
+    webService
   }
+
+  def configure = bind[VrmAssignEligibilityWebService].toInstance(stub)
 }
 
 object TestVrmAssignEligibilityWebServiceBinding {
