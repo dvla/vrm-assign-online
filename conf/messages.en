@@ -563,7 +563,7 @@ success-payment-keeper-p3 = You can use your newly issued V5C to get your replac
 vrm_assign_success_payment.print = Print full summary
 
 vrm_assign_success_payment.p6 = You’ll need this to make up the replacement plates
-vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download or print via one of the links on the right.
+vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download and save or print using the link provided.
 
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
@@ -603,8 +603,9 @@ vrm_assign_success.h2a = What happens next?
 vrm_assign_success.p4 = We will send the following items to the keeper at their registered address:
 vrm_assign_success.p5 = A new registration certificate (V5C) with the replacement registration number
 vrm_assign_success.p6 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
-vrm_assign_success.h3a = Making up your new plates
-vrm_assign_success.p1a = You can remove your existing registration plates and put on your registration number
+vrm_assign_success.h3a = Making up the new plates
+vrm_assign_success.p1a = Once you have received your v5c, you can make up your plates for registration number
+vrm_assign_success.p1aa = . Tell your insurance company about your new registration number.
 vrm_assign_success.p1b = on your vehicle. You can have your new plates made through one of our registered number plate suppliers. We recommend that you arrange this as soon as possible as we have updated your driver record.
 vrm_assign_success.p2= To have your new plates made up you need a V948 which you can take to your local number plate supplier who can suggest a variety of styles. You should receive this within 3-5 working days.
 vrm_assign_success.h3b = What you need to do now
