@@ -17,15 +17,12 @@ final class TestVehicleAndKeeperLookupWebServiceBinding(
                                                          statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                                          ) extends ScalaModule with MockitoSugar {
 
-  def build() = {
+  val stub = {
     when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
     vehicleAndKeeperLookupWebService
   }
 
-  def configure() = {
-
-    bind[VehicleAndKeeperLookupWebService].toInstance(build())
-  }
+  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }
 
 object TestVehicleAndKeeperLookupWebServiceBinding {
