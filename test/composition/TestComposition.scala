@@ -2,16 +2,14 @@ package composition
 
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
-import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2.{AuditMicroServiceCallNotOk, AuditServiceDoesNothing}
-import composition.webserviceclients.bruteforceprevention.{TestBruteForcePreventionWebServiceBinding, BruteForcePreventionServiceBinding}
+import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
 import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
-import org.scalatest.mock.MockitoSugar
 
 trait TestComposition extends Composition {
 
@@ -20,7 +18,6 @@ trait TestComposition extends Composition {
   def testInjector(modules: Module*) = {
     val overriddenDevModule = Modules.`override`(
       // Real implementations (but no external calls)
-      new TestModule(),
       new AddressLookupServiceBinding,
       new VehicleAndKeeperLookupServiceBinding,
       new CookieFlagsBinding,
@@ -48,11 +45,5 @@ trait TestComposition extends Composition {
       new AuditMicroServiceCallNotOk
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
-  }
-}
-
-final class TestModule extends ScalaModule with MockitoSugar {
-
-  def configure() {
   }
 }

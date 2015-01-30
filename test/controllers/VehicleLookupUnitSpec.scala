@@ -385,7 +385,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
       new TestBruteForcePreventionWebServiceBinding(permitted = true),
-      new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
       new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
