@@ -129,7 +129,6 @@ final class Payment @Inject()(
         val trackingId = request.cookies.trackingId()
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
-          println("paymentSolveBeginRequest")
           if (response.status == Payment.CardDetailsStatus) {
             Ok(views.html.vrm_assign.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(response.trxRef.get))
