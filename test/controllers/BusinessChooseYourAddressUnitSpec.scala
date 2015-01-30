@@ -346,11 +346,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new ScalaModule() {
-        override def configure(): Unit = {
-          bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-        }
-      },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
