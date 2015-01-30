@@ -76,7 +76,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress(isPrototypeBannerVisible = false, ordnanceSurveyUseUprn = true).present(request)
+      val result = businessChooseYourAddressPrototypeBannerNotVisible(ordnanceSurveyUseUprn = true).present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -130,7 +130,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress(isPrototypeBannerVisible = false, ordnanceSurveyUseUprn = false).present(request)
+      val result = businessChooseYourAddressPrototypeBannerNotVisible(ordnanceSurveyUseUprn = false).present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -341,9 +341,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     businessChooseYourAddress(ordnanceSurveyUseUprn = ordnanceSurveyUseUprn).present(request)
   }
 
-  private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
+  private def businessChooseYourAddress(ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
+      new TestConfig(ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
+    ).getInstance(classOf[BusinessChooseYourAddress])
+  }
+
+  private def businessChooseYourAddressPrototypeBannerNotVisible(ordnanceSurveyUseUprn: Boolean) = {
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 
