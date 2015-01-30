@@ -21,9 +21,9 @@ final class TestConfig(
                         auditMicroServiceUrlBase: String = ""
                         ) extends ScalaModule with MockitoSugar {
 
-  val notFound = "NOT FOUND"
+  private val notFound = "NOT FOUND"
 
-  def build = {
+  val stub = {
     val config: Config = mock[Config]
     when(config.isCsrfPreventionEnabled).thenReturn(true)
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
@@ -86,6 +86,6 @@ final class TestConfig(
   }
 
   def configure() = {
-    bind[Config].toInstance(build)
+    bind[Config].toInstance(stub)
   }
 }

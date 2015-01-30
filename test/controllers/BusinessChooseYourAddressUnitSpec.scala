@@ -6,7 +6,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
-import composition.{TestAddressLookupWebServiceBinding, TestConfig, TestDateServiceBinding, WithApplication}
+import composition.{TestConfig, TestDateServiceBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
