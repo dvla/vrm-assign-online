@@ -31,9 +31,10 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
     }
   }
 
+  private def uprnNotFound = testInjector().getInstance(classOf[UprnNotFound])
+
   private def present = {
     val request = FakeRequest()
-    val uprnNotFound = testInjector().getInstance(classOf[UprnNotFound])
     uprnNotFound.present(request)
   }
 
