@@ -1,11 +1,9 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
-import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import audit1.AuditMessage
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup._
-import composition.{TestConfig, TestDateServiceBinding, WithApplication}
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -60,7 +58,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      val result = vehicleLookupStubs(isPrototypeBannerVisible = false).present(request)
+      val result = vehicleLookupStubsPrototypeBannerNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -173,7 +171,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroserviceError page when vehicleAndKeeperLookup throws an exception" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperLookupCallFails().submit(request)
+      val result = vehicleAndKeeperLookupCallFails.submit(request)
 
       whenReady(result, timeout) {
         r =>
@@ -183,7 +181,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "does not write VehicleAndKeeperDetailsModel cookie when microservice throws an exception" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperLookupCallFails().submit(request)
+      val result = vehicleAndKeeperLookupCallFails.submit(request)
 
       whenReady(result) {
         r =>
@@ -195,7 +193,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallNoResponse().submit(request)
+      val result = vehicleAndKeeperDetailsCallNoResponse.submit(request)
 
       whenReady(result, timeout) {
         r =>
@@ -205,7 +203,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "write cookie when vss error returned by the microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallServerDown().submit(request)
+      val result = vehicleAndKeeperDetailsCallServerDown.submit(request)
 
       whenReady(result) {
         r =>
@@ -216,7 +214,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "write cookie when vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
+      val result = vehicleAndKeeperDetailsCallVRMNotFound.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
@@ -227,20 +225,20 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
-      val result = vehicleLookupStubs(permitted = false).submit(request)
+      val result = vehicleLookupStubsBruteForceReturnsNotPermitted.submit(request)
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
 
     "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest.submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
     "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest.submit(request)
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
@@ -368,43 +366,34 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     vehicleLookupStubs().present(request)
   }
 
-  private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
-                                 permitted: Boolean = true,
-                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+  private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalServiceDoesNothingBinding,
-      new AuditServiceDoesNothing,
-      new TestDateServiceBinding()
-    ).
-      getInstance(classOf[VehicleLookup])
+      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
+    ).getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleLookupStubsPrototypeBannerNotVisible = {
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false)
+    ).getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleLookupStubsBruteForceReturnsNotPermitted = {
+    testInjector(
+      new TestBruteForcePreventionWebServiceBinding(permitted = false)
+    ).getInstance(classOf[VehicleLookup])
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = true),
-      new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService),
-      new AuditLocalServiceDoesNothingBinding,
-      new AuditServiceDoesNothing,
-      new TestDateServiceBinding()
+      new TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService)
     )
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
   }
 
-  private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
-                                         permitted: Boolean = true,
-                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
-                                          ) = {
-    val auditService1 = mock[AuditService]
+  private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalServiceDoesNothingBinding(auditService1 = auditService1),
-      new AuditServiceDoesNothing,
-      new TestDateServiceBinding()
+      new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[audit1.AuditService]))
   }
@@ -420,56 +409,34 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       KeeperConsentId -> KeeperConsent)
   }
 
-  private def vehicleAndKeeperLookupCallFails(isPrototypeBannerVisible: Boolean = true,
-                                              permitted: Boolean = true) = {
+  private def vehicleAndKeeperLookupCallFails = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
-    ).
-      getInstance(classOf[VehicleLookup])
+    ).getInstance(classOf[VehicleLookup])
   }
 
-  private def vehicleAndKeeperDetailsCallNoResponse(isPrototypeBannerVisible: Boolean = true,
-                                                    permitted: Boolean = true) = {
+  private def vehicleAndKeeperDetailsCallNoResponse = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
-    ).
-      getInstance(classOf[VehicleLookup])
+    ).getInstance(classOf[VehicleLookup])
   }
 
-  private def vehicleAndKeeperDetailsCallServerDown(isPrototypeBannerVisible: Boolean = true,
-                                                    permitted: Boolean = true) = {
+  private def vehicleAndKeeperDetailsCallServerDown = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
-    ).
-      getInstance(classOf[VehicleLookup])
+    ).getInstance(classOf[VehicleLookup])
   }
 
-  private def vehicleAndKeeperDetailsCallDocRefNumberNotLatest(isPrototypeBannerVisible: Boolean = true,
-                                                               permitted: Boolean = true) = {
+  private def vehicleAndKeeperDetailsCallDocRefNumberNotLatest = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
-      new AuditServiceDoesNothing
-    ).
-      getInstance(classOf[VehicleLookup])
+      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
+    ).getInstance(classOf[VehicleLookup])
   }
 
-  private def vehicleAndKeeperDetailsCallVRMNotFound(isPrototypeBannerVisible: Boolean = true,
-                                                     permitted: Boolean = true) = {
+  private def vehicleAndKeeperDetailsCallVRMNotFound = {
     testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallVRMNotFound(),
-      new AuditServiceDoesNothing
-    ).
-      getInstance(classOf[VehicleLookup])
+      new VehicleAndKeeperDetailsCallVRMNotFound()
+    ).getInstance(classOf[VehicleLookup])
   }
 
   private def buildHeader(trackingId: String, dateService: DateService): DmsWebHeaderDto = {

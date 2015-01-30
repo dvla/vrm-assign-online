@@ -13,8 +13,13 @@ import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)
+final class ConfirmBusiness @Inject()(
+                                       auditService1: AuditService,
+                                       auditService2: audit2.AuditService,
+                                       dateService: DateService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config)
   extends Controller {
 
@@ -63,7 +68,13 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
 
         val cookies = List(storeBusinessDetails).flatten
 
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
@@ -93,7 +104,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,

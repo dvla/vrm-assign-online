@@ -11,12 +11,10 @@ final class AuditLocalServiceDoesNothingBinding(
                                                  auditService1: audit1.AuditService = mock(classOf[audit1.AuditService])
                                                  ) extends ScalaModule with MockitoSugar {
 
-  def build() = {
+  val stub = {
     when(auditService1.send(any[Message])).thenAnswer(new DoesNothing)
     auditService1
   }
 
-  def configure() = {
-    bind[audit1.AuditService].toInstance(build())
-  }
+  def configure() = bind[audit1.AuditService].toInstance(stub)
 }

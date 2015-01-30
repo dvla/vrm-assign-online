@@ -1,7 +1,5 @@
 package controllers
 
-import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
@@ -272,9 +270,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
   private def enterAddressManuallyPrototypeNotVisible = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalServiceDoesNothingBinding,
-      new AuditServiceDoesNothing
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[EnterAddressManually])
   }
 
@@ -285,10 +281,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     enterAddressManually.present(request)
   }
 
-  private def enterAddressManually = testInjector(
-    new AuditLocalServiceDoesNothingBinding,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[EnterAddressManually])
+  private def enterAddressManually = testInjector().getInstance(classOf[EnterAddressManually])
 
   private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {

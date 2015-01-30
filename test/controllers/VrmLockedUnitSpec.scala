@@ -59,7 +59,8 @@ final class VrmLockedUnitSpec extends UnitSpec {
   private def vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[VrmLocked])
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false)
+    ).getInstance(classOf[VrmLocked])
   }
 }

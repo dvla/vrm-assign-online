@@ -1,13 +1,13 @@
 package controllers
 
-import composition.audit1.AuditLocalServiceDoesNothingBinding
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestConfig, TestDateServiceBinding, WithApplication}
+import composition.WithApplication
 import helpers.UnitSpec
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
+import pages.vrm_assign.FulfilPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.vrm_assign.Confirm.KeeperEmailId
+import views.vrm_assign.Confirm._
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {
@@ -21,35 +21,21 @@ final class ConfirmUnitSpec extends UnitSpec {
     }
   }
 
-  //  "submit" should {
-  //
-  //    "redirect to next page when the form is completed successfully" in new WithApplication {
-  //      val request = buildCorrectlyPopulatedRequest()
-  //      val result = confirm.submit(request)
-  //      whenReady(result) {
-  //        r =>
-  //          r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
-  //          val cookies = fetchCookiesFromHeaders(r)
-  //          val cookieName = KeeperEmailCacheKey
-  //          cookies.find(_.name == cookieName) match {
-  //            case Some(cookie) =>
-  //              val json = cookie.value
-  //              val model = deserializeJsonToModel[ConfirmFormModel](json)
-  //              model.keeperEmail should equal(Some(KeeperEmailValid))
-  //            case None => fail(s"$cookieName cookie not found")
-  //          }
-  //      }
-  //    }
-  //
-  //    "write cookie when the form is completed successfully" in new WithApplication {
-  //      val request = buildCorrectlyPopulatedRequest()
-  //      val result = confirm.submit(request)
-  //      whenReady(result) { r =>
-  //        val cookies = fetchCookiesFromHeaders(r)
-  //        cookies.map(_.name) should contain(KeeperEmailCacheKey)
-  //      }
-  //    }
-  //  }
+  "submit" should {
+
+    "redirect to next page when the form is completed successfully" in new WithApplication {
+      whenReady(submit) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(FulfilPage.address))
+      }
+    }
+
+    "write cookies to the cache when a valid form is submitted" in new WithApplication {
+      whenReady(submit) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain(KeeperEmailCacheKey)
+      }
+    }
+  }
 
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
@@ -62,18 +48,19 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def setUpBusinessDetailsPrototypeNotVisible() = {
-    testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalServiceDoesNothingBinding,
-      new AuditServiceDoesNothing,
-      new TestDateServiceBinding()
-    ).
-      getInstance(classOf[Confirm])
+  private def submit = {
+    val request = buildCorrectlyPopulatedRequest().
+      withCookies(vehicleAndKeeperDetailsModel()).
+      withCookies(vehicleAndKeeperLookupFormModel()).
+      withCookies(captureCertificateDetailsFormModel()).
+      withCookies(captureCertificateDetailsModel())
+    confirm.submit(request)
   }
 
   private def buildCorrectlyPopulatedRequest(keeperEmail: String = KeeperEmailValid) = {
     FakeRequest().withFormUrlEncodedBody(
-      KeeperEmailId -> keeperEmail)
+      KeeperEmailId -> keeperEmail,
+      GranteeConsentId -> "true"
+    )
   }
 }
