@@ -198,10 +198,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibility() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = true),
-      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
-      new AuditServiceDoesNothing,
       new TestVrmAssignEligibilityWebServiceBinding() //(vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService])
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
@@ -210,10 +207,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibilityDirectToPaper() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = true),
-      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
-      new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallDirectToPaperError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
@@ -222,10 +216,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def checkEligibilityNotEligible() = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = true),
-      new TestDateServiceBinding(),
       new AuditLocalServiceDoesNothingBinding(auditService1),
-      new AuditServiceDoesNothing,
       new VrmAssignEligibilityCallNotEligibleError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))

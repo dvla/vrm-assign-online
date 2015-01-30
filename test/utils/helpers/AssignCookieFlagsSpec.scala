@@ -1,9 +1,9 @@
 package utils.helpers
 
-import composition.TestConfig
 import play.api.mvc.Cookie
 import play.api.test.WithApplication
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 import scala.concurrent.duration.DurationInt
@@ -34,8 +34,5 @@ final class AssignCookieFlagsSpec extends UnitSpec {
     }
   }
 
-  private def cookieFlags = {
-    val config = new TestConfig().build
-    new AssignCookieFlags()(config)
-  }
+  private def cookieFlags = testInjector().getInstance(classOf[CookieFlags])
 }
