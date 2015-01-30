@@ -8,13 +8,13 @@ import play.api.mvc.Request
 
 final class TestRefererFromHeaderBinding extends ScalaModule with MockitoSugar {
 
-  def build = {
+  val stub = {
     val refererFromHeader = mock[RefererFromHeader]
     when(refererFromHeader.fetch(any[Request[_]])).thenReturn(Some("stub-referer-from-header"))
     refererFromHeader
   }
 
   def configure() = {
-    bind[RefererFromHeader].toInstance(build)
+    bind[RefererFromHeader].toInstance(stub)
   }
 }

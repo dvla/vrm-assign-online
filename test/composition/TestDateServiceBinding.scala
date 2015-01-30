@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 final class TestDateServiceBinding extends ScalaModule with MockitoSugar {
 
-  def build() = {
+  val stub = {
     val dateTimeISOChronology: String = new DateTime(
       YearValid.toInt,
       MonthValid.toInt,
@@ -38,8 +38,5 @@ final class TestDateServiceBinding extends ScalaModule with MockitoSugar {
     dateService
   }
 
-  def configure() = {
-
-    bind[DateService].toInstance(build())
-  }
+  def configure() = bind[DateService].toInstance(stub)
 }

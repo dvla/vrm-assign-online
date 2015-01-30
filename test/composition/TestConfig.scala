@@ -85,7 +85,5 @@ final class TestConfig(
     config
   }
 
-  def configure() = {
-    bind[Config].toInstance(stub)
-  }
+  def configure() = bind[Config].toInstance(stub)
 }
