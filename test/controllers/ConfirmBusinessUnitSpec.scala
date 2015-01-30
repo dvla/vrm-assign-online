@@ -143,10 +143,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(
-    new AuditLocalServiceDoesNothingBinding,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
