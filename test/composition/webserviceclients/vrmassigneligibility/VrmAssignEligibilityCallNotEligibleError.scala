@@ -12,10 +12,11 @@ import scala.concurrent.Future
 
 final class VrmAssignEligibilityCallNotEligibleError extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    val vrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService]
-    when(vrmAssignEligibilityWebService.invoke(any[VrmAssignEligibilityRequest], any[String])).
+  val stub = {
+    val webService = mock[VrmAssignEligibilityWebService]
+    when(webService.invoke(any[VrmAssignEligibilityRequest], any[String])).
       thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseNotEligibleError)))
-    bind[VrmAssignEligibilityWebService].toInstance(vrmAssignEligibilityWebService)
+    webService
   }
+  def configure() = bind[VrmAssignEligibilityWebService].toInstance(stub)
 }

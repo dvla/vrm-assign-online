@@ -19,5 +19,5 @@ final class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with Mockit
     webService
   }
 
-  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }

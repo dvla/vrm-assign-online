@@ -16,5 +16,5 @@ final class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
     service
   }
 
-  def configure = bind[AuditService].toInstance(stub)
+  def configure() = bind[AuditService].toInstance(stub)
 }

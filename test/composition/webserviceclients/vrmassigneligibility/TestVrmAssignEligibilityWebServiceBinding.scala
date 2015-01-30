@@ -22,7 +22,7 @@ final class TestVrmAssignEligibilityWebServiceBinding(
     webService
   }
 
-  def configure = bind[VrmAssignEligibilityWebService].toInstance(stub)
+  def configure() = bind[VrmAssignEligibilityWebService].toInstance(stub)
 }
 
 object TestVrmAssignEligibilityWebServiceBinding {

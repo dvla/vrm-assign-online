@@ -19,5 +19,5 @@ final class VehicleAndKeeperDetailsCallVRMNotFound extends ScalaModule with Mock
     webService
   }
 
-  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }

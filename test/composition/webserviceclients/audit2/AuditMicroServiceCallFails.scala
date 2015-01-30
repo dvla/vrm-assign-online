@@ -20,5 +20,5 @@ final class AuditMicroServiceCallFails extends ScalaModule with MockitoSugar {
     new RuntimeException("This error is generated deliberately for test purposes by the stub AuditMicroServiceCallFails")
   }
 
-  def configure = bind[AuditMicroService].toInstance(stub)
+  def configure() = bind[AuditMicroService].toInstance(stub)
 }

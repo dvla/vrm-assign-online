@@ -20,5 +20,5 @@ final class NotValidatedCardDetails extends ScalaModule with MockitoSugar {
     webService
   }
 
-  def configure = bind[PaymentSolveWebService].toInstance(stub)
+  def configure() = bind[PaymentSolveWebService].toInstance(stub)
 }

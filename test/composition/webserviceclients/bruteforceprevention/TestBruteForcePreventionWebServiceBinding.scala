@@ -37,7 +37,7 @@ final class TestBruteForcePreventionWebServiceBinding(permitted: Boolean = true)
     bruteForcePreventionWebService
   }
 
-  def configure = bind[BruteForcePreventionWebService].toInstance(stub)
+  def configure() = bind[BruteForcePreventionWebService].toInstance(stub)
 
   private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
 }

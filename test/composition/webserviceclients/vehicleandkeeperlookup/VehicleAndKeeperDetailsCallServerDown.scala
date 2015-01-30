@@ -19,5 +19,5 @@ final class VehicleAndKeeperDetailsCallServerDown extends ScalaModule with Mocki
     webService
   }
 
-  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }

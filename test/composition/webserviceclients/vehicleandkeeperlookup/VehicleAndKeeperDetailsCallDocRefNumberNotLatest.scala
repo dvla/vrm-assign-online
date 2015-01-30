@@ -19,5 +19,5 @@ final class VehicleAndKeeperDetailsCallDocRefNumberNotLatest extends ScalaModule
     webService
   }
 
-  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }

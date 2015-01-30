@@ -17,5 +17,5 @@ final class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSuga
     webService
   }
 
-  def configure = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }
