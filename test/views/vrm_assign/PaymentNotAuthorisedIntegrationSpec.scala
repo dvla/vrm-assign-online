@@ -6,8 +6,8 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.PaymentNotAuthorisedPage.exit
-import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentNotAuthorisedPage}
+import pages.vrm_assign.PaymentNotAuthorisedPage.{tryAgain, exit}
+import pages.vrm_assign.{PaymentPage, BeforeYouStartPage, LeaveFeedbackPage, PaymentNotAuthorisedPage}
 
 final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 
@@ -24,20 +24,19 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
     }
   }
 
-  // TODO restore when payment iframe is back
-  //  "try again button" should {
-  //    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
-  //      go to BeforeYouStartPage
-  //
-  //      cacheNotAuthorisedSetup()
-  //
-  //      go to PaymentNotAuthorisedPage
-  //
-  //      click on tryAgain
-  //
-  //    currentUrlrl should equal(PaymentPage.url)
-  //    }
-  //  }
+    "try again button" should {
+      "redirect to success page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
+        go to BeforeYouStartPage
+
+        cacheNotAuthorisedSetup()
+
+        go to PaymentNotAuthorisedPage
+
+        click on tryAgain
+
+        currentUrl should equal(PaymentPage.url)
+      }
+    }
 
   "exit button" should {
     "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
@@ -55,9 +54,14 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
   private def cacheNotAuthorisedSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      transactionId().
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
+      businessDetails().
+      keeperEmail().
+      granteeConsent().
+      transactionId().
+      paymentModel().
+      paymentTransNo().
       captureCertificateDetailsModel().
       captureCertificateDetailsFormModel()
 }

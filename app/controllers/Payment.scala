@@ -113,6 +113,7 @@ final class Payment @Inject()(
   private def callBeginWebPaymentService(transactionId: String, vrm: String)
                                         (implicit request: Request[_],
                                          token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
+
     refererFromHeader.fetch match {
       case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
