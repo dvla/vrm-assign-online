@@ -448,7 +448,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       channelCode = "test-channelCode",
       contactId = 42,
       eventFlag = alwaysLog,
-      serviceTypeCode = "test-serviceTypeCode",
+      serviceTypeCode = "test-dmsServiceTypeCode",
       languageCode = englishLanguage,
       endUser = None)
   }

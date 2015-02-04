@@ -77,7 +77,8 @@ final class TestConfig(
 
     // Web headers
     when(config.applicationCode).thenReturn("test-applicationCode")
-    when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
+    when(config.dmsServiceTypeCode).thenReturn("test-dmsServiceTypeCode")
+    when(config.vssServiceTypeCode).thenReturn("test-vssServiceTypeCode")
     when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
     when(config.channelCode).thenReturn("test-channelCode")
     when(config.contactId).thenReturn(42)

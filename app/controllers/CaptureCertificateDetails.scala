@@ -277,7 +277,7 @@ final class CaptureCertificateDetails @Inject()(
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
   }
 
