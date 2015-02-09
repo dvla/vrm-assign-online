@@ -20,7 +20,9 @@ object ConfirmFormModel {
       KeeperEmailId -> optional(email),
       GranteeConsentId -> consent,
       SupplyEmailId -> supplyEmail
-    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
+    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply).
+      verifying("email-not-supplied", form => if (form.supplyEmail == "true") form.keeperEmail.isDefined else true) // When the user selects
+    // that they want an email, they must provide an email.
   }
 
 }

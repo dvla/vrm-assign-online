@@ -16,6 +16,8 @@ object Confirm {
   final val KeeperEmailCacheKey = s"${CacheKeyPrefix}keeper-email"
   final val GranteeConsentCacheKey = s"${CacheKeyPrefix}grantee-consent"
   final val SupplyEmailId = "supply-email"
+  final val SupplyEmail_true = "true"
+  final val SupplyEmail_false = "false"
 
   def supplyEmail: Mapping[String] = nonEmptyText
 }
