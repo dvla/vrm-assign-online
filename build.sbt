@@ -4,6 +4,7 @@ import org.scalastyle.sbt.ScalastylePlugin
 import Common._
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.gatlingTests
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
@@ -20,7 +21,7 @@ name := "vrm-assign-online"
 version := versionString
 
 organization := organisationString
-
+N
 organizationName := organisationNameString
 
 scalaVersion := scalaVersionString
@@ -125,6 +126,7 @@ lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayS
 lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val emailServiceProject = legacyStubs("0.1-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 
@@ -144,8 +146,11 @@ SandboxSettings.vrmAssignFulfilProject := vrmAssignFulfilProject
 
 SandboxSettings.legacyStubsProject := legacyStubsProject
 
+SandboxSettings.emailServiceProject := emailServiceProject
+
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
+  Tasks.runEmailService.value
   Tasks.runOsAddressLookup.value
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value

@@ -5,6 +5,7 @@ import composition.webserviceclients.addresslookup.{AddressLookupServiceBinding,
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditMicroServiceBinding
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, BruteForcePreventionWebServiceBinding}
+import composition.webserviceclients.emailservice.{EmailServiceWebServiceBinding, EmailServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, PaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityServiceBinding, VrmAssignEligibilityWebServiceBinding}
@@ -38,7 +39,9 @@ trait Composition {
     new BruteForcePreventionServiceBinding,
     new LoggerLikeBinding,
     new PdfServiceBinding,
+    new AssignEmailServiceBinding,
     new EmailServiceBinding,
+    new EmailServiceWebServiceBinding,
     new RefererFromHeaderBinding
   )
 

@@ -8,6 +8,7 @@ import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.{AuditServiceDoesNothing, AuditServiceBinding}
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
+import composition.webserviceclients.emailservice.EmailServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
@@ -31,6 +32,7 @@ trait TestComposition extends Composition {
       new BruteForcePreventionServiceBinding,
       new LoggerLikeBinding,
       new PdfServiceBinding,
+      new AssignEmailServiceBinding,
       new EmailServiceBinding,
       // Completely mocked web services below...
       new TestConfig,

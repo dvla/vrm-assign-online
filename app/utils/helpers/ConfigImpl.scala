@@ -68,6 +68,10 @@ class ConfigImpl extends Config {
   val auditMicroServiceUrlBase: String = getProperty[String]("auditMicroServiceUrlBase")
   val auditMsRequestTimeout: Int = getProperty[Int]("audit.requesttimeout")
 
+  // Email microservice
+  val emailServiceMicroServiceUrlBase: String = getProperty[String]("emailServiceMicroServiceUrlBase")
+  val emailServiceMsRequestTimeout: Int = getProperty[Int]("emailService.ms.requesttimeout")
+
   // Web headers
   val applicationCode: String = getProperty[String]("webHeader.applicationCode")
   val vssServiceTypeCode: String = getProperty[String]("webHeader.vssServiceTypeCode")

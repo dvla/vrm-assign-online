@@ -1,7 +1,7 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import org.mockito.Mockito.when
+import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import utils.helpers.Config
 
@@ -18,7 +18,8 @@ final class TestConfig(
                         secureCookies: Boolean = false,
                         cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                         storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
-                        auditMicroServiceUrlBase: String = ""
+                        auditMicroServiceUrlBase: String = "",
+                        emailServiceMicroServiceUrlBase: String = ""
                         ) extends ScalaModule with MockitoSugar {
 
   private val notFound = "NOT FOUND"
@@ -74,6 +75,9 @@ final class TestConfig(
 
     when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
     when(config.auditMsRequestTimeout).thenReturn(30000)
+
+    when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
+    when(config.emailServiceMsRequestTimeout).thenReturn(30000)
 
     // Web headers
     when(config.applicationCode).thenReturn("test-applicationCode")

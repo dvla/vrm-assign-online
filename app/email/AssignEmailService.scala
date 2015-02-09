@@ -4,7 +4,7 @@ import models._
 import org.apache.commons.mail.HtmlEmail
 import play.twirl.api.HtmlFormat
 
-trait EmailService {
+trait AssignEmailService {
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,

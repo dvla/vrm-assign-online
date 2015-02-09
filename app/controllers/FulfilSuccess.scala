@@ -3,7 +3,7 @@ package controllers
 import java.io.ByteArrayInputStream
 
 import com.google.inject.Inject
-import email.EmailService
+import email.AssignEmailService
 import models._
 import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
@@ -24,7 +24,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
-                                    emailService: EmailService,
+                                    assignEmailService: AssignEmailService,
                                     dateService: DateService,
                                     paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -53,7 +53,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
         businessDetailsOpt.foreach {
           businessDetails =>
-            emailService.sendEmail(
+            assignEmailService.sendEmail(
               businessDetails.email,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
@@ -68,7 +68,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
         keeperEmailOpt.foreach {
           keeperEmail =>
-            emailService.sendEmail(
+            assignEmailService.sendEmail(
               keeperEmail,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
@@ -128,7 +128,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
   }
 
   def emailStub = Action { implicit request =>
-    Ok(emailService.htmlMessage(
+    Ok(assignEmailService.htmlMessage(
       vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
         registrationNumber = "stub-registrationNumber",
         make = Some("stub-make"),

@@ -10,6 +10,8 @@ trait Config {
   def vrmAssignFulfilMicroServiceUrlBase: String
   def paymentSolveMicroServiceUrlBase: String
   def paymentSolveMsRequestTimeout: Int
+  def emailServiceMicroServiceUrlBase: String
+  def emailServiceMsRequestTimeout: Int
 
   // Ordnance survey config
   def ordnanceSurveyMicroServiceUrl: String
