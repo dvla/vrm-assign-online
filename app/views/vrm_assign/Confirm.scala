@@ -1,6 +1,8 @@
 package views.vrm_assign
 
 import models.CacheKeyPrefix
+import play.api.data.Forms._
+import play.api.data.Mapping
 
 object Confirm {
 
@@ -13,4 +15,7 @@ object Confirm {
   final val ConfirmCacheKey = s"${CacheKeyPrefix}confirm"
   final val KeeperEmailCacheKey = s"${CacheKeyPrefix}keeper-email"
   final val GranteeConsentCacheKey = s"${CacheKeyPrefix}grantee-consent"
+  final val SupplyEmailId = "supply-email"
+
+  def supplyEmail: Mapping[String] = nonEmptyText
 }

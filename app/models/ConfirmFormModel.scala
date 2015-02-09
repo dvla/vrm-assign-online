@@ -5,9 +5,9 @@ import play.api.libs.json.Json
 import mappings.common.Consent.consent
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.vrm_assign.Confirm.{ConfirmCacheKey, GranteeConsentId, KeeperEmailId}
+import views.vrm_assign.Confirm.{ConfirmCacheKey, GranteeConsentId, KeeperEmailId, SupplyEmailId, supplyEmail}
 
-final case class ConfirmFormModel(keeperEmail: Option[String], granteeConsent: String)
+final case class ConfirmFormModel(keeperEmail: Option[String], granteeConsent: String, supplyEmail: String)
 
 object ConfirmFormModel {
 
@@ -18,7 +18,8 @@ object ConfirmFormModel {
 
     final val Mapping = mapping(
       KeeperEmailId -> optional(email),
-      GranteeConsentId -> consent
+      GranteeConsentId -> consent,
+      SupplyEmailId -> supplyEmail
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
 

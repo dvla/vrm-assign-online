@@ -57,10 +57,13 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.submit(request)
   }
 
-  private def buildCorrectlyPopulatedRequest(keeperEmail: String = KeeperEmailValid) = {
+  private val supplyEmailTrue = "true"
+
+  private def buildCorrectlyPopulatedRequest(keeperEmail: String = KeeperEmailValid, supplyEmail: String = supplyEmailTrue) = {
     FakeRequest().withFormUrlEncodedBody(
       KeeperEmailId -> keeperEmail,
-      GranteeConsentId -> "true"
+      GranteeConsentId -> "true",
+      SupplyEmailId -> supplyEmail
     )
   }
 }
