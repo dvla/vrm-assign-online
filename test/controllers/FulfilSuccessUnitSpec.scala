@@ -16,12 +16,10 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.scalatest.mock.MockitoSugar
-import pages.vrm_assign.FulfilSuccessPage
 import pages.vrm_assign.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
@@ -33,111 +31,111 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Busines
 final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
-//    "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
-//      val request = FakeRequest().
-//        withCookies(vehicleAndKeeperLookupFormModel(),
-//          setupBusinessDetails(),
-//          businessChooseYourAddress(),
-//          vehicleAndKeeperDetailsModel(),
-//          captureCertificateDetailsFormModel(),
-//          captureCertificateDetailsModel(),
-//          businessDetailsModel(),
-//          confirmFormModel(),
-//          fulfilModel(),
-//          transactionId(),
-//          paymentTransNo(),
-//          paymentModel())
-//      val (successPayment, _) = build
-//      val result = successPayment.present(request)
-//      println(contentAsString(result))
-//
-//      whenReady(result, timeout) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(FulfilSuccessPage.address))
-//      }
-//    }
+    "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(vehicleAndKeeperLookupFormModel(),
+          setupBusinessDetails(),
+          businessChooseYourAddress(),
+          vehicleAndKeeperDetailsModel(),
+          captureCertificateDetailsFormModel(),
+          captureCertificateDetailsModel(),
+          businessDetailsModel(),
+          confirmFormModel(),
+          fulfilModel(),
+          transactionId(),
+          paymentTransNo(),
+          paymentModel())
+      val (successPayment, _) = build
+      val result = successPayment.present(request)
+      println(contentAsString(result))
 
-//    "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
-//      val request = FakeRequest().
-//        withCookies(vehicleAndKeeperLookupFormModel(),
-//          setupBusinessDetails(),
-//          businessChooseYourAddress(),
-//          vehicleAndKeeperDetailsModel(),
-//          captureCertificateDetailsFormModel(),
-//          captureCertificateDetailsModel(),
-//          confirmFormModel(),
-//          fulfilModel(),
-//          transactionId(),
-//          paymentTransNo(),
-//          paymentModel())
-//      val (successPayment, _) = build
-//      val result = successPayment.present(request)
-//      whenReady(result) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
-//      }
-//    }
-//
-//    "call the email service when businessDetails cookie exists" in new WithApplication {
-//      val isKeeper = false
-//      val request = FakeRequest().
-//        withCookies(
-//          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-//          setupBusinessDetails(),
-//          businessChooseYourAddress(),
-//          businessDetailsModel(),
-//          vehicleAndKeeperDetailsModel(),
-//          captureCertificateDetailsFormModel(),
-//          captureCertificateDetailsModel(),
-//          confirmFormModel(keeperEmail = None, supplyEmail = SupplyEmail_false),
-//          fulfilModel(),
-//          transactionId(),
-//          paymentTransNo(),
-//          paymentModel())
-//      val (successPayment, emailService) = build
-//      val result = successPayment.present(request)
-//      whenReady(result) { r =>
-//        verify(emailService, times(1)).sendEmail(
-//          any[String],
-//          any[VehicleAndKeeperDetailsModel],
-//          any[CaptureCertificateDetailsFormModel],
-//          any[CaptureCertificateDetailsModel],
-//          any[FulfilModel],
-//          any[String],
-//          any[Option[ConfirmFormModel]],
-//          any[Option[BusinessDetailsModel]],
-//          Matchers.eq(isKeeper)
-//        )
-//      }
-//    }
-//
-//    "call the email service when keeper selected to supply an email address and did supply an email" in new WithApplication {
-//      val isKeeper = true
-//      val request = FakeRequest().
-//        withCookies(
-//          vehicleAndKeeperLookupFormModel(),
-//          vehicleAndKeeperDetailsModel(),
-//          captureCertificateDetailsFormModel(),
-//          captureCertificateDetailsModel(),
-//          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = supplyEmailTrue),
-//          fulfilModel(),
-//          transactionId(),
-//          paymentTransNo(),
-//          paymentModel())
-//      val (successPayment, emailService) = build
-//      val result = successPayment.present(request)
-//      whenReady(result) { r =>
-//        verify(emailService, times(1)).sendEmail(
-//          any[String],
-//          any[VehicleAndKeeperDetailsModel],
-//          any[CaptureCertificateDetailsFormModel],
-//          any[CaptureCertificateDetailsModel],
-//          any[FulfilModel],
-//          any[String],
-//          any[Option[ConfirmFormModel]],
-//          any[Option[BusinessDetailsModel]],
-//          Matchers.eq(isKeeper)
-//        )
-//      }
-//    }
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+      }
+    }
+
+    "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(vehicleAndKeeperLookupFormModel(),
+          setupBusinessDetails(),
+          businessChooseYourAddress(),
+          vehicleAndKeeperDetailsModel(),
+          captureCertificateDetailsFormModel(),
+          captureCertificateDetailsModel(),
+          confirmFormModel(),
+          fulfilModel(),
+          transactionId(),
+          paymentTransNo(),
+          paymentModel())
+      val (successPayment, _) = build
+      val result = successPayment.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+      }
+    }
+
+    "call the email service when businessDetails cookie exists" in new WithApplication {
+      val isKeeper = false
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
+          setupBusinessDetails(),
+          businessChooseYourAddress(),
+          businessDetailsModel(),
+          vehicleAndKeeperDetailsModel(),
+          captureCertificateDetailsFormModel(),
+          captureCertificateDetailsModel(),
+          confirmFormModel(keeperEmail = None, supplyEmail = SupplyEmail_false),
+          fulfilModel(),
+          transactionId(),
+          paymentTransNo(),
+          paymentModel())
+      val (successPayment, emailService) = build
+      val result = successPayment.present(request)
+      whenReady(result) { r =>
+        verify(emailService, times(1)).sendEmail(
+          any[String],
+          any[VehicleAndKeeperDetailsModel],
+          any[CaptureCertificateDetailsFormModel],
+          any[CaptureCertificateDetailsModel],
+          any[FulfilModel],
+          any[String],
+          any[Option[ConfirmFormModel]],
+          any[Option[BusinessDetailsModel]],
+          Matchers.eq(isKeeper)
+        )
+      }
+    }
+
+    "call the email service when keeper selected to supply an email address and did supply an email" in new WithApplication {
+      val isKeeper = true
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          captureCertificateDetailsFormModel(),
+          captureCertificateDetailsModel(),
+          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = supplyEmailTrue),
+          fulfilModel(),
+          transactionId(),
+          paymentTransNo(),
+          paymentModel())
+      val (successPayment, emailService) = build
+      val result = successPayment.present(request)
+      whenReady(result) { r =>
+        verify(emailService, times(1)).sendEmail(
+          any[String],
+          any[VehicleAndKeeperDetailsModel],
+          any[CaptureCertificateDetailsFormModel],
+          any[CaptureCertificateDetailsModel],
+          any[FulfilModel],
+          any[String],
+          any[Option[ConfirmFormModel]],
+          any[Option[BusinessDetailsModel]],
+          Matchers.eq(isKeeper)
+        )
+      }
+    }
 
     "not call the email service when businessDetails does not cookie" in new WithApplication {
       val isKeeper = false
