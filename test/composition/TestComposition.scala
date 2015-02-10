@@ -31,7 +31,6 @@ trait TestComposition extends Composition {
       new BruteForcePreventionServiceBinding,
       new LoggerLikeBinding,
       new PdfServiceBinding,
-      new EmailServiceBinding,
       // Completely mocked web services below...
       new TestConfig,
       new TestAddressLookupWebServiceBinding,
@@ -44,7 +43,8 @@ trait TestComposition extends Composition {
       new TestRefererFromHeaderBinding,
       new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
-      new audit2.AuditMicroServiceCallNotOk
+      new audit2.AuditMicroServiceCallNotOk,
+      new TestEmailService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
