@@ -25,4 +25,19 @@ object ConfirmPage extends Page {
     go to ConfirmPage
     click on confirm
   }
+
+  def isKeeperEmailHidden(implicit driver: WebDriver): Boolean = {
+    val keeperEmailWrapper = find(id(KeeperEmailWrapper))
+    keeperEmailWrapper match {
+      case Some(field) =>
+        val style = field.attribute("style")
+        val hasDisplayNone = style map (_.contains("display: none"))
+        hasDisplayNone.getOrElse(false)
+      case _ => true // Element not detected so is hidden.
+    }
+  }
+
+  def `supply keeper email`(implicit driver: WebDriver) = find(id(s"${SupplyEmailId}_$SupplyEmail_true")).get
+
+  def `don't supply keeper email`(implicit driver: WebDriver) = find(id(s"${SupplyEmailId}_$SupplyEmail_false")).get
 }
