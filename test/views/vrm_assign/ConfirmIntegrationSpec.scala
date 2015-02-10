@@ -4,7 +4,9 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign.ConfirmPage._
@@ -74,11 +76,11 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-      go to ConfirmBusinessPage
+      go to ConfirmPage
 
       click on back
 
-      currentUrl should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(CaptureCertificateDetailsPage.url)
     }
   }
 
