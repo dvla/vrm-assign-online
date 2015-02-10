@@ -18,7 +18,7 @@ final class TestConfig(
                         secureCookies: Boolean = false,
                         cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                         storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
-                        auditMicroServiceUrlBase: String = "NOT FOUND",
+                        auditMicroServiceUrlBase: String = "",
                         emailServiceMicroServiceUrlBase: String = "NOT FOUND"
                         ) extends ScalaModule with MockitoSugar {
 
