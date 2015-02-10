@@ -112,7 +112,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
       businessDetails().
-      keeperEmail().
+      confirmFormModel().
       granteeConsent().
       transactionId().
       paymentModel().

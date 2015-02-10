@@ -2,22 +2,28 @@ package helpers.vrm_assign
 
 import models._
 import org.joda.time.DateTime
-import org.openqa.selenium.{Cookie, WebDriver}
-import play.api.libs.json.{Json, Writes}
+import org.openqa.selenium.Cookie
+import org.openqa.selenium.WebDriver
+import play.api.libs.json.Json
+import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails._
-import views.vrm_assign.Confirm.{GranteeConsentCacheKey, KeeperEmailCacheKey}
+import views.vrm_assign.Confirm.ConfirmCacheKey
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
@@ -157,9 +163,16 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
-    val key = KeeperEmailCacheKey
-    addCookie(key, keeperEmail)
+  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid,
+                       granteeConsent: String = GranteeConsentValid,
+                       supplyEmail: String = "true")(implicit webDriver: WebDriver) = {
+    val key = ConfirmCacheKey
+    val value = ConfirmFormModel(
+      keeperEmail = keeperEmail,
+      granteeConsent = granteeConsent,
+      supplyEmail = supplyEmail
+    )
+    addCookie(key, value)
     this
   }
 

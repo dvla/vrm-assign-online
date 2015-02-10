@@ -33,7 +33,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     "write cookies to the cache when a valid form is submitted" in new WithApplication {
       whenReady(submit) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(KeeperEmailCacheKey)
+        cookies.map(_.name) should contain(ConfirmCacheKey)
       }
     }
 

@@ -82,9 +82,8 @@ final class Confirm @Inject()(
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
 
-      val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
       val granteeConsent = Some(CookieKeyValue(GranteeConsentCacheKey, model.granteeConsent))
-      val cookies = List(keeperEmail, granteeConsent).flatten
+      val cookies = List(granteeConsent).flatten
 
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
@@ -104,7 +103,9 @@ final class Confirm @Inject()(
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
+        Redirect(routes.Payment.begin()).
+          withCookiesEx(cookies: _*).
+          withCookie(model)
       } else {
         auditService1.send(AuditMessage.from(
           pageMovement = AuditMessage.ConfirmToSuccess,
@@ -120,7 +121,9 @@ final class Confirm @Inject()(
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        Redirect(routes.Fulfil.fulfil()).withCookiesEx(cookies: _*)
+        Redirect(routes.Fulfil.fulfil()).
+          withCookiesEx(cookies: _*).
+          withCookie(model)
       }
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
@@ -150,14 +153,14 @@ final class Confirm @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
     Redirect(routes.LeaveFeedback.present()).

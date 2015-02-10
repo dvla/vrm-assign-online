@@ -88,7 +88,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel))
         auditService2.send(AuditRequest.from(
@@ -96,7 +96,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel))
 
@@ -109,14 +109,14 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
         Redirect(routes.FulfilSuccess.present()).
@@ -142,7 +142,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel,
           rejectionCode = Some(responseCode)))
@@ -151,7 +151,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel,
           rejectionCode = Some(responseCode)))
@@ -165,7 +165,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           rejectionCode = Some(responseCode)))
         auditService2.send(AuditRequest.from(
@@ -173,7 +173,7 @@ final class Fulfil @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           rejectionCode = Some(responseCode)))
 

@@ -13,7 +13,6 @@ object Confirm {
   final val KeeperEmailId = "keeper-email"
   final val GranteeConsentId = "grantee-consent-id"
   final val ConfirmCacheKey = s"${CacheKeyPrefix}confirm"
-  final val KeeperEmailCacheKey = s"${CacheKeyPrefix}keeper-email"
   final val GranteeConsentCacheKey = s"${CacheKeyPrefix}grantee-consent"
   final val SupplyEmailId = "supply-email"
   final val SupplyEmail_true = "true"

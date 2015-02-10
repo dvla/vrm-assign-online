@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey, CaptureCertificateDetailsFormModelCacheKey}
-import views.vrm_assign.Confirm.KeeperEmailCacheKey
+import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.{FulfilCacheKey, FulfilResponseCodeCacheKey}
@@ -28,7 +28,7 @@ object RelatedCacheKeys {
     CaptureCertificateDetailsCacheKey,
     CaptureCertificateDetailsFormModelCacheKey,
     EnterAddressManuallyCacheKey,
-    KeeperEmailCacheKey,
+    ConfirmCacheKey,
     REFERER,
     FulfilCacheKey,
     FulfilResponseCodeCacheKey,
