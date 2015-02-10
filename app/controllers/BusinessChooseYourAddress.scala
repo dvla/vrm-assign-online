@@ -7,7 +7,6 @@ import models.BusinessChooseYourAddressFormModel
 import models.BusinessChooseYourAddressViewModel
 import models.BusinessDetailsModel
 import models.SetupBusinessDetailsFormModel
-import models.VehicleAndKeeperDetailsModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Lang
@@ -21,6 +20,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSession
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService

@@ -3,9 +3,9 @@ package email
 import composition.EmailServiceBinding
 import composition.WithApplication
 import helpers.UnitSpec
-import models.VehicleAndKeeperDetailsModel
 import models._
 import org.apache.commons.mail.HtmlEmail
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
