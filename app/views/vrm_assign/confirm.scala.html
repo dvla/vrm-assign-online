@@ -126,3 +126,11 @@
         trackClick(['@GranteeConsentId', '@SummaryId', '@ConfirmId', '@ExitId']);
     </script>
 }
+
+<script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/on-event-change-display.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+onLoadConditionalDisplay('@KeeperEmailWrapper', @isKeeperEmailDisplayedOnLoad);
+onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', 'inherit');
+onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', 'none');
+</script>
