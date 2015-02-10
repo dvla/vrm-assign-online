@@ -48,12 +48,6 @@ class ConfigImpl extends Config {
   val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
 
   // Email Service
-  val emailSmtpHost: String = getProperty[String]("smtp.host")
-  val emailSmtpPort: Int = getProperty[Int]("smtp.port")
-  val emailSmtpSsl: Boolean = getProperty[Boolean]("smtp.ssl")
-  val emailSmtpTls: Boolean = getProperty[Boolean]("smtp.tls")
-  val emailSmtpUser: String = getProperty[String]("smtp.user")
-  val emailSmtpPassword: String = getProperty[String]("smtp.password")
   val emailWhitelist: Option[List[String]] = getOptionalProperty[String]("email.whitelist").map(_.split(",").toList)
   //getProperty[("email.whitelist", "").split(",")
   val emailSenderAddress: String = getProperty[String]("email.senderAddress")

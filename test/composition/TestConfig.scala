@@ -18,8 +18,8 @@ final class TestConfig(
                         secureCookies: Boolean = false,
                         cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                         storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
-                        auditMicroServiceUrlBase: String = "",
-                        emailServiceMicroServiceUrlBase: String = ""
+                        auditMicroServiceUrlBase: String = "NOT FOUND",
+                        emailServiceMicroServiceUrlBase: String = "NOT FOUND"
                         ) extends ScalaModule with MockitoSugar {
 
   private val notFound = "NOT FOUND"
@@ -34,7 +34,6 @@ final class TestConfig(
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
-
 
     when(config.ordnanceSurveyMicroServiceUrl).thenReturn(notFound)
     when(config.ordnanceSurveyRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
@@ -58,12 +57,6 @@ final class TestConfig(
     when(config.renewalFee).thenReturn("8000")
     when(config.renewalFeeAbolitionDate).thenReturn("01/03/2015")
 
-    when(config.emailSmtpHost).thenReturn(notFound)
-    when(config.emailSmtpHost).thenReturn(notFound)
-    when(config.emailSmtpSsl).thenReturn(false)
-    when(config.emailSmtpTls).thenReturn(true)
-    when(config.emailSmtpUser).thenReturn(notFound)
-    when(config.emailSmtpPassword).thenReturn(notFound)
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
 

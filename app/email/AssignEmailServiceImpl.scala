@@ -46,7 +46,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           val plainTextMessage = populateEmailWithoutHtml(
             vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
             confirmFormModel, businessDetailsModel, isKeeper)
-          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, new HtmlEmail, confirmFormModel, businessDetailsModel, isKeeper).toString()
+          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
           val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
           val attachment: Option[Attachment] = {
             isKeeper match {
@@ -78,7 +78,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
                            captureCertificateDetailsModel: CaptureCertificateDetailsModel,
                            fulfilModel: FulfilModel,
                            transactionId: String,
-                           htmlEmail: HtmlEmail,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
                            isKeeper: Boolean): HtmlFormat.Appendable = {

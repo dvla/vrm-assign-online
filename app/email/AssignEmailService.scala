@@ -21,7 +21,6 @@ trait AssignEmailService {
                   captureCertificateDetailsModel: CaptureCertificateDetailsModel,
                   fulfilModel: FulfilModel,
                   transactionId: String,
-                  htmlEmail: HtmlEmail,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
                   isKeeper: Boolean): HtmlFormat.Appendable

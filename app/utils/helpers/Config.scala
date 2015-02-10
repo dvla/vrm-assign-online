@@ -48,12 +48,6 @@ trait Config {
   def renewalFeeAbolitionDate: String
 
   // Email Service
-  def emailSmtpHost: String
-  def emailSmtpPort: Int
-  def emailSmtpSsl: Boolean
-  def emailSmtpTls: Boolean
-  def emailSmtpUser: String
-  def emailSmtpPassword: String
   def emailWhitelist: Option[List[String]]
   //getOptionalProperty[("email.whitelist", "").split(",")
   def emailSenderAddress: String

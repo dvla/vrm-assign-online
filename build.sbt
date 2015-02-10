@@ -21,7 +21,7 @@ name := "vrm-assign-online"
 version := versionString
 
 organization := organisationString
-N
+
 organizationName := organisationNameString
 
 scalaVersion := scalaVersionString
