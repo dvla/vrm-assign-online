@@ -22,9 +22,10 @@
             <div class="second-col uppercase-input">
                 <h2>@Messages("vrm_assign_vehiclelookup.title")</h2>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.vrninputlabel"),
+                        'hint -> Messages("vrm_assign_vehiclelookup.vrnHint"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
                         '_showConstraints -> false
                     )
