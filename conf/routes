@@ -102,3 +102,5 @@ GET         /leave-feedback                                @controllers.LeaveFee
 GET         /with-language/:chosenLanguage                 uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
 
 GET         /cookie-policy                                 @controllers.CookiePolicy.present
+
+GET         /version                                       @controllers.Version.version
