@@ -142,14 +142,13 @@ final class CaptureCertificateDetails @Inject()(
   private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) = {
     val certificateTimeWithSummary = FormError(
       key = CertificateTimeId,
-      messages = Seq("error.validCertificateTime", "last error message"),
+      messages = Seq("error.summary-validCertificateTime", "error.validCertificateTime"),
       args = Seq.empty
     )
 
     val replacedErrors = (form /: List(
       (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
       (CertificateDateId, "error.validCertificateDate"),
-      //      (CertificateTimeId, "error.validCertificateTime"),
       (CertificateRegistrationMarkId, "error.validCertificateRegistrationMark"),
       (PrVrmId, "error.validPrVrm"))) {
       (form, error) =>
