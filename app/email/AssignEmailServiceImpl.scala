@@ -16,12 +16,13 @@ import utils.helpers.Config
 import views.html.vrm_assign.{email_without_html, email_with_html}
 import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.io.Source
 import scala.util.control.NonFatal
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val crownImage = Some("gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
+  private val crownImage = Some("public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -35,13 +36,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    Logger.info("*****************")
-    Logger.info(config.emailWhitelist.isDefined.toString)
-    Logger.info("*****************")
-
     if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
-
-      Logger.info("About to generate PDF")
 
       pdfService.create(transactionId,
         vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
@@ -90,11 +85,13 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     val crownContentId = crownImage match {
       case Some(filename) =>
-        val file = new File(filename)
-        val imageInFile = new FileInputStream(file)
-        val imageData = Array.ofDim[Byte](file.length.toInt)
-        imageInFile.read(imageData)
-        "data:image/png;base64," + Base64.encodeBase64String(imageData)
+        Play.resource(name = filename) match {
+          case Some(resource) =>
+            val imageInFile = resource.openStream()
+            val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
+            "data:image/png;base64," + Base64.encodeBase64String(imageData)
+          case _ => ""
+        }
       case _ => ""
     }
 
