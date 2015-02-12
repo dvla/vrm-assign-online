@@ -35,7 +35,13 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
+    Logger.info("*****************")
+    Logger.info(config.emailWhitelist.isDefined.toString)
+    Logger.info("*****************")
+
     if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+
+      Logger.info("About to generate PDF")
 
       pdfService.create(transactionId,
         vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
