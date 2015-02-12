@@ -2,27 +2,40 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
-import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel, CaptureCertificateDetailsViewModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsViewModel
+import models.VehicleAndKeeperDetailsModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTime, Period}
+import org.joda.time.DateTime
+import org.joda.time.Period
 import play.api.Logger
-import play.api.data.{Form => PlayForm, FormError}
+import play.api.data.FormError
+import play.api.data.{Form => PlayForm}
 import play.api.libs.json.Writes
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebHeaderDto, VssWebEndUserDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
 import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityService}
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityService
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -126,11 +139,16 @@ final class CaptureCertificateDetails @Inject()(
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
-  private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) =
-    (form /: List(
+  private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) = {
+    val certificateTimeWithSummary = FormError(
+      key = CertificateTimeId,
+      messages = Seq("error.summary-validCertificateTime", "error.validCertificateTime"),
+      args = Seq.empty
+    )
+
+    val replacedErrors = (form /: List(
       (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
       (CertificateDateId, "error.validCertificateDate"),
-      (CertificateTimeId, "error.validCertificateTime"),
       (CertificateRegistrationMarkId, "error.validCertificateRegistrationMark"),
       (PrVrmId, "error.validPrVrm"))) {
       (form, error) =>
@@ -139,7 +157,15 @@ final class CaptureCertificateDetails @Inject()(
           message = error._2,
           args = Seq.empty
         ))
-    }.distinctErrors
+    }.
+      replaceError(
+        CertificateTimeId,
+        certificateTimeWithSummary
+      ).
+      distinctErrors
+
+    replacedErrors
+  }
 
   /**
    * Call the eligibility service to determine if the VRM is valid for assignment
@@ -215,7 +241,7 @@ final class CaptureCertificateDetails @Inject()(
       // may not have an expiry date so check before calling function
       val outstandingDates: ListBuffer[String] = {
         certificateExpiryDate match {
-          case Some(expiryDate) if (responseCode contains("vrm_assign_eligibility_direct_to_paper")) => calculateYearsOwed(expiryDate)
+          case Some(expiryDate) if (responseCode contains ("vrm_assign_eligibility_direct_to_paper")) => calculateYearsOwed(expiryDate)
           case _ => new ListBuffer[String]
         }
       }

@@ -450,6 +450,7 @@ certificate-registration-mark = Reference number Box 4
 
 error.validCertificateDocumentCount = Must not be blank
 error.validCertificateDate = Must be 5 digits
+error.summary-validCertificateTime = Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
 error.validCertificateTime = Must be 6 digits
 error.validCertificateRegistrationMark = Must be valid format
 
