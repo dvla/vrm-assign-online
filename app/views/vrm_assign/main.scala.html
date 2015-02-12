@@ -7,7 +7,6 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import views.html.common.{govMainDefault, progressBar, protoType}
 @import views.vrm_assign.Main.BackId
-@import views.html.vrm_assign.errorsSummary2
 
 @govMainDefault(title) {
     <div class="app vrm-assign-online">
@@ -24,7 +23,7 @@
                 </div>
             }
 
-            @errorsSummary2(currentForm)
+            @errorsSummary(currentForm)
 
             @content
 
