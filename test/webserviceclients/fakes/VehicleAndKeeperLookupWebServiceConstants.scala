@@ -1,5 +1,6 @@
 package webserviceclients.fakes
 
+import org.joda.time.DateTime
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import views.vrm_assign.VehicleLookup.UserType_Keeper
@@ -56,7 +57,10 @@ object VehicleAndKeeperLookupWebServiceConstants {
     keeperAddressLine3 = KeeperAddressLine3Valid,
     keeperAddressLine4 = KeeperAddressLine4Valid,
     keeperPostTown = KeeperPostTownValid,
-    keeperPostcode = KeeperPostCodeValid
+    keeperPostcode = KeeperPostCodeValid,
+    disposeFlag = None,
+    keeperEndDate = None,
+    suppressedV5Flag = None
   )
 
   def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
