@@ -88,6 +88,9 @@ final class Payment @Inject()(
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 
+    val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
+    val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+
     auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -96,6 +99,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
+      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+      captureCertificateDetailsModel = Some(captureCertificateDetails),
       rejectionCode = Some(message)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -105,6 +110,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
+      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+      captureCertificateDetailsModel = Some(captureCertificateDetails),
       rejectionCode = Some(message)))
 
     Redirect(routes.PaymentFailure.present())
@@ -152,6 +159,8 @@ final class Payment @Inject()(
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
+      val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
+      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
@@ -159,6 +168,8 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetails),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
       auditService2.send(AuditRequest.from(
@@ -167,6 +178,8 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetails),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
 
@@ -224,12 +237,17 @@ final class Payment @Inject()(
         Logger.error("The get web request to Solve was not validated.")
       }
 
+      val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
+      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+
       auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetails),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToExit,
@@ -237,6 +255,8 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetails),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       redirectToLeaveFeedback

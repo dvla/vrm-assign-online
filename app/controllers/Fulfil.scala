@@ -89,6 +89,8 @@ final class Fulfil @Inject()(
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel))
         auditService2.send(AuditRequest.from(
@@ -97,6 +99,8 @@ final class Fulfil @Inject()(
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel))
 
@@ -110,6 +114,8 @@ final class Fulfil @Inject()(
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToSuccess,
@@ -117,6 +123,8 @@ final class Fulfil @Inject()(
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
         Redirect(routes.FulfilSuccess.present()).

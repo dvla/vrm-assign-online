@@ -192,24 +192,29 @@ final class CaptureCertificateDetails @Inject()(
     }
 
     def eligibilitySuccess(certificateExpiryDate: DateTime) = {
+
+      // calculate number of years owed if any
+      val outstandingDates = calculateYearsOwed(certificateExpiryDate)
+
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+
       val redirectLocation = {
         auditService1.send(AuditMessage.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel)))
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetailsModel)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel)))
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetailsModel)))
         routes.Confirm.present()
       }
-
-      // calculate number of years owed if any
-      val outstandingDates = calculateYearsOwed(certificateExpiryDate)
 
       bruteForceService.reset(captureCertificateDetailsFormModel.prVrm).onComplete {
         case scala.util.Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
@@ -217,7 +222,7 @@ final class CaptureCertificateDetails @Inject()(
       }
 
       Redirect(redirectLocation)
-        .withCookie(CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+        .withCookie(captureCertificateDetailsModel)
         .withCookie(captureCertificateDetailsFormModel)
     }
 
@@ -225,21 +230,6 @@ final class CaptureCertificateDetails @Inject()(
       Logger.debug(s"VrmAssignEligibility encountered a problem with request" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
-
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        rejectionCode = Some(responseCode)))
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        rejectionCode = Some(responseCode)))
 
       // calculate number of years owed if any
       // may not have an expiry date so check before calling function
@@ -250,9 +240,28 @@ final class CaptureCertificateDetails @Inject()(
         }
       }
 
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
+        rejectionCode = Some(responseCode)))
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
+        rejectionCode = Some(responseCode)))
+
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1)).
-        withCookie(CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt)))
+        withCookie(captureCertificateDetailsModel)
     }
 
     def calculateYearsOwed(certificateExpiryDate: DateTime): ListBuffer[String] = {
