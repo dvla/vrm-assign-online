@@ -1,6 +1,8 @@
 package utils.helpers
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import uk.gov.dvla.vehicles.presentation.common
+import common.ConfigProperties.{getDurationProperty, getOptionalProperty, booleanProp, intProp, stringProp, longProp}
+import common.ConfigProperties.getProperty
 
 class ConfigImpl extends Config {
 
