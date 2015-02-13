@@ -105,14 +105,14 @@ final class Fulfil @Inject()(
           withCookie(FulfilModel.from(transactionTimestampWithZone))
       } else {
         auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.PaymentToSuccess,
+          pageMovement = AuditMessage.ConfirmToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToSuccess,
+          pageMovement = AuditMessage.ConfirmToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -161,7 +161,7 @@ final class Fulfil @Inject()(
           withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       } else {
         auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          pageMovement = AuditMessage.ConfirmToFulfilFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -169,7 +169,7 @@ final class Fulfil @Inject()(
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           rejectionCode = Some(responseCode)))
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          pageMovement = AuditMessage.ConfirmToFulfilFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

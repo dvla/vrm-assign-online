@@ -101,7 +101,6 @@ object VehicleAndKeeperDetailsModelOptSeq {
   }
 }
 
-
 object CaptureCertificateDetailsFormModelOptSeq {
 
   def from(captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel]) = {
@@ -113,6 +112,20 @@ object CaptureCertificateDetailsFormModelOptSeq {
         val certificateRegistrationMarkOpt = Some(("certificateRegistrationMark", captureCertificateDetailsFormModel.certificateRegistrationMark))
         val prVrmOpt = Some(("prVrm", captureCertificateDetailsFormModel.prVrm))
         Seq(certificateDocumentCountOpt, certificateDateOpt, certificateTimeOpt, certificateRegistrationMarkOpt, prVrmOpt)
+      }
+      case _ => Seq.empty
+    }
+  }
+}
+
+object CaptureCertificateDetailsModelOptSeq {
+
+  def from(captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]) = {
+    captureCertificateDetailsModel match {
+      case Some(captureCertificateDetailsModel) => {
+        val certificateExpiryDateOpt = Some(("certificateExpiryDate", captureCertificateDetailsModel.certificateExpiryDate))
+        val outstandingFeesOpt = Some(("outstandingFees", captureCertificateDetailsModel.outstandingFees))
+        Seq(certificateExpiryDateOpt, outstandingFeesOpt)
       }
       case _ => Seq.empty
     }
@@ -162,10 +175,12 @@ object AuditMessage {
   final val CaptureCertificateDetailsToConfirm = "CaptureCertificateDetailsToConfirm"
   final val CaptureCertificateDetailsToMicroServiceError = "CaptureCertificateDetailsToMicroServiceError"
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
+  final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure = "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
 
   final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToSuccess = "ConfirmToSuccess"
   final val ConfirmToExit = "ConfirmToExit"
+  final val ConfirmToFulfilFailure = "ConfirmToFulfilFailure"
 
   final val PaymentToSuccess = "PaymentToSuccess"
   final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"
@@ -177,7 +192,8 @@ object AuditMessage {
            transactionId: String,
            timestamp: String,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
-           captureCertificateDetailFormsModel: Option[CaptureCertificateDetailsFormModel] = None,
+           captureCertificateDetailFormModel: Option[CaptureCertificateDetailsFormModel] = None,
+           captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel] = None,
            keeperEmail: Option[String] = None,
            businessDetailsModel: Option[BusinessDetailsModel] = None,
            paymentModel: Option[PaymentModel] = None,
@@ -187,7 +203,8 @@ object AuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
-      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormsModel)
+      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormModel)
+      val captureCertificateDetailsModelOpt = CaptureCertificateDetailsModelOptSeq.from(captureCertificateDetailsModel)
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
@@ -199,7 +216,7 @@ object AuditMessage {
         keeperEmailOpt,
         rejectionCodeOpt
       ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq
-        ++ captureCertificateDetailsFormModelOpt ++ paymentModelOptSeq).flatten
+        ++ captureCertificateDetailsFormModelOpt ++ captureCertificateDetailsModelOpt ++ paymentModelOptSeq).flatten
     }
     AuditMessage(pageMovement, AuditServiceType, data: _*)
   }

@@ -197,12 +197,14 @@ final class CaptureCertificateDetails @Inject()(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel)))
         routes.Confirm.present()
       }
 
@@ -225,16 +227,18 @@ final class CaptureCertificateDetails @Inject()(
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
       auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         rejectionCode = Some(responseCode)))
 
       // calculate number of years owed if any

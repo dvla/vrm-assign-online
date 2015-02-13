@@ -69,6 +69,7 @@ final class Confirm @Inject()(
       val granteeConsent = Some(CookieKeyValue(GranteeConsentCacheKey, model.granteeConsent))
       val cookies = List(keeperEmail, granteeConsent).flatten
 
+      val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       // check for outstanding fees
@@ -79,6 +80,8 @@ final class Confirm @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToPayment,
@@ -86,23 +89,11 @@ final class Confirm @Inject()(
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = model.keeperEmail,
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
       } else {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmToSuccess,
-          timestamp = dateService.dateTimeISOChronology,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = model.keeperEmail,
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.ConfirmToSuccess,
-          timestamp = dateService.dateTimeISOChronology,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = model.keeperEmail,
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         Redirect(routes.Fulfil.fulfil()).withCookiesEx(cookies: _*)
       }
     }

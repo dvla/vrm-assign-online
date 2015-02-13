@@ -1,7 +1,7 @@
 package webserviceclients.audit2
 
-import audit1.{CaptureCertificateDetailsFormModelOptSeq, BusinessDetailsModelOptSeq, PaymentModelOptSeq, VehicleAndKeeperDetailsModelOptSeq}
-import models.{CaptureCertificateDetailsFormModel, BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel}
+import audit1._
+import models._
 import play.api.libs.json.Json._
 import play.api.libs.json._
 
@@ -35,7 +35,8 @@ object AuditRequest {
            transactionId: String,
            timestamp: String,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
-           captureCertificateDetailFormsModel: Option[CaptureCertificateDetailsFormModel] = None,
+           captureCertificateDetailFormModel: Option[CaptureCertificateDetailsFormModel] = None,
+           captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel] = None,
            keeperEmail: Option[String] = None,
            businessDetailsModel: Option[BusinessDetailsModel] = None,
            paymentModel: Option[PaymentModel] = None,
@@ -44,7 +45,8 @@ object AuditRequest {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
-      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormsModel)
+      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormModel)
+      val captureCertificateDetailsModelOpt = CaptureCertificateDetailsModelOptSeq.from(captureCertificateDetailsModel)
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
@@ -56,7 +58,7 @@ object AuditRequest {
         keeperEmailOpt,
         rejectionCodeOpt
       ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq
-        ++ captureCertificateDetailsFormModelOpt ++ paymentModelOptSeq).flatten
+        ++ captureCertificateDetailsFormModelOpt ++ captureCertificateDetailsModelOpt ++ paymentModelOptSeq).flatten
     }
     AuditRequest(pageMovement, AuditServiceType, data)
   }
