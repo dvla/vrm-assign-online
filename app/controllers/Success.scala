@@ -8,11 +8,11 @@ import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_assign.Confirm._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.paymentsolve.PaymentSolveService

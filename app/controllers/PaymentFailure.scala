@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import models._
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
 import views.vrm_assign.VehicleLookup._
 
@@ -26,7 +26,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
     request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
       case (Some(vehicleAndKeeperLookupFormModel)) =>
         Redirect(routes.VehicleLookup.present())
-//          .discardingCookie(RetainCacheKey) TODO
+      //          .discardingCookie(RetainCacheKey) TODO
       case _ =>
         Redirect(routes.BeforeYouStart.present())
     }

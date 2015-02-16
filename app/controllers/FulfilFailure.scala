@@ -3,12 +3,15 @@ package controllers
 import com.google.inject.Inject
 import models.PaymentModel
 import play.api.Logger
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
-import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveService}
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import webserviceclients.paymentsolve.PaymentSolveService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
