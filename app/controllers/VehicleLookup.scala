@@ -18,6 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
@@ -103,7 +104,11 @@ final class VehicleLookup @Inject()(
             title = None,
             firstName = None,
             lastName = None,
-            address = None)
+            address = None,
+            disposeFlag = None,
+            keeperEndDate = None,
+            suppressedV5Flag = None
+          )
 
           auditService1.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,

@@ -6,9 +6,11 @@ import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign
@@ -128,7 +130,7 @@ object CookieFactoryForUISpecs {
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid)
                                   (implicit webDriver: WebDriver) = {
-    val key = vrm_assign.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
+    val key = VehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
@@ -144,7 +146,11 @@ object CookieFactoryForUISpecs {
       title = title,
       firstName = firstName,
       lastName = lastName,
-      address = Some(addressViewModel))
+      address = Some(addressViewModel),
+      disposeFlag = None,
+      keeperEndDate = None,
+      suppressedV5Flag = None
+    )
     addCookie(key, value)
     this
   }

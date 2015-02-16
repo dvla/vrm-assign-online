@@ -3,19 +3,26 @@ package helpers.vrm_assign
 import composition.TestComposition
 import models._
 import org.joda.time.DateTime
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.Json
+import play.api.libs.json.Writes
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.CaptureCertificateDetails.{CaptureCertificateDetailsCacheKey, CaptureCertificateDetailsFormModelCacheKey}
+import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
+import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
@@ -66,7 +73,11 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       title = title,
       firstName = firstName,
       lastName = lastName,
-      address = Some(addressViewModel))
+      address = Some(addressViewModel),
+      disposeFlag = None,
+      keeperEndDate = None,
+      suppressedV5Flag = None
+    )
     createCookie(key, value)
   }
 

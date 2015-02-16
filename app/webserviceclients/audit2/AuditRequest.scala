@@ -1,9 +1,17 @@
 package webserviceclients.audit2
 
-import audit1._
-import models._
+import audit1.CaptureCertificateDetailsModelOptSeq
+import audit1.BusinessDetailsModelOptSeq
+import audit1.CaptureCertificateDetailsFormModelOptSeq
+import audit1.PaymentModelOptSeq
+import audit1.VehicleAndKeeperDetailsModelOptSeq
+import models.CaptureCertificateDetailsModel
+import models.BusinessDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.PaymentModel
 import play.api.libs.json.Json._
 import play.api.libs.json._
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 case class AuditRequest(name: String, serviceType: String, data: Seq[(String, Any)])
 

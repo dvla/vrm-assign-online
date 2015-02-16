@@ -11,6 +11,7 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.html.vrm_assign.{email_without_html, email_with_html}

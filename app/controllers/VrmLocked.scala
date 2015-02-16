@@ -2,7 +2,6 @@ package controllers
 
 import com.google.inject.Inject
 import models.CaptureCertificateDetailsFormModel
-import models.VehicleAndKeeperDetailsModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VrmLockedViewModel
 import org.joda.time.DateTime
@@ -13,6 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._

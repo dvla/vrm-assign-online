@@ -13,6 +13,7 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_assign.Payment._
@@ -138,7 +139,11 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         firstName = Some("stub-firstName"),
         lastName = Some("stub-lastName"),
         address = Some(AddressModel(address = Seq("stub-business-line1", "stub-business-line2",
-          "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+          "stub-business-line3", "stub-business-line4", "stub-business-postcode"))),
+        disposeFlag = None,
+        keeperEndDate = None,
+        suppressedV5Flag = None
+      ),
       captureCertificateDetailsFormModel = CaptureCertificateDetailsFormModel(
         certificateDocumentCount = "1",
         certificateDate = "11111",
