@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import email.AssignEmailService
 import models._
-import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
@@ -147,7 +146,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       captureCertificateDetailsModel = CaptureCertificateDetailsModel("ABC123", None, List.empty, 0),
       fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
-      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), granteeConsent = "true")),
+      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), granteeConsent = "true", supplyEmail = "true")),
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true
     ))

@@ -33,10 +33,16 @@ final class Confirm @Inject()(
       captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
     } yield {
-      val formModel = ConfirmFormModel(None, "")
+      def formModelEmpty = {
+        val keeperEmailEmpty = None
+        val granteeConsent = ""
+        val supplyEmailEmpty = ""
+        ConfirmFormModel(keeperEmailEmpty, granteeConsent, supplyEmailEmpty)
+      }
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
         captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
-      Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModel)))
+      // Always fill the form with empty values to force user to enter new details.
+      Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModelEmpty)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
@@ -49,18 +55,29 @@ final class Confirm @Inject()(
     )
   }
 
-  private def replaceErrorMsg(form: Form[ConfirmFormModel], id: String, msgId: String) =
-    form.replaceError(
-      KeeperEmailId,
-      FormError(
-        key = id,
-        message = msgId,
-        args = Seq.empty
-      )).replaceError(
+  private def formWithReplacedErrors(form: Form[ConfirmFormModel], id: String, msgId: String) =
+    form.
+      replaceError(
+        KeeperEmailId,
+        FormError(
+          key = id,
+          message = msgId,
+          args = Seq.empty
+        )
+      ).
+      replaceError(
         GranteeConsentId,
         "error.required",
         FormError(key = GranteeConsentId, message = "vrm_assign_confirm.grantee_consent.notgiven", args = Seq.empty)
-    )
+      ).
+      replaceError(
+        key = "",
+        message = "email-not-supplied",
+        FormError(
+          key = KeeperEmailId,
+          message = "email-not-supplied"
+        )
+      )
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
@@ -111,7 +128,7 @@ final class Confirm @Inject()(
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
         captureCertDetails.outstandingDates, captureCertDetails.outstandingFees,
         vehicleAndKeeperLookupForm.userType)
-      val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
+      val updatedForm = formWithReplacedErrors(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm))
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
