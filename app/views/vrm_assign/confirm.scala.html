@@ -1,5 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
-        confirmForm: Form[models.ConfirmFormModel])(implicit lang: Lang,
+        confirmForm: Form[models.ConfirmFormModel],
+        isKeeperEmailDisplayedOnLoad: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
@@ -68,17 +69,19 @@
                     args = Map.empty
                 )
 
-                @valtechInputText(confirmForm(KeeperEmailId),
-                    hintText = {
-                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_assign_confirm.emailKeeper")) else Some(Messages("vrm_assign_confirm.emailTrade"))
-                    },
-                    args = Map(
-                        'NO_OPTIONAL_LABEL -> true,
-                        '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> KeeperEmailMaxLength
+                <div id="@KeeperEmailWrapper">
+                    @valtechInputText(confirmForm(KeeperEmailId),
+                        hintText = {
+                            if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_assign_confirm.emailKeeper")) else Some(Messages("vrm_assign_confirm.emailTrade"))
+                        },
+                        args = Map(
+                            'NO_OPTIONAL_LABEL -> true,
+                            '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> KeeperEmailMaxLength
+                        )
                     )
-                )
+                </div>
 
                 @if(confirmViewModel.outstandingPaymentAmount > 0) {
                     <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
@@ -123,3 +126,47 @@
         trackClick(['@GranteeConsentId', '@SummaryId', '@ConfirmId', '@ExitId']);
     </script>
 }
+
+<script type="text/javascript">
+require.config({
+    paths: {
+    'jquery': 'lib/jquery/jquery-1.9.1',
+    'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
+    }
+});
+
+require(["jquery", "jquery-migrate"],function($) {
+
+    function onLoadConditionalDisplay(id, isDisplayed) {
+        var element = $('#' + id);
+        if (isDisplayed) {
+            element.show();
+        } else {
+            element.hide();
+        }
+    }
+
+    /*
+     * Display a field that fires when the link or button is clicked.
+     *
+     * ids - The ids of the links/buttons you want to track.
+     */
+    function onEventChangeDisplay(idOfClickable, idOfDisplayable, isDisplayed) {
+        $('#' + idOfClickable).click(function() {
+            var elementOfDisplayable = $('#' + idOfDisplayable );
+            /*console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);*/
+            if (isDisplayed) {
+                elementOfDisplayable.slideDown();
+            } else {
+                elementOfDisplayable.slideUp();
+            }
+        });
+    }
+
+    onLoadConditionalDisplay('@KeeperEmailWrapper', @isKeeperEmailDisplayedOnLoad);
+    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', true);
+    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', false);
+
+});
+
+</script>

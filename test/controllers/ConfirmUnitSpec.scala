@@ -3,13 +3,18 @@ package controllers
 import composition.WithApplication
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import pages.vrm_assign.FulfilPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK, BAD_REQUEST}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
 import views.vrm_assign.Confirm._
+import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
-import views.vrm_assign.VehicleLookup.{UserType_Business, UserType_Keeper}
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -88,11 +93,10 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.submit(request)
   }
 
-  private val supplyEmailTrue = "true"
   private val supplyEmailEmpty = ""
   private val keeperEmailEmpty = ""
 
-  private def buildRequest(keeperEmail: String = KeeperEmailValid, supplyEmail: String = supplyEmailTrue) = {
+  private def buildRequest(keeperEmail: String = KeeperEmailValid, supplyEmail: String = SupplyEmail_true) = {
     FakeRequest().withFormUrlEncodedBody(
       KeeperEmailId -> keeperEmail,
       GranteeConsentId -> "true",

@@ -33,7 +33,7 @@ Development environment
 
     -   `vrm-assign-online`
     -   `vehicle-and-keeper-lookup`
-    -   `<<the appropriate secrets repo>>'
+    -   `<the appropriate secrets repo>'
     -   `os-address-lookup`
 
 2.  JDK 1.7 must be installed
@@ -46,13 +46,17 @@ Development environment
 
         brew install sbt
 
-5.  Increase 'permanent generation space' requirements for SBT.
+5.  Install phantom-js for testing web pages that contain javascript:
+
+        brew install phantomjs
+
+6.  Increase 'permanent generation space' requirements for SBT.
 
     Create the file `~/.sbtconfig` with the following content:
 
         SBT_OPTS="$SBT_OPTS -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M"
 
-6.  Decrypt secret keys:
+7.  Decrypt secret keys:
 
         cd <<the appropriate secrets repo>>
         ./setup XYZ

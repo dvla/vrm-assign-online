@@ -18,8 +18,13 @@ import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCache
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
+import views.vrm_assign.Confirm.ConfirmCacheKey
+import views.vrm_assign.Confirm.SupplyEmail_true
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_assign.Fulfil.FulfilCacheKey
+import views.vrm_assign.Payment.PaymentDetailsCacheKey
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
@@ -28,7 +33,15 @@ import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.AuthCodeValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.CardTypeValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.MaskedPANValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.MerchantIdValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.PaymentTypeValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.TotalAmountPaidValid
+import webserviceclients.fakes.PaymentSolveWebServiceConstants.TransactionReferenceValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTimestampValid
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -163,9 +176,20 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
+  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid, supplyEmail: String = SupplyEmail_true): Cookie = {
+    val key = ConfirmCacheKey
+    val value = ConfirmFormModel(keeperEmail = keeperEmail, granteeConsent = "true", supplyEmail = supplyEmail)
+    createCookie(key, value)
+  }
+
   def transactionId(transactionId: String = TransactionIdValid): Cookie = {
     val key = TransactionIdCacheKey
     createCookie(key, transactionId)
+  }
+
+  def paymentTransNo(paymentTransNo: String = PaymentTransNoValid): Cookie = {
+    val key = PaymentTransNoCacheKey
+    createCookie(key, paymentTransNo)
   }
 
   def storeBusinessDetailsConsent(consent: String = "true"): Cookie = {
@@ -187,6 +211,35 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                          prVrm: String = PrVrmValid): Cookie = {
     val key = CaptureCertificateDetailsFormModelCacheKey
     val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
+    createCookie(key, value)
+  }
+
+  def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
+                   paymentStatus: Option[String] = None,
+                   maskedPAN: Option[String] = MaskedPANValid,
+                   authCode: Option[String] = AuthCodeValid,
+                   merchantId: Option[String] = MerchantIdValid,
+                   paymentType: Option[String] = PaymentTypeValid,
+                   cardType: Option[String] = CardTypeValid,
+                   totalAmountPaid: Option[Long] = TotalAmountPaidValid,
+                   rejectionCode: Option[String] = None): Cookie = {
+    val key = PaymentDetailsCacheKey
+    val value = PaymentModel(trxRef = trxRef,
+      paymentStatus = paymentStatus,
+      maskedPAN = maskedPAN,
+      authCode = authCode,
+      merchantId = merchantId,
+      paymentType = paymentType,
+      cardType = cardType,
+      totalAmountPaid = totalAmountPaid,
+      rejectionCode = rejectionCode
+    )
+    createCookie(key, value)
+  }
+
+  def fulfilModel(transactionTimestamp: String = TransactionTimestampValid): Cookie = {
+    val key = FulfilCacheKey
+    val value = FulfilModel(transactionTimestamp)
     createCookie(key, value)
   }
 }

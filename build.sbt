@@ -1,8 +1,9 @@
+import Common._
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import io.gatling.sbt.GatlingPlugin
+import io.gatling.sbt.GatlingPlugin.Gatling
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
-import Common._
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.gatlingTests
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
@@ -13,8 +14,6 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
-import io.gatling.sbt.GatlingPlugin
-import GatlingPlugin.Gatling
 
 name := "vrm-assign-online"
 
@@ -39,7 +38,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtW
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
-  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
+  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
@@ -50,7 +49,8 @@ libraryDependencies ++= {
     cache,
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
-    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+//    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
     "org.specs2" %% "specs2" % "2.4" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
