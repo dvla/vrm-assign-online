@@ -33,16 +33,14 @@ final class Confirm @Inject()(
       captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
     } yield {
-      def formModelEmpty = {
-        val keeperEmailEmpty = None
-        val granteeConsent = ""
-        val supplyEmailEmpty = ""
-        ConfirmFormModel(keeperEmailEmpty, granteeConsent, supplyEmailEmpty)
-      }
       val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
         captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
-      // Always fill the form with empty values to force user to enter new details.
-      Ok(views.html.vrm_assign.confirm(viewModel, form.fill(formModelEmpty)))
+      val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
+      // with the situation where payment fails and they come back to this page via either back button or coming
+      // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
+      // customer gives up and then a new customer starts the journey in the same session and the email field is
+      // pre-populated with the previous customer's address.
+      Ok(views.html.vrm_assign.confirm(viewModel, emptyForm))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)

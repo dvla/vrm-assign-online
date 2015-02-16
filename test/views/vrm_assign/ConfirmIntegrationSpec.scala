@@ -9,8 +9,8 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_assign.ConfirmPage._
 import pages.vrm_assign._
+import views.vrm_assign.Confirm.ConfirmCacheKey
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -62,12 +62,22 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheSetup()
+      go to ConfirmPage
 
-      exitPath
+      click on ConfirmPage.exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
+    }
+
+    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup().confirmFormModel()
+      go to ConfirmPage
+
+      click on ConfirmPage.exit
+
+      webDriver.manage().getCookieNamed(ConfirmCacheKey) should equal(null)
     }
   }
 
