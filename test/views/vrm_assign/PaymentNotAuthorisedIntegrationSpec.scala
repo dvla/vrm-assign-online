@@ -57,7 +57,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
       businessDetails().
-      keeperEmail().
+      confirmFormModel().
       granteeConsent().
       transactionId().
       paymentModel().
