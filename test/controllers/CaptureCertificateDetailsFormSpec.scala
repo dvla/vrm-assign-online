@@ -110,6 +110,24 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(2).message should equal("error.validCertificateRegistrationMark")
     }
 
+    "reject when certificate-registration-mark has too few characters" in {
+      val errors = formWithValidDefaults(
+        certificateRegistrationMark = "1"
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateRegistrationMarkId)
+      errors(0).message should equal("error.minLength")
+    }
+
+    "reject when certificate-registration-mark has too many characters" in {
+      val errors = formWithValidDefaults(
+        certificateRegistrationMark = "9" * 20
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateRegistrationMarkId)
+      errors(0).message should equal("error.maxLength")
+    }
+
     "reject when certificate-time is blank" in {
       val errors = formWithValidDefaults(
         certificateTime = ""
@@ -123,6 +141,24 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(2).message should equal("error.validCertificateTime")
     }
 
+    "reject when certificate-time has too few characters" in {
+      val errors = formWithValidDefaults(
+        certificateTime = "1"
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateTimeId)
+      errors(0).message should equal("error.minLength")
+    }
+
+    "reject when certificate-time has too many characters" in {
+      val errors = formWithValidDefaults(
+        certificateTime = "9" * 20
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateTimeId)
+      errors(0).message should equal("error.maxLength")
+    }
+
     "reject when pr-vrm is blank" in {
       val errors = formWithValidDefaults(
         prVrm = ""
@@ -134,6 +170,28 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(1).message should equal("error.required")
       errors(2).key should equal(PrVrmId)
       errors(2).message should equal("error.restricted.validVrnOnly")
+    }
+
+    "reject when pr-vrm has too few characters" in {
+      val errors = formWithValidDefaults(
+        prVrm = "1"
+      ).errors
+      errors should have length 2
+      errors(0).key should equal(PrVrmId)
+      errors(0).message should equal("error.minLength")
+      errors(1).key should equal(PrVrmId)
+      errors(1).message should equal("error.restricted.validVrnOnly")
+    }
+
+    "reject when pr-vrm has too many characters" in {
+      val errors = formWithValidDefaults(
+        prVrm = "9" * 20
+      ).errors
+      errors should have length 2
+      errors(0).key should equal(PrVrmId)
+      errors(0).message should equal("error.maxLength")
+      errors(1).key should equal(PrVrmId)
+      errors(1).message should equal("error.restricted.validVrnOnly")
     }
   }
 
