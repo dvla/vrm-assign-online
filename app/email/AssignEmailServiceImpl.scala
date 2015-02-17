@@ -23,7 +23,7 @@ import scala.util.control.NonFatal
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val crownImage = Some("public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
+  private val govUkUrl = Some("public/images/gov-uk-email.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -84,7 +84,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
                            businessDetailsModel: Option[BusinessDetailsModel],
                            isKeeper: Boolean): HtmlFormat.Appendable = {
 
-    val crownContentId = crownImage match {
+    val govUkContentId = govUkUrl match {
       case Some(filename) =>
         Play.resource(name = filename) match {
           case Some(resource) =>
@@ -109,7 +109,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
       amount = (config.renewalFee.toDouble / 100.0).toString,
       replacementVRM = captureCertificateDetailsFormModel.prVrm,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
-      crownContentId = crownContentId,
+      govUkContentId = govUkContentId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),

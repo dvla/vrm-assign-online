@@ -7,7 +7,7 @@
         amount: String,
         replacementVRM: String,
         outstandingDates: List[String],
-        crownContentId: String,
+        govUkContentId: String,
         keeperEmail: Option[String],
         businessDetailsModel: Option[BusinessDetailsModel],
         businessAddress: String,
@@ -114,11 +114,14 @@
                 style="border-collapse : collapse ; color : #fff ; background : #000 ; padding : 0 30 px ;" bgcolor="#000">
                     <table style="border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ;">
                         <tr>
-                            <td style="border-collapse : collapse ; font-size : 1.6 em ; padding : 20 px 0 ;"><img src="@crownContentId"
-                            width="35"
-                            height="31" alt="@Messages("crown-copyright")"
-                            style="outline : none ; text-decoration : none ; -ms-interpolation-mode : bicubic ; font-family : Helvetica, Arial, sans, sans-serif ;"/>
-                                <a href="http://www.gov.uk" style="color : white ; text-decoration : none ;">@Messages("gov-uk")</a>
+                            <td style="border-collapse : collapse ; font-size : 1.6 em ; padding : 20 px 0 ;">
+                                <a target="_blank" href="https://www.gov.uk/" style="color: white; text-decoration: none;">
+                                    <img src="@govUkContentId"
+                                        width="320"
+                                        height="106" alt="@Messages("crown-copyright")"
+                                        style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"
+                                    />
+                                </a>
                             </td>
                         </tr>
                     </table>
