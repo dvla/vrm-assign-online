@@ -1,8 +1,17 @@
 package controllers
 
 import helpers.UnitSpec
+import mappings.common.vrm_assign.CertificateDate
+import mappings.common.vrm_assign.CertificateDate
+import mappings.common.vrm_assign.CertificateDocumentCount
+import mappings.common.vrm_assign.CertificateDocumentCount
+import mappings.common.vrm_assign.CertificateRegistrationMark
+import mappings.common.vrm_assign.CertificateRegistrationMark
+import mappings.common.vrm_assign.CertificateTime
+import mappings.common.vrm_assign.CertificateTime
 import models.CaptureCertificateDetailsFormModel
 import play.api.data.Form
+import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
 import views.vrm_assign.CaptureCertificateDetails.CertificateDocumentCountId
 import views.vrm_assign.CaptureCertificateDetails.CertificateRegistrationMarkId
@@ -48,7 +57,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-document-count has too many characters" in {
       val errors = formWithValidDefaults(
-        certificateDocumentCount = "9" * 20
+        certificateDocumentCount = "9" * (CertificateDocumentCount.MaxLength + 1)
       ).errors
       errors should have length 2
       errors(0).key should equal(CertificateDocumentCountId)
@@ -59,7 +68,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-document-count has invalid characters" in {
       val errors = formWithValidDefaults(
-        certificateDocumentCount = "?"
+        certificateDocumentCount = "?" * CertificateDocumentCount.MinLength
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateDocumentCountId)
@@ -81,7 +90,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-date has too few characters" in {
       val errors = formWithValidDefaults(
-        certificateDate = "9"
+        certificateDate = "9" * (CertificateDate.MinLength - 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateDateId)
@@ -90,11 +99,20 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-date has too many characters" in {
       val errors = formWithValidDefaults(
-        certificateDate = "9" * 20
+        certificateDate = "9" * (CertificateDate.MaxLength + 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateDateId)
       errors(0).message should equal("error.maxLength")
+    }
+
+    "reject when certificate-date has invalid characters" in {
+      val errors = formWithValidDefaults(
+        certificateDate = "?" * CertificateDate.MinLength
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateDateId)
+      errors(0).message should equal("error.validCertificateDate")
     }
 
     "reject when certificate-registration-mark is blank" in {
@@ -112,7 +130,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-registration-mark has too few characters" in {
       val errors = formWithValidDefaults(
-        certificateRegistrationMark = "1"
+        certificateRegistrationMark = "1" * (CertificateRegistrationMark.MinLength - 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateRegistrationMarkId)
@@ -121,11 +139,20 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-registration-mark has too many characters" in {
       val errors = formWithValidDefaults(
-        certificateRegistrationMark = "9" * 20
+        certificateRegistrationMark = "9" * (CertificateRegistrationMark.MaxLength + 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateRegistrationMarkId)
       errors(0).message should equal("error.maxLength")
+    }
+
+    "reject when certificate-registration-mark has invalid characters" in {
+      val errors = formWithValidDefaults(
+        certificateRegistrationMark = "?" * CertificateRegistrationMark.MinLength
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateRegistrationMarkId)
+      errors(0).message should equal("error.validCertificateRegistrationMark")
     }
 
     "reject when certificate-time is blank" in {
@@ -143,7 +170,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-time has too few characters" in {
       val errors = formWithValidDefaults(
-        certificateTime = "1"
+        certificateTime = "1" * (CertificateTime.MinLength - 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateTimeId)
@@ -152,11 +179,20 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when certificate-time has too many characters" in {
       val errors = formWithValidDefaults(
-        certificateTime = "9" * 20
+        certificateTime = "9" * (CertificateTime.MaxLength + 1)
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateTimeId)
       errors(0).message should equal("error.maxLength")
+    }
+
+    "reject when certificate-time has invalid characters" in {
+      val errors = formWithValidDefaults(
+        certificateTime = "?" * CertificateTime.MinLength
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateTimeId)
+      errors(0).message should equal("error.validCertificateTime")
     }
 
     "reject when pr-vrm is blank" in {
@@ -174,7 +210,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when pr-vrm has too few characters" in {
       val errors = formWithValidDefaults(
-        prVrm = "1"
+        prVrm = "1" * (VehicleRegistrationNumber.MinLength - 1)
       ).errors
       errors should have length 2
       errors(0).key should equal(PrVrmId)
@@ -185,13 +221,22 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
     "reject when pr-vrm has too many characters" in {
       val errors = formWithValidDefaults(
-        prVrm = "9" * 20
+        prVrm = "9" * (VehicleRegistrationNumber.MaxLength + 1)
       ).errors
       errors should have length 2
       errors(0).key should equal(PrVrmId)
       errors(0).message should equal("error.maxLength")
       errors(1).key should equal(PrVrmId)
       errors(1).message should equal("error.restricted.validVrnOnly")
+    }
+
+    "reject when pr-vrm has invalid characters" in {
+      val errors = formWithValidDefaults(
+        prVrm = "?" * VehicleRegistrationNumber.MinLength
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(PrVrmId)
+      errors(0).message should equal("error.restricted.validVrnOnly")
     }
   }
 
