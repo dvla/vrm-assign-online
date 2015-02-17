@@ -13,6 +13,7 @@ import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBind
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
+import filters.ServiceOpenFilter
 
 trait Composition {
 
@@ -42,14 +43,16 @@ trait Composition {
     new AssignEmailServiceBinding,
     new EmailServiceBinding,
     new EmailServiceWebServiceBinding,
-    new RefererFromHeaderBinding
+    new RefererFromHeaderBinding,
+    new DateTimeZoneServiceBinding
   )
 
   lazy val filters = Array(
     injector.getInstance(classOf[EnsureSessionCreatedFilter]),
     new GzipFilter(),
     injector.getInstance(classOf[AccessLoggingFilter]),
-    injector.getInstance(classOf[CsrfPreventionFilter])
+    injector.getInstance(classOf[CsrfPreventionFilter]),
+    injector.getInstance(classOf[ServiceOpenFilter])
   )
 
   lazy val errorStrategy = injector.getInstance(classOf[ErrorStrategy])

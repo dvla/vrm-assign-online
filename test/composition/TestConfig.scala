@@ -80,6 +80,10 @@ final class TestConfig(
     when(config.channelCode).thenReturn("test-channelCode")
     when(config.contactId).thenReturn(42)
 
+    // Closing
+    when(config.opening).thenReturn(0)
+    when(config.closing).thenReturn(23)
+
     config
   }
 

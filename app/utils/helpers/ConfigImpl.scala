@@ -75,4 +75,8 @@ class ConfigImpl extends Config {
   val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
   val channelCode: String = getProperty[String]("webHeader.channelCode")
   val contactId: Long = getProperty[Long]("webHeader.contactId")
+
+  override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
+
+  override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
 }

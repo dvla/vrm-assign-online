@@ -69,4 +69,8 @@ trait Config {
   def orgBusinessUnit: String
   def channelCode: String
   def contactId: Long
+
+  def opening: Int
+
+  def closing: Int
 }

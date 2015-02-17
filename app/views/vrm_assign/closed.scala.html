@@ -1,0 +1,14 @@
+@(opening: String, closing: String)(implicit lang: Lang,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_assign.main
+
+@main(
+    title = Messages("closed.title")
+) {
+    <h2>@Messages("closed.title")</h2>
+    <p>@Messages("closed.p1", opening, closing)</p>
+    <div class="form-steps">
+        <a id="exit-button" href="https://www.gov.uk/" class="button">@Messages("closed.exit_button")</a>
+    </div>
+}
