@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import models._
 import pdf.PdfService
+import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -39,7 +40,7 @@ final class Success @Inject()(
       request.cookies.getModel[PaymentModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel), Some(_)) =>
+      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel), _) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -51,7 +52,8 @@ final class Success @Inject()(
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
-        Redirect(routes.MicroServiceError.present())
+        Logger.warn("user went to Success present without on of the required cookies")
+        Redirect(routes.Error.present("user went to Success present without on of the required cookies"))
     }
   }
 
