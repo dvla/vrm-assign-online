@@ -5,8 +5,10 @@ import models._
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
+import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -24,13 +26,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def submit = Action { implicit request =>
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-      case (Some(vehicleAndKeeperLookupFormModel)) =>
-        Redirect(routes.VehicleLookup.present())
-      //          .discardingCookie(RetainCacheKey) TODO
-      case _ =>
-        Redirect(routes.BeforeYouStart.present())
-    }
+    Redirect(routes.VehicleLookup.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 
   private def displayPaymentFailure(transactionId: String,
@@ -48,6 +45,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
       captureCertificateDetailsFormModel = captureCertificateDetailsFormModel)
-    )
+    ).
+      discardingCookies(removeCookiesOnExit)
   }
 }

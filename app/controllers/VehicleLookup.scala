@@ -12,7 +12,6 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
@@ -30,7 +29,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Payment._
-import views.vrm_assign.RelatedCacheKeys
+import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
@@ -60,8 +59,8 @@ final class VehicleLookup @Inject()(
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_assign.vehicle_lookup(form.fill())).
-      discardingCookies(RelatedCacheKeys.VehicleAndKeeperLookupSet)
+    Ok(views.html.vrm_assign.vehicle_lookup(form)).
+      discardingCookies(removeCookiesOnExit)
   }
 
   def submit = Action.async { implicit request =>
