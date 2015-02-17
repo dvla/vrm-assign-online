@@ -122,9 +122,9 @@ object CaptureCertificateDetailsModelOptSeq {
 
   def from(captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]) = {
     captureCertificateDetailsModel match {
-      case Some(captureCertificateDetailsModel) => {
-        val certificateExpiryDateOpt = Some(("certificateExpiryDate", captureCertificateDetailsModel.certificateExpiryDate))
-        val outstandingFeesOpt = Some(("outstandingFees", captureCertificateDetailsModel.outstandingFees))
+      case Some(certificateDetailsModel) => {
+        val certificateExpiryDateOpt = certificateDetailsModel.certificateExpiryDate.map(expiryDate => ("certificateExpiryDate", expiryDate))
+        val outstandingFeesOpt = Some(("outstandingFees", certificateDetailsModel.outstandingFees))
         Seq(certificateExpiryDateOpt, outstandingFeesOpt)
       }
       case _ => Seq.empty
