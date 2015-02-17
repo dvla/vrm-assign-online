@@ -36,11 +36,10 @@ final class Success @Inject()(
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[CaptureCertificateDetailsModel],
-      request.cookies.getModel[FulfilModel],
-      request.cookies.getModel[PaymentModel]) match {
+      request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel), _) =>
+      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
