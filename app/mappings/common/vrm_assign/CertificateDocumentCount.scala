@@ -14,7 +14,7 @@ object CertificateDocumentCount {
 
   // TODO move to a constriants package
   def validCertificateDocument: Constraint[String] = pattern(
-    regex = """^[0-9][0-9\s\-\'\,]*$""".r,
+    regex = """^[A-Z0-9]$""".r,
     name = "constraint.validCertificateDocument",
     error = "error.validCertificateDocument")
 }
