@@ -120,20 +120,20 @@ final class Confirm @Inject()(
           withCookiesEx(cookies: _*).
           withCookie(model)
       } else {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmToSuccess,
-          timestamp = dateService.dateTimeISOChronology,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = model.keeperEmail,
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.ConfirmToSuccess,
-          timestamp = dateService.dateTimeISOChronology,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = model.keeperEmail,
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+//        auditService1.send(AuditMessage.from(
+//          pageMovement = AuditMessage.ConfirmToSuccess,
+//          timestamp = dateService.dateTimeISOChronology,
+//          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+//          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+//          keeperEmail = model.keeperEmail,
+//          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+//        auditService2.send(AuditRequest.from(
+//          pageMovement = AuditMessage.ConfirmToSuccess,
+//          timestamp = dateService.dateTimeISOChronology,
+//          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+//          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+//          keeperEmail = model.keeperEmail,
+//          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         Redirect(routes.Fulfil.fulfil()).
           withCookiesEx(cookies: _*).
           withCookie(model)
