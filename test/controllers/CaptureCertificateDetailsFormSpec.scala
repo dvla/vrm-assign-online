@@ -79,6 +79,15 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(2).message should equal("error.validCertificateDate")
     }
 
+    "reject when certificate-date has too few characters" in {
+      val errors = formWithValidDefaults(
+        certificateDate = "9"
+      ).errors
+      errors should have length 1
+      errors(0).key should equal(CertificateDateId)
+      errors(0).message should equal("error.minLength")
+    }
+
     "reject when certificate-date has too many characters" in {
       val errors = formWithValidDefaults(
         certificateDate = "9" * 20
