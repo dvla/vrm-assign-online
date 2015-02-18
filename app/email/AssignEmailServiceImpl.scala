@@ -49,7 +49,20 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
             confirmFormModel, businessDetailsModel, isKeeper)
           val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
+          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ","") + " " + Messages("email.email_service_impl.subject")
+
+          vehicleAndKeeperDetailsModel.make match {
+            case Some(make) => subject += " " + make
+            case None => // do nothing
+          }
+
+          vehicleAndKeeperDetailsModel.model match {
+            case Some(model) => subject += " " + model
+            case None => // do nothing
+          }
+
+          subject += " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ","")
+
           val attachment: Option[Attachment] = {
             isKeeper match {
               case false =>

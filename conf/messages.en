@@ -674,7 +674,7 @@ email.line30 = Having identified outstanding renewal fees for the registration n
 
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
-email.email_service_impl.subject = Registration Number
+email.email_service_impl.subject = can be put on
 #Assign failure page
 vrm_assign_failure.title = Transaction not successful
 vrm_assign_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
