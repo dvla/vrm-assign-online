@@ -39,8 +39,10 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
 
+      val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
+
       pdfService.create(transactionId,
-        vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
+        keeperName,
         vehicleAndKeeperDetailsModel.address,
         captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
         pdf =>
