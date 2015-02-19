@@ -597,7 +597,7 @@ vrm_assign_success.assignConf-p1 = Your registration number
 vrm_assign_success.assignConf-p2 = has now be assigned. Put the following personal registration number on the vehicle
 vrm_assign_success.makingUp-p1 = Making up the number plate for the personal registration number
 vrm_assign_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_assign_success.newPlateLink = Download a copy
+vrm_assign_success.newPlateLink = Download the eV948
 
 vrm_assign_success.noticePayment.h3 = Payment
 vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
