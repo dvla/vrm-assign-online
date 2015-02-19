@@ -55,6 +55,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
+        val trackingId = request.cookies.trackingId()
+
         businessDetailsOpt.foreach {
           businessDetails =>
             assignEmailService.sendEmail(
@@ -66,7 +68,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false // US1589: Do not send keeper a pdf
+              isKeeper = false, // US1589: Do not send keeper a pdf
+              trackingId = trackingId
             )
         }
 
@@ -81,7 +84,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = true
+              isKeeper = true,
+              trackingId = trackingId
             )
         }
 

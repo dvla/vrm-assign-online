@@ -19,6 +19,7 @@ import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.Source
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
@@ -33,7 +34,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
-                         isKeeper: Boolean) {
+                         isKeeper: Boolean,
+                         trackingId: String) {
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
@@ -75,7 +77,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
 
-          emailService.invoke(emailServiceSendRequest).map {
+          emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
               if (isKeeper) Logger.debug("Keeper email sent")
               else Logger.debug("Non-keeper email sent")

@@ -16,7 +16,7 @@ final class TestEmailServiceWebServiceBinding(emailServiceWebService: EmailServi
                                                ) extends ScalaModule with MockitoSugar {
 
   val stub = {
-    when(emailServiceWebService.invoke(any[EmailServiceSendRequest])).thenReturn(Future.successful(createResponse(statusAndResponse)))
+    when(emailServiceWebService.invoke(any[EmailServiceSendRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
     emailServiceWebService
   }
 
