@@ -500,7 +500,7 @@ vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public comput
 
 vrm_assign_confirm.grantee_consent.notgiven = You must confirm that you have consent to put this registration number on this vehicle
 grantee-consent-id = Grantee Consent
-vrm_assign_confirm.granteeConsent = I have consent to put this registration number on this vehicle
+vrm_assign_confirm.granteeConsent = I confirm that I have the consent of the named party on the certificate of entitlement or retention to assign this registration number to this vehicle.
 
 vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
 vrm_assign_confirm.outstandingFees = You owe
