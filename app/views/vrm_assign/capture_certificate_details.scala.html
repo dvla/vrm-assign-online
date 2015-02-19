@@ -93,13 +93,52 @@
                     }
                 </dl>
                 <div class="help-thumbs">
+
                     <h3>You will need</h3>
                     <p>Certificate of entitlement (V750)</p>
-                    <img src="@routes.Assets.at("images/v750-viewfinder-1.png")" alt="Vertificate of entitlement (V750" style='width:100%;'>
+                    <a target="_blank" href="@routes.Assets.at("images/v750-viewfinder-1.png")" >
+                        <picture>
+                            @*
+                            See w3 spec for 'picture' element:
+                            https://html.spec.whatwg.org/multipage/embedded-content.html#embedded-content
+
+                            See media queries such as 'max-width':
+                            https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries
+
+                            See list of browser support:
+                            http://caniuse.com/#feat=picture
+                            *@
+                            <source media="(min-width: 769px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-960px.jpg")">
+                            <source media="(min-width: 601px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-768px.jpg")">
+                            <source media="(min-width: 481px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-600px.jpg")">
+                            <source media="(min-width: 321px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-480px.jpg")">
+                            <source media="(min-width: 241px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-320px.jpg")">
+                            <source media="(min-width: 0px)" srcset="@routes.Assets.at("images/v750-viewfinder-1-240px.jpg")">
+                            <img src="@routes.Assets.at("images/v750-viewfinder-1-300px.jpg")" alt="Vertificate of entitlement (V750)" style='width:100%;'> @* Default for users that don't support the 'picture' element. Legacy mobile user agents are more important by default use the smallest image *@
+                        </picture>
+                    </a>
+
                     <br/><br/>
                     <h3>or</h3>
                     <p>Retention Document (V778)</p>
-                    <img src="@routes.Assets.at("images/v778-viewfinder-1.png")" alt="Retention Document (V778)" style='width:100%;'>
+                    <a target="_blank" href="@routes.Assets.at("images/v778-viewfinder-1.png")" >
+                        <picture>
+                            <source media="(min-width: 769px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-960px.jpg")">
+                            <source media="(min-width: 601px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-768px.jpg")">
+                            <source media="(min-width: 481px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-600px.jpg")">
+                            <source media="(min-width: 321px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-480px.jpg")">
+                            <source media="(min-width: 241px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-320px.jpg")">
+                            <source media="(min-width: 0px)" srcset="@routes.Assets.at("images/v778-viewfinder-1-240px.jpg")">
+                            <img src="@routes.Assets.at("images/v778-viewfinder-1-300px.png")" alt="Retention Document (V778)" style='width:100%;'>
+                        </picture>
+                    </a>
+
+                    @*
+                    Example of using this script:
+                    https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
+                    *@
+                    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/picturefill/2.0.0/picturefill.min.js" async></script>
+
                 </div>
             </div>
         </div>
