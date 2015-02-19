@@ -1,5 +1,6 @@
-@(title: String)(content: Html)(implicit lang: Lang,
-        config: utils.helpers.Config)
+@(title: String,
+    isResponsivePictureEnabled: Boolean = false)(content: Html)(implicit lang: Lang,
+    config: utils.helpers.Config)
 
 @import views.html.common.{footer, header}
 
@@ -10,7 +11,7 @@
     <!--[if IE 9]>         <html class="ie ie9" lang="en"> <![endif]-->
     <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
-    @header(title = title)
+    @header(title = title, isResponsivePictureEnabled = isResponsivePictureEnabled)
 
     <body>
 
