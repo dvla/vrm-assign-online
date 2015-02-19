@@ -186,10 +186,10 @@ dl {
 }
 
 a {
-    text-decoration: underline;
+    text-decoration: none;
     word-wrap: break-word;
     &:visited {
-        text-decoration: underline;
+        text-decoration: none;
         word-wrap: break-word;
     }
     /*
