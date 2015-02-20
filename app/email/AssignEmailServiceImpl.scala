@@ -2,6 +2,7 @@ package email
 
 import java.io.{FileInputStream, File}
 
+import play.api.Logger
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
@@ -76,6 +77,11 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           } // US1589: Do not send keeper a pdf
 
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
+
+          Logger.info(s"About to send email to ${emailAddress} - trackingId ${trackingId}")
+          if (emailServiceSendRequest.attachment.isDefined) {
+            Logger.info("Sending with attachment")
+          }
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
