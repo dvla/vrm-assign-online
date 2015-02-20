@@ -10,6 +10,7 @@ import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.libs.json.Json
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -82,6 +83,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           if (emailServiceSendRequest.attachment.isDefined) {
             Logger.info("Sending with attachment")
           }
+
+          Logger.info(Json.toJson(emailServiceSendRequest).toString())
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
