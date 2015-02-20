@@ -84,8 +84,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             Logger.info("Sending with attachment")
           }
 
-          Logger.info(Json.toJson(emailServiceSendRequest).toString())
-
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
               if (isKeeper) Logger.debug("Keeper email sent")
