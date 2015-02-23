@@ -1,0 +1,239 @@
+======= 1.2 ======
+Time of release binaries creation:
+Mon Feb 23 2015 13:10:46 GMT+0000 (GMT)
+
+0761421 Set dependencies to release versions
+c67cd02 Change wording of the confirm page email question so it can be different for keeper vs trade
+d158a19 DE328 more debug for business prob
+f0bee7b DE328 try to deserialise request before ms call
+339d80d DE328 added debug to determine why business emails not working (working lcoally!)
+b432e56 US2376 updated to use email service client from presentation common
+d34b8e8 Assign version ofUS2452: new pdf skeumorphic icon
+eb64b5a DE303: a little tidy up on the print.scss, but there is not wireframe to work against. Links should not be underlined
+c7fc2d6 DE303: a little tidy up on the print.scss, but there is not wireframe to work against
+48e1c8b Bump sandbox for vrm-assign-elig
+e4cb856 US2354: New Wording for Assign Consent Box
+7186862 US2116: images are responsive - latest minified javascript, now included in the header
+08b550d US2116: images are responsive - they load a file appropriate to the width of the view window
+dcd7ccc fix to handle dates when calling audit microservice
+211acdc DE323 and DE324 fix to the keeper title and name on pdfs
+6416337 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+ae6f9fd US2437 change to the email subject line
+b979e1a US2116 and DE319: fullsize image added to assets folder. Using responsive css, but this will still mean that mobiles receive the fullsize file
+0148a07 Fix: rabbit-mq persistance
+d4058fb Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+e199774 DE318: fix journey when the user does not need a payment cookie
+b0d9ddf DE318: fix journey when the user does not need a payment cookie
+83b6bbc US2462 don't audit in Confirm between confirm and fulfil as this is done by the Fulfil controller
+cf7cf7e US2448: Move incorrect details helper above the consent checkbox
+065ea04 US2464: form tests for certificate invalid chars
+d3ad08f US2464: form tests for certificate min and max
+f8fe372 Fix: audit message certificateExpiryDate should not be added to the data if it is None
+8c4da5c US2464: form tests for certificate date
+635085b US2464: Allow characters in the first certificate id capture box. Added some test coverage for the form but there is more todo
+79d09d1 DE318: on reaching payment prevent page, wipe more cookies for safety to prevent any chance of the user manually typing a url to skip to success. Discard cookies (except cached business details) on arrival on Vehicle Lookup page. We must not expect that Vehicle Lookup page repopulates as now we are wiping the cookie
+c64e6ca US2358: Use GOV.UK Image in the Assign email header (as per retain)
+70f67e6 US2467: Adjust Service Unavailable page wording for PR Services
+33453bd Remove the health check unit test as it is already coverred in common
+4640fd8 US2369: message should also cover the situation where letters are entered
+264a938 Fix merge US2373: verify needs to be called on the top-most mock, which is now the AssignEmailService
+1aeae2e Fix merge US2373
+93f938a Fix merge conflicts with US2373 - imports, one bit where outstanding fees are not being used
+36ac84a Merge commit 'd900c1ec74d8aba1d2f69b1e7e39e6800ebfdefa' into develop
+d75d601 Merge commit 'aea5e80c648e22f914b72229048f69392f203d07' into develop
+f9798c0 Fix merge conflicts with US2373 - take the latest pres-common snap
+a02ba4b Fix merge conflicts with US2373 - keeper email is now in a form model rather than a cookie that only contains a single string
+ca944c2 Fix merge conflicts with US2373 - had to remove Email service spec as the new implmentation is very different
+742bab4 fixes for audit and also changes to config in presentation common
+3ab22ba more ausit fixes
+13ee158 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+42d5442 fix to assign's audit messages
+d21a2b6 US2343: Updated to use latest versions of components.
+d575532 US2373: using require-js and jQuery on the confirm page
+bf51754 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+a4f9ea7 US2376 fix to the lookup of the crown image
+e05292a US2369: different message for error summary and message around field
+4d6f694 US2369: uplifted the change to error summary to presentation-common
+f892458 US2369: different error message in the summary vs what is around the field
+bd6280a Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+43aebab US2376 added logging for email service to determine why its not working in dev
+e2ff407 US2442: /version route now gives the version details for exemplar and a few micro-services
+010bf5f Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+5eb6bb4 US2116 adding cert ID images
+1d0ba27 US2352 Add Hint Text to the VRN field on Enter Details Page
+7103abe US2376 fix to the sandbox settings for email service
+7b52b11 DE310: bump presentation common
+bebdaea US2373: include javascript from presentation-common
+1709a15 US2373: update readme for installing phantom-js
+14073b8 US2373: define phantom-js locally as putting it in presentation common is causing failures with k2k and acquire. Put eventually around the test's assert
+4c14ec1 US2373: page object steps that will be used when we get phantom-js working
+a6e9ab3 US2373: new email mechanism using javascript to hide email field onload when the 'yes' option has not been selected in the previous cookie
+724406a Add missing tests for Fulfil before we can continue
+5026ceb fix to some broken tests
+80d764a Migrate to common vehicle and keeper lookup
+6a09a64 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+e68cdb1 US2376 updated to use later version of sbt-plugins due to the addition of the email service
+74bef22 Tidy imports
+d900c1e US2373: new email mechanism's explanation for why the form is not filled, simplified passing an empty form
+baa0ab4 US2373: new email mechanism's test that cookie is erased on exit
+aea5e80 US2373: new email mechanism's fix test expectation for back button
+905be74 Fix merge: decided on release version of presentation-common to be the same as retention-online
+87537cb Bump presentation-common snapshot
+540c50b US2373: new email mechanism's save ConfirmFormModel in a cookie, not just the email address
+91642e7 US2373: new email mechanism's controller don't show '(optional)' on the email field
+6f22a78 US2373: new email mechanism's controller super-validation needed a replaceError to make it highlight the correct id in the html. Added radio buttons to the html
+fa0ef6e Update some dependencies
+5b8dcad US2373: form mapping
+7a9dd1a US2376 changes to use email micro-service
+2ba3d30 US2376 updates to use email micro-service
+164dbc3 removed old config value
+1c6406b fix to use dms and vss service type codes
+3de0631 US2177 code tidy up of the way properties are gotten
+6ab896e DE300: add click tracking to finish and print links
+a639fb9 fixed broken tests
+3ef34f2 US2177: simplify module
+53cb06b US2177: simplify module
+3a9be82 US2177: simplify module, parenthesis on configure
+7814720 US2177: simplify module
+f72d83f US2177: simplify module
+dac45fa US2177: simplify module
+4d0fa6b US2177: simplify module
+13b9009 Refactor: remove println
+3a51ad8 US2177: remove DI mocks from IoC module
+d6ac929 US2177: simplify IoC
+d015844 US2177: remove redundant binding
+a5cac62 change to the enter details page headline text
+0eec1dd Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+b2a1786 fix to bullet points and text in email
+101bf4d US2177: found bug where audit2 wasn't being called by ConfirmBusiness page
+bc1944a US2177: correction for dev module binding
+09f91ff US2177: the IoC modules should be in charge of creating stubs internally each time they are new'd up, dependency injection in this case is getting messy
+72ce494 US2177: the IoC modules should be in charge of creating stubs internally each time they are new'd up, dependency injection in this case is getting messy
+48016cc US2177: the IoC modules should be in charge of creating stubs internally each time they are new'd up, dependency injection in this case is getting messy
+8320d34 US2177: removing redundanct overriding of IoC
+5e37856 US2177: removing redundanct overriding of IoC
+1ff5ac6 US2177: removing redundanct overriding of IoC
+5af7323 US2177: removing redundanct overriding of IoC
+6465d5b US2177: got ConfirmUnitSpec working uncommented to confirm IoC works
+ffaa370 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+35a290b changes to final screen layout and text
+b2769d9 US2177: removing redundanct overriding of IoC
+cc19a42 US2177: removing redundanct overriding of IoC
+afc8b4d US2177: removing redundanct overriding of IoC
+8490788 US2177: removing redundanct overriding of IoC
+4f57258 U2177: removed TestModule now that everything is IoC'd in the testInjector. AssignCookieFlagsSpec now using IoC
+fb42d1e fix to keeper pdf bug, keeper's should not get the pdf, traders only
+5db0032 US2177: binding AuditMicroService
+30ba812 US2177: Binding for AuditService 2
+0a992a7 US2177: rename and move to packages that match production code
+e695c8b US2177: Rename binding
+eb9cc14 US2177: binding for AuditMicroService
+848ff62 US2177: binding RefererFromHeader
+ff93d7d US2177: Tidy up imports and code
+f9962b3 US2177: bindings for audit1
+fcebe4d US2177: bindings for PdfService
+0ee441b US2177: binding LoggerLike
+93f164f US2177: binding BruteForcePreventionService
+ef7519a US2177: binding bruteforcepreventionWebService
+18e3de6 US2177: binding PaymentService
+d95c91f US2177: bind PaymentWebService
+e917083 US2177: binding VrmAssignEligibilityWebService and VrmAssignEligibilityService, however there is not currently a stubbed version of VrmAssignEligibilityWebService and no tests that exercise that path
+3b148dd US2177: binding VrmAssignEligibilityService
+551681d US2177: binding VrmAssignEligibilityWebService
+26534b1 US2177: bindings for CookieFlags
+60f9367 US2177: bindings for DateService
+fa36b79 US2177: bindings for VehicleAndKeeperLookupService
+1d8b3ee US2177: bindings for VehicleAndKeeperLookupWebService
+cb2532f US2177: bindings for AddressLookup
+4ddf875 US2177: remove overriden value
+464ea03 US2177: bind config, renamed o-s binding
+dc1a476 US2177: use the presentation-common v&k lookup service
+3db5a68 US2177: fix imports
+f3a2e55 US2177: moved some bindings to be in the same structure as the production code
+3ed4fb9 US2177: renamed MockAuditLocalService to AuditLocalServiceBinding
+670c19e US2177: binding for Config. Changed package of AuditService binding to match the structure of the production code
+4f2f38b use vss header dto for PACT SOAP headerc values
+8c104eb fix for charset email html problem
+525aa82 added charset utf-8 to html email
+c930eb7 fix to failing tests and fix to a defect around outstanding fee dates
+25d3632 added encrypt cookies flag to config
+e03dbf2 change masked PAN to be 16 asterisks
+804ecb2 US2177: moved location of the composition for the real Audit service
+7ec6a57 US2177: can only track pdf link when it is displayed (i.e. when the non-keeper/business is acting)
+f9f944e US2177: moved javascript to presentation-common
+e3c93de US2177: event tracking javascript now has specialised methods that take in arrays of ids to cut down on the amount of lines we are writing (no longer 1 line per id)
+4cbe132 fix to broken tests after config change merge
+8ce4e50 US2177: tacking cookie is created only if encryptCookies = true
+571f00e merge develop into US2177
+8a546ab US2177: event tracking
+2d8f5be US2177: made config optionals
+f777322 enhanced new tests for overdue fees
+1ed1b97 addng initial draft of tests around displaying overdue fees for direct to paper error
+b718894 US2177: fix broken tests
+27421a0 first draft of code and tests to only display outstanding fees on an error if the error is direct to paper
+33d002f US2177: Make properties mandadory
+e67d676 US2009: Confirm Page:  Add V778 Address change link to incorrect details helper
+de480b9 Updated the sbt plugins to the latest snapshot versions
+ccb73a1 US2230: code that calls audit micro-service, tested
+7404e96 US2230: Copying changes from retention to audit local
+c2ece53 US2215 - Assign needs a line under feedback link like in Retain
+5124ed1 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+887c3ef US2215 - final summary page cosmetic updates
+506a69e Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+0dee26a use abolition date in outstanding fees calculation
+abc432d Refactor: Change lazy vals to def in tests, make classes final as a compiler optimisation
+402fcf6 Solve test website is not working so commented out test
+00848a0 US2244: DTO now has optional field
+82c6964 US2244:  Added web headers to vehicle and keeper lookup DTOs
+82cadfd Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+f0e64ec US2215 - cosmetic updates
+42aec4d US2215 - feedback link text
+0c51f54 US2215 - Reduce gap between pay now and our cancel in Assign
+6d1e69f US2215 - cosmetic updates
+27b0bb9 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+4322fcb US2177: make everything optional
+deb0a42 Merge branch 'develop' into US2177
+464f885 New presentation commons version 2.12-SNAPSHOT
+b3691af US2177: move properties
+0b2acfc US1589: Fix by flipping logic in controller
+4838069 Merge branch 'develop' into US2177
+bec18c3 US2177: fix error in test
+edd0984 Added missing messages for footer's open gov license
+9404b94 US2215 - cosmetic updates
+c4e3855 Corrected the project name in the gatling test project
+f5edfe0 US2005: Linking Hints to Input Fields, the cert field is not in presentation-common and has html break in the hint so I've done the work directly in the exemplar
+1f19075 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+96821f0 removed references to v317 from assign
+2156824 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+ff31c14 added a prVrm to the capture model for the outstanding fees owed failure path
+2108600 US2215 - fixing enter details page inconsistencies
+9b409e0 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+fa023f9 tidy up the failure screen
+098bde4 US2215 - fixing test error
+691a0ba US2215 added missing closing div on beforeYouStart page
+94d6735 Merge branch 'develop' into US2177
+4be9ff4 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+2ed924e made sure all VRMs are formatted correctly when being displayed and also change vehicle failure screen to show any outstanding fees if due
+49ef603 US2177: remove unused imports
+020927f US2201 - prefixed the cache keys with exemplar abbreviation to make the keys unique across all exemplars which will now use a common domain name
+b16c2f9 change to CaptureCert controller to handle a cert expiry date when an error is returned from PACT
+6ef2c66 US2177: Replace config properties
+558e3c0 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+38f118b upped the assign eligibility verison and fixed error in time period for fees
+c214faa Remove unused config vals for brute force as it was moved to the presentation-common
+93143bc Upped the default timeout for talking to micro-services
+6590137 Forcing those implicits onto the constructor
+69306e2 Changed PatienceConfig back to implicit so it is picked up by the eventually
+898d983 Using dependency injection of the pageSteps and the timeout
+8dd52b1 Moved the implicit timeout to be higher up
+e75ff76 Trying to fix failing acceptance tests on jenkins due to timouts by explicitly giving a high timeout for acceptance tests
+08b6645 Fix match not found
+130e49d Increase the MS timeouts in the jenkins job
+33b5971 Added missing timeout for micro-services to config and using it
+d298e88 US1993: GOV.UK restyled (confirmed it still looks like a link) and footer removed
+66c29c8 Turn off validating as it's filling up the logs
+9d44652 DE280 return 503 in the MicroserviceErrorPage
+404de55 US2092 remove the remote gatling project
+e1876b3 US2117: cookies need unique names to NOT be shared across services
+08918ce New development version 1.2-SNAPSHOT
+575cfb2 uncomment more tests
