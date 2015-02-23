@@ -10,6 +10,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
+import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito._
 import pages.vrm_assign.VehicleLookupFailurePage
@@ -20,7 +21,7 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -218,7 +219,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
-          PaymentTransNoCacheKey, TransactionIdCacheKey, BruteForcePreventionViewModelCacheKey,
+          PaymentTransNoCacheKey, TransactionIdCacheKey, bruteForcePreventionViewModelCacheKey,
           VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
@@ -243,7 +244,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
-            BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+            bruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 

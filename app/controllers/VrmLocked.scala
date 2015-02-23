@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VrmLockedViewModel

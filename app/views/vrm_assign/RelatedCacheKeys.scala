@@ -1,10 +1,11 @@
 package views.vrm_assign
 
+import models.CacheKeyPrefix
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
@@ -26,7 +27,7 @@ object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
 
   val AssignSet = Set(
-    BruteForcePreventionViewModelCacheKey,
+    bruteForcePreventionViewModelCacheKey,
     VehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,

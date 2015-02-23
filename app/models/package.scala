@@ -1,7 +1,6 @@
 package object models {
 
-  final val CacheKeyPrefix = "asn-"
+  implicit final val CacheKeyPrefix = uk.gov.dvla.vehicles.presentation.common.model.CacheKeyPrefix("asn-")
   final val PrScopedCacheKeyPrefix = "ret-asn-"
-
   final val SeenCookieMessageCacheKey = "seen_cookie_message"
 }
