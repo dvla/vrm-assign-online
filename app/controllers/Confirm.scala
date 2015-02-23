@@ -50,7 +50,8 @@ final class Confirm @Inject()(
       // pre-populated with the previous customer's address.
       val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
       // always be hidden on first load
-      Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad))
+      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+      Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
@@ -155,7 +156,8 @@ final class Confirm @Inject()(
         vehicleAndKeeperLookupForm.userType)
       val updatedForm = formWithReplacedErrors(form, KeeperEmailId, "error.validEmail").distinctErrors
       val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
-      BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad))
+      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+      BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
