@@ -298,7 +298,7 @@ vrm_assign_beforeyoustart.button = Start now
 # contact side related content
 vrm_assign_contact.title = DVLA Helpline
 vrm_assign_contact.telLabel = Telephone
-vrm_assign_contact.telNumber = 0300 790 6802
+vrm_assign_contact.telNumber = 0300 123 1350 code 662
 vrm_assign_contact.texLabel = Textphone
 vrm_assign_contact.texNumber = 18001 0300 123 1379
 vrm_assign_contact.hoursLabel = Lines Open
@@ -641,7 +641,7 @@ micro_service_error.exit.button=Exit
 
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Putting a registration number on a vehicle complete for {0}
-email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
+email.line1 = If you need to contact the DVLA, call our helpline on 0300 123 1350 code 662
 email.line2 = Your application to put a registration number on a vehicle
 email.line3 = Retention Certificate Number
 email.line4 = Transaction Completed
@@ -667,7 +667,7 @@ email.line22 = The following documents will be sent to the registered keeper:
 email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
 email.line24 = A new MOT Certificate displaying the replacement registration number*
 email.line25 = A Retention Certificate for the assigned registration number
-email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed above and we will do our upmost to resolve their query promptly.
+email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 123 1350 code 662 with the transaction ID listed above and we will do our upmost to resolve their query promptly.
 email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
 email.line29 = Outstanding Renewal Fees Paid
 email.line30 = Having identified outstanding renewal fees for the registration number you assigned, you agreed to pay those fees a summary of which is below:
