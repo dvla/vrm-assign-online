@@ -11,9 +11,9 @@ import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
 import pages.vrm_assign.CaptureCertificateDetailsPage.documentCount
+import pages.vrm_assign.CaptureCertificateDetailsPage.prVrm
 import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
-import pages.vrm_assign.CaptureCertificateDetailsPage.prVrm
 import pages.vrm_assign._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
@@ -56,6 +56,22 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
       currentUrl should equal(ConfirmPage.url)
     }
+  }
+
+  "certificate field" should {
+//    "auto tab when entering the maximum number of characters" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+//      go to BeforeYouStartPage
+//      cacheSetup()
+//      go to CaptureCertificateDetailsPage
+//
+//      documentCount.underlying.sendKeys("1", "11111", "111111", "11111111") // using sendKeys so that when the text of
+//      // the max length for that field is entered it should tab to the next field.
+//
+//      documentCount.value should equal("1")
+//      date.value should equal("11111")
+//      time.value should equal("111111")
+//      registrationMark.value should equal("11111111")
+//    }
   }
 
   "exit" should {
