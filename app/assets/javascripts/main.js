@@ -46,6 +46,13 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
             });
         });
 
+
+        // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)
+        // Example of using this script:
+        // https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
+        // https://scottjehl.github.io/picturefill/
+        // https://scottjehl.github.io/picturefill/examples/demo-01.html
+        document.createElement("picture");
     });
 
     function areCookiesEnabled(){
@@ -63,12 +70,4 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
         if (typeof v == 'undefined') return [];
         else return[v];
     }
-
-
-    // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)
-    // Example of using this script:
-    // https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
-    // https://scottjehl.github.io/picturefill/
-    // https://scottjehl.github.io/picturefill/examples/demo-01.html
-    document.createElement("picture");
 });
