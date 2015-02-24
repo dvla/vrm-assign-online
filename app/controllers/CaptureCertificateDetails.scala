@@ -83,6 +83,7 @@ final class CaptureCertificateDetails @Inject()(
               }
             case _ =>
               Future.successful {
+                Logger.warn("CaptureCertificateDetails submit with no VehicleAndKeeperDetailsModel")
                 Redirect(routes.MicroServiceError.present())
               } // TODO is this correct
           }
@@ -99,7 +100,7 @@ final class CaptureCertificateDetails @Inject()(
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
-        // TODO use a match
+        // TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
@@ -110,7 +111,6 @@ final class CaptureCertificateDetails @Inject()(
         Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber")
         Redirect(routes.VrmLocked.present())
       }
-
       resultFuture.map { result =>
         result.withCookie(bruteForcePreventionModel)
       }

@@ -12,7 +12,7 @@ import composition.webserviceclients.emailservice.{TestEmailServiceWebServiceBin
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
-import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
+import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, TestVrmAssignFulfilWebServiceBinding}
 
 trait TestComposition extends Composition {
 
@@ -25,7 +25,6 @@ trait TestComposition extends Composition {
       new VehicleAndKeeperLookupServiceBinding,
       new CookieFlagsBinding,
       new VrmAssignEligibilityServiceBinding,
-      new VrmAssignFulfilWebServiceBinding,
       new VrmAssignFulfilServiceBinding,
       new PaymentServiceBinding,
       new SessionFactoryBinding,
@@ -38,7 +37,7 @@ trait TestComposition extends Composition {
       new TestVehicleAndKeeperLookupWebServiceBinding,
       new TestDateServiceBinding,
       new TestVrmAssignEligibilityWebServiceBinding,
-      //  VrmAssignFulfilWebService, // TODO there should be a stubbed version of this web service!
+      new TestVrmAssignFulfilWebServiceBinding,
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding,

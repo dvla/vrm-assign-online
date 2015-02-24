@@ -15,6 +15,7 @@ import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
 import pages.vrm_assign.CaptureCertificateDetailsPage.prVrm
 import pages.vrm_assign._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
@@ -39,23 +40,23 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "confirm button" should {
-//
-//    "redirect to confirm page when next button is clicked" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to CaptureCertificateDetailsPage
-//      documentCount.value = "1"
-//      date.value = "11111"
-//      time.value = "111111"
-//      registrationMark.value = "11111111"
-//      prVrm.value = "A1"
-//
-//      click on CaptureCertificateDetailsPage.lookup
-//
-//      currentUrl should equal(ConfirmPage.url)
-//    }
-//  }
+  "lookup button" should {
+
+    "redirect to confirm page when next button is clicked" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to CaptureCertificateDetailsPage
+      documentCount.value = "1"
+      date.value = "11111"
+      time.value = "111111"
+      registrationMark.value = "11111111"
+      prVrm.value = RegistrationNumberValid
+
+      click on CaptureCertificateDetailsPage.lookup
+
+      currentUrl should equal(ConfirmPage.url)
+    }
+  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
