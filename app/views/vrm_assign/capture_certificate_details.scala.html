@@ -16,8 +16,7 @@
 @main(
     title = Messages("vrm_assign_capturecertificatedetails.title"),
     currentForm = Some(captureCertificateDetailsFormModel),
-    backNavigation = Some(controllers.routes.VehicleLookup.present()),
-    isResponsivePictureEnabled = true
+    backNavigation = Some(controllers.routes.VehicleLookup.present())
 ) {
     @form(action = CaptureCertificateDetails.submit) {
         @csrfTokenHiddenField()

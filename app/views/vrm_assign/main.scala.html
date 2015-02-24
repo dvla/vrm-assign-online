@@ -1,15 +1,14 @@
 @(progress: Option[String] = None,
     title: String,
     currentForm: Option[Form[_]] = None,
-    backNavigation: Option[Call] = None,
-    isResponsivePictureEnabled: Boolean = false)(content: Html)(implicit lang: Lang,
+    backNavigation: Option[Call] = None)(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import views.html.common.{govMainDefault, progressBar, protoType}
 @import views.vrm_assign.Main.BackId
 
-@govMainDefault(title, isResponsivePictureEnabled) {
+@govMainDefault(title) {
     <div class="app vrm-assign-online">
 
         @protoType()

@@ -3,11 +3,12 @@ require.config({
         'jquery': 'lib/jquery/jquery-1.9.1',
         'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min',
         'header-footer-only': 'header-footer-only',
-        'form-checked-selection': 'form-checked-selection'
+        'form-checked-selection': 'form-checked-selection',
+        'picturefill': 'picturefill.min'
     }
 });
 
-require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selection"],function($) {
+require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selection", "picturefill"],function($) {
 
     var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
     if (IE10) {
@@ -62,4 +63,12 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
         if (typeof v == 'undefined') return [];
         else return[v];
     }
+
+
+    // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)
+    // Example of using this script:
+    // https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
+    // https://scottjehl.github.io/picturefill/
+    // https://scottjehl.github.io/picturefill/examples/demo-01.html
+    document.createElement("picture");
 });

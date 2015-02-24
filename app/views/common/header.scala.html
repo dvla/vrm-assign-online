@@ -1,5 +1,4 @@
-@(title: String,
-        isResponsivePictureEnabled: Boolean = false)(implicit lang: Lang,
+@(title: String)(implicit lang: Lang,
         config: utils.helpers.Config)
 
 <!--start header-->
@@ -41,20 +40,6 @@
 
         <script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/google-analytics-event-tracking.js")" type="text/javascript"></script>
         <!-- End Google Analytics -->
-    }
-
-    @if(isResponsivePictureEnabled) {
-        @*
-        Example of using this script:
-        https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
-        https://scottjehl.github.io/picturefill/
-        https://scottjehl.github.io/picturefill/examples/demo-01.html
-        *@
-        <script>
-            // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)
-            document.createElement ( "picture" ) ;
-        </script>
-        <script async="true" type="text/javascript" src="@routes.Assets.at("javascripts/picturefill.min.js")"></script>
     }
 </head>
 <!--end header-->
