@@ -41,7 +41,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
 
       val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
 
