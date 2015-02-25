@@ -631,6 +631,12 @@ vrm_assign_success.aboutTransactionIdLabel = Transaction ID -
 vrm_assign_success.aboutTransactionCompletedLabel = Transaction Completed -
 vrm_assign_success.aboutTransactionEmployeeLabel = Employee name (optional)
 
+success-application-details = Application details
+success-application-details-transaction-id = Transaction ID:
+success-application-details-keeper-details = Keeper details
+success-application-details-keeper-details-name = Name:
+success-application-details-keeper-details-address = Address:
+
 vrm_assign_success.buttonnavprint = Print Full Summary
 
 micro_service_error.title=We are sorry

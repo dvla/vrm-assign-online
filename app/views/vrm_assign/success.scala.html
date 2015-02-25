@@ -86,16 +86,16 @@
         </div>
         <div class="first-col">
             <div class="playback">
-                <h2>Application details</h2>
-                <p>Transaction ID:</p>
+                <h2>@Messages("success-application-details")</h2>
+                <p>@Messages("success-application-details-transaction-id")</p>
                 <p><strong>@successViewModel.transactionId</strong></p>
             </div>
             <div class="related">
-                <h2>Keeper details</h2>
+                <h2>@Messages("success-application-details-keeper-details")</h2>
                 <dl class="playback bg-plain">
-                    <dt>Name:</dt>
+                    <dt>@Messages("success-application-details-keeper-details-name")</dt>
                     <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-                    <dt>Address:</dt>
+                    <dt>@Messages("success-application-details-keeper-details-address")</dt>
                     <dd>
                     @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
                         @keeperAddressLine <br>
