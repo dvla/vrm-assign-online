@@ -448,6 +448,12 @@ certificate-date = Reference number Box 2
 certificate-time = Reference number Box 3
 certificate-registration-mark = Reference number Box 4
 
+capture-certificate-details-you-will-need = You will need
+capture-certificate-details-you-will-need-certificate-of-entitlement = Certificate of entitlement (V750)
+capture-certificate-details-you-will-need-or = or
+capture-certificate-details-you-will-need-retention-document = Retention Document (V778)
+
+
 error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
 error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
