@@ -9,8 +9,8 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
 import org.mockito.Mockito._
-import pages.vrm_assign.VehicleLookupPage
-import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, MicroServiceErrorPage, VehicleLookupFailurePage}
+import pages.vrm_assign.ErrorPage
+import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -41,13 +41,16 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "redirect back to VehicleLookup page is required cookies do not exist" in new WithApplication {
+    "redirect back to Error page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val (captureCertificateDetails, dateService, auditService) = checkEligibility()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+          r.header.headers.get(LOCATION) match {
+            case Some(url) => url should include(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie").url)
+            case _ => fail("did not redirect to the error page")
+          }
       }
     }
 

@@ -83,8 +83,7 @@ final class CaptureCertificateDetails @Inject()(
               }
             case _ =>
               Future.successful {
-                Logger.warn("CaptureCertificateDetails submit with no VehicleAndKeeperDetailsModel, so redirect to VehicleLookup")
-                Redirect(routes.VehicleLookup.present())
+                Redirect(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"))
               }
           }
         },
