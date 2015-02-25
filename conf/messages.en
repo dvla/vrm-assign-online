@@ -35,6 +35,8 @@ footer.welsh = Cymraeg
 footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
+error.required = This field is required
+
 #prototype
 prototype.banner.part1 = This is a new service -
 prototype.banner.part2 = will help us improve it
