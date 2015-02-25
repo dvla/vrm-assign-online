@@ -150,7 +150,7 @@ final class CaptureCertificateDetails @Inject()(
     val replacedErrors = (form /: List(
       (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
       (CertificateDateId, "error.validCertificateDate"),
-      (CertificateRegistrationMarkId, "error.validCertificateRegistrationMark"),
+      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"),
       (PrVrmId, "error.validPrVrm"))) {
       (form, error) =>
         form.replaceError(error._1, FormError(

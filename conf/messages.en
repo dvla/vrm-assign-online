@@ -151,7 +151,7 @@ widget.optional = (optional)
 
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVrnOnly = Must be valid format
+error.restricted.validVrnOnly = Must be valid registration number
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 datePlaceholder.day=Day
@@ -452,7 +452,6 @@ error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
 error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
 error.validCertificateTime = Must be 6 digits
-error.validCertificateRegistrationMark = Must be valid format
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper and new registration

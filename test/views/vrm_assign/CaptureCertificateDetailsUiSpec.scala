@@ -51,7 +51,7 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
       documentCount.value = "1"
       date.value = "11111"
       time.value = "111111"
-      registrationMark.value = "11111111"
+      registrationMark.value = RegistrationNumberValid
       prVrm.value = RegistrationNumberValid
 
       click on CaptureCertificateDetailsPage.lookup

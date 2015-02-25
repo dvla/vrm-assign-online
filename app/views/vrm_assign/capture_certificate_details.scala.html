@@ -12,6 +12,7 @@
 @import views.vrm_assign.CaptureCertificateDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 
 @main(
     title = Messages("vrm_assign_capturecertificatedetails.title"),
@@ -53,8 +54,8 @@
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'minLength -> CertificateRegistrationMark.MinLength,
-                                        'maxLength -> CertificateRegistrationMark.MaxLength))
+                                        'minLength -> VehicleRegistrationNumber.MinLength,
+                                        'maxLength -> VehicleRegistrationNumber.MaxLength))
                     </div>
                     <div id="@{s"""$CertificateDocumentCountId-hint"""}" class="form-hint">
                         @Messages("capture-certificate-details-reference-number-helper-1")

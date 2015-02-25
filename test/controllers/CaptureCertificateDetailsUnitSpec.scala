@@ -69,7 +69,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
               val model = deserializeJsonToModel[CaptureCertificateDetailsFormModel](json)
               model.certificateDate should equal(CertificateDateValid.toUpperCase)
               model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
-              model.certificateRegistrationMark should equal(CertificateRegistrationMarkValid.toUpperCase)
+              model.certificateRegistrationMark should equal(RegistrationNumberValid.toUpperCase)
               model.certificateTime should equal(CertificateTimeValid.toUpperCase)
               model.prVrm should equal(PrVrmValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
@@ -213,7 +213,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest(certificateDate: String = CertificateDateValid,
                                              certificateDocumentCount: String = CertificateDocumentCountValid,
-                                             certificateRegistrationMark: String = CertificateRegistrationMarkValid,
+                                             certificateRegistrationMark: String = RegistrationNumberValid,
                                              certificateTime: String = CertificateTimeValid,
                                              prVrm: String = PrVrmValid) = {
     FakeRequest().withFormUrlEncodedBody(

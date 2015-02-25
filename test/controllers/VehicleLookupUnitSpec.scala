@@ -157,7 +157,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupStubs().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Must be valid registration number".r.findAllIn(contentAsString(result)).length
 
       count should equal(2)
     }
@@ -165,7 +165,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
       val result = vehicleLookupStubs().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Must be valid registration number".r.findAllIn(contentAsString(result)).length
 
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of the page and once above the field.
     }
