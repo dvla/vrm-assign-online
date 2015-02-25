@@ -126,7 +126,7 @@ lazy val paymentSolveProject = paymentSolve("0.6").disablePlugins(PlayScala, Sas
 lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.6").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.6").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val emailServiceProject = emailService("0.1").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val emailServiceProject = emailService("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 
