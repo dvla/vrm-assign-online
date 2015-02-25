@@ -18,7 +18,6 @@ import views.vrm_assign.CaptureCertificateDetails.PrVrmId
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.PrVrmValid
 import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
@@ -248,7 +247,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
                                      certificateDocumentCount: String = CertificateDocumentCountValid,
                                      certificateRegistrationMark: String = RegistrationNumberValid,
                                      certificateTime: String = CertificateTimeValid,
-                                     prVrm: String = PrVrmValid
+                                     prVrm: String = RegistrationNumberValid
                                      ) = {
     Form(CaptureCertificateDetailsFormModel.Form.Mapping).bind(
       Map(

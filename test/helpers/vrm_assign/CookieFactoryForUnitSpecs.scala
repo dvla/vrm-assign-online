@@ -197,7 +197,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, consent)
   }
 
-  def captureCertificateDetailsModel(prVrm: String = PrVrmValid, lastDate: Option[DateTime] = LastDateValid,
+  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid, lastDate: Option[DateTime] = LastDateValid,
                                      datesList: List[String] = DatesListValid, fees: Int = FeesValid): Cookie = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
@@ -208,7 +208,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                          certificateDate: String = CertificateDateValid,
                                          certificateTime: String = CertificateTimeValid,
                                          certificateRegistrationMark: String = RegistrationNumberValid,
-                                         prVrm: String = PrVrmValid): Cookie = {
+                                         prVrm: String = RegistrationNumberValid): Cookie = {
     val key = CaptureCertificateDetailsFormModelCacheKey
     val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
     createCookie(key, value)
