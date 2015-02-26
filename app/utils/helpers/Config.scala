@@ -1,6 +1,7 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 
 trait Config extends VehicleLookupConfig {
 
@@ -69,4 +70,6 @@ trait Config extends VehicleLookupConfig {
   def opening: Int
 
   def closing: Int
+
+  def emailConfiguration: EmailConfiguration
 }

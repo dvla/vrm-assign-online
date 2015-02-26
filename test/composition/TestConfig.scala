@@ -3,6 +3,8 @@ package composition
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.From
 import utils.helpers.Config
 
 import scala.concurrent.duration.DurationInt
@@ -84,6 +86,16 @@ final class TestConfig(
     // Closing
     when(config.opening).thenReturn(0)
     when(config.closing).thenReturn(23)
+
+    when(config.emailConfiguration).thenReturn(EmailConfiguration(
+      host = "",
+      port = 25,
+      username = "",
+      password = "",
+      from = From("", "DO-NOT-REPLY"),
+      feedbackEmail = From("", "Feedback"),
+      whiteList = None
+    ))
 
     config
   }

@@ -3,6 +3,9 @@ package utils.helpers
 import uk.gov.dvla.vehicles.presentation.common
 import common.ConfigProperties.{getDurationProperty, getOptionalProperty, booleanProp, intProp, stringProp, longProp}
 import common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getStringListProperty
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.From
 
 class ConfigImpl extends Config {
 
@@ -81,4 +84,15 @@ class ConfigImpl extends Config {
   override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
 
   override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
+
+  // Web headers
+  override val emailConfiguration: EmailConfiguration = EmailConfiguration(
+    getProperty[String]("smtp.host"),
+    getProperty[Int]("smtp.port"),
+    getProperty[String]("smtp.user"),
+    getProperty[String]("smtp.password"),
+    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
+    From(getProperty[String]("email.feedbackAddress"), "Feedback"),
+    getStringListProperty("email.whitelist")
+  )
 }

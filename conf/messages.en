@@ -39,6 +39,7 @@ error.required = This field is required
 
 #prototype
 prototype.banner.part1 = This is a new service -
+prototype.link =  your feedback
 prototype.banner.part2 = will help us improve it
 
 #page 2
@@ -707,6 +708,27 @@ vrm_assign_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful at
 vrm_assign_leave_feedback.title=Thank You
 vrm_assign_leave_feedback.feedback = leaving feedback
 vrm_assign_leave_feedback.p1=Please help us to improve this service by
+
+# feedback
+common_feedback.title = Give Feedback
+common_feedback.message = Please don't include any Personal or financial information - for example your National Insurance number.
+common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
+common_feedback.placeholder = (Limit is 500 characters)
+common_feedback.submit_button = Submit feedback
+common_feedback.subject = Sell to the trade - Feedback
+common_feedback.name = Name
+common_feedback.email = Email
+common_feedback.feedbackTitle = Please leave your name and email address in case we need to contact you
+error.feedback = Feedback cannot exceed 500 characters
+error.feedbackName = Name cannot be more than 60 characters
+feedbackEmail = Email
+feedbackName = Name
+feedback = Feedback Form
+
+# feedback success
+common_feedback.thankyou = Thank you for your feedback
+feedback-return-to-your-application = ◄ Return to your application
+feedback-please-close-this-page-to-return-to-your-application = Please close this page to return to your application
 
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented
