@@ -97,7 +97,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
           Future.successful(Redirect(routes.Success.present()))
         }
       case _ =>
-        Future.successful(Redirect(routes.MicroServiceError.present()))
+        Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
     }
   }
 

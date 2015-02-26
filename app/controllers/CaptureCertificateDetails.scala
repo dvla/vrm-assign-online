@@ -83,9 +83,8 @@ final class CaptureCertificateDetails @Inject()(
               }
             case _ =>
               Future.successful {
-                Logger.warn("CaptureCertificateDetails submit with no VehicleAndKeeperDetailsModel")
-                Redirect(routes.MicroServiceError.present())
-              } // TODO is this correct
+                Redirect(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"))
+              }
           }
         },
         validForm => {
