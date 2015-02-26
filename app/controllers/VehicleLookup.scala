@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.controllers.{VehicleLookupBase1, VehicleLookupBase}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
@@ -43,7 +43,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config) extends VehicleLookupBase1[VehicleAndKeeperLookupFormModel] {
+                                    config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
