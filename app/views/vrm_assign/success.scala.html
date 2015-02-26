@@ -56,7 +56,7 @@
                     </div>
                     <div class="first-col">
                         <a id="@CreatePdfId" class="pdf-link" href="@controllers.routes.Success.createPdf()">
-                            <img src="@routes.Assets.at("images/pdf-icon-1.png")" alt="@Messages("vrm_assign_success.newPlateLink")">
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_assign_success.newPlateLink")">
                             @Messages("vrm_assign_success.newPlateLink")
                         </a>
                     </div>

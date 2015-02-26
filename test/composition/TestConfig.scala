@@ -26,6 +26,7 @@ final class TestConfig(
 
   val stub = {
     val config: Config = mock[Config]
+    when(config.assetsUrl).thenReturn(None)
     when(config.isCsrfPreventionEnabled).thenReturn(true)
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
     when(config.vrmAssignEligibilityMicroServiceUrlBase).thenReturn(notFound)

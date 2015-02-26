@@ -4,6 +4,8 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
 
 trait Config extends VehicleLookupConfig {
 
+  def assetsUrl: Option[String]
+
   def isCsrfPreventionEnabled: Boolean
 
   // Micro-service config // TODO take defaults off the timeouts
