@@ -43,6 +43,8 @@ lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
   .disablePlugins(PlayScala, SbtWeb)
   .enablePlugins(GatlingPlugin)
 
+pipelineStages := Seq(rjs, digest, gzip)
+
 libraryDependencies ++= {
   Seq(
     cache,
