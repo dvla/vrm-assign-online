@@ -143,38 +143,6 @@
             </div>
         </div>
     }
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/capture-certificate-details-page.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
-
-<script type="text/javascript">
-require.config({
-    paths: {
-    'jquery': '@{controllers.StaticAssets.versioned(config.assetsUrl)("""javascripts/lib/jquery/jquery-1.9.1""")}',
-    'jquery-migrate': '@{controllers.StaticAssets.versioned(config.assetsUrl)("""javascripts/lib/jquery/jquery-migrate-1.2.1.min""")}'
-    }
-});
-
-require(["jquery", "jquery-migrate"],function($) {
-
-    function autoTab(currentId, nextId) {
-        var focusable = $('#' + currentId);
-        focusable.keyup(function (e) {
-            var maxlength = false;
-            if ($(this).attr("maxlength")) {
-                if ($(this).val().length >= $(this).attr("maxlength")) maxlength = true;
-            }
-            // Tab when the input is a key betweena a - z, A - Z and 0 - 9 and the maxlength is reached.
-            // Do not auto tab when we come to the field by tabbing or shift-tabbing, otherwise it is impossible to
-            // return to the field.
-            var inp = String.fromCharCode(e.keyCode);
-            if (/[a-zA-Z0-9-_ ]/.test(inp) && maxlength) {
-                $('#' + nextId).focus();
-            }
-        });
-    }
-
-    autoTab('@CertificateDocumentCountId', '@CertificateDateId');
-    autoTab('@CertificateDateId', '@CertificateTimeId');
-    autoTab('@CertificateTimeId', '@CertificateRegistrationMarkId');
-});
-
-</script>

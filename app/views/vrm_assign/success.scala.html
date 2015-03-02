@@ -104,18 +104,19 @@
                 </dl>
             </div>
         </div>
-
     </div>
-}
 
-@if(config.googleAnalyticsTrackingId.isDefined) {
-    @if(!isKeeper) {
+    @if(config.googleAnalyticsTrackingId.isDefined) {
+        @if(!isKeeper) {
+            <script type="text/javascript">
+                trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+            </script>
+        }
+
         <script type="text/javascript">
-            trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+            trackClick(['@PrintId', '@FinishId']);
         </script>
     }
 
-    <script type="text/javascript">
-        trackClick(['@PrintId', '@FinishId']);
-    </script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
