@@ -56,7 +56,7 @@ final class TestConfig(
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
     when(config.renewalFee).thenReturn("8000")
-    when(config.renewalFeeAbolitionDate).thenReturn("01/03/2015")
+    when(config.renewalFeeAbolitionDate).thenReturn("09/03/2015")
 
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
