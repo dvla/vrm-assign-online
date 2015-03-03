@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'jquery': '../lib/jquery/jquery'
+        'jquery': '../../webjars/jquery/1.9.1/jquery.min'
     }
 });
 
