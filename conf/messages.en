@@ -236,7 +236,7 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V750 or V778 to DVLA
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
@@ -244,7 +244,7 @@ soap_endpoint_error.exit.button=Exit
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
+vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V750 or V778 to DVLA, Swansea, SA99 1BD
 
 
 vrm_locked.newdisposalbutton=Sell another vehicle
