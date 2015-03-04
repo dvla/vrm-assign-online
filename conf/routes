@@ -62,6 +62,7 @@ GET         /confirm/exit                                  @controllers.Confirm.
 GET         /capture-certificate-details                   @controllers.CaptureCertificateDetails.present
 POST        /capture-certificate-details                   @controllers.CaptureCertificateDetails.submit
 GET         /capture-certificate-details/exit              @controllers.CaptureCertificateDetails.exit
+GET         /capture-certificate-details/back              @controllers.CaptureCertificateDetails.back
 
 GET         /payment/begin                                 @controllers.Payment.begin
 POST        /payment/callback/:token                       @controllers.Payment.callback(token: String)

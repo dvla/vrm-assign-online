@@ -95,6 +95,19 @@ final class CaptureCertificateDetails @Inject()(
       )
   }
 
+  def back = Action { implicit request =>
+    // If the user is a business actor, then navigate to the previous page in the business journey,
+    // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
+    val businessPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      if vehicleAndKeeperLookupForm.userType == UserType_Business
+    } yield {
+      Redirect(routes.ConfirmBusiness.present())
+    }
+    val keeperPath = Redirect(routes.VehicleLookup.present())
+    businessPath.getOrElse(keeperPath)
+  }
+
   def bruteForceAndLookup(prVrm: String, form: Form)
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
