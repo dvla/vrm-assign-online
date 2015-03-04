@@ -58,7 +58,17 @@ var GOVUK = GOVUK || {};
 require(["jquery"],function($) {
 
     $(document).ready(function () {
+
         $(function () {
+
+            // If JS enabled hide summary details
+            $('.details').hide();
+
+            // Summary details toggle
+            $('.summary').on('click', function() {
+                $(this).siblings().toggle();
+            });
+
             function s() {
                 var e = i ? "related-" + i : "related";
                 r && (e += "-with-cookie"), n.length && e !== "related" && n.addClass(e)
@@ -69,5 +79,6 @@ require(["jquery"],function($) {
                 i = $(".beta-notice").length ? "beta" : null;
             s, r && (n.length && typeof GOVUK.stopScrollingAtFooter != "undefined" && GOVUK.stopScrollingAtFooter.updateFooterTop(), t.show(), setCookie("seen_cookie_message", "yes", 28)), s()
         });
+
     });
 });
