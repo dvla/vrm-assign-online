@@ -42,7 +42,7 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/images/document-reference-number.png""")
       )
       .exec(
-        http("document-reference-number.png")
+        http("favicon.ico")
           .get( s"""/assets/images/favicon.ico""")
       )
       .exec(
@@ -201,7 +201,7 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
       )
       .exec(
         http("picturefill.min.js")
-          .get( s"""/assets/lib/picturefill/picturefill.min.js""")  //
+          .get( s"""/assets/lib/picturefill/picturefill.min.js""")
       )
 
       /* javascript from webjars */
