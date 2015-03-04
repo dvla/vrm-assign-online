@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'jquery': '../lib/jquery/jquery',
+        'jquery': '../lib/jquery/jquery.min',
         'header-footer-only': 'header-footer-only',
         'form-checked-selection': 'form-checked-selection'
     }

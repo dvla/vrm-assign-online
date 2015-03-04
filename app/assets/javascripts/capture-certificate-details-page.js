@@ -1,10 +1,11 @@
 require.config({
     paths: {
-        'jquery': '../lib/jquery/jquery'
+        'jquery': '../lib/jquery/jquery.min',
+        'picturefill': '../lib/picturefill/picturefill.min'
     }
 });
 
-require(["jquery", "main"],function(jquery, main) {
+require(["jquery", "picturefill", "main"],function(jquery, main) {
     function autoTab(currentId, nextId) {
         var focusable = $('#' + currentId);
         focusable.keyup(function (e) {
