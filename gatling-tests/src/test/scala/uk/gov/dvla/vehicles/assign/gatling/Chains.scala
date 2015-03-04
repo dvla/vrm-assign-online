@@ -201,7 +201,7 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
       )
       .exec(
         http("picturefill.min.js")
-          .get( s"""/assets/javascripts/picturefill.min.js""")
+          .get( s"""/assets/lib/picturefill/picturefill.min.js""")  //
       )
 
       /* javascript from webjars */
