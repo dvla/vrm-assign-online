@@ -36,6 +36,7 @@ import webserviceclients.audit2.AuditRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -64,8 +65,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 //  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
   override def presentResult(implicit request: Request[_]) =
-    Ok(views.html.vrm_assign.vehicle_lookup(form)).
-      discardingCookies(removeCookiesOnExit)
+    Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))//.
+//      discardingCookies(removeCookiesOnExit)
 
 //  def submit = Action.async { implicit request =>
 //    form.bindFromRequest.fold(

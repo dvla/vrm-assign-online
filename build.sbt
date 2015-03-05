@@ -162,7 +162,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmAssignFulfil.value
 }
 
-//SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
+SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
