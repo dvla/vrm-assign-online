@@ -43,16 +43,18 @@
 
                 <br/>
 
-                <details>
-                <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
-                <div class="panel-indent">
-                    <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
+                <div class="summary-wrapper">
+                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span>
+                    <div class="details">
+                        <div class="panel-indent">
+                            <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
+                        </div>
+                    </div>
                 </div>
-                </details>
 
                 <br>
                 </br>
@@ -61,7 +63,6 @@
                 @valtechDeclareCheck(confirmForm(GranteeConsentId),
                     args = Map(
                         '_showConstraints -> false,
-                        'autofocus -> true,
                         '_label -> Messages("vrm_assign_confirm.granteeConsent")
                     )
                 )
