@@ -18,8 +18,8 @@ Feature: Navigation
 #    | "vehicle-lookup" | "success" | "vehicle-lookup" | "filled" | "not wiped" |
 #    | "confirm"        | "payment" | "confirm"        | "filled" | "not wiped" |
 #    | "confirm"        | "success" | "confirm"        | "filled" | "not wiped" |
-#    | "payment"        | "success" | "payment"        | "-"      | "not wiped" |
-#    | "payment"        | "success" | "payment"        | "-"      | "not wiped" |
+#    | "payment (keeper acting)"        | "success" | "payment"        | "-"      | "not wiped" |
+#    | "payment (keeper acting)"        | "success" | "payment"        | "-"      | "not wiped" |
 
 
   Scenario Outline: Pressing the browser's back button
@@ -29,11 +29,11 @@ Feature: Navigation
     And the <expected> form is <filled> with the values I previously entered
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
-  | origin           |  expected         | filled   | wiped       |
-  | "vehicle-lookup" | "before-you-start" | "-" | "wiped" |
+    | origin                    | expected           | filled   | wiped       |
+    | "vehicle-lookup"          | "before-you-start" | "-"      | "wiped"     |
+    | "confirm"                 | "vehicle-lookup"   | "filled" | "not wiped" |
+    | "payment (keeper acting)" | "confirm"          | "filled" | "not wiped" |
 
 #  on page	result	form filled	wipe cookies (payment, retain, both v&k)
-#  vehicle-lookup 	before you start	-	Y
-#  confirm	vehicle-lookup 	Y	N
 #  payment	confirm	Y	N
 #  success	payment prevent back	-	Y

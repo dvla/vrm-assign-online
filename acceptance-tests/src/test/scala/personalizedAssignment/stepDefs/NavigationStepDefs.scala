@@ -10,15 +10,7 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
-import pages.BeforeYouStart_PageSteps
-import pages.BusinessChooseYourAddress_PageSteps
-import pages.CaptureCertificateDetails_PageSteps
-import pages.Confirm_PageSteps
-import pages.Payment_PageSteps
-import pages.SetupBusinessDetails_PageSteps
-import pages.VehicleLookup_PageSteps
-import pages.VehicleNotFound_PageSteps
-import pages.VrmLocked_PageSteps
+import pages._
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.PaymentPage
@@ -30,7 +22,7 @@ import scala.concurrent.duration.DurationInt
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-//  implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  //  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   implicit val timeout = PatienceConfig(timeout = 5.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
   lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
@@ -41,6 +33,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
   lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
   lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  lazy val success = new Success_PageSteps()(webDriver, timeout)
   lazy val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -50,64 +43,50 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     businessChooseYourAddress
   )(webDriver, timeout)
 
-  @Given("""^that I am on the "(.*?)" page$""")
+  @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {
     origin match {
-      case "vehicle-lookup" =>
-        // Starting the service takes you to this page
-        println("origin vehicle-lookup")
-      case "confirm" => println("origin confirm")
-        vehicleLookup.`happy path`
-      case "payment" => println("origin payment")
-      case "success" => println("origin success")
+      case "vehicle-lookup" => // Starting the service takes you to this page
+      case "confirm" => vehicleLookup.`happy path for keeper`
+      case "payment (keeper acting)" =>
+        vehicleLookup.`happy path for keeper`
+        captureCertificateDetails.`happy path`
+        confirm.`happy path`
+      case "success" => ???
       case e => throw new RuntimeException(s"unknown 'origin' value: $e")
     }
   }
 
-  @When("""^I enter the url for the "(.*?)" page$""")
+  @When( """^I enter the url for the "(.*?)" page$""")
   def `I enter the url for the <target> page`(target: String) {
     target match {
-      case "before-you-start" =>
-        println("before-you-start")
-        go to BeforeYouStartPage
-      case "vehicle-lookup" =>
-        println("target vehicle-lookup")
-        go to VehicleLookupPage
-      case "confirm" =>
-        println("target confirm")
-        go to ConfirmPage
-      case "payment" =>
-        println("target payment")
-        go to PaymentPage
-      case "success" =>
-        println("target success")
-        go to SuccessPage
+      case "before-you-start" => go to BeforeYouStartPage
+      case "vehicle-lookup" => go to VehicleLookupPage
+      case "confirm" => go to ConfirmPage
+      case "payment" => go to PaymentPage
+      case "success" => go to SuccessPage
       case e => throw new RuntimeException(s"unknown 'target' value: $e")
     }
   }
 
-  @When("""^I press the browser's back button$""")
+  @When( """^I press the browser's back button$""")
   def `I press the browser's back button`() {
     goBack()
   }
 
-  @Then("""^I am redirected to the "(.*?)" page$""")
+  @Then( """^I am redirected to the "(.*?)" page$""")
   def `I am taken to the <expected> page`(expected: String) {
     expected match {
-      case "before-you-start" =>
-        println("expected vehicle-lookup")
-        beforeYouStart.`is displayed`
-      case "vehicle-lookup" =>
-        println("expected vehicle-lookup")
-        vehicleLookup.`is displayed`
-      case "confirm" => println("expected confirm")
-      case "payment" => println("expected payment")
-      case "success" => println("expected success")
+      case "before-you-start" => beforeYouStart.`is displayed`
+      case "vehicle-lookup" => vehicleLookup.`is displayed`
+      case "confirm" => confirm.`is displayed`
+      case "payment" => payment.`is displayed`
+      case "success" => success.`is displayed`
       case e => throw new RuntimeException(s"unknown 'expected' value: $e")
     }
   }
 
-  @Then("""^the "(.*?)" form is "(.*?)" with the values I previously entered$""")
+  @Then( """^the "(.*?)" form is "(.*?)" with the values I previously entered$""")
   def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
     expected match {
       case "before-you-start" =>
@@ -116,21 +95,37 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
           case e => throw new RuntimeException(s"unknown 'filled' value: $e")
         }
       case "vehicle-lookup" =>
-        println("expected vehicle-lookup is " + filled)
         filled match {
           case "filled" => vehicleLookup.`form is filled with the values I previously entered`()
-          case "not filled" => ???
+          case "not filled" => vehicleLookup.`form is not filled`()
           case "-" => // no check as no fields on page
           case e => throw new RuntimeException(s"unknown 'filled' value: $e")
         }
-      case "confirm" => println("expected confirm is " + filled)
-      case "payment" => println("expected payment is " + filled)
-      case "success" => println("expected success is " + filled)
+      case "capture-certificate-details" =>
+        filled match {
+          case "filled" => captureCertificateDetails.`form is filled with the values I previously entered`()
+          case "not filled" => captureCertificateDetails.`form is not filled`()
+          case "-" => // no check as no fields on page
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "confirm" =>
+        filled match {
+          case "filled" => confirm.`form is filled with the values I previously entered`()
+          case "not filled" => confirm.`form is not filled`()
+          case "-" => // no check as no fields on page
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "payment" =>
+        filled match {
+          case "-" => // no check as no fields on page
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "success" => ???
       case e => throw new RuntimeException(s"unknown 'expected' value: $e")
     }
   }
 
-  @Then("""^the payment, retain and both vehicle-and-keeper cookies are "(.*?)"$""")
+  @Then( """^the payment, retain and both vehicle-and-keeper cookies are "(.*?)"$""")
   def `the cookies are <wiped>`(wiped: String) {
     wiped match {
       case "wiped" => println("wiped")
