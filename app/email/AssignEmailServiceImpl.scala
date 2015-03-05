@@ -2,6 +2,7 @@ package email
 
 import java.io.{FileInputStream, File}
 
+import play.api.Logger
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
@@ -9,6 +10,7 @@ import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.libs.json.Json
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -19,6 +21,7 @@ import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.Source
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
@@ -33,14 +36,17 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
-                         isKeeper: Boolean) {
+                         isKeeper: Boolean,
+                         trackingId: String) {
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
+
+      val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
 
       pdfService.create(transactionId,
-        vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""),
+        keeperName,
         vehicleAndKeeperDetailsModel.address,
         captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
         pdf =>
@@ -49,7 +55,20 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
             confirmFormModel, businessDetailsModel, isKeeper)
           val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
+          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ","") + " " + Messages("email.email_service_impl.subject")
+
+          vehicleAndKeeperDetailsModel.make match {
+            case Some(make) => subject += " " + make
+            case None => // do nothing
+          }
+
+          vehicleAndKeeperDetailsModel.model match {
+            case Some(model) => subject += " " + model
+            case None => // do nothing
+          }
+
+          subject += " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ","")
+
           val attachment: Option[Attachment] = {
             isKeeper match {
               case false =>
@@ -60,7 +79,12 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
 
-          emailService.invoke(emailServiceSendRequest).map {
+          Logger.info(s"About to send email to ${emailAddress} - trackingId ${trackingId}")
+          if (emailServiceSendRequest.attachment.isDefined) {
+            Logger.info("Sending with attachment")
+          }
+
+          emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
               if (isKeeper) Logger.debug("Keeper email sent")
               else Logger.debug("Non-keeper email sent")

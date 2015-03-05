@@ -8,7 +8,7 @@ import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
@@ -96,7 +96,7 @@ object CookieFactoryForUISpecs {
                                     maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString)
                                    (implicit webDriver: WebDriver) = {
-    val key = BruteForcePreventionViewModelCacheKey
+    val key = bruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionModel(
       permitted,
       attempts,
@@ -225,7 +225,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def captureCertificateDetailsModel(prVrm: String = PrVrmValid, lastDate: Option[DateTime] = LastDateValid,
+  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid, lastDate: Option[DateTime] = LastDateValid,
                                      datesList: List[String] = DatesListValid, fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
@@ -236,8 +236,8 @@ object CookieFactoryForUISpecs {
   def captureCertificateDetailsFormModel(certificateDocumentCount: String = CertificateDocumentCountValid,
                                          certificateDate: String = CertificateDateValid,
                                          certificateTime: String = CertificateTimeValid,
-                                         certificateRegistrationMark: String = CertificateRegistrationMarkValid,
-                                         prVrm: String = PrVrmValid)(implicit webDriver: WebDriver) = {
+                                         certificateRegistrationMark: String = RegistrationNumberValid,
+                                         prVrm: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsFormModelCacheKey
     val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
     addCookie(key, value)

@@ -1,6 +1,7 @@
 @(confirmViewModel: models.ConfirmViewModel,
         confirmForm: Form[models.ConfirmFormModel],
-        isKeeperEmailDisplayedOnLoad: Boolean)(implicit lang: Lang,
+        isKeeperEmailDisplayedOnLoad: Boolean,
+        isKeeper: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
@@ -14,7 +15,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 
 
-    @main(
+@main(
     title = Messages("vrm_assign_confirm.title"),
     currentForm = Some(confirmForm),
     backNavigation = Some(controllers.routes.CaptureCertificateDetails.present())
@@ -42,16 +43,18 @@
 
                 <br/>
 
-                <details>
-                <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span></summary>
-                <div class="panel-indent">
-                    <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
-                    <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
+                <div class="summary-wrapper">
+                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span>
+                    <div class="details">
+                        <div class="panel-indent">
+                            <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
+                            <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
+                        </div>
+                    </div>
                 </div>
-                </details>
 
                 <br>
                 </br>
@@ -60,7 +63,6 @@
                 @valtechDeclareCheck(confirmForm(GranteeConsentId),
                     args = Map(
                         '_showConstraints -> false,
-                        'autofocus -> true,
                         '_label -> Messages("vrm_assign_confirm.granteeConsent")
                     )
                 )
@@ -75,7 +77,7 @@
                         RadioWithHint(SupplyEmail_true, Messages("supply-email-true"), ""),
                         RadioWithHint(SupplyEmail_false, Messages("supply-email-false"), "")
                     ),
-                    args = Map.empty
+                    args = Map('_label -> {if(isKeeper) Messages("supply-email-keeper-acting") else Messages("supply-email-business-acting")})
                 )
 
                 <div id="@KeeperEmailWrapper">
@@ -127,55 +129,22 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
         </div>
     }
+
+    @if(config.googleAnalyticsTrackingId.isDefined) {
+        <script type="text/javascript">
+            trackChange(['@KeeperEmailId']);
+            trackClick(['@GranteeConsentId', '@SummaryId', '@ConfirmId', '@ExitId']);
+        </script>
+    }
+
+    @*
+    Referencing WebJarAssets:
+    https://github.com/webjars/webjars-play
+    http://www.tagwith.com/question_183150_play-2-3-webjars-default-requirejs-support-how-to-write-define-or-require
+
+    Cannot use helper.requirejs as in Play 2.3.x it does not seem to get the paths correct (it is assuming there
+    is a minified folder, but there isn't and it does not minify the files itself).
+    https://stackoverflow.com/questions/25379419/play-framework-2-3-dist-task-javascripts-min-not-available
+    *@
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/confirm-page.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
-
-@if(config.googleAnalyticsTrackingId.isDefined) {
-    <script type="text/javascript">
-        trackChange(['@KeeperEmailId']);
-        trackClick(['@GranteeConsentId', '@SummaryId', '@ConfirmId', '@ExitId']);
-    </script>
-}
-
-<script type="text/javascript">
-require.config({
-    paths: {
-    'jquery': 'lib/jquery/jquery-1.9.1',
-    'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
-    }
-});
-
-require(["jquery", "jquery-migrate"],function($) {
-
-    function onLoadConditionalDisplay(id, isDisplayed) {
-        var element = $('#' + id);
-        if (isDisplayed) {
-            element.show();
-        } else {
-            element.hide();
-        }
-    }
-
-    /*
-     * Display a field that fires when the link or button is clicked.
-     *
-     * ids - The ids of the links/buttons you want to track.
-     */
-    function onEventChangeDisplay(idOfClickable, idOfDisplayable, isDisplayed) {
-        $('#' + idOfClickable).click(function() {
-            var elementOfDisplayable = $('#' + idOfDisplayable );
-            /*console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);*/
-            if (isDisplayed) {
-                elementOfDisplayable.slideDown();
-            } else {
-                elementOfDisplayable.slideUp();
-            }
-        });
-    }
-
-    onLoadConditionalDisplay('@KeeperEmailWrapper', @isKeeperEmailDisplayedOnLoad);
-    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', true);
-    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', false);
-
-});
-
-</script>

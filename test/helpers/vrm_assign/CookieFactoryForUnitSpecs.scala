@@ -9,7 +9,7 @@ import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
@@ -145,7 +145,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                     attempts: Int = 0,
                                     maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString): Cookie = {
-    val key = BruteForcePreventionViewModelCacheKey
+    val key = bruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionModel(
       permitted,
       attempts,
@@ -197,7 +197,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, consent)
   }
 
-  def captureCertificateDetailsModel(prVrm: String = PrVrmValid, lastDate: Option[DateTime] = LastDateValid,
+  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid, lastDate: Option[DateTime] = LastDateValid,
                                      datesList: List[String] = DatesListValid, fees: Int = FeesValid): Cookie = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
@@ -207,8 +207,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def captureCertificateDetailsFormModel(certificateDocumentCount: String = CertificateDocumentCountValid,
                                          certificateDate: String = CertificateDateValid,
                                          certificateTime: String = CertificateTimeValid,
-                                         certificateRegistrationMark: String = CertificateRegistrationMarkValid,
-                                         prVrm: String = PrVrmValid): Cookie = {
+                                         certificateRegistrationMark: String = RegistrationNumberValid,
+                                         prVrm: String = RegistrationNumberValid): Cookie = {
     val key = CaptureCertificateDetailsFormModelCacheKey
     val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
     createCookie(key, value)

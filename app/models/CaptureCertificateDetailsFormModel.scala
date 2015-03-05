@@ -24,7 +24,7 @@ object CaptureCertificateDetailsFormModel {
       CertificateDocumentCountId -> CertificateDocumentCount.certificateDocumentCountMapping,
       CertificateDateId -> CertificateDate.certificateDateMapping,
       CertificateTimeId -> CertificateTime.certificateTimeMapping,
-      CertificateRegistrationMarkId -> CertificateRegistrationMark.certificateRegistrationMarkMapping,
+      CertificateRegistrationMarkId -> VehicleRegistrationNumber.registrationNumber,
       PrVrmId -> VehicleRegistrationNumber.registrationNumber
     )(CaptureCertificateDetailsFormModel.apply)(CaptureCertificateDetailsFormModel.unapply)
   }

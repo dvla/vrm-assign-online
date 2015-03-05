@@ -7,7 +7,7 @@
 main.back = Back
 main.banner.help = Help
 main.banner.feedback = your feedback
-main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Assign%20a%20Personalised%20Number%20Feedback
+main.banner.feedback.link = mailto:retention.online@dvla.gsi.gov.uk?Subject=Assign%20a%20Personalised%20Number%20Feedback
 crown-copyright = Crown Copyright
 open-government-licence = Open Government Licence v2.0
 open-government-licence-p1 = All content is available under the
@@ -34,6 +34,8 @@ footer.cookies = Cookies
 footer.welsh = Cymraeg
 footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
+
+error.required = This field is required
 
 #prototype
 prototype.banner.part1 = This is a new service -
@@ -151,7 +153,7 @@ widget.optional = (optional)
 
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVrnOnly = Must be valid format
+error.restricted.validVrnOnly = Must be valid registration number
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 datePlaceholder.day=Day
@@ -234,7 +236,7 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V750 or V778 to DVLA
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
@@ -242,7 +244,7 @@ soap_endpoint_error.exit.button=Exit
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
+vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V750 or V778 to DVLA, Swansea, SA99 1BD
 
 
 vrm_locked.newdisposalbutton=Sell another vehicle
@@ -298,7 +300,7 @@ vrm_assign_beforeyoustart.button = Start now
 # contact side related content
 vrm_assign_contact.title = DVLA Helpline
 vrm_assign_contact.telLabel = Telephone
-vrm_assign_contact.telNumber = 0300 790 6802
+vrm_assign_contact.telNumber = 0300 123 1350 code 662
 vrm_assign_contact.texLabel = Textphone
 vrm_assign_contact.texNumber = 18001 0300 123 1379
 vrm_assign_contact.hoursLabel = Lines Open
@@ -387,6 +389,9 @@ vrm_assign_eligibility_failure.p1 = Our records show this registration number ca
 vrm_assign_eligibility_failure.p2 =
 vrm_assign_eligibility_failure.noticePayment.p1a = There are outstanding renewal fees:
 vrm_assign_eligibility_failure.noticePayment.desc1 = Description
+unhandled_exception.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+unhandled_exception.p2 = Please make sure you have the most recent V5C and try again.
+unhandled_exception.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 
 # Payment page
 vrm_assign_payment.title = Payment
@@ -448,11 +453,16 @@ certificate-date = Reference number Box 2
 certificate-time = Reference number Box 3
 certificate-registration-mark = Reference number Box 4
 
-error.validCertificateDocumentCount = Must 1 letter or digit
+capture-certificate-details-you-will-need = You will need
+capture-certificate-details-you-will-need-certificate-of-entitlement = Certificate of entitlement (V750)
+capture-certificate-details-you-will-need-or = or
+capture-certificate-details-you-will-need-retention-document = Retention Document (V778)
+
+
+error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
 error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
 error.validCertificateTime = Must be 6 digits
-error.validCertificateRegistrationMark = Must be valid format
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper and new registration
@@ -500,14 +510,15 @@ vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public comput
 
 vrm_assign_confirm.grantee_consent.notgiven = You must confirm that you have consent to put this registration number on this vehicle
 grantee-consent-id = Grantee Consent
-vrm_assign_confirm.granteeConsent = I have consent to put this registration number on this vehicle
+vrm_assign_confirm.granteeConsent = I confirm that I have the consent of the named party on the certificate of entitlement or retention to assign this registration number to this vehicle.
 
 vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
 vrm_assign_confirm.outstandingFees = You owe
 vrm_assign_exit.button = Exit
 vrm_assign_finish.button = Finish
 vrm_assign_changedetails.button = Change Details
-supply-email = Do you want to receive an email with a summary of the transaction?
+supply-email-keeper-acting = Do you want to receive an email with a summary of the transaction?
+supply-email-business-acting = Does your customer want to receive an email with a summary of the transaction?
 supply-email-true = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
@@ -597,7 +608,7 @@ vrm_assign_success.assignConf-p1 = Your registration number
 vrm_assign_success.assignConf-p2 = has now be assigned. Put the following personal registration number on the vehicle
 vrm_assign_success.makingUp-p1 = Making up the number plate for the personal registration number
 vrm_assign_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_assign_success.newPlateLink = Download a copy
+vrm_assign_success.newPlateLink = Download the eV948
 
 vrm_assign_success.noticePayment.h3 = Payment
 vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
@@ -631,6 +642,12 @@ vrm_assign_success.aboutTransactionIdLabel = Transaction ID -
 vrm_assign_success.aboutTransactionCompletedLabel = Transaction Completed -
 vrm_assign_success.aboutTransactionEmployeeLabel = Employee name (optional)
 
+success-application-details = Application details
+success-application-details-transaction-id = Transaction ID:
+success-application-details-keeper-details = Keeper details
+success-application-details-keeper-details-name = Name:
+success-application-details-keeper-details-address = Address:
+
 vrm_assign_success.buttonnavprint = Print Full Summary
 
 micro_service_error.title=We are sorry
@@ -640,7 +657,7 @@ micro_service_error.exit.button=Exit
 
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Putting a registration number on a vehicle complete for {0}
-email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
+email.line1 = If you need to contact the DVLA, call our helpline on 0300 123 1350 code 662
 email.line2 = Your application to put a registration number on a vehicle
 email.line3 = Retention Certificate Number
 email.line4 = Transaction Completed
@@ -666,7 +683,7 @@ email.line22 = The following documents will be sent to the registered keeper:
 email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
 email.line24 = A new MOT Certificate displaying the replacement registration number*
 email.line25 = A Retention Certificate for the assigned registration number
-email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed above and we will do our upmost to resolve their query promptly.
+email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 123 1350 code 662 with the transaction ID listed above and we will do our upmost to resolve their query promptly.
 email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
 email.line29 = Outstanding Renewal Fees Paid
 email.line30 = Having identified outstanding renewal fees for the registration number you assigned, you agreed to pay those fees a summary of which is below:
@@ -674,10 +691,10 @@ email.line30 = Having identified outstanding renewal fees for the registration n
 
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
-email.email_service_impl.subject = Registration Number
+email.email_service_impl.subject = can be put on
 #Assign failure page
 vrm_assign_failure.title = Transaction not successful
-vrm_assign_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
+vrm_assign_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 123 1350 code 662.
 
 # progress messages
 vrm_assign_progress_1 = Step 1 of 6

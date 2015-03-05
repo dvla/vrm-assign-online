@@ -104,7 +104,8 @@ final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper)
+          Matchers.eq(isKeeper),
+          any[String]
         )
       }
     }
@@ -134,7 +135,8 @@ final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper)
+          Matchers.eq(isKeeper),
+          any[String]
         )
       }
     }
@@ -164,7 +166,8 @@ final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper)
+          Matchers.eq(isKeeper),
+          any[String]
         )
       }
     }
@@ -194,7 +197,8 @@ final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper)
+          Matchers.eq(isKeeper),
+          any[String]
         )
       }
     }
@@ -224,7 +228,8 @@ final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper)
+          Matchers.eq(isKeeper),
+          any[String]
         )
       }
     }

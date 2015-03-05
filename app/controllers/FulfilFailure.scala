@@ -29,7 +29,7 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
       case (Some(transactionId), None) =>
         Future.successful(Ok(views.html.vrm_assign.fulfil_failure())) // TODO need to switch the message to not mention payment if no payment was needed
       case _ =>
-        Future.successful(Redirect(routes.MicroServiceError.present()))
+        Future.successful(Redirect(routes.Error.present("user tried to go to FulfilFailure but the required cookie was not present")))
     }
   }
 

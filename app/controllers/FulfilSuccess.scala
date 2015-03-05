@@ -55,6 +55,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
+        val trackingId = request.cookies.trackingId()
+
         businessDetailsOpt.foreach {
           businessDetails =>
             assignEmailService.sendEmail(
@@ -66,7 +68,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false // US1589: Do not send keeper a pdf
+              isKeeper = false, // US1589: Do not send keeper a pdf
+              trackingId = trackingId
             )
         }
 
@@ -81,7 +84,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = true
+              isKeeper = true,
+              trackingId = trackingId
             )
         }
 
@@ -93,7 +97,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
           Future.successful(Redirect(routes.Success.present()))
         }
       case _ =>
-        Future.successful(Redirect(routes.MicroServiceError.present()))
+        Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
     }
   }
 
@@ -103,9 +107,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          pdfService.create(transactionId,
-            vehicleAndKeeperDetails.firstName.getOrElse("") + " " + vehicleAndKeeperDetails.lastName.getOrElse(""),
-            vehicleAndKeeperDetails.address,
+          val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
+          pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
             captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)

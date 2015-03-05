@@ -72,10 +72,11 @@
                 <div class="img-wrap related">
                     <h3>@Messages("vrm_assign_vehiclelookup.intro")</h3>
                     <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
-                    <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
+                    <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
                 </div>
             </div>
         </div>
-
     }
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

@@ -2,7 +2,6 @@ import Common._
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
-import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
@@ -33,16 +32,18 @@ credentials += sbtCredentials
 
 resolvers ++= projectResolvers
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
-  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .disablePlugins(PlayScala, SbtWeb)
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
-  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .disablePlugins(PlayScala, SbtWeb)
   .enablePlugins(GatlingPlugin)
+
+pipelineStages := Seq(rjs, digest, gzip)
 
 libraryDependencies ++= {
   Seq(
@@ -66,10 +67,13 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.14-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.14-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
-    "org.webjars" % "requirejs" % "2.1.14-1",
+    "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
+    "org.webjars" % "requirejs" % "2.1.16",
+    "org.webjars" % "jquery" % "1.9.1",
+    "org.webjars" % "picturefill" % "2.1.0",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
     "junit" % "junit" % "4.11",
@@ -120,13 +124,13 @@ CoverallsPlugin.coverallsSettings
 resolvers ++= projectResolvers
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.9").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.6").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val emailServiceProject = emailService("0.1-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.2-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 

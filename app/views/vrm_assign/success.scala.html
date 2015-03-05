@@ -56,7 +56,7 @@
                     </div>
                     <div class="first-col">
                         <a id="@CreatePdfId" class="pdf-link" href="@controllers.routes.Success.createPdf()">
-                            <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_assign_success.newPlateLink")">
                             @Messages("vrm_assign_success.newPlateLink")
                         </a>
                     </div>
@@ -79,23 +79,23 @@
                 <div class="step">
                     <button id="@PrintId" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
                     <br /><br />
-                    <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_assign_finish.button")</a>
+                    <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_assign_finish.button")</a>
                 </div>
             </div>
 
         </div>
         <div class="first-col">
             <div class="playback">
-                <h2>Application details</h2>
-                <p>Transaction ID:</p>
+                <h2>@Messages("success-application-details")</h2>
+                <p>@Messages("success-application-details-transaction-id")</p>
                 <p><strong>@successViewModel.transactionId</strong></p>
             </div>
             <div class="related">
-                <h2>Keeper details</h2>
+                <h2>@Messages("success-application-details-keeper-details")</h2>
                 <dl class="playback bg-plain">
-                    <dt>Name:</dt>
+                    <dt>@Messages("success-application-details-keeper-details-name")</dt>
                     <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-                    <dt>Address:</dt>
+                    <dt>@Messages("success-application-details-keeper-details-address")</dt>
                     <dd>
                     @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
                         @keeperAddressLine <br>
@@ -104,18 +104,19 @@
                 </dl>
             </div>
         </div>
-
     </div>
-}
 
-@if(config.googleAnalyticsTrackingId.isDefined) {
-    @if(!isKeeper) {
+    @if(config.googleAnalyticsTrackingId.isDefined) {
+        @if(!isKeeper) {
+            <script type="text/javascript">
+                trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+            </script>
+        }
+
         <script type="text/javascript">
-            trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+            trackClick(['@PrintId', '@FinishId']);
         </script>
     }
 
-    <script type="text/javascript">
-        trackClick(['@PrintId', '@FinishId']);
-    </script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

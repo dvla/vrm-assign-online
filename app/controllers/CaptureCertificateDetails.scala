@@ -2,6 +2,7 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
+import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.CaptureCertificateDetailsViewModel
@@ -82,8 +83,8 @@ final class CaptureCertificateDetails @Inject()(
               }
             case _ =>
               Future.successful {
-                Redirect(routes.MicroServiceError.present())
-              } // TODO is this correct
+                Redirect(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"))
+              }
           }
         },
         validForm => {
@@ -94,11 +95,24 @@ final class CaptureCertificateDetails @Inject()(
       )
   }
 
+  def back = Action { implicit request =>
+    // If the user is a business actor, then navigate to the previous page in the business journey,
+    // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
+    val businessPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      if vehicleAndKeeperLookupForm.userType == UserType_Business
+    } yield {
+      Redirect(routes.ConfirmBusiness.present())
+    }
+    val keeperPath = Redirect(routes.VehicleLookup.present())
+    businessPath.getOrElse(keeperPath)
+  }
+
   def bruteForceAndLookup(prVrm: String, form: Form)
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
-        // TODO use a match
+        // TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
@@ -109,7 +123,6 @@ final class CaptureCertificateDetails @Inject()(
         Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber")
         Redirect(routes.VrmLocked.present())
       }
-
       resultFuture.map { result =>
         result.withCookie(bruteForcePreventionModel)
       }
@@ -149,7 +162,7 @@ final class CaptureCertificateDetails @Inject()(
     val replacedErrors = (form /: List(
       (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
       (CertificateDateId, "error.validCertificateDate"),
-      (CertificateRegistrationMarkId, "error.validCertificateRegistrationMark"),
+      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"),
       (PrVrmId, "error.validPrVrm"))) {
       (form, error) =>
         form.replaceError(error._1, FormError(

@@ -26,20 +26,7 @@ object CaptureCertificateDetailsPage extends Page {
 
   def prVrm(implicit driver: WebDriver) = textField(id(PrVrmId))
 
-  def lookup(implicit driver: WebDriver) = find(name(SubmitName)).get
+  def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
-  def happyPath(certificateDocumentCount: String = CertificateDocumentCountValid,
-                certificateDate: String = CertificateDateValid,
-                certificateTime: String = CertificateTimeValid,
-                certificateRegistrationMark: String = CertificateRegistrationMarkValid,
-                certificatePrVrm: String = PrVrmValid)
-               (implicit driver: WebDriver) = {
-    go to SetupBusinessDetailsPage
-    documentCount.value = certificateDocumentCount
-    date.value = certificateDate
-    time.value = certificateTime
-    registrationMark.value = certificateRegistrationMark
-    prVrm.value = certificatePrVrm
-    click on lookup
-  }
+  def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 }

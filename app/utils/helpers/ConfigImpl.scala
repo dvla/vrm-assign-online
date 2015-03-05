@@ -6,6 +6,8 @@ import common.ConfigProperties.getProperty
 
 class ConfigImpl extends Config {
 
+  val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
+
   val isCsrfPreventionEnabled = getProperty[Boolean]("csrf.prevention")
 
   // Micro-service config

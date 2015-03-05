@@ -12,8 +12,8 @@ object AddressLookupServiceConstants {
   //  final val CertificatePrVrmValid = "AA11"
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
-  final val TraderBusinessEmailValid = "business.example@email.com"
-  final val KeeperEmailValid = Some("example@email.com")
+  final val TraderBusinessEmailValid = "business.example@test.com"
+  final val KeeperEmailValid = Some("keeper.example@test.com")
   final val GranteeConsentValid = "true"
   final val StoreBusinessDetailslValid = "true"
   final val PostcodeInvalid = "xx99xx"

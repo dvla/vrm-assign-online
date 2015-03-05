@@ -5,8 +5,6 @@ import mappings.common.vrm_assign.CertificateDate
 import mappings.common.vrm_assign.CertificateDate
 import mappings.common.vrm_assign.CertificateDocumentCount
 import mappings.common.vrm_assign.CertificateDocumentCount
-import mappings.common.vrm_assign.CertificateRegistrationMark
-import mappings.common.vrm_assign.CertificateRegistrationMark
 import mappings.common.vrm_assign.CertificateTime
 import mappings.common.vrm_assign.CertificateTime
 import models.CaptureCertificateDetailsFormModel
@@ -19,9 +17,9 @@ import views.vrm_assign.CaptureCertificateDetails.CertificateTimeId
 import views.vrm_assign.CaptureCertificateDetails.PrVrmId
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateRegistrationMarkValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.PrVrmValid
+import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 final class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
@@ -125,34 +123,38 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(1).key should equal(CertificateRegistrationMarkId)
       errors(1).message should equal("error.required")
       errors(2).key should equal(CertificateRegistrationMarkId)
-      errors(2).message should equal("error.validCertificateRegistrationMark")
+      errors(2).message should equal("error.restricted.validVrnOnly")
     }
 
     "reject when certificate-registration-mark has too few characters" in {
       val errors = formWithValidDefaults(
-        certificateRegistrationMark = "1" * (CertificateRegistrationMark.MinLength - 1)
+        certificateRegistrationMark = "a"
       ).errors
-      errors should have length 1
+      errors should have length 2
       errors(0).key should equal(CertificateRegistrationMarkId)
       errors(0).message should equal("error.minLength")
+      errors(1).key should equal(CertificateRegistrationMarkId)
+      errors(1).message should equal("error.restricted.validVrnOnly")
     }
 
     "reject when certificate-registration-mark has too many characters" in {
       val errors = formWithValidDefaults(
-        certificateRegistrationMark = "9" * (CertificateRegistrationMark.MaxLength + 1)
+        certificateRegistrationMark = "9" * (VehicleRegistrationNumber.MaxLength + 1)
       ).errors
-      errors should have length 1
+      errors should have length 2
       errors(0).key should equal(CertificateRegistrationMarkId)
       errors(0).message should equal("error.maxLength")
+      errors(1).key should equal(CertificateRegistrationMarkId)
+      errors(1).message should equal("error.restricted.validVrnOnly")
     }
 
     "reject when certificate-registration-mark has invalid characters" in {
       val errors = formWithValidDefaults(
-        certificateRegistrationMark = "?" * CertificateRegistrationMark.MinLength
+        certificateRegistrationMark = "?" * VehicleRegistrationNumber.MinLength
       ).errors
       errors should have length 1
       errors(0).key should equal(CertificateRegistrationMarkId)
-      errors(0).message should equal("error.validCertificateRegistrationMark")
+      errors(0).message should equal("error.restricted.validVrnOnly")
     }
 
     "reject when certificate-time is blank" in {
@@ -243,9 +245,9 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
   private def formWithValidDefaults(
                                      certificateDate: String = CertificateDateValid,
                                      certificateDocumentCount: String = CertificateDocumentCountValid,
-                                     certificateRegistrationMark: String = CertificateRegistrationMarkValid,
+                                     certificateRegistrationMark: String = RegistrationNumberValid,
                                      certificateTime: String = CertificateTimeValid,
-                                     prVrm: String = PrVrmValid
+                                     prVrm: String = RegistrationNumberValid
                                      ) = {
     Form(CaptureCertificateDetailsFormModel.Form.Mapping).bind(
       Map(

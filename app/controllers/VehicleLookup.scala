@@ -17,190 +17,189 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Payment._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
+
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class VehicleLookup @Inject()(
-                                     val bruteForceService: BruteForcePreventionService,
-                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
-                                     dateService: DateService,
-                                     auditService1: audit1.AuditService,
-                                     auditService2: audit2.AuditService
-                                     )
-                                   (implicit val clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config) extends VehicleLookupBase {
+final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
+                                    vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
+                                    dateService: DateService,
+                                    auditService1: audit1.AuditService,
+                                    auditService2: audit2.AuditService,
+                                    clientSideSessionFactory: ClientSideSessionFactory,
+                                    config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
-  override val vrmLocked: Call = routes.VrmLocked.present()
-  override val microServiceError: Call = routes.MicroServiceError.present()
-  override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
-  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
-
-  override type Form = VehicleAndKeeperLookupFormModel
-
-  private[controllers] val form = PlayForm(
+  override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
+  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
-  def present = Action { implicit request =>
+  override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
+                        (implicit request: Request[_]): Result =
+    addDefaultCookies(Redirect(routes.VrmLocked.present()),formModel)
+
+  override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
+                                (implicit request: Request[_]): Result =
+    addDefaultCookies(Redirect(routes.MicroServiceError.present()), formModel)
+
+//  override val vrmLocked: Call = routes.VrmLocked.present()
+//  override val microServiceError: Call = routes.MicroServiceError.present()
+//  override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
+//  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
+
+  override def presentResult(implicit request: Request[_]) =
     Ok(views.html.vrm_assign.vehicle_lookup(form)).
       discardingCookies(removeCookiesOnExit)
+
+//  def submit = Action.async { implicit request =>
+//    form.bindFromRequest.fold(
+//      invalidForm => Future.successful {
+//        BadRequest(views.html.vrm_assign.vehicle_lookup(formWithReplacedErrors(invalidForm)))
+//      },
+//      validForm => {
+//        bruteForceAndLookup(
+//          validForm.registrationNumber,
+//          validForm.referenceNumber,
+//          validForm)
+//          .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
+//          .map(_.withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo))
+//      }
+//    )
+//  }
+
+  override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
+                                (implicit request: Request[_]): Future[Result] = Future.successful {
+    BadRequest(views.html.vrm_assign.vehicle_lookup(formWithReplacedErrors(invalidForm)))
   }
 
-  def submit = Action.async { implicit request =>
-    form.bindFromRequest.fold(
-      invalidForm => Future.successful {
-        BadRequest(views.html.vrm_assign.vehicle_lookup(formWithReplacedErrors(invalidForm)))
-      },
-      validForm => {
-        bruteForceAndLookup(
-          validForm.registrationNumber,
-          validForm.referenceNumber,
-          validForm)
-          .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
-          .map(_.withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo))
-      }
+  override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
+                                   (implicit request: Request[_]): Result = {
+
+    // need to record the current vrm from the form so put this into the
+    // vehicleAndKeeperDetailsModel
+    val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
+      registrationNumber = formatVrm(formModel.registrationNumber),
+      make = None,
+      model = None,
+      title = None,
+      firstName = None,
+      lastName = None,
+      address = None,
+      disposeFlag = None,
+      keeperEndDate = None,
+      suppressedV5Flag = None
     )
+
+    auditService1.send(AuditMessage.from(
+      pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+      rejectionCode = Some(responseCode)))
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+      rejectionCode = Some(responseCode)))
+
+    addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+  }
+
+  override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
+                                  formModel: VehicleAndKeeperLookupFormModel)
+                                 (implicit request: Request[_]): Result = {
+
+    if (!formatPostcode(formModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
+      val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
+
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel).
+        withCookie(responseCodeCacheKey, "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+    } else {
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
+
+      val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
+
+      if (formModel.userType == UserType_Keeper) {
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+        auditService2.send(AuditRequest.from(
+          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
+          withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
+      } else {
+        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+        if (storeBusinessDetails && businessDetailsModel.isDefined) {
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            businessDetailsModel = businessDetailsModel))
+          auditService2.send(AuditRequest.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            businessDetailsModel = businessDetailsModel))
+          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), formModel).
+            withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
+        } else {
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+          auditService2.send(AuditRequest.from(
+            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
+          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), formModel).
+            withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
+        }
+      }
+    }
   }
 
   def back = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
-  }
-
-  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] = {
-    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
-      dmsHeader = buildHeader(trackingId),
-      referenceNumber = form.referenceNumber,
-      registrationNumber = form.registrationNumber,
-      transactionTimestamp = dateService.now.toDateTime
-    )
-    vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
-      response.responseCode match {
-        case Some(responseCode) =>
-
-          // need to record the current vrm from the form so put this into the
-          // vehicleAndKeeperDetailsModel
-          val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
-            registrationNumber = formatVrm(form.registrationNumber),
-            make = None,
-            model = None,
-            title = None,
-            firstName = None,
-            lastName = None,
-            address = None,
-            disposeFlag = None,
-            keeperEndDate = None,
-            suppressedV5Flag = None
-          )
-
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            rejectionCode = Some(responseCode)))
-          auditService2.send(AuditRequest.from(
-            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            rejectionCode = Some(responseCode)))
-
-          VehicleNotFound(responseCode.split(" - ")(1))
-
-        case None =>
-          response.vehicleAndKeeperDetailsDto match {
-            case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
-              val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
-
-              auditService1.send(AuditMessage.from(
-                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-                timestamp = dateService.dateTimeISOChronology,
-                vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
-              auditService2.send(AuditRequest.from(
-                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-                timestamp = dateService.dateTimeISOChronology,
-                vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
-
-              VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
-
-            case Some(dto) =>
-              val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
-
-              val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
-
-              if (form.userType == UserType_Keeper) {
-                auditService1.send(AuditMessage.from(
-                  pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
-                  transactionId = transactionId,
-                  timestamp = dateService.dateTimeISOChronology,
-                  vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                auditService2.send(AuditRequest.from(
-                  pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
-                  transactionId = transactionId,
-                  timestamp = dateService.dateTimeISOChronology,
-                  vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                VehicleFound(Redirect(routes.CaptureCertificateDetails.present()).
-                  withCookie(VehicleAndKeeperDetailsModel.from(dto)))
-              } else {
-                val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-                if (storeBusinessDetails && businessDetailsModel.isDefined) {
-                  auditService1.send(AuditMessage.from(
-                    pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-                    transactionId = transactionId,
-                    timestamp = dateService.dateTimeISOChronology,
-                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-                    businessDetailsModel = businessDetailsModel))
-                  auditService2.send(AuditRequest.from(
-                    pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-                    transactionId = transactionId,
-                    timestamp = dateService.dateTimeISOChronology,
-                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-                    businessDetailsModel = businessDetailsModel))
-                  VehicleFound(Redirect(routes.ConfirmBusiness.present()).
-                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
-                } else {
-                  auditService1.send(AuditMessage.from(
-                    pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-                    transactionId = transactionId,
-                    timestamp = dateService.dateTimeISOChronology,
-                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                  auditService2.send(AuditRequest.from(
-                    pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-                    transactionId = transactionId,
-                    timestamp = dateService.dateTimeISOChronology,
-                    vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
-                  VehicleFound(Redirect(routes.SetUpBusinessDetails.present()).
-                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
-                }
-              }
-
-            case None =>
-              throw new RuntimeException("No dto in vehicleAndKeeperLookupService response")
-          }
-      }
-    }
   }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
@@ -232,17 +231,8 @@ final class VehicleLookup @Inject()(
     "%06d".format(tenthSecondsFromMidnight)
   }
 
-  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
-    val alwaysLog = true
-    val englishLanguage = "EN"
-    DmsWebHeaderDto(conversationId = trackingId,
-      originDateTime = dateService.now.toDateTime,
-      applicationCode = config.applicationCode,
-      channelCode = config.channelCode,
-      contactId = config.contactId,
-      eventFlag = alwaysLog,
-      serviceTypeCode = config.dmsServiceTypeCode,
-      languageCode = englishLanguage,
-      endUser = None)
-  }
+  private def addDefaultCookies(result: Result, formModel: VehicleAndKeeperLookupFormModel)
+                               (implicit request: Request[_]): Result = result
+    .withCookie(TransactionIdCacheKey, transactionId(formModel))
+    .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 }

@@ -1,6 +1,10 @@
 package utils.helpers
 
-trait Config {
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
+
+trait Config extends VehicleLookupConfig {
+
+  def assetsUrl: Option[String]
 
   def isCsrfPreventionEnabled: Boolean
 
@@ -61,14 +65,6 @@ trait Config {
   // Audit microservice
   def auditMicroServiceUrlBase: String
   def auditMsRequestTimeout: Int
-
-  // Web headers
-  def applicationCode: String
-  def vssServiceTypeCode: String
-  def dmsServiceTypeCode: String
-  def orgBusinessUnit: String
-  def channelCode: String
-  def contactId: Long
 
   def opening: Int
 
