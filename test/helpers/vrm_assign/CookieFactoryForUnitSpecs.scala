@@ -89,6 +89,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       address = Some(addressViewModel),
       disposeFlag = None,
       keeperEndDate = None,
+      keeperChangeDate = None,
       suppressedV5Flag = None
     )
     createCookie(key, value)
