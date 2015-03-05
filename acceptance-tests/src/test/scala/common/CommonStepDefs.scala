@@ -25,10 +25,7 @@ final class CommonStepDefs(
     //    val value = s"http://localhost:9000/"
     //    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
     //    sys.props += ((TestUrl, value))
-    this
-  }
 
-  def `before you start` = {
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
       `click 'Start now' button`

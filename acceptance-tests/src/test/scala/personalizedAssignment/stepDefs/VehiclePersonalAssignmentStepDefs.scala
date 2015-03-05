@@ -37,12 +37,6 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     user.`start the Assign service`
   }
 
-  //Scenario 1
-  @Given("^I visit vehicle assign portal$")
-  def `i visit assign web portal`() {
-    user.`before you start`
-  }
-
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention$")
   def `i enter data in the and for a vehicle that is eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
     vehicleLookup.enter(vehicleRegistrationNumber, documentReferenceNumber, postcode)
