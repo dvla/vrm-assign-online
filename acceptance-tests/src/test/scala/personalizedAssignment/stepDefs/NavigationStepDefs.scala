@@ -12,6 +12,7 @@ import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.CaptureCertificateDetailsPage
 import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.PaymentPage
 import pages.vrm_assign.SuccessPage
@@ -75,6 +76,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     target match {
       case "before-you-start" => go to BeforeYouStartPage
       case "vehicle-lookup" => go to VehicleLookupPage
+      case "capture-certificate-details" => go to CaptureCertificateDetailsPage
       case "confirm" => go to ConfirmPage
       case "payment" => go to PaymentPage
       case "success" => go to SuccessPage
