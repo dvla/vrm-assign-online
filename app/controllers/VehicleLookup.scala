@@ -5,36 +5,27 @@ import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
 import org.joda.time.format.ISODateTimeFormat
-import play.api.data.FormError
-import play.api.data.{Form => PlayForm}
-import play.api.mvc.Call
+import play.api.Logger
+import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperLookupService}
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Payment._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
-
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
@@ -61,30 +52,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), formModel)
 
-//  override val vrmLocked: Call = routes.VrmLocked.present()
-//  override val microServiceError: Call = routes.MicroServiceError.present()
-//  override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
-//  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
-
   override def presentResult(implicit request: Request[_]) =
     Ok(views.html.vrm_assign.vehicle_lookup(form)).
       discardingCookies(removeCookiesOnExit)
-
-//  def submit = Action.async { implicit request =>
-//    form.bindFromRequest.fold(
-//      invalidForm => Future.successful {
-//        BadRequest(views.html.vrm_assign.vehicle_lookup(formWithReplacedErrors(invalidForm)))
-//      },
-//      validForm => {
-//        bruteForceAndLookup(
-//          validForm.registrationNumber,
-//          validForm.referenceNumber,
-//          validForm)
-//          .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
-//          .map(_.withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo))
-//      }
-//    )
-//  }
 
   override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
                                 (implicit request: Request[_]): Future[Result] = Future.successful {
@@ -149,7 +119,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                   formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Result = {
 
-    if (!formatPostcode(formModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
+    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
+
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       auditService1.send(AuditMessage.from(
@@ -257,4 +228,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                (implicit request: Request[_]): Result = result
     .withCookie(TransactionIdCacheKey, transactionId(formModel))
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
+
+  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
+    dtoPostcode match {
+      case Some(postcode) => {
+        formModelPostcode.replaceAll(" ","").toUpperCase() == postcode.replaceAll(" ","").toUpperCase()
+      }
+      case None => formModelPostcode.isEmpty
+    }
+  }
 }
