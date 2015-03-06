@@ -22,13 +22,13 @@ import scala.concurrent.duration.DurationInt
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  //  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   implicit val timeout = PatienceConfig(timeout = 5.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
   lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
   lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
   lazy val confirm = new Confirm_PageSteps()(webDriver, timeout)
   lazy val payment = new Payment_PageSteps()(webDriver, timeout)
+  lazy val paymentPreventBack = new PaymentPreventBack_PageSteps()(webDriver, timeout)
   lazy val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
   lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
   lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
@@ -46,13 +46,26 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {
     origin match {
-      case "vehicle-lookup" => // Starting the service takes you to this page
-      case "confirm" => vehicleLookup.`happy path for keeper`
+      case "vehicle-lookup" =>
+        // Starting the service takes you to this page
+        vehicleLookup.`is displayed`
+      case "capture-certificate-details (keeper acting)" =>
+        vehicleLookup.`happy path for keeper`
+        captureCertificateDetails.`is displayed`
+      case "confirm" =>
+        vehicleLookup.`happy path for keeper`
+        captureCertificateDetails.`happy path`
+        confirm.`is displayed`
       case "payment (keeper acting)" =>
         vehicleLookup.`happy path for keeper`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
-      case "success" => ???
+        payment.`is displayed`
+      case "success" => vehicleLookup.`happy path for keeper`
+        captureCertificateDetails.`happy path`
+        confirm.`happy path`
+        payment.`happy path`
+        success.`is displayed`
       case e => throw new RuntimeException(s"unknown 'origin' value: $e")
     }
   }
@@ -79,8 +92,10 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     expected match {
       case "before-you-start" => beforeYouStart.`is displayed`
       case "vehicle-lookup" => vehicleLookup.`is displayed`
+      case "capture-certificate-details" => captureCertificateDetails.`is displayed`
       case "confirm" => confirm.`is displayed`
       case "payment" => payment.`is displayed`
+      case "payment-prevent-back" => paymentPreventBack.`is displayed`
       case "success" => success.`is displayed`
       case e => throw new RuntimeException(s"unknown 'expected' value: $e")
     }
@@ -116,6 +131,11 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
           case e => throw new RuntimeException(s"unknown 'filled' value: $e")
         }
       case "payment" =>
+        filled match {
+          case "-" => // no check as no fields on page
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "payment-prevent-back" =>
         filled match {
           case "-" => // no check as no fields on page
           case e => throw new RuntimeException(s"unknown 'filled' value: $e")

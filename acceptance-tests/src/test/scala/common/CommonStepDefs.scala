@@ -1,23 +1,25 @@
 package common
 
 import composition.TestHarness
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
-import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
+import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class CommonStepDefs(
-                      beforeYouStart: BeforeYouStart_PageSteps,
-                      vehicleLookup: VehicleLookup_PageSteps,
-                      vrmLocked: VrmLocked_PageSteps,
-                      captureCertificateDetails: CaptureCertificateDetails_PageSteps,
-                      setupBusinessDetails: SetupBusinessDetails_PageSteps,
-                      businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
-                      )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
+                            beforeYouStart: BeforeYouStart_PageSteps,
+                            vehicleLookup: VehicleLookup_PageSteps,
+                            vrmLocked: VrmLocked_PageSteps,
+                            captureCertificateDetails: CaptureCertificateDetails_PageSteps,
+                            setupBusinessDetails: SetupBusinessDetails_PageSteps,
+                            businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
+                            )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
     // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi

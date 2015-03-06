@@ -2,8 +2,11 @@ package personalizedAssignment.stepDefs
 
 import _root_.common.CommonStepDefs
 import cucumber.api.java.After
-import cucumber.api.java.en.{Given, Then, When}
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._

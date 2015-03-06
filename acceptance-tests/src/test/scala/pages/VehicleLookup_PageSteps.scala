@@ -16,23 +16,23 @@ final class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeou
 
   def `happy path for business` = {
     `is displayed`.
-      enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA").
+      enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is not acting`.
       `find vehicle`
     this
   }
 
   def `happy path for keeper` = {
-    enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA").
+    enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is acting`.
       `find vehicle`
     this
   }
 
   def `form is filled with the values I previously entered`() = {
-    vehicleRegistrationNumber.value should equal("A1")
+    vehicleRegistrationNumber.value should equal("DD22")
     documentReferenceNumber.value should equal("11111111111")
-    keeperPostcode.value should equal("AA11AA")
+    keeperPostcode.value should equal("SA11AA")
   }
 
   def `form is not filled`() = {
