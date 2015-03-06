@@ -32,7 +32,39 @@
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
                     </div>
                     <div class="uppercase-input certificate-id-input">
-                        @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
+
+                        <!-- Below static certificate form -->
+                        <div class="form-item validation">
+                            <p class="error"> Error message here </p>
+                            <label for="certificate-document-count">
+                                <!-- This is an interim solution, the approach of checking the constraints is deprecated. -->
+                            </label>
+                            <input type="text" id="certificate-document-count"/>
+                        </div>
+                        <div class="form-item validation">
+                            <p class="error"> Error message here </p>
+                            <label for="certificate-date">
+                                <!-- This is an interim solution, the approach of checking the constraints is deprecated. -->
+                            </label>
+                            <input type="text" id="certificate-date"/>
+                        </div>
+                        <div class="form-item validation">
+                            <p class="error"> Error message here </p>
+                            <label for="certificate-time">
+                                <!-- This is an interim solution, the approach of checking the constraints is deprecated. -->
+                            </label>
+                            <input type="text" id="certificate-time"/>
+                        </div>
+                        <div class="form-item validation">
+                            <p class="error"> Error message here </p>
+                            <label for="certificate-registration-mark">
+                                <!-- This is an interim solution, the approach of checking the constraints is deprecated. -->
+                            </label>
+                            <input type="text" id="certificate-registration-mark"/>
+                        </div>
+                        <!-- end of static certificate form -->
+
+                      @*  @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
@@ -44,18 +76,20 @@
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDate.MaxLength)) -
+                                        'maxLength -> CertificateDate.MaxLength))
+                        -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateTime.MaxLength)) -
+                                        'maxLength -> CertificateTime.MaxLength))
+                        -
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
                                         'minLength -> VehicleRegistrationNumber.MinLength,
-                                        'maxLength -> VehicleRegistrationNumber.MaxLength))
+                                        'maxLength -> VehicleRegistrationNumber.MaxLength)) *@
                     </div>
                     <div id="@{s"""$CertificateDocumentCountId-hint"""}" class="form-hint">
                         @Messages("capture-certificate-details-reference-number-helper-1")

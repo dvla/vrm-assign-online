@@ -140,21 +140,8 @@ summary {
 }
 
 .vrm-assign-online .certificate-details {
-    .form-item {
-        margin: 0px;
-        padding: 0px;
-        clear:none;
-        padding-bottom: 0px;
-        vertical-align: bottom;
-        display: inline-block;
-        // below fix for IE7 inline-block
-        zoom: 1;
-        *display: inline;
-        .error {
-            padding-left: 6px;
-            padding-top: 6px;
-        }
-    }
+
+
     label {
         padding-bottom: 0px;
     }
@@ -162,20 +149,64 @@ summary {
         clear: both;
     }
 
-    #certificate-document-count {
-        float:left;
-        width:30px;
-        text-align:center;
-    }
 
-    #certificate-date, 
-    #certificate-time, 
-    #certificate-registration-mark {
-        float:left;
+/* NEW STYLE FOR CERTIFICATE NUMBER */
+
+  .certificate-id-input {
+    .form-item {
+      display: inline;
+      margin-bottom: 8px;
+      float: left;
+      clear: right;
+      //below fix for IE7 inline-block
+      zoom: 1;
+      *display: inline;
+      &.validation {
+        margin-right: 30px;
+      }
+      .error {
+          padding-top: 6px;
+      }
+
+      &::after {
+        content: "-";
+      }
+      &:last-child {
+        &::after {
+          content: "";
+        }
+      }
+
+      input {
+        margin: 0 10px 10px 0;
+        text-align: center;
         width:95px;
-        margin-left:10px;
-        text-align:center;
+      }
+      #certificate-document-count {
+        width:30px;
+      }
+      #certificate-registration-mark {
+        margin-right: 0;
+      }
     }
+  }
+
+  @media screen and (max-width: $device-small) {
+    .certificate-id-input {
+      .form-item {
+        display: block;
+        clear: both;
+        margin-bottom: 8px;
+        &::after {
+          content: "";
+        }
+      }
+    }
+  }
+
+  /*  enf of NEW STYLE FOR CERTIFICATE NUMBER */
+
+
     #certificate-date {
         width:80px;
     }
