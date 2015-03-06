@@ -45,6 +45,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
+  val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
+  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
+
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
@@ -93,7 +96,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     // need to record the current vrm from the form so put this into the
     // vehicleAndKeeperDetailsModel
-    val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(formModel.registrationNumber),
       make = None,
       model = None,
@@ -120,7 +123,14 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(responseCode)))
 
-    addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    // check whether the response code is a VMPR6 code, if so redirect to CaptureCertificateDetails
+    // so it eventually redirects to DirectToPaper
+    if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+      addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
+      withCookie(vehicleAndKeeperDetailsModel)
+    } else {
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    }
   }
 
   override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
