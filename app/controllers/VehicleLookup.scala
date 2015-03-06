@@ -45,6 +45,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
+  val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
+  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
+
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
@@ -93,7 +96,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     // need to record the current vrm from the form so put this into the
     // vehicleAndKeeperDetailsModel
-    val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(formModel.registrationNumber),
       make = None,
       model = None,
@@ -103,6 +106,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       address = None,
       disposeFlag = None,
       keeperEndDate = None,
+      keeperChangeDate = None,
       suppressedV5Flag = None
     )
 
@@ -119,7 +123,26 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(responseCode)))
 
-    addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    // check whether the response code is a VMPR6 code, if so redirect to CaptureCertificateDetails
+    // so it eventually redirects to DirectToPaper
+    if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+      if (formModel.userType == UserType_Keeper) {
+        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
+          withCookie(vehicleAndKeeperDetailsModel)
+      } else {
+        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+        if (storeBusinessDetails && businessDetailsModel.isDefined) {
+          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), formModel).
+            withCookie(vehicleAndKeeperDetailsModel)
+        } else {
+          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), formModel).
+            withCookie(vehicleAndKeeperDetailsModel)
+        }
+      }
+    } else {
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    }
   }
 
   override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
@@ -147,7 +170,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
-
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       if (formModel.userType == UserType_Keeper) {

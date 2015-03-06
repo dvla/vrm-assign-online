@@ -146,6 +146,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
           "stub-business-line3", "stub-business-line4", "stub-business-postcode"))),
         disposeFlag = None,
         keeperEndDate = None,
+        keeperChangeDate = None,
         suppressedV5Flag = None
       ),
       captureCertificateDetailsFormModel = CaptureCertificateDetailsFormModel(
