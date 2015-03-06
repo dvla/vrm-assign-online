@@ -153,6 +153,7 @@ summary {
 /* NEW STYLE FOR CERTIFICATE NUMBER */
 
   .certificate-id-input {
+    display: block;
     .form-item {
       display: inline;
       margin-bottom: 8px;
@@ -161,6 +162,7 @@ summary {
       //below fix for IE7 inline-block
       zoom: 1;
       *display: inline;
+      *clear: both;
       &.validation {
         margin-right: 30px;
       }
