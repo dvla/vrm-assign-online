@@ -141,16 +141,12 @@ summary {
 
 .vrm-assign-online .certificate-details {
 
-
-    label {
-        padding-bottom: 0px;
-    }
-    .form-hint {
-        clear: both;
-    }
-
-
-/* NEW STYLE FOR CERTIFICATE NUMBER */
+  label {
+      padding-bottom: 0px;
+  }
+  .form-hint {
+      clear: both;
+  }
 
   .certificate-id-input {
     display: block;
@@ -206,21 +202,18 @@ summary {
     }
   }
 
-  /*  enf of NEW STYLE FOR CERTIFICATE NUMBER */
-
-
-    #certificate-date {
-        width:80px;
-    }
-    #certificate-registration-mark {
-        width:105px;
-    }
-    .certificate-id-input {
-        line-height: 2.75;
-        .form-item {
-            margin-right: 10px;
-        }
-    }
+  #certificate-date {
+      width:80px;
+  }
+  #certificate-registration-mark {
+      width:105px;
+  }
+  .certificate-id-input {
+      line-height: 2.75;
+      .form-item {
+          margin-right: 10px;
+      }
+  }
 }
 
 .vrm-assign-online .alert-complete {
