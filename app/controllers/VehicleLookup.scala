@@ -126,8 +126,20 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     // check whether the response code is a VMPR6 code, if so redirect to CaptureCertificateDetails
     // so it eventually redirects to DirectToPaper
     if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
-      addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
-      withCookie(vehicleAndKeeperDetailsModel)
+      if (formModel.userType == UserType_Keeper) {
+        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
+          withCookie(vehicleAndKeeperDetailsModel)
+      } else {
+        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+        if (storeBusinessDetails && businessDetailsModel.isDefined) {
+          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), formModel).
+            withCookie(vehicleAndKeeperDetailsModel)
+        } else {
+          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), formModel).
+            withCookie(vehicleAndKeeperDetailsModel)
+        }
+      }
     } else {
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
     }
@@ -158,7 +170,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
-
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       if (formModel.userType == UserType_Keeper) {
