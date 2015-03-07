@@ -12,5 +12,5 @@ object Postcode {
     regex =
       """^[A-Z0-9 *]*$""".stripMargin.replace("\n", "").r,
     name = "constraint.restricted.validPostcode",
-    error = "error.restricted.validPostcode")
+    error = "error.restricted.validV5CPostcode")
 }

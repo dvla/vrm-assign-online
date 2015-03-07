@@ -154,7 +154,8 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVrnOnly = Must be valid registration number
-error.restricted.validPostcode = Must be the post code of the registered keeper exactly as printed on the V5C document
+error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C document
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -352,7 +353,7 @@ vrm_assign_vehiclelookup.businessaddresslabel = Business address
 vrm_assign_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed on the V5C
 vrm_assign_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper''s behalf and have their consent
 vrm_assign_vehiclelookup.postcodelabel = Keeper postcode
-vrm_assign_vehiclelookup.postcodeHint = The post code of the registered keeper exactly as printed on the V5C document
+vrm_assign_vehiclelookup.postcodeHint = The postcode of the registered keeper exactly as printed on the V5C document
 vrm_assign_vehiclelookup.keeper = Yes, I am the registered keeper or I am a private individual acting with their consent
 vrm_assign_vehiclelookup.business = No, I am a business and have consent to act on their behalf
 vrm_assign_vehiclelookup.label = Are you the keeper?
@@ -546,7 +547,7 @@ vrm_assign_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ''Ent
 vrm_assign_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 #page 3 - uprn not found
-vrm_assign_uprnnotfound.title = Error confirming post code
+vrm_assign_uprnnotfound.title = Error confirming postcode
 vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
 vrm_assign_uprnnotfound.manualaddressbutton = Set-up business details
 vrm_assign_uprnnotfound.setuptradedetailsbutton = Manually enter address
