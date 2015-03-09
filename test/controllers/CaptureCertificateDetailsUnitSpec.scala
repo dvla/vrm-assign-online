@@ -100,7 +100,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-              model.outstandingDates.size should equal(2)
+              model.outstandingDates.size should equal(1)
             case None => fail(s"$cookieName cookie not found")
           }
       }
