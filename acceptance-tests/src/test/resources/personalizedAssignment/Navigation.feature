@@ -3,6 +3,7 @@ Feature: Navigation
   Background:
     Given that I have started the PR Assign Service
 
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (keeper acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -18,6 +19,26 @@ Feature: Navigation
     | "payment (keeper acting)"                     | "capture-certificate-details" | "capture-certificate-details" | "filled" | "not wiped" |
     | "payment (keeper acting)"                     | "confirm"                     | "confirm"                     | "filled" | "not wiped" |
 
+  Scenario Outline: Entering a url that is after the origin page
+    Given that I am on the <origin> page
+    When I enter the url for the <target> page
+    Then I am redirected to the <expected> page
+    And the <expected> form is <filled> with the values I previously entered
+    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+  Examples:
+    | origin                                        | target                        | expected                      | filled       | wiped       |
+#    | "vehicle-lookup"                              | "capture-certificate-details" | "vehicle-lookup"              | "not filled" | "not wiped" |
+#    | "vehicle-lookup"                              | "confirm"                     | "vehicle-lookup"              | "not filled" | "not wiped" |
+#    | "vehicle-lookup"                              | "payment"                     | "vehicle-lookup"              | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before-you-start instead
+#    | "vehicle-lookup"                              | "success"                     | "vehicle-lookup"              | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+#    | "capture-certificate-details (keeper acting)" | "confirm"                     | "capture-certificate-details" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to vehicle lookup instead
+#    | "capture-certificate-details (keeper acting)" | "payment"                     | "capture-certificate-details" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before-you-start instead
+#    | "capture-certificate-details (keeper acting)" | "success"                     | "capture-certificate-details" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+#    | "confirm"                                     | "payment"                     | "confirm"                     | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to payment-failure page instead
+#    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+#    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -68,6 +89,7 @@ Feature: Navigation
     | "confirm"                                     | "capture-certificate-details" | "filled" | "not wiped" |
     | "payment (keeper acting)"                     | "confirm"                     | "filled" | "not wiped" |
 
+  @WIP
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -75,7 +97,7 @@ Feature: Navigation
     And the <expected> form is <filled> with the values I previously entered
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
-    | origin                         | target                         | expected                       | filled       | wiped       |
+    | origin | target | expected | filled | wiped |
 #    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       | "not filled" | "not wiped" |
 #    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       | "not filled" | "not wiped" |
 #    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       | "not filled" | "not wiped" | # TODO missing cookie check for confirm-business
@@ -99,6 +121,7 @@ Feature: Navigation
 #    | "confirm-business"             | "payment"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before you start page instead
 #    | "confirm-business"             | "success"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
 
+  @WIP
   Scenario Outline: Pressing the browser's back button (business acting)
     Given that I am on the <origin> page
     When I press the browser's back button
