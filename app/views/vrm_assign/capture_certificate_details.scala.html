@@ -39,17 +39,19 @@
                                         'maxLength -> CertificateDocumentCount.MaxLength,
                                         Symbol("aria-describedby") -> s"""$CertificateDocumentCountId-hint""")
                         )
-                        -
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDate.MaxLength)) -
+                                        'maxLength -> CertificateDate.MaxLength))
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateTime.MaxLength)) -
+                                        'maxLength -> CertificateTime.MaxLength))
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
                             args =
                                     Map('_label -> "",
@@ -84,14 +86,6 @@
                     <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
                     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@viewModel.registrationNumber</dd>
-                    @if(viewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(viewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
-                    }
                 </dl>
                 <div class="help-thumbs">
 

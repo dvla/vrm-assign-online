@@ -33,13 +33,37 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "findVehicleDetails button" should {
 
-    //    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
-    //      go to BeforeYouStartPage
-    //
-    //      happyPath(isCurrentKeeper = true)
-    //
-    //      currentUrl should equal(LeaveFeedbackPage.url)
-    //    }
+//    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//
+//      happyPath(isCurrentKeeper = true)
+//
+//      currentUrl should equal(ConfirmPage.url)
+//    }
+//
+//    "redirect to ConfirmPage when valid submission and current keeper for a partial postcode" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//
+//      happyPath(postcode = "SA2", isCurrentKeeper = true)
+//
+//      currentUrl should equal(ConfirmPage.url)
+//    }
+//
+//    "redirect to ConfirmPage when valid submission and current keeper for a partial postcode with stars" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//
+//      happyPath(postcode = "SA2 ***", isCurrentKeeper = true)
+//
+//      currentUrl should equal(ConfirmPage.url)
+//    }
+//
+//    "redirect to ConfirmPage when valid submission and current keeper for a blank postcode" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//
+//      happyPath(postcode = "", isCurrentKeeper = true)
+//
+//      currentUrl should equal(ConfirmPage.url)
+//    }
     //
     //    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowserForSelenium {
     //      go to BeforeYouStartPage
@@ -93,6 +117,14 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
 
       happyPath(registrationNumber = "")
+
+      ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "display one validation error message when an invalid postcode is entered" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+
+      happyPath(postcode = "!@X")
 
       ErrorPanel.numberOfErrors should equal(1)
     }

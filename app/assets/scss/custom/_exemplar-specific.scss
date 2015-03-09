@@ -140,54 +140,80 @@ summary {
 }
 
 .vrm-assign-online .certificate-details {
+
+  label {
+      padding-bottom: 0px;
+  }
+  .form-hint {
+      clear: both;
+  }
+
+  .certificate-id-input {
+    display: block;
     .form-item {
-        margin: 0px;
-        padding: 0px;
-        clear:none;
-        padding-bottom: 0px;
-        vertical-align: bottom;
-        display: inline-block;
-        // below fix for IE7 inline-block
-        zoom: 1;
-        *display: inline;
-        .error {
-            padding-left: 6px;
-            padding-top: 6px;
+      display: inline;
+      margin-bottom: 8px;
+      float: left;
+      clear: right;
+      //below fix for IE7 inline-block
+      zoom: 1;
+      *display: inline;
+      *clear: both;
+      &.validation {
+        margin-right: 30px;
+      }
+      .error {
+          padding-top: 6px;
+      }
+
+      &::after {
+        content: "-";
+      }
+      &:last-child {
+        &::after {
+          content: "";
         }
-    }
-    label {
-        padding-bottom: 0px;
-    }
-    .form-hint {
-        clear: both;
-    }
+      }
 
-    #certificate-document-count {
-        float:left;
-        width:30px;
-        text-align:center;
-    }
-
-    #certificate-date, 
-    #certificate-time, 
-    #certificate-registration-mark {
-        float:left;
+      input {
+        margin: 0 10px 10px 0;
+        text-align: center;
         width:95px;
-        margin-left:10px;
-        text-align:center;
+      }
+      #certificate-document-count {
+        width:30px;
+      }
+      #certificate-registration-mark {
+        margin-right: 0;
+      }
     }
-    #certificate-date {
-        width:80px;
-    }
-    #certificate-registration-mark {
-        width:105px;
-    }
+  }
+
+  @media screen and (max-width: $device-small) {
     .certificate-id-input {
-        line-height: 2.75;
-        .form-item {
-            margin-right: 10px;
+      .form-item {
+        display: block;
+        clear: both;
+        margin-bottom: 8px;
+        &::after {
+          content: "";
         }
+      }
     }
+  }
+
+  #certificate-date {
+      width:80px;
+  }
+  #certificate-registration-mark {
+      width:105px;
+  }
+  .certificate-id-input {
+      line-height: 2.75;
+      .form-item {
+          margin-right: 10px;
+      }
+  }
 }
 
 .vrm-assign-online .alert-complete {
