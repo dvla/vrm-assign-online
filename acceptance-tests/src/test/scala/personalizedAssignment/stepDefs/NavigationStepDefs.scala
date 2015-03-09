@@ -260,8 +260,11 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   def `the cookies are <wiped>`(wiped: String) {
     wiped match {
       case "wiped" =>
+        import views.vrm_assign.Payment.PaymentDetailsCacheKey
+        import views.vrm_assign.Fulfil.FulfilCacheKey
         import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
         import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+        webDriver.manage().getCookieNamed(PaymentDetailsCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupFormModelCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupResponseCodeCacheKey) should equal(null)
       case "not wiped" => println("not wiped")
