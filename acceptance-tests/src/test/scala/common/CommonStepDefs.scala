@@ -78,7 +78,7 @@ final class CommonStepDefs(
   }
 
   def chooseBusinessAddress = {
-    businessChooseYourAddress.`proceed to next page`
+    businessChooseYourAddress.`choose address from the drop-down`
     this
   }
 

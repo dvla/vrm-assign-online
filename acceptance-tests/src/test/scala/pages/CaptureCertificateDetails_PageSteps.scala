@@ -26,7 +26,6 @@ final class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDr
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-      pageTitle should equal(title)
     }
     this
   }

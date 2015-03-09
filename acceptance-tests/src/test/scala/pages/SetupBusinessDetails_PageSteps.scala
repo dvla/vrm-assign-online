@@ -11,6 +11,12 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDri
 
 final class SetupBusinessDetails_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
+  def `happy path` = {
+    `is displayed`.
+      `enter business details`
+    this
+  }
+
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
@@ -20,11 +26,27 @@ final class SetupBusinessDetails_PageSteps(implicit webDriver: WebBrowserDriver,
   }
 
   def `enter business details` = {
-    traderName.value = "Test Test1"
-    traderContact.value = "Valtech"
+    traderContact.value = "VALTECH"
     traderEmail.value = "business.example@test.com"
+    traderName.value = "TRADER-NAME"
     traderPostcode.value = "SA11AA"
     click on lookup
+    this
+  }
+
+  def `form is filled with the values I previously entered` = {
+    traderContact.value should equal("VALTECH")
+    traderEmail.value should equal("business.example@test.com")
+    traderName.value should equal("TRADER-NAME")
+    traderPostcode.value should equal("SA11AA")
+    this
+  }
+
+  def `form is not filled` = {
+    traderContact.value should equal("")
+    traderEmail.value should equal("")
+    traderName.value should equal("")
+    traderPostcode.value should equal("")
     this
   }
 }

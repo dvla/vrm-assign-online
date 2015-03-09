@@ -12,9 +12,12 @@ import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.BusinessChooseYourAddressPage
 import pages.vrm_assign.CaptureCertificateDetailsPage
 import pages.vrm_assign.ConfirmPage
+import pages.vrm_assign.EnterAddressManuallyPage
 import pages.vrm_assign.PaymentPage
+import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.SuccessPage
 import pages.vrm_assign.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
@@ -23,7 +26,6 @@ import scala.concurrent.duration.DurationInt
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  implicit val timeout = PatienceConfig(timeout = 5.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
   lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
   lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
@@ -34,7 +36,9 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
   lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
   lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  lazy val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
   lazy val success = new Success_PageSteps()(webDriver, timeout)
+  lazy val enterAddressManually = new EnterAddressManually_PageSteps()(webDriver, timeout)
   lazy val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -43,6 +47,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     setupBusinessDetails,
     businessChooseYourAddress
   )(webDriver, timeout)
+  implicit val timeout = PatienceConfig(timeout = 5.seconds)
 
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {
@@ -50,8 +55,43 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "vehicle-lookup" =>
         // Starting the service takes you to this page
         vehicleLookup.`is displayed`
+      case "setup-business-details" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`is displayed`
+      case "business-choose-your-address" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+      case "enter-address-manually" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+        businessChooseYourAddress.`click manual address entry`
+        enterAddressManually.`is displayed`
+      case "confirm-business" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+        businessChooseYourAddress.`choose address from the drop-down`
+        confirmBusiness.`is displayed`
+      case "confirm-business (entered address manually)" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+        businessChooseYourAddress.`click manual address entry`
+        enterAddressManually.`happy path`
+        confirmBusiness.`is displayed`
       case "capture-certificate-details (keeper acting)" =>
         vehicleLookup.`happy path for keeper`
+        captureCertificateDetails.`is displayed`
+      case "capture-certificate-details (business acting)" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+        businessChooseYourAddress.`choose address from the drop-down`
+        confirmBusiness.`happy path`
+        captureCertificateDetails.`is displayed`
+      case "capture-certificate-details (business acting) (entered address manually)" =>
+        vehicleLookup.`happy path for business`
+        setupBusinessDetails.`happy path`
+        businessChooseYourAddress.`click manual address entry`
+        enterAddressManually.`happy path`
+        confirmBusiness.`happy path`
         captureCertificateDetails.`is displayed`
       case "confirm" =>
         vehicleLookup.`happy path for keeper`
@@ -76,6 +116,9 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     target match {
       case "before-you-start" => go to BeforeYouStartPage
       case "vehicle-lookup" => go to VehicleLookupPage
+      case "setup-business-details" => go to SetupBusinessDetailsPage
+      case "business-choose-your-address" => go to BusinessChooseYourAddressPage
+      case "enter-address-manually" => go to EnterAddressManuallyPage
       case "capture-certificate-details" => go to CaptureCertificateDetailsPage
       case "confirm" => go to ConfirmPage
       case "payment" => go to PaymentPage
@@ -94,6 +137,9 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     expected match {
       case "before-you-start" => beforeYouStart.`is displayed`
       case "vehicle-lookup" => vehicleLookup.`is displayed`
+      case "setup-business-details" => setupBusinessDetails.`is displayed`
+      case "business-choose-your-address" => businessChooseYourAddress.`is displayed`
+      case "enter-address-manually" => enterAddressManually.`is displayed`
       case "capture-certificate-details" => captureCertificateDetails.`is displayed`
       case "confirm" => confirm.`is displayed`
       case "payment" => payment.`is displayed`
@@ -115,7 +161,24 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
         filled match {
           case "filled" => vehicleLookup.`form is filled with the values I previously entered`()
           case "not filled" => vehicleLookup.`form is not filled`()
-          case "-" => // no check as no fields on page
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "setup-business-details" =>
+        filled match {
+          case "filled" => setupBusinessDetails.`form is filled with the values I previously entered`
+          case "not filled" => setupBusinessDetails.`form is not filled`
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "business-choose-your-address" =>
+        filled match {
+          case "filled" => businessChooseYourAddress.`form is filled with the values I previously entered`
+          case "not filled" => businessChooseYourAddress.`form is not filled`
+          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
+        }
+      case "enter-address-manually" =>
+        filled match {
+          case "filled" => enterAddressManually.`form is filled with the values I previously entered`
+          case "not filled" => enterAddressManually.`form is not filled`
           case e => throw new RuntimeException(s"unknown 'filled' value: $e")
         }
       case "capture-certificate-details" =>

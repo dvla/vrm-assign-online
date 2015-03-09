@@ -33,12 +33,14 @@ final class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeou
     vehicleRegistrationNumber.value should equal("DD22")
     documentReferenceNumber.value should equal("11111111111")
     keeperPostcode.value should equal("SA11AA")
+    this
   }
 
   def `form is not filled`() = {
     vehicleRegistrationNumber.value should equal("")
     documentReferenceNumber.value should equal("")
     keeperPostcode.value should equal("")
+    this
   }
 
   def `is displayed` = {
