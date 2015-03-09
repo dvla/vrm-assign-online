@@ -33,12 +33,12 @@
                     <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
                     <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
                     <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
-                    <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                    <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address) {
                         <strong>@keeperAddressLine </strong><br>
                         }</dt>
                     <br />
-                    <dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>
-                    <dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>
+                    @*<dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>*@
+                    @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
                 </dl>
 
                 <br/>
