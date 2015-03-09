@@ -4,7 +4,7 @@ Feature: Navigation
     Given that I have started the PR Assign Service
 
   @WIP
-  Scenario Outline: Entering a url that is ahead of the origin page
+  Scenario Outline: Entering a url that is behind the origin page
     Given that I am on the <origin> page
     When I enter the url for the <target> page
     Then I am redirected to the <expected> page
@@ -12,6 +12,26 @@ Feature: Navigation
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
     | origin                                        | target                        | expected                      | filled   | wiped       |
+    | "capture-certificate-details (keeper acting)" | "vehicle-lookup"              | "vehicle-lookup"              | "filled" | "not wiped" |
+    | "confirm"                                     | "vehicle-lookup"              | "vehicle-lookup"              | "filled" | "not wiped" |
+    | "confirm"                                     | "capture-certificate-details" | "capture-certificate-details" | "filled" | "not wiped" |
+    | "payment (keeper acting)"                     | "vehicle-lookup"              | "vehicle-lookup"              | "filled" | "not wiped" |
+    | "payment (keeper acting)"                     | "capture-certificate-details" | "capture-certificate-details" | "filled" | "not wiped" |
+    | "payment (keeper acting)"                     | "confirm"                     | "confirm"                     | "filled" | "not wiped" |
+#    | "success" | "vehicle-lookup"              | "vehicle-lookup" | "not filled" | "wiped" | # TODO filled
+#    | "success" | "capture-certificate-details" | "vehicle-lookup" | "not filled" | "wiped" | # TODO filled
+#    | "success" | "confirm"              | "vehicle-lookup" | "not filled" | "wiped" | # TODO filled
+#    | "success" | "payment"              | "vehicle-lookup" | "not filled" | "wiped" | # TODO filled
+
+  @WIP
+  Scenario Outline: Entering a url that is after the origin page
+    Given that I am on the <origin> page
+    When I enter the url for the <target> page
+    Then I am redirected to the <expected> page
+    And the <expected> form is <filled> with the values I previously entered
+    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+  Examples:
+    | origin | target | expected | filled | wiped |
 #    | "vehicle-lookup"                              | "capture-certificate-details" | "vehicle-lookup"              | "filled" | "not wiped" | # TODO
 #    | "vehicle-lookup" | "confirm" | "vehicle-lookup" | "filled" | "not wiped" |  # TODO
 #    | "vehicle-lookup"                              | "payment"                     | "vehicle-lookup"              | "filled" | "not wiped" |  # TODO
@@ -22,7 +42,6 @@ Feature: Navigation
 #    | "confirm"                                     | "payment"                     | "confirm"                     | "filled" | "not wiped" |  # TODO
 #    | "confirm"                                     | "success"                     | "confirm"                     | "filled" | "not wiped" |  # TODO
 #    | "payment (keeper acting)"                                     | "success"                     | "payment"                     | "_"      | "not wiped" |  # TODO
-
 
   @WIP
   Scenario Outline: Pressing the browser's back button
