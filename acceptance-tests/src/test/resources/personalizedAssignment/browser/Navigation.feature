@@ -53,6 +53,7 @@ Feature: Navigation
 #    | "confirm"                                     | "success"                     | "confirm"                     | "filled" | "not wiped" |  # TODO
 #    | "payment (keeper acting)"                                     | "success"                     | "payment"                     | "_"      | "not wiped" |  # TODO
 
+  @WIP
   Scenario Outline: Pressing the browser's back button
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -61,4 +62,4 @@ Feature: Navigation
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
     | origin                                        | expected                      | filled   | wiped       |
-#    | "success"                                     | "payment-prevent-back"        | "-"      | "wiped"     |
+    | "success"                                     | "payment-prevent-back"        | "-"      | "wiped"     |

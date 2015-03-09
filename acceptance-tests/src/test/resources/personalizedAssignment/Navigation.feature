@@ -3,7 +3,6 @@ Feature: Navigation
   Background:
     Given that I have started the PR Assign Service
 
-  @WIP
   Scenario Outline: Entering a url that is before the origin page (keeper acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -26,9 +25,9 @@ Feature: Navigation
     And the <expected> form is <filled> with the values I previously entered
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
-    | origin                                        | target                        | expected                      | filled       | wiped       |
-#    | "vehicle-lookup"                              | "capture-certificate-details" | "vehicle-lookup"              | "not filled" | "not wiped" |
-#    | "vehicle-lookup"                              | "confirm"                     | "vehicle-lookup"              | "not filled" | "not wiped" |
+    | origin           | target                        | expected         | filled       | wiped       |
+    | "vehicle-lookup" | "capture-certificate-details" | "vehicle-lookup" | "not filled" | "not wiped" |
+    | "vehicle-lookup" | "confirm"                     | "vehicle-lookup" | "not filled" | "not wiped" |
 #    | "vehicle-lookup"                              | "payment"                     | "vehicle-lookup"              | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before-you-start instead
 #    | "vehicle-lookup"                              | "success"                     | "vehicle-lookup"              | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
 #    | "capture-certificate-details (keeper acting)" | "confirm"                     | "capture-certificate-details" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to vehicle lookup instead
@@ -38,7 +37,6 @@ Feature: Navigation
 #    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
 #    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | "not wiped" | # TODO redirect is incorrect, goes to error page instead
 
-  @WIP
   Scenario Outline: Entering a url that is before the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -89,7 +87,6 @@ Feature: Navigation
     | "confirm"                                     | "capture-certificate-details" | "filled" | "not wiped" |
     | "payment (keeper acting)"                     | "confirm"                     | "filled" | "not wiped" |
 
-  @WIP
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -121,7 +118,6 @@ Feature: Navigation
 #    | "confirm-business"             | "payment"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before you start page instead
 #    | "confirm-business"             | "success"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
 
-  @WIP
   Scenario Outline: Pressing the browser's back button (business acting)
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -129,10 +125,10 @@ Feature: Navigation
     And the <expected> form is <filled> with the values I previously entered
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
-    | origin                                          | expected                       | filled       | wiped   |
-    | "setup-business-details"                        | "vehicle-lookup"               | "filled"     | "wiped" |
-    | "business-choose-your-address"                  | "setup-business-details"       | "filled"     | "wiped" |
-    | "enter-address-manually"                        | "business-choose-your-address" | "not filled" | "wiped" |
-    | "confirm-business (entered address manually)"   | "enter-address-manually"       | "filled"     | "wiped" |
-    | "confirm-business"                              | "business-choose-your-address" | "filled"     | "wiped" |
-    | "capture-certificate-details (business acting)" | "confirm-business"             | "filled"     | "wiped" |
+    | origin                                          | expected                       | filled       | wiped       |
+    | "setup-business-details"                        | "vehicle-lookup"               | "filled"     | "not wiped" |
+    | "business-choose-your-address"                  | "setup-business-details"       | "filled"     | "not wiped" |
+    | "enter-address-manually"                        | "business-choose-your-address" | "not filled" | "not wiped" |
+    | "confirm-business (entered address manually)"   | "enter-address-manually"       | "filled"     | "not wiped" |
+    | "confirm-business"                              | "business-choose-your-address" | "filled"     | "not wiped" |
+    | "capture-certificate-details (business acting)" | "confirm-business"             | "filled"     | "not wiped" |
