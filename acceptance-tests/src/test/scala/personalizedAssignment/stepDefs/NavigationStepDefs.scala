@@ -13,6 +13,10 @@ import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_assign._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import views.vrm_assign.Fulfil.FulfilCacheKey
+import views.vrm_assign.Payment.PaymentDetailsCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
 import scala.concurrent.duration.DurationInt
 
@@ -260,10 +264,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   def `the cookies are <wiped>`(wiped: String) {
     wiped match {
       case "wiped" =>
-        import views.vrm_assign.Payment.PaymentDetailsCacheKey
-        import views.vrm_assign.Fulfil.FulfilCacheKey
-        import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-        import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+        webDriver.manage().getCookieNamed(FulfilCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(PaymentDetailsCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupFormModelCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupResponseCodeCacheKey) should equal(null)
