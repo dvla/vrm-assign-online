@@ -71,48 +71,55 @@ Feature: Navigation
     | "payment (business acting)"                                                | "capture-certificate-details (business acting)" | "capture-certificate-details (business acting)" | "filled"     |
     | "payment (business acting)"                                                | "confirm (business acting)"                     | "confirm (business acting)"                     | "filled"     |
 
+  Scenario Outline: Pressing the browser's back button back to the start page
+    Given that I am on the <origin> page
+    When I press the browser's back button
+    Then I am redirected to the <expected> page
+    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+  Examples:
+    | origin                                        | expected                      | wiped       |
+    | "vehicle-lookup"                              | "before-you-start"            | "wiped"     |
+
   Scenario Outline: Pressing the browser's back button (keeper acting)
     Given that I am on the <origin> page
     When I press the browser's back button
     Then I am redirected to the <expected> page
-    And the <expected> form is <filled> with the values I previously entered
-    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+    And the <expected> form is filled with the values I previously entered
   Examples:
-    | origin                                        | expected                      | filled   | wiped       |
-    | "vehicle-lookup"                              | "before-you-start"            | "-"      | "wiped"     |
-    | "capture-certificate-details (keeper acting)" | "vehicle-lookup"              | "filled" | "not wiped" |
-    | "confirm"                                     | "capture-certificate-details" | "filled" | "not wiped" |
-    | "payment (keeper acting)"                     | "confirm"                     | "filled" | "not wiped" |
+    | origin                                        | expected                      |
+    | "capture-certificate-details (keeper acting)" | "vehicle-lookup"              |
+    | "confirm"                                     | "capture-certificate-details" |
+    | "payment (keeper acting)"                     | "confirm"                     |
 
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
     Then I am redirected to the <expected> page
-    And the <expected> form is <filled> with the values I previously entered
+    And the <expected> form is not filled with the values I previously entered
   Examples:
-    | origin | target | expected | filled |
-    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       | "not filled" |
-    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       | "not filled" |
-#    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       | "not filled" | # TODO missing cookie check for confirm-business
-#    | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       | "not filled" | # TODO missing cookie check for confirm-business
-#    | "setup-business-details"       | "confirm"                      | "setup-business-details"       | "not filled" | # TODO redirect is incorrect, goes to vehicle-lookup instead
-#    | "setup-business-details"       | "payment"                      | "setup-business-details"       | "not filled" | # TODO redirect is incorrect, goes to before-you-start instead
-#    | "setup-business-details"       | "success"                      | "setup-business-details"       | "not filled" | # TODO redirect is incorrect, goes to error page instead
-    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       | "not filled" |
-#    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" | "not filled" | # TODO missing cookie check
-#    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" | "not filled" | # TODO missing cookie check
-#    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" | "not filled" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" | "not filled" | # TODO redirect is incorrect, goes to before you start page instead
-#    | "business-choose-your-address" | "success"                      | "business-choose-your-address" | "not filled" | # TODO redirect is incorrect, goes to error page instead
-#    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" | "not filled" | # TODO missing cookie check
-#    | "enter-address-manually"       | "capture-certificate-details"  | "business-choose-your-address" | "not filled" | # TODO missing cookie check
-#    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" | "not filled" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "enter-address-manually"       | "confirm"                      | "payment"                      | "not filled" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "enter-address-manually"       | "confirm"                      | "success"                      | "not filled" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "confirm-business"             | "confirm"                      | "confirm-business"             | "not filled" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "confirm-business"             | "capture-certificate-details"  | "confirm-business"             | "not filled" | # TODO missing cookie check
-#    | "confirm-business"             | "payment"                      | "confirm-business"             | "not filled" | # TODO redirect is incorrect, goes to before you start page instead
-#    | "confirm-business"             | "success"                      | "confirm-business"             | "not filled" | # TODO redirect is incorrect, goes to error page instead
+    | origin | target | expected |
+    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       |
+    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       |
+#    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       | # TODO missing cookie check for confirm-business
+#    | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       | # TODO missing cookie check for confirm-business
+#    | "setup-business-details"       | "confirm"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to vehicle-lookup instead
+#    | "setup-business-details"       | "payment"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to before-you-start instead
+#    | "setup-business-details"       | "success"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to error page instead
+    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       |
+#    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" | # TODO missing cookie check
+#    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" | # TODO missing cookie check
+#    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to before you start page instead
+#    | "business-choose-your-address" | "success"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to error page instead
+#    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" | # TODO missing cookie check
+#    | "enter-address-manually"       | "capture-certificate-details"  | "business-choose-your-address" | # TODO missing cookie check
+#    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "enter-address-manually"       | "confirm"                      | "payment"                      | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "enter-address-manually"       | "confirm"                      | "success"                      | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "confirm-business"             | "confirm"                      | "confirm-business"             | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "confirm-business"             | "capture-certificate-details"  | "confirm-business"             | # TODO missing cookie check
+#    | "confirm-business"             | "payment"                      | "confirm-business"             | # TODO redirect is incorrect, goes to before you start page instead
+#    | "confirm-business"             | "success"                      | "confirm-business"             | # TODO redirect is incorrect, goes to error page instead
 
   Scenario Outline: Pressing the browser's back button (business acting)
     Given that I am on the <origin> page

@@ -183,80 +183,52 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     }
   }
 
-  @Then( """^the "(.*?)" form is "(.*?)" with the values I previously entered$""")
-  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
+  @Then( """^the "(.*?)" form is filled with the values I previously entered$""")
+  def `the <expected> form is filled with the values I previously entered`(expected: String) {
     expected match {
-      case "before-you-start" =>
-        filled match {
-          case "-" => // no check as no fields on page
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "vehicle-lookup" =>
-        filled match {
-          case "filled" => vehicleLookup.`form is filled with the values I previously entered`()
-          case "not filled" => vehicleLookup.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "setup-business-details" =>
-        filled match {
-          case "filled" => setupBusinessDetails.`form is filled with the values I previously entered`
-          case "not filled" => setupBusinessDetails.`form is not filled`
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "business-choose-your-address" =>
-        filled match {
-          case "filled" => businessChooseYourAddress.`form is filled with the values I previously entered`
-          case "not filled" => businessChooseYourAddress.`form is not filled`
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "enter-address-manually" =>
-        filled match {
-          case "filled" => enterAddressManually.`form is filled with the values I previously entered`
-          case "not filled" => enterAddressManually.`form is not filled`
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "confirm-business" =>
-        filled match {
-          case "filled" => confirmBusiness.`form is filled with the values I previously entered`()
-          case "not filled" => confirmBusiness.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "capture-certificate-details (business acting)" =>
-        filled match {
-          case "filled" => captureCertificateDetails.`form is filled with the values I previously entered`()
-          case "not filled" => captureCertificateDetails.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "capture-certificate-details" =>
-        filled match {
-          case "filled" => captureCertificateDetails.`form is filled with the values I previously entered`()
-          case "not filled" => captureCertificateDetails.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "confirm" =>
-        filled match {
-          case "filled" => confirm.`form is filled with the values I previously entered`()
-          case "not filled" => confirm.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "confirm (business acting)" =>
-        filled match {
-          case "filled" => confirm.`form is filled with the values I previously entered`()
-          case "not filled" => confirm.`form is not filled`()
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "payment" =>
-        filled match {
-          case "-" => // no check as no fields on page
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
-      case "payment-prevent-back" =>
-        filled match {
-          case "-" => // no check as no fields on page
-          case e => throw new RuntimeException(s"unknown 'filled' value: $e")
-        }
+      case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "vehicle-lookup" =>vehicleLookup.`form is filled with the values I previously entered`()
+      case "setup-business-details" =>setupBusinessDetails.`form is filled with the values I previously entered`
+      case "business-choose-your-address" => businessChooseYourAddress.`form is filled with the values I previously entered`
+      case "enter-address-manually" =>enterAddressManually.`form is filled with the values I previously entered`
+      case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
+      case "capture-certificate-details (business acting)" =>captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "capture-certificate-details" =>captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "confirm" => confirm.`form is filled with the values I previously entered`()
+      case "confirm (business acting)" => confirm.`form is filled with the values I previously entered`()
+      case "payment" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment-prevent-back" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "success" => ???
-      case e => throw new RuntimeException(s"unknown 'expected' value: $e")
+      case e => throw new RuntimeException(s"unknown 'expected' value")
+    }
+  }
+
+  @Then( """^the "(.*?)" form is not filled with the values I previously entered$""")
+  def `the <expected> form is not filled with the values I previously entered`(expected: String) {
+    expected match {
+      case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "vehicle-lookup" =>vehicleLookup.`form is not filled`()
+      case "setup-business-details" =>setupBusinessDetails.`form is not filled`
+      case "business-choose-your-address" => businessChooseYourAddress.`form is not filled`
+      case "enter-address-manually" =>enterAddressManually.`form is not filled`
+      case "confirm-business" =>confirmBusiness.`form is not filled`()
+      case "capture-certificate-details (business acting)" =>captureCertificateDetails.`form is not filled`()
+      case "capture-certificate-details" =>captureCertificateDetails.`form is not filled`()
+      case "confirm" => confirm.`form is not filled`()
+      case "confirm (business acting)" => confirm.`form is not filled`()
+      case "payment" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment-prevent-back" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "success" => ???
+      case e => throw new RuntimeException(s"unknown 'expected' value")
+    }
+  }
+
+  @Then("^the \"(.*?)\" form is \"(.*?)\" with the values I previously entered$")
+  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
+    filled match {
+      case "filled" => `the <expected> form is filled with the values I previously entered`(expected)
+      case "not filled" => `the <expected> form is not filled with the values I previously entered`(expected)
+      case e => throw new RuntimeException(s"unknown 'filled' value")
     }
   }
 

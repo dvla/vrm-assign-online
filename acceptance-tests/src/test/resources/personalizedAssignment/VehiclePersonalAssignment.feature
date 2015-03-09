@@ -3,7 +3,7 @@ Feature: Assignment of Vehicle
 
   Background:
     Given that I have started the PR Assign Service
-    
+
   Scenario Outline: Keeper Acting and Fees Due
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention
     And I indicate that the keeper is acting
