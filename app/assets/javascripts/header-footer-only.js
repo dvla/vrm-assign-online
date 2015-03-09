@@ -61,14 +61,6 @@ require(["jquery"],function($) {
 
         $(function () {
 
-            // If JS enabled hide summary details
-            $('.details').hide();
-
-            // Summary details toggle
-            $('.summary').on('click', function() {
-                $(this).siblings().toggle();
-            });
-
             function s() {
                 var e = i ? "related-" + i : "related";
                 r && (e += "-with-cookie"), n.length && e !== "related" && n.addClass(e)
