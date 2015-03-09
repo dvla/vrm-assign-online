@@ -163,6 +163,11 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     setupBusinessDetails.`is displayed`
   }
 
+  @Then("^the confirm details page is displayed$")
+  def `the_confirm_details_page_is_displayed`() {
+    confirm.`is displayed`
+  }
+
   //Scenario 8
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old\\)$")
   def `i_enter_data_in_the_and_for_a_vehicle_that_is_eligible_for_retention_and_I_indicate_that_the_keeper_is_not_acting_and_I_have_previously_chosen_to_store_my_details_and_the_cookie_is_still_fresh_less_than_seven_days_old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {

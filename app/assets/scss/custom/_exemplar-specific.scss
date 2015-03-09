@@ -124,15 +124,28 @@ summary {
     }
 }
 
-.error ~ .form-checkbox {
-    margin-top: 1em !important;
-}
-
-.summary {
+.summary-wrapper {
+  .summary {
     color:#005EA5;
-    text-decoration:underline;
     margin-bottom:15px;
     cursor: pointer;
+    strong {
+      text-decoration:underline;
+    }
+    &::before {
+      content: "\25BA";
+      margin-right: 8px;
+    }
+    &.active {
+      &::before {
+        content: "\25BC";
+      }
+    }
+  }
+}
+
+.error ~ .form-checkbox {
+    margin-top: 1em !important;
 }
 
 .vrm-assign-online .alert-warning {

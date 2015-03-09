@@ -77,7 +77,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             }
           } // US1589: Do not send keeper a pdf
 
-          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
+          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from,
+            subject, Option(List(emailAddress)), None)
 
           Logger.info(s"About to send email to ${emailAddress} - trackingId ${trackingId}")
           if (emailServiceSendRequest.attachment.isDefined) {
