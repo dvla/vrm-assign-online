@@ -36,6 +36,11 @@ final class Confirm_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
     this
   }
 
+  def `customer does not want an email` = {
+    click on `don't supply keeper email`
+    this
+  }
+
   def `form is filled with the values I previously entered`() = {
     GranteeConsent.attribute("value") should equal(Some("true"))
     this
@@ -43,11 +48,6 @@ final class Confirm_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
 
   def `form is not filled`() = {
     GranteeConsent.isSelected should equal(false)
-    this
-  }
-
-  def `customer does not want an email` = {
-    click on `don't supply keeper email`
     this
   }
 }
