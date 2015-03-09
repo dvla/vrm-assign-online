@@ -55,7 +55,7 @@ Feature: Navigation
     | "payment (business acting)"                                                | "capture-certificate-details (business acting)" | "capture-certificate-details (business acting)" | "filled"     | "not wiped" |
     | "payment (business acting)"                                                | "confirm (business acting)"                     | "confirm (business acting)"                     | "filled"     | "not wiped" |
 
-  Scenario Outline: Pressing the browser's back button
+  Scenario Outline: Pressing the browser's back button (keeper acting)
     Given that I am on the <origin> page
     When I press the browser's back button
     Then I am redirected to the <expected> page
@@ -67,3 +67,49 @@ Feature: Navigation
     | "capture-certificate-details (keeper acting)" | "vehicle-lookup"              | "filled" | "not wiped" |
     | "confirm"                                     | "capture-certificate-details" | "filled" | "not wiped" |
     | "payment (keeper acting)"                     | "confirm"                     | "filled" | "not wiped" |
+
+  Scenario Outline: Entering a url that is after the origin page (business acting)
+    Given that I am on the <origin> page
+    When I enter the url for the <target> page
+    Then I am redirected to the <expected> page
+    And the <expected> form is <filled> with the values I previously entered
+    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+  Examples:
+    | origin                         | target                         | expected                       | filled       | wiped       |
+#    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       | "not filled" | "not wiped" |
+#    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       | "not filled" | "not wiped" |
+#    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       | "not filled" | "not wiped" | # TODO missing cookie check for confirm-business
+#    | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       | "not filled" | "not wiped" | # TODO missing cookie check for confirm-business
+#    | "setup-business-details"       | "confirm"                      | "setup-business-details"       | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to vehicle-lookup instead
+#    | "setup-business-details"       | "payment"                      | "setup-business-details"       | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before-you-start instead
+#    | "setup-business-details"       | "success"                      | "setup-business-details"       | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+#    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       | "not filled" | "not wiped" |
+#    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" | "not filled" | "not wiped" | # TODO missing cookie check
+#    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" | "not filled" | "not wiped" | # TODO missing cookie check
+#    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before you start page instead
+#    | "business-choose-your-address" | "success"                      | "business-choose-your-address" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+#    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" | "not filled" | "not wiped" | # TODO missing cookie check
+#    | "enter-address-manually"       | "capture-certificate-details"  | "business-choose-your-address" | "not filled" | "not wiped" | # TODO missing cookie check
+#    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "enter-address-manually"       | "confirm"                      | "payment"                      | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "enter-address-manually"       | "confirm"                      | "success"                      | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "confirm-business"             | "confirm"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to v lookup page instead
+#    | "confirm-business"             | "capture-certificate-details"  | "confirm-business"             | "not filled" | "not wiped" | # TODO missing cookie check
+#    | "confirm-business"             | "payment"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to before you start page instead
+#    | "confirm-business"             | "success"                      | "confirm-business"             | "not filled" | "not wiped" | # TODO redirect is incorrect, goes to error page instead
+
+  Scenario Outline: Pressing the browser's back button (business acting)
+    Given that I am on the <origin> page
+    When I press the browser's back button
+    Then I am redirected to the <expected> page
+    And the <expected> form is <filled> with the values I previously entered
+    And the payment, retain and both vehicle-and-keeper cookies are <wiped>
+  Examples:
+    | origin                                          | expected                       | filled       | wiped   |
+    | "setup-business-details"                        | "vehicle-lookup"               | "filled"     | "wiped" |
+    | "business-choose-your-address"                  | "setup-business-details"       | "filled"     | "wiped" |
+    | "enter-address-manually"                        | "business-choose-your-address" | "not filled" | "wiped" |
+    | "confirm-business (entered address manually)"   | "enter-address-manually"       | "filled"     | "wiped" |
+    | "confirm-business"                              | "business-choose-your-address" | "filled"     | "wiped" |
+    | "capture-certificate-details (business acting)" | "confirm-business"             | "filled"     | "wiped" |
