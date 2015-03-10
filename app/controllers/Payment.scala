@@ -48,25 +48,27 @@ final class Payment @Inject()(
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel],
       request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (_, _, Some(fulfilModel), _) =>
-        Future.successful {
-          Logger.warn("*** Payment present fulfilModel cookie is present so as a precaution go to VehicleLookup")
-          Redirect(routes.Confirm.present())
-        }
-      case (_, None, None, _) =>
-        Future.successful {
-          Logger.warn("*** Payment present is missing cookies go to VehicleLookup")
-          Redirect(routes.Confirm.present())
-        }
-      case (None, _, None, _) =>
-        Future.successful {
-          paymentFailure("Payment present is missing TransactionIdCacheKey cookie")
-        }
+//      case (_, _, Some(fulfilModel), _) =>
+//        Future.successful {
+//          Logger.warn("*** Payment present fulfilModel cookie is present so as a precaution go to VehicleLookup")
+//          Redirect(routes.Confirm.present())
+//        }
+//      case (_, None, None, _) =>
+//        Future.successful {
+//          Logger.warn("*** Payment present is missing cookies go to VehicleLookup")
+//          Redirect(routes.Confirm.present())
+//        }
+//      case (None, _, None, _) =>
+//        Future.successful {
+//          Logger.warn("Payment present is missing TransactionIdCacheKey cookie")
+//          Redirect(routes.Confirm.present())
+//        }
       case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
         if (granteeConsent == "true") =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
-        paymentFailure("Payment failed matching cookies")
+        Logger.warn("*** Payment present failed matching cookies")
+        Redirect(routes.Confirm.present())
       }
     }
   }

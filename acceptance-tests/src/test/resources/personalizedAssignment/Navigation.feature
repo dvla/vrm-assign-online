@@ -18,7 +18,6 @@ Feature: Navigation
     | "payment (keeper acting)"                     | "capture-certificate-details" | "capture-certificate-details" | "filled" |
     | "payment (keeper acting)"                     | "confirm"                     | "confirm"                     | "filled" |
 
-  @WIP
   Scenario Outline: Entering a url that is after the origin page
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -28,12 +27,12 @@ Feature: Navigation
     | origin | target | expected | filled |
     | "vehicle-lookup" | "capture-certificate-details" | "vehicle-lookup" | "not filled" |
     | "vehicle-lookup" | "confirm"                     | "vehicle-lookup" | "not filled" |
-#    | "vehicle-lookup"                              | "payment"                     | "vehicle-lookup"              | "not filled" | # TODO redirect is incorrect, goes to before-you-start instead
-#    | "vehicle-lookup"                              | "success"                     | "vehicle-lookup"              | "not filled" | # TODO needs to hot potato
-#    | "capture-certificate-details (keeper acting)" | "confirm"                     | "capture-certificate-details" | "not filled" | # TODO redirect is incorrect, goes to vehicle lookup instead
-#    | "capture-certificate-details (keeper acting)" | "payment"                     | "capture-certificate-details" | "not filled" | # TODO redirect is incorrect, goes to before-you-start instead
-#    | "capture-certificate-details (keeper acting)" | "success"                     | "capture-certificate-details" | "not filled" | # TODO redirect is incorrect, goes to error page instead
-#    | "confirm"                                     | "payment"                     | "confirm"                     | "not filled" | # TODO redirect is incorrect, goes to payment-failure page instead
+    | "vehicle-lookup"                              | "payment"                     | "vehicle-lookup"              | "not filled" |
+    | "vehicle-lookup"                              | "success"                     | "vehicle-lookup"              | "not filled" |
+    | "capture-certificate-details (keeper acting)" | "confirm"                     | "capture-certificate-details" | "not filled" |
+    | "capture-certificate-details (keeper acting)" | "payment"                     | "capture-certificate-details" | "not filled" |
+    | "capture-certificate-details (keeper acting)" | "success"                     | "capture-certificate-details" | "not filled" |
+    | "confirm"                                     | "payment"                     | "confirm"                     | "not filled" |
 #    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" | # TODO redirect is incorrect, goes to error page instead
 #    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | # TODO redirect is incorrect, goes to error page instead
 
@@ -96,6 +95,7 @@ Feature: Navigation
     | "confirm"                                     | "capture-certificate-details" |
     | "payment (keeper acting)"                     | "confirm"                     |
 
+  @WIP
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
