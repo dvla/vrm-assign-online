@@ -27,7 +27,7 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
       case (Some(transactionId), Some(paymentModel)) =>
         callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
       case (Some(transactionId), None) =>
-        Future.successful(Ok(views.html.vrm_assign.fulfil_failure())) // TODO need to switch the message to not mention payment if no payment was needed
+        Future.successful(Ok(views.html.vrm_assign.fulfil_failure(false)))
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilFailure but the required cookie was not present")))
     }
@@ -44,11 +44,11 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
       response =>
-        Ok(views.html.vrm_assign.fulfil_failure())
+        Ok(views.html.vrm_assign.fulfil_failure(true))
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"FulfilFailure Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
-        Ok(views.html.vrm_assign.fulfil_failure())
+        Ok(views.html.vrm_assign.fulfil_failure(true))
     }
   }
 }
