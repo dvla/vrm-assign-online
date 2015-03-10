@@ -113,7 +113,7 @@ Feature: Navigation
     | "setup-business-details"       | "success"                      | "setup-business-details"       |
     | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually" |
     | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" |
-#    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" | # TODO missing cookie check
+    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" |
 #    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to v lookup page instead
 #    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to before you start page instead
 #    | "business-choose-your-address" | "success"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to error page instead
