@@ -109,9 +109,8 @@ Feature: Navigation
     | "setup-business-details"       | "confirm-business"             | "setup-business-details"       |
     | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       |
     | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
-    # TODO redirect is incorrect, goes to before-you-start instead
     | "setup-business-details"       | "payment"                      | "setup-business-details"       |
-#    | "setup-business-details"       | "success"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to error page instead
+    | "setup-business-details"       | "success"                      | "setup-business-details"       |
 #    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually" |
 #    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" | # TODO missing cookie check
 #    | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" | # TODO missing cookie check
