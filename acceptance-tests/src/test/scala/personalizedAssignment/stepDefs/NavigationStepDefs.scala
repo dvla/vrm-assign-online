@@ -149,7 +149,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "enter-address-manually" => go to EnterAddressManuallyPage
       case "confirm-business" => go to ConfirmBusinessPage
       case "capture-certificate-details" => go to CaptureCertificateDetailsPage
-      case "capture-certificate-details (business acting)" => go to CaptureCertificateDetailsPage
       case "confirm" => go to ConfirmPage
       case "confirm (business acting)" => go to ConfirmPage
       case "payment" => go to PaymentPage
@@ -172,7 +171,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "business-choose-your-address" => businessChooseYourAddress.`is displayed`
       case "enter-address-manually" => enterAddressManually.`is displayed`
       case "capture-certificate-details" => captureCertificateDetails.`is displayed`
-      case "capture-certificate-details (business acting)" => captureCertificateDetails.`is displayed`
       case "confirm-business" => confirmBusiness.`is displayed`
       case "confirm" => confirm.`is displayed`
       case "confirm (business acting)" => confirm.`is displayed`
