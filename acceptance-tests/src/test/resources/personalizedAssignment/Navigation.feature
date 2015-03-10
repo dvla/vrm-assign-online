@@ -3,7 +3,7 @@ Feature: Navigation
   Background:
     Given that I have started the PR Assign Service
 
-#  @WIP
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (keeper acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -18,7 +18,7 @@ Feature: Navigation
     | "payment (keeper acting)"                     | "capture-certificate-details" | "capture-certificate-details" | "filled" |
     | "payment (keeper acting)"                     | "confirm"                     | "confirm"                     | "filled" |
 
-#  @WIP
+  @WIP
   Scenario Outline: Entering a url that is after the origin page
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -37,7 +37,7 @@ Feature: Navigation
 #    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" | # TODO redirect is incorrect, goes to error page instead
 #    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | # TODO redirect is incorrect, goes to error page instead
 
-#  @WIP
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -74,7 +74,7 @@ Feature: Navigation
     | "payment (business acting)"                                                | "capture-certificate-details (business acting)" | "capture-certificate-details (business acting)" | "filled"     |
     | "payment (business acting)"                                                | "confirm (business acting)"                     | "confirm (business acting)"                     | "filled"     |
 
-#  @WIP
+  @WIP
   Scenario Outline: Pressing the browser's back button back to the start page
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -84,7 +84,7 @@ Feature: Navigation
     | origin           | expected           | wiped   |
     | "vehicle-lookup" | "before-you-start" | "wiped" |
 
-#  @WIP
+  @WIP
   Scenario Outline: Pressing the browser's back button (keeper acting)
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -109,7 +109,8 @@ Feature: Navigation
     | "setup-business-details"       | "confirm-business"             | "setup-business-details"       |
     | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       |
     | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
-#    | "setup-business-details"       | "payment"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to before-you-start instead
+    # TODO redirect is incorrect, goes to before-you-start instead
+    | "setup-business-details"       | "payment"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "success"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to error page instead
 #    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually" |
 #    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" | # TODO missing cookie check

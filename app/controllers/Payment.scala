@@ -50,17 +50,17 @@ final class Payment @Inject()(
       request.cookies.getString(GranteeConsentCacheKey)) match {
       case (_, _, Some(fulfilModel), _) =>
         Future.successful {
-          Logger.warn("*** PaymentFailure present cookie missing go to VehicleLookup")
-          Redirect(routes.VehicleLookup.present())
-        }
-      case (None, _, None, _) =>
-        Future.successful {
-          paymentFailure("payment is missing TransactionIdCacheKey cookie")
+          Logger.warn("*** Payment present fulfilModel cookie is present so as a precaution go to VehicleLookup")
+          Redirect(routes.Confirm.present())
         }
       case (_, None, None, _) =>
         Future.successful {
           Logger.warn("*** Payment present is missing cookies go to VehicleLookup")
-          Redirect(routes.VehicleLookup.present())
+          Redirect(routes.Confirm.present())
+        }
+      case (None, _, None, _) =>
+        Future.successful {
+          paymentFailure("Payment present is missing TransactionIdCacheKey cookie")
         }
       case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
         if (granteeConsent == "true") =>

@@ -1,4 +1,4 @@
-@WIP
+@browser
 Feature: Payment for the Vehicle Registration
 
   Scenario Outline: Validate Payment functionality with valid and invalid card numbers
