@@ -34,12 +34,11 @@ final class ConfirmBusiness @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
       setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
+      businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
     } yield {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
-      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
       val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
-      val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+      val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
       Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.BusinessChooseYourAddress.present())
