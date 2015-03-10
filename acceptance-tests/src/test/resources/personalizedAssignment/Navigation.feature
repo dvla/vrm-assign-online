@@ -114,14 +114,14 @@ Feature: Navigation
     | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually" |
     | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" |
     | "business-choose-your-address" | "capture-certificate-details"  | "business-choose-your-address" |
-#    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to before you start page instead
-#    | "business-choose-your-address" | "success"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to error page instead
-#    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" | # TODO missing cookie check
-#    | "enter-address-manually"       | "capture-certificate-details"  | "business-choose-your-address" | # TODO missing cookie check
-#    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "enter-address-manually"       | "confirm"                      | "payment"                      | # TODO redirect is incorrect, goes to v lookup page instead
-#    | "enter-address-manually"       | "confirm"                      | "success"                      | # TODO redirect is incorrect, goes to v lookup page instead
+    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" |
+    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" |
+    | "business-choose-your-address" | "success"                      | "business-choose-your-address" |
+    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" |
+    | "enter-address-manually"       | "capture-certificate-details"  | "business-choose-your-address" |
+    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" |
+    | "enter-address-manually"       | "payment"                      | "business-choose-your-address"                      |
+    | "enter-address-manually"       | "success"                      | "business-choose-your-address"                      |
 #    | "confirm-business"             | "confirm"                      | "confirm-business"             | # TODO redirect is incorrect, goes to v lookup page instead
 #    | "confirm-business"             | "capture-certificate-details"  | "confirm-business"             | # TODO missing cookie check
 #    | "confirm-business"             | "payment"                      | "confirm-business"             | # TODO redirect is incorrect, goes to before you start page instead
