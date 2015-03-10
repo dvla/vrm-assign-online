@@ -3,7 +3,6 @@ Feature: Navigation
   Background:
     Given that I have started the PR Assign Service
 
-  @WIP
   Scenario Outline: Entering a url that is before the origin page (keeper acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -34,9 +33,9 @@ Feature: Navigation
     | "capture-certificate-details (keeper acting)" | "success"                     | "capture-certificate-details" | "not filled" |
     | "confirm"                                     | "payment"                     | "confirm"                     | "not filled" |
     | "confirm"                                     | "success"                     | "confirm"                     | "not filled" |
-#    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | # TODO redirect is incorrect, goes to error page instead
+    # An odd case, we won't have a usable referrer in the header so cannot go back to the payment page.
+    | "payment (keeper acting)"                     | "success"                     | "confirm"                     | "filled"          |
 
-  @WIP
   Scenario Outline: Entering a url that is before the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -73,7 +72,6 @@ Feature: Navigation
     | "payment (business acting)"                                                | "capture-certificate-details (business acting)" | "capture-certificate-details (business acting)" | "filled"     |
     | "payment (business acting)"                                                | "confirm (business acting)"                     | "confirm (business acting)"                     | "filled"     |
 
-  @WIP
   Scenario Outline: Pressing the browser's back button back to the start page
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -83,7 +81,6 @@ Feature: Navigation
     | origin           | expected           | wiped   |
     | "vehicle-lookup" | "before-you-start" | "wiped" |
 
-  @WIP
   Scenario Outline: Pressing the browser's back button (keeper acting)
     Given that I am on the <origin> page
     When I press the browser's back button
@@ -95,7 +92,6 @@ Feature: Navigation
     | "confirm"                                     | "capture-certificate-details" |
     | "payment (keeper acting)"                     | "confirm"                     |
 
-  @WIP
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -126,7 +122,6 @@ Feature: Navigation
     | "confirm-business"             | "payment"                      | "confirm-business"             |
     | "confirm-business"             | "success"                      | "confirm-business"             |
 
-  @WIP
   Scenario Outline: Pressing the browser's back button (business acting)
     Given that I am on the <origin> page
     When I press the browser's back button

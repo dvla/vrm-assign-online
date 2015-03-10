@@ -47,27 +47,13 @@ final class Payment @Inject()(
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-//      case (_, _, Some(fulfilModel), _) =>
-//        Future.successful {
-//          Logger.warn("*** Payment present fulfilModel cookie is present so as a precaution go to VehicleLookup")
-//          Redirect(routes.Confirm.present())
-//        }
-//      case (_, None, None, _) =>
-//        Future.successful {
-//          Logger.warn("*** Payment present is missing cookies go to VehicleLookup")
-//          Redirect(routes.Confirm.present())
-//        }
-//      case (None, _, None, _) =>
-//        Future.successful {
-//          Logger.warn("Payment present is missing TransactionIdCacheKey cookie")
-//          Redirect(routes.Confirm.present())
-//        }
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
-        if (granteeConsent == "true") =>
+      request.cookies.getString(GranteeConsentCacheKey),
+      refererFromHeader.fetch) match {
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent), Some(referer))
+        if granteeConsent == "true" =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
-        Logger.warn("*** Payment present failed matching cookies")
+        Logger.warn("Payment present failed matching cookies")
         Redirect(routes.Confirm.present())
       }
     }
