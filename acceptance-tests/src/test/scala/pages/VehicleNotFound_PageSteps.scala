@@ -33,7 +33,7 @@ final class VehicleNotFound_PageSteps(implicit webDriver: WebBrowserDriver, time
   }
 
   def `has 'direct to paper' message` = {
-    pageSource should include("This registration number can not be assigned online")
+    pageSource should include("This registration number cannot be assigned online")
     pageSource should include("Download V317")
     this
   }
