@@ -354,9 +354,9 @@ vrm_assign_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed
 vrm_assign_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper''s behalf and have their consent
 vrm_assign_vehiclelookup.postcodelabel = Keeper postcode
 vrm_assign_vehiclelookup.postcodeHint = The postcode of the registered keeper exactly as printed on the V5C document
-vrm_assign_vehiclelookup.keeper = Yes, I am the registered keeper or I am a private individual acting with their consent
+vrm_assign_vehiclelookup.keeper = Yes I am
 vrm_assign_vehiclelookup.business = No, I am a business and have consent to act on their behalf
-vrm_assign_vehiclelookup.label = Are you the keeper?
+vrm_assign_vehiclelookup.label = Are you the registered keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
 
