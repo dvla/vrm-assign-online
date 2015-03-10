@@ -33,7 +33,7 @@ Feature: Navigation
     | "capture-certificate-details (keeper acting)" | "payment"                     | "capture-certificate-details" | "not filled" |
     | "capture-certificate-details (keeper acting)" | "success"                     | "capture-certificate-details" | "not filled" |
     | "confirm"                                     | "payment"                     | "confirm"                     | "not filled" |
-#    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" | # TODO redirect is incorrect, goes to error page instead
+    | "confirm"                                     | "success"                     | "confirm"                     | "not filled" |
 #    | "payment (keeper acting)"                     | "success"                     | "payment"                     | "_"          | # TODO redirect is incorrect, goes to error page instead
 
   @WIP
