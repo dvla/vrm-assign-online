@@ -53,7 +53,7 @@ final class Success @Inject()(
           discardingCookies(removeCookiesOnExit)
       case _ =>
         Logger.warn("user went to Success present without on of the required cookies")
-        Redirect(routes.Error.present("user went to Success present without on of the required cookies"))
+        Redirect(routes.VehicleLookup.present())
     }
   }
 

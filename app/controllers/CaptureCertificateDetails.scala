@@ -6,6 +6,7 @@ import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.CaptureCertificateDetailsViewModel
+import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.DateTime
@@ -64,9 +65,23 @@ final class CaptureCertificateDetails @Inject()(
     implicit request =>
       request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
         case Some(vehicleAndKeeperDetails) =>
-          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
-        case _ => Redirect(routes.VehicleLookup.present())
+          (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel]) match {
+            case (Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel)) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
+              // They are a business user and have all the cookies
+              val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+              Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+            case (Some(vehicleAndKeeperLookupForm), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
+              // They are a business user but missing a cookie
+              Logger.warn("*** CaptureCertificateDetails present They are a business user but missing a cookie")
+              Redirect(routes.ConfirmBusiness.present())
+            case _ =>
+              // They are not a business, so we only need the VehicleAndKeeperDetailsModel
+              val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+              Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+          }
+        case _ =>
+          Logger.warn("*** CaptureCertificateDetails present cookie missing fallback")
+          Redirect(routes.ConfirmBusiness.present())
       }
   }
 
