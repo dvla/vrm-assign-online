@@ -34,6 +34,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
 import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
@@ -65,12 +66,12 @@ final class CaptureCertificateDetails @Inject()(
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel]) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
           // Happy path for keeper keeper
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)

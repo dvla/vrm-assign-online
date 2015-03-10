@@ -28,12 +28,12 @@ final class ConfirmBusiness_PageSteps(implicit webDriver: WebBrowserDriver, time
   }
 
   def `form is filled with the values I previously entered`() = {
-    rememberDetails.isEnabled should equal(true)
+    rememberDetails.isSelected should equal(true)
     this
   }
 
   def `form is not filled`() = {
-    rememberDetails.isEnabled should equal(false)
+    rememberDetails.isSelected should equal(false)
     this
   }
 }

@@ -38,6 +38,7 @@ final class ConfirmBusiness @Inject()(
     } yield {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+
       val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
       Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
     }
@@ -64,8 +65,6 @@ final class ConfirmBusiness @Inject()(
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map {
       vehicleAndKeeperLookup =>
 
-        val storeBusinessDetails = CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString)
-
         auditService1.send(AuditMessage.from(
           pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -79,7 +78,8 @@ final class ConfirmBusiness @Inject()(
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        Redirect(routes.CaptureCertificateDetails.present()).withCookiesEx(storeBusinessDetails)
+        Redirect(routes.CaptureCertificateDetails.present()).
+          withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString)
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
