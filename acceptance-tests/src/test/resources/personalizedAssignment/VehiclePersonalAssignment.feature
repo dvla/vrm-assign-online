@@ -14,7 +14,6 @@ Feature: Assignment of Vehicle
     | VehicleRegistrationNumber | DocRefID      | Postcode  | CertificateIdBox1 | CertificateIdBox2 | CertificateIdBox3 | CertificateIdBox4 | RegistrationNumber |
     | "DD22"                    | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
     | "S11"                     | "11111111111" | "SA1"     | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "S12"                     | "11111111111" | "SA1 ***" | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
     | "S13"                     | "11111111111" | ""        | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
 
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
