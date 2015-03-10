@@ -53,7 +53,7 @@ final class Confirm @Inject()(
       val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
       Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
     }
-    val sadPath = Redirect(routes.VehicleLookup.present())
+    val sadPath = Redirect(routes.ConfirmBusiness.present())
     happyPath.getOrElse(sadPath)
   }
 

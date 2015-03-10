@@ -108,7 +108,7 @@ Feature: Navigation
     | "setup-business-details"       | "enter-address-manually"       | "setup-business-details" |
     | "setup-business-details"       | "confirm-business"             | "setup-business-details"       |
     | "setup-business-details"       | "capture-certificate-details"  | "setup-business-details"       |
-#    | "setup-business-details"       | "confirm"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to vehicle-lookup instead
+    | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "payment"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to before-you-start instead
 #    | "setup-business-details"       | "success"                      | "setup-business-details"       | # TODO redirect is incorrect, goes to error page instead
 #    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually" |
