@@ -4,6 +4,7 @@ Feature: Navigation
   Background:
     Given that I have started the PR Assign Service
 
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (keeper acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -17,6 +18,7 @@ Feature: Navigation
     | "success" | "confirm"                     | "vehicle-lookup" | "not filled" | "wiped" |
 #    | "success" | "payment"                     | "vehicle-lookup" | "not filled" | "wiped" | # TODO redirect is incorrect, goes to before-you-start instead
 
+  @WIP
   Scenario Outline: Entering a url that is before the origin page (business acting)
     Given that I am on the <origin> page
     When I enter the url for the <target> page
@@ -38,8 +40,8 @@ Feature: Navigation
     Given that I am on the <origin> page
     When I press the browser's back button
     Then I am redirected to the <expected> page
-    And the <expected> form is <filled> with the values I previously entered
     And the payment, retain and both vehicle-and-keeper cookies are <wiped>
   Examples:
-    | origin    | expected               | filled | wiped   |
-#  | "success" | "payment-prevent-back" | "-"    | "wiped" | # TODO redirect is incorrect, goes to before-you-start instead
+    | origin    | expected               | wiped   |
+    # TODO redirect is incorrect, goes to before-you-start instead
+    | "success" | "payment-prevent-back" | "wiped" |

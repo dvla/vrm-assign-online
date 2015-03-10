@@ -58,7 +58,8 @@ final class Payment @Inject()(
         }
       case (_, None, None, _) =>
         Future.successful {
-          paymentFailure("payment is missing VehicleAndKeeperLookupFormModel cookie")
+          Logger.warn("*** Payment present is missing cookies go to BeforeYouStart")
+          Redirect(routes.PaymentPreventBack.present())
         }
       case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
         if (granteeConsent == "true") =>

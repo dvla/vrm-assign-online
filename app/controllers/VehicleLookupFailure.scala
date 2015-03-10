@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models._
+import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -23,7 +24,9 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse,
           vehicleAndKeeperDetails, vehicleLookupResponseCode)
-      case _ => Redirect(routes.BeforeYouStart.present())
+      case _ =>
+        Logger.warn("*** VehicleLookupFailure present cookie missing go to BeforeYouStart")
+        Redirect(routes.BeforeYouStart.present())
     }
   }
 
