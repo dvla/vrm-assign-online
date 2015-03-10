@@ -14,8 +14,8 @@ object VehicleLookupFailurePage extends Page {
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = "Look-up was unsuccessful"
-  final val directToPaperTitle: String = "This registration number can not be assigned online"
-  final val failureTitle: String = "This registration number can not be assigned"
+  final val directToPaperTitle: String = "This registration number cannot be assigned online"
+  final val failureTitle: String = "This registration number cannot be assigned"
 
   def tryAgain(implicit driver: WebDriver) = find(id(VehicleLookupId)).get
 

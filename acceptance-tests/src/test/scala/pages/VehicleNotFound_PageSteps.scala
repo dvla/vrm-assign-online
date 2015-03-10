@@ -17,7 +17,7 @@ final class VehicleNotFound_PageSteps(implicit webDriver: WebBrowserDriver, time
   }
 
   def `has 'not found' message` = {
-    pageSource should include("This registration number can not be assigned")
+    pageSource should include("This registration number cannot be assigned")
     pageSource should include("The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.")
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "Download V317"
@@ -25,7 +25,7 @@ final class VehicleNotFound_PageSteps(implicit webDriver: WebBrowserDriver, time
   }
 
   def `has 'direct to paper' message` = {
-    pageSource should include("This registration number can not be assigned online")
+    pageSource should include("This registration number cannot be assigned online")
     pageSource should include("Download V317")
     this
   }
