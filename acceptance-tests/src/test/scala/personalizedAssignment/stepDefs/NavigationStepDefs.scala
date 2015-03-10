@@ -150,7 +150,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "confirm-business" => go to ConfirmBusinessPage
       case "capture-certificate-details" => go to CaptureCertificateDetailsPage
       case "confirm" => go to ConfirmPage
-      case "confirm (business acting)" => go to ConfirmPage
       case "payment" => go to PaymentPage
       case "success" => go to SuccessPage
       case e => throw new RuntimeException(s"unknown 'target' value: $e")
@@ -173,7 +172,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "capture-certificate-details" => captureCertificateDetails.`is displayed`
       case "confirm-business" => confirmBusiness.`is displayed`
       case "confirm" => confirm.`is displayed`
-      case "confirm (business acting)" => confirm.`is displayed`
       case "payment" => payment.`is displayed`
       case "payment-prevent-back" => paymentPreventBack.`is displayed`
       case "success" => success.`is displayed`

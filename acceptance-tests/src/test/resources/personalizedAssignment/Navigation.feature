@@ -70,7 +70,7 @@ Feature: Navigation
     | "payment (business acting) (entered address manually)"                     | "enter-address-manually"       | "enter-address-manually"       | "filled"     |
     | "payment (business acting)"                                                | "confirm-business"             | "confirm-business"             | "filled"     |
     | "payment (business acting)"                                                | "capture-certificate-details"  | "capture-certificate-details"  | "filled"     |
-    | "payment (business acting)"                                                | "confirm (business acting)"    | "confirm (business acting)"    | "filled"     |
+    | "payment (business acting)"                                                | "confirm"    | "confirm"    | "filled"     |
 
   Scenario Outline: Pressing the browser's back button back to the start page
     Given that I am on the <origin> page
