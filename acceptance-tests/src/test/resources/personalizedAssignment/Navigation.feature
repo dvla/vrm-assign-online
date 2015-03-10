@@ -122,9 +122,9 @@ Feature: Navigation
     | "enter-address-manually"       | "payment"                      | "business-choose-your-address"                      |
     | "enter-address-manually"       | "success"                      | "business-choose-your-address"                      |
     | "confirm-business"             | "capture-certificate-details"  | "confirm-business"             |
-#    | "confirm-business"             | "confirm"                      | "confirm-business"             | # TODO missing cookie check
-#    | "confirm-business"             | "payment"                      | "confirm-business"             | # TODO redirect is incorrect, goes to before you start page instead
-#    | "confirm-business"             | "success"                      | "confirm-business"             | # TODO redirect is incorrect, goes to error page instead
+    | "confirm-business"             | "confirm"                      | "confirm-business"             |
+    | "confirm-business"             | "payment"                      | "confirm-business"             |
+    | "confirm-business"             | "success"                      | "confirm-business"             |
 
   @WIP
   Scenario Outline: Pressing the browser's back button (business acting)
