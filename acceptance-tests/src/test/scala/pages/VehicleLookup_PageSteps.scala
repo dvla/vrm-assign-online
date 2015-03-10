@@ -34,13 +34,6 @@ final class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeou
     this
   }
 
-  def `happy path for keeper` = {
-    enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
-      `keeper is acting`.
-      `find vehicle`
-    this
-  }
-
   def enter(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleRegistrationNumber.value = registrationNumber
     documentReferenceNumber.value = docRefNumber
@@ -48,13 +41,20 @@ final class VehicleLookup_PageSteps(implicit webDriver: WebBrowserDriver, timeou
     this
   }
 
-  def `keeper is acting` = {
-    click on currentKeeperYes
+  def `find vehicle` = {
+    click on findVehicleDetails
     this
   }
 
-  def `find vehicle` = {
-    click on findVehicleDetails
+  def `happy path for keeper` = {
+    enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
+      `keeper is acting`.
+      `find vehicle`
+    this
+  }
+
+  def `keeper is acting` = {
+    click on currentKeeperYes
     this
   }
 

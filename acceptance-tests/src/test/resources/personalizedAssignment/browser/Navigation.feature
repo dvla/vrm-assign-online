@@ -1,4 +1,4 @@
-@browser
+@browser @WIP
 Feature: Navigation
 
   Background:

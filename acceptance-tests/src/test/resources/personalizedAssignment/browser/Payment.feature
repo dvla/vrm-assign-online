@@ -1,4 +1,4 @@
-@browser
+@browser @live-payment
 Feature: Payment for the Vehicle Registration
 
   Scenario Outline: Validate Payment functionality with valid and invalid card numbers

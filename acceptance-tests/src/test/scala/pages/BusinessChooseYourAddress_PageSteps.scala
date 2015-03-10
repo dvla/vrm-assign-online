@@ -20,16 +20,16 @@ final class BusinessChooseYourAddress_PageSteps(implicit webDriver: WebBrowserDr
     this
   }
 
+  def `click manual address entry` = {
+    `is displayed`
+    click on BusinessChooseYourAddressPage.manualAddress
+    this
+  }
+
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
     }
-    this
-  }
-
-  def `click manual address entry` = {
-    `is displayed`
-    click on BusinessChooseYourAddressPage.manualAddress
     this
   }
 

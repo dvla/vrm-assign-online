@@ -183,21 +183,30 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     }
   }
 
+  @Then("^the \"(.*?)\" form is \"(.*?)\" with the values I previously entered$")
+  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
+    filled match {
+      case "filled" => `the <expected> form is filled with the values I previously entered`(expected)
+      case "not filled" => `the <expected> form is not filled with the values I previously entered`(expected)
+      case e => throw new RuntimeException(s"unknown 'filled' value")
+    }
+  }
+
   @Then( """^the "(.*?)" form is filled with the values I previously entered$""")
   def `the <expected> form is filled with the values I previously entered`(expected: String) {
     expected match {
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "vehicle-lookup" =>vehicleLookup.`form is filled with the values I previously entered`()
-      case "setup-business-details" =>setupBusinessDetails.`form is filled with the values I previously entered`
+      case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`()
+      case "setup-business-details" => setupBusinessDetails.`form is filled with the values I previously entered`
       case "business-choose-your-address" => businessChooseYourAddress.`form is filled with the values I previously entered`
-      case "enter-address-manually" =>enterAddressManually.`form is filled with the values I previously entered`
+      case "enter-address-manually" => enterAddressManually.`form is filled with the values I previously entered`
       case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
-      case "capture-certificate-details (business acting)" =>captureCertificateDetails.`form is filled with the values I previously entered`()
-      case "capture-certificate-details" =>captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "capture-certificate-details" => captureCertificateDetails.`form is filled with the values I previously entered`()
       case "confirm" => confirm.`form is filled with the values I previously entered`()
       case "confirm (business acting)" => confirm.`form is filled with the values I previously entered`()
-      case "payment" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "payment-prevent-back" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment-prevent-back" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "success" => ???
       case e => throw new RuntimeException(s"unknown 'expected' value")
     }
@@ -207,28 +216,19 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   def `the <expected> form is not filled with the values I previously entered`(expected: String) {
     expected match {
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "vehicle-lookup" =>vehicleLookup.`form is not filled`()
-      case "setup-business-details" =>setupBusinessDetails.`form is not filled`
+      case "vehicle-lookup" => vehicleLookup.`form is not filled`()
+      case "setup-business-details" => setupBusinessDetails.`form is not filled`
       case "business-choose-your-address" => businessChooseYourAddress.`form is not filled`
-      case "enter-address-manually" =>enterAddressManually.`form is not filled`
-      case "confirm-business" =>confirmBusiness.`form is not filled`()
-      case "capture-certificate-details (business acting)" =>captureCertificateDetails.`form is not filled`()
-      case "capture-certificate-details" =>captureCertificateDetails.`form is not filled`()
+      case "enter-address-manually" => enterAddressManually.`form is not filled`
+      case "confirm-business" => confirmBusiness.`form is not filled`()
+      case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is not filled`()
+      case "capture-certificate-details" => captureCertificateDetails.`form is not filled`()
       case "confirm" => confirm.`form is not filled`()
       case "confirm (business acting)" => confirm.`form is not filled`()
-      case "payment" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "payment-prevent-back" =>throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "payment-prevent-back" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "success" => ???
       case e => throw new RuntimeException(s"unknown 'expected' value")
-    }
-  }
-
-  @Then("^the \"(.*?)\" form is \"(.*?)\" with the values I previously entered$")
-  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
-    filled match {
-      case "filled" => `the <expected> form is filled with the values I previously entered`(expected)
-      case "not filled" => `the <expected> form is not filled with the values I previously entered`(expected)
-      case e => throw new RuntimeException(s"unknown 'filled' value")
     }
   }
 
