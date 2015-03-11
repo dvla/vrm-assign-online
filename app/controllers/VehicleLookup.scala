@@ -46,7 +46,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result =
-    addDefaultCookies(Redirect(routes.VrmLocked.present()),formModel)
+    addDefaultCookies(Redirect(routes.VrmLocked.present()), formModel)
 
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
                                 (implicit request: Request[_]): Result =
@@ -79,37 +79,82 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       suppressedV5Flag = None
     )
 
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(responseCode)))
-    auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(responseCode)))
-
     // check whether the response code is a VMPR6 code, if so redirect to CaptureCertificateDetails
     // so it eventually redirects to DirectToPaper
     if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
       if (formModel.userType == UserType_Keeper) {
+
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+          rejectionCode = Some(responseCode)))
+        auditService2.send(AuditRequest.from(
+          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+          rejectionCode = Some(responseCode)))
+
         addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), formModel).
           withCookie(vehicleAndKeeperDetailsModel)
       } else {
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
         if (storeBusinessDetails && businessDetailsModel.isDefined) {
+
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            businessDetailsModel = businessDetailsModel,
+            rejectionCode = Some(responseCode)))
+          auditService2.send(AuditRequest.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            businessDetailsModel = businessDetailsModel,
+            rejectionCode = Some(responseCode)))
+
           addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), formModel).
             withCookie(vehicleAndKeeperDetailsModel)
         } else {
+
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            rejectionCode = Some(responseCode)))
+          auditService2.send(AuditRequest.from(
+            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            rejectionCode = Some(responseCode)))
+
           addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), formModel).
             withCookie(vehicleAndKeeperDetailsModel)
         }
       }
     } else {
+
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
+
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
     }
   }
