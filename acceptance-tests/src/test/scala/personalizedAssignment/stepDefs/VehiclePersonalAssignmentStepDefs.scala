@@ -90,10 +90,16 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
       `find vehicle`
   }
 
-  @Then("^the vehicle not found page is displayed$")
-  def `the vehicle not found page is displayed`() {
+  @Then("^the vrm not found page is displayed$")
+  def `the vrm not found page is displayed`() {
     vehicleNotFound.`is displayed`
       .`has 'not found' message`
+  }
+
+  @Then("^the doc ref mismatch page is displayed$")
+  def `the doc ref mismatch page is displayed`() {
+    vehicleNotFound.`is displayed`
+      .`has 'doc ref mismatch' message`
   }
 
   //Scenario 4

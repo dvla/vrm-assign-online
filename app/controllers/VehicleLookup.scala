@@ -38,7 +38,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
   val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
-  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
 
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
@@ -233,7 +232,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     dtoPostcode match {
       case Some(postcode) => {
         // strip the stars and spaces before comparison
-        formModelPostcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase() ==
+        formModelPostcode.filterNot(" " contains _).toUpperCase() ==
           postcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
       }
       case None => formModelPostcode.isEmpty

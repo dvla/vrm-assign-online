@@ -73,7 +73,6 @@ libraryDependencies ++= {
     "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
-    "org.webjars" % "picturefill" % "2.1.0",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
     "junit" % "junit" % "4.11",

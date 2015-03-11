@@ -13,7 +13,7 @@ Feature: Assignment of Vehicle
     | VehicleRegistrationNumber | DocRefID      | Postcode  | CertificateIdBox1 | CertificateIdBox2 | CertificateIdBox3 | CertificateIdBox4 | RegistrationNumber |
     | "DD22"                    | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
     | "S11"                     | "11111111111" | "SA1"     | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "S12"                     | "11111111111" | "SA1 ***" | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
+    | "S13"                     | "11111111111" | ""        | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
 
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
     When I enter invalid data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> fields
@@ -24,10 +24,17 @@ Feature: Assignment of Vehicle
 
   Scenario Outline: Vehicle Not Found
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> that does not match a valid vehicle record
-    Then the vehicle not found page is displayed
+    Then the vrm not found page is displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "C1"                      | "11111111111" | "SA11AA" |
+
+  Scenario Outline: Doc Ref Mismatch
+    When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> that does not match a valid vehicle record
+    Then the doc ref mismatch page is displayed
+  Examples:
+    | VehicleRegistrationNumber | DocRefID      | Postcode |
+    | "A1"                      | "22222222222" | "AA11AA" |
 
   Scenario Outline: Brute Force Lockout
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode>  that does not match a valid vehicle record three times in a row

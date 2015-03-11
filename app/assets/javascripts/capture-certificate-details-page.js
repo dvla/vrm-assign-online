@@ -1,7 +1,7 @@
 require.config({
     paths: {
         'jquery': '../lib/jquery/jquery.min',
-        'picturefill': '../lib/picturefill/picturefill.min'
+        'picturefill': 'picturefill.min'
     }
 });
 
