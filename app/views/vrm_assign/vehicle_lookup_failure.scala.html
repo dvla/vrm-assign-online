@@ -8,7 +8,7 @@
         config: utils.helpers.Config)
 
 @import views.html.vrm_assign.main
-@import views.vrm_assign.VehicleLookupFailure.{CaptureCertificateDetailsId, ExitId, VehicleLookupId}
+@import views.vrm_assign.VehicleLookupFailure.{CaptureCertificateDetailsId, ExitId, VehicleLookupId, `v50-or-v778-id`}
 
 @main(
     title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
@@ -69,9 +69,9 @@
                                 <span class="renewalFee">£@(captureCertificateDetailsModel.get.outstandingFees / 100.0)0</span>
                             </p>
                             </p>
-                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a")</p>
+                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a2")</p>
                         } else {
-                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2b")</p>
+                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2b") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2b2")</p>
                         }
                     }
 
@@ -87,7 +87,7 @@
             } else {
 
                 <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
-                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_cert_number_mismatch")) {<a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a")}</p>
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
