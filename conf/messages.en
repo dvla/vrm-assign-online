@@ -235,7 +235,7 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed V750 or V778 to DVLA Swansea, SA99 1DS.
+soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed
 soap-endpoint-error-text2= to DVLA Swansea, SA99 1DS.
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
