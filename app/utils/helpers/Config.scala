@@ -67,6 +67,6 @@ trait Config extends VehicleLookupConfig {
   def auditMsRequestTimeout: Int
 
   def opening: Int
-
   def closing: Int
+  def closingWarnPeriodMins: Int
 }
