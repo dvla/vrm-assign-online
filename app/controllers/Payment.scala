@@ -47,24 +47,14 @@ final class Payment @Inject()(
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (_, _, Some(fulfilModel), _) =>
-        Future.successful {
-          Redirect(routes.PaymentPreventBack.present())
-        }
-      case (None, _, None, _) =>
-        Future.successful {
-          paymentFailure("missing TransactionIdCacheKey cookie")
-        }
-      case (_, None, None, _) =>
-        Future.successful {
-          paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
-        }
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
-        if (granteeConsent == "true") =>
+      request.cookies.getString(GranteeConsentCacheKey),
+      refererFromHeader.fetch) match {
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent), Some(referer))
+        if granteeConsent == "true" =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
-        paymentFailure("Payment failed matching cookies")
+        Logger.warn("Payment present failed matching cookies")
+        Redirect(routes.Confirm.present())
       }
     }
   }
@@ -97,8 +87,8 @@ final class Payment @Inject()(
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 
-    val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
-    val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+    val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel]
+    val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
 
     auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -108,8 +98,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
-      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-      captureCertificateDetailsModel = Some(captureCertificateDetails),
+      captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
+      captureCertificateDetailsModel = captureCertificateDetails,
       rejectionCode = Some(message)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -119,8 +109,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
-      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-      captureCertificateDetailsModel = Some(captureCertificateDetails),
+      captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
+      captureCertificateDetailsModel = captureCertificateDetails,
       rejectionCode = Some(message)))
 
     Redirect(routes.PaymentFailure.present())

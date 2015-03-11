@@ -29,7 +29,8 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val request = FakeRequest().
         withCookies(
-          vehicleAndKeeperDetailsModel()
+          vehicleAndKeeperDetailsModel(),
+          vehicleAndKeeperLookupFormModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
 

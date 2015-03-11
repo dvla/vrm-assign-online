@@ -27,6 +27,7 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -52,8 +53,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), formModel)
 
   override def presentResult(implicit request: Request[_]) =
-    Ok(views.html.vrm_assign.vehicle_lookup(form)).
-      discardingCookies(removeCookiesOnExit)
+    Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))
 
   override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
                                 (implicit request: Request[_]): Future[Result] = Future.successful {

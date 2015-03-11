@@ -29,13 +29,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to VehicleLookupPage page when fulfil cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().fulfilModel()
 
       go to PaymentPage
 
-      currentUrl should equal(PaymentPreventBackPage.url)
+      currentUrl should equal(ConfirmPage.url)
     }
   }
 

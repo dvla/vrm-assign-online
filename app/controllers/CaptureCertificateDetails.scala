@@ -2,14 +2,17 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
+import models.BusinessChooseYourAddressFormModel
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.CaptureCertificateDetailsViewModel
+import models.EnterAddressManuallyModel
+import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.Period
+import org.joda.time.format.DateTimeFormat
 import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
@@ -17,12 +20,12 @@ import play.api.libs.json.Writes
 import play.api.mvc.Result
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -31,6 +34,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
 import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
@@ -62,11 +66,19 @@ final class CaptureCertificateDetails @Inject()(
 
   def present = Action {
     implicit request =>
-      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-        case Some(vehicleAndKeeperDetails) =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+          // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
-        case _ => Redirect(routes.VehicleLookup.present())
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+          // Happy path for keeper keeper
+          // They are not a business, so we only need the VehicleAndKeeperDetailsModel
+          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+        case _ =>
+          Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
+          Redirect(routes.ConfirmBusiness.present())
       }
   }
 
@@ -93,19 +105,6 @@ final class CaptureCertificateDetails @Inject()(
             validForm)
         }
       )
-  }
-
-  def back = Action { implicit request =>
-    // If the user is a business actor, then navigate to the previous page in the business journey,
-    // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
-    val businessPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      if vehicleAndKeeperLookupForm.userType == UserType_Business
-    } yield {
-      Redirect(routes.ConfirmBusiness.present())
-    }
-    val keeperPath = Redirect(routes.VehicleLookup.present())
-    businessPath.getOrElse(keeperPath)
   }
 
   def bruteForceAndLookup(prVrm: String, form: Form)
@@ -136,49 +135,6 @@ final class CaptureCertificateDetails @Inject()(
     } map { result =>
       result.withCookie(form)
     }
-
-  def exit = Action {
-    implicit request =>
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
-      Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
-  }
-
-  private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) = {
-    val certificateTimeWithSummary = FormError(
-      key = CertificateTimeId,
-      messages = Seq("error.summary-validCertificateTime", "error.validCertificateTime"),
-      args = Seq.empty
-    )
-
-    val replacedErrors = (form /: List(
-      (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
-      (CertificateDateId, "error.validCertificateDate"),
-      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"),
-      (PrVrmId, "error.validPrVrm"))) {
-      (form, error) =>
-        form.replaceError(error._1, FormError(
-          key = error._1,
-          message = error._2,
-          args = Seq.empty
-        ))
-    }.
-      replaceError(
-        CertificateTimeId,
-        certificateTimeWithSummary
-      ).
-      distinctErrors
-
-    replacedErrors
-  }
 
   /**
    * Call the eligibility service to determine if the VRM is valid for assignment
@@ -335,5 +291,61 @@ final class CaptureCertificateDetails @Inject()(
 
   private def buildEndUser(): VssWebEndUserDto = {
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+  }
+
+  private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])(implicit request: Request[_]) = {
+    val certificateTimeWithSummary = FormError(
+      key = CertificateTimeId,
+      messages = Seq("error.summary-validCertificateTime", "error.validCertificateTime"),
+      args = Seq.empty
+    )
+
+    val replacedErrors = (form /: List(
+      (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
+      (CertificateDateId, "error.validCertificateDate"),
+      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"),
+      (PrVrmId, "error.validPrVrm"))) {
+      (form, error) =>
+        form.replaceError(error._1, FormError(
+          key = error._1,
+          message = error._2,
+          args = Seq.empty
+        ))
+    }.
+      replaceError(
+        CertificateTimeId,
+        certificateTimeWithSummary
+      ).
+      distinctErrors
+
+    replacedErrors
+  }
+
+  def back = Action { implicit request =>
+    // If the user is a business actor, then navigate to the previous page in the business journey,
+    // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
+    val businessPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      if vehicleAndKeeperLookupForm.userType == UserType_Business
+    } yield {
+      Redirect(routes.ConfirmBusiness.present())
+    }
+    val keeperPath = Redirect(routes.VehicleLookup.present())
+    businessPath.getOrElse(keeperPath)
+  }
+
+  def exit = Action {
+    implicit request =>
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
+      Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 }

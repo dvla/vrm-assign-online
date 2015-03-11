@@ -2,8 +2,11 @@ package personalizedAssignment.stepDefs
 
 import _root_.common.CommonStepDefs
 import cucumber.api.java.After
-import cucumber.api.java.en.{Given, Then, When}
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
@@ -13,7 +16,6 @@ import scala.concurrent.duration.DurationInt
 
 final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
   lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
   lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
@@ -31,16 +33,11 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     setupBusinessDetails,
     businessChooseYourAddress
   )(webDriver, timeout)
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
 
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
     user.`start the Assign service`
-  }
-
-  //Scenario 1
-  @Given("^I visit vehicle assign portal$")
-  def `i visit assign web portal`() {
-    user.`before you start`
   }
 
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention$")
