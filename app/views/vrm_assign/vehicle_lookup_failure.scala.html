@@ -86,8 +86,8 @@
 
             } else {
 
-                <p id="p1">@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
-                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_cert_number_mismatch")) {<a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a")}</p>
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */

@@ -215,7 +215,8 @@ error.address.postTown = Post town - Requires a minimum length of three characte
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 vrm_assign_eligibility_cert_number_mismatch.title = Certificate Reference Number could not be found
 vrm_assign_eligibility_cert_number_mismatch.p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
-vrm_assign_eligibility_cert_number_mismatch.p2 = Please make sure you have the most recent V750 or V778 and try again.
+vrm_assign_eligibility_cert_number_mismatch.p2 = Please make sure you have the most recent
+vrm_assign_eligibility_cert_number_mismatch.p2a = and try again.
 vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration number, there will be limited attempts to retrieve the vehicle details.
 
 
