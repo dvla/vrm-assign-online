@@ -579,7 +579,7 @@ vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate 
 
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
-vrm_assign_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_assign_success_payment.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 vrm_assign_success_payment.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
 vrm_assign_success_payment.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
 vrm_assign_success_payment.newDocumentsList-3 = A retention certificate for the Assigned registration number
@@ -612,7 +612,7 @@ vrm_assign_success.noticePayment.desc1 = Description
 
 vrm_assign_success.h2 = What to do next
 vrm_assign_success.h2a = What happens next?
-vrm_assign_success.p4 = We will send the following items to the keeper at their registered address:
+vrm_assign_success.p4 = We will send the following to the keeper at their registered address:
 vrm_assign_success.p5 = A new registration certificate (V5C) with the replacement registration number
 vrm_assign_success.p6 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_assign_success.h3a = Making up the new plates
@@ -621,7 +621,7 @@ vrm_assign_success.p1aa = . Tell your insurance company about your new registrat
 vrm_assign_success.p1b = on your vehicle. You can have your new plates made through one of our registered number plate suppliers. We recommend that you arrange this as soon as possible as we have updated your driver record.
 vrm_assign_success.p2= To have your new plates made up you need a V948 which you can take to your local number plate supplier who can suggest a variety of styles. You should receive this within 3-5 working days.
 vrm_assign_success.h3b = What you need to do now
-vrm_assign_success.p3 = The following items will be sent separately to you at your registered address:
+vrm_assign_success.p3 = The following will be sent separately to you at your registered address:
 vrm_assign_success.listItem1 = Print this document, as it contains important information that you may require if there is a problem in the future
 vrm_assign_success.listItem2 = If you have provided your email address during the assignment of your personal registration you will get a summary of this transaction via email
 vrm_assign_success.listItem3 = Give your insurance company your new registration number
@@ -630,7 +630,7 @@ vrm_assign_success.listItem5 = Your old V5C and MOT certificate are no longer va
 vrm_assign_success.listItem6 = For more information about vehicle registration numbers and number plates, you can download our leaflet INF104 from the website www.gov.uk/displaying-number-plates
 
 vrm_assign_success.newDocumentsTitle = About your new documents
-vrm_assign_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_assign_success.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 
 vrm_assign_success.aboutTransactionTitle = About this transaction
 vrm_assign_success.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
@@ -675,7 +675,7 @@ email.line18 = County
 email.line19 = Postcode
 email.line20 = Registered Keeper:
 email.line21 = New Documentation:
-email.line22 = The following documents will be sent to the registered keeper:
+email.line22 = The following will be sent to the registered keeper:
 email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
 email.line24 = A new MOT Certificate displaying the replacement registration number*
 email.line25 = A Retention Certificate for the assigned registration number
