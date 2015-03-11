@@ -220,7 +220,7 @@ vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration 
 
 
 # micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed.p1 =0ttyty67 The application is being processed.
+ms.vehiclesService.response.applicationBeingProcessed.p1 = The application is being processed.
 ms.vehiclesService.response.applicationBeingProcessed.p2 = Please do not send the original V5C/3 (disposal slip) to DVLA
 
 ms.vehiclesService.response.unableToProcessApplication-title = Transaction Unsuccessful
@@ -235,7 +235,8 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V750 or V778 to DVLA
+soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed V750 or V778 to DVLA Swansea, SA99 1DS.
+soap-endpoint-error-text2= to DVLA Swansea, SA99 1DS.
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
@@ -376,8 +377,10 @@ vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode e
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
 vrm_assign_eligibility_direct_to_paper.title = This registration number cannot be assigned online
 vrm_assign_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line.
-vrm_assign_eligibility_direct_to_paper.p2a = You must send the V750 or V778 and the V5C along with a cheque for the above total payable to ‘DVLA Swansea’ to:
-vrm_assign_eligibility_direct_to_paper.p2b = You must send the V750 or V778 and the V5C to:
+vrm_assign_eligibility_direct_to_paper.p2a = You must send the
+vrm_assign_eligibility_direct_to_paper.p2a2 = and the V5C along with a cheque for the above total payable to ‘DVLA Swansea’ to:
+vrm_assign_eligibility_direct_to_paper.p2b = You must send the
+vrm_assign_eligibility_direct_to_paper.p2b2 = and the V5C to:
 vrm_assign_eligibility_direct_to_paper.p3a = DVLA Personalised Registrations
 vrm_assign_eligibility_direct_to_paper.p3b = Swansea
 vrm_assign_eligibility_direct_to_paper.p3c = SA99 1DS
@@ -770,3 +773,6 @@ cookie-policy-p51 = 1 year
 closed.title = Service Unavailable
 closed.p1 = This service is only available Monday to Saturday {0} to {1}.
 closed.exit_button = Exit
+
+link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
+text-v750-or-v778=V750 or V778
