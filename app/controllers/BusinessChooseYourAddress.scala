@@ -3,10 +3,7 @@ package controllers
 import javax.inject.Inject
 
 import audit1.AuditMessage
-import models.BusinessChooseYourAddressFormModel
-import models.BusinessChooseYourAddressViewModel
-import models.BusinessDetailsModel
-import models.SetupBusinessDetailsFormModel
+import models._
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Lang
@@ -48,8 +45,9 @@ final class BusinessChooseYourAddress @Inject()(
   private[controllers] val form = Form(BusinessChooseYourAddressFormModel.Form.Mapping)
 
   def present = Action.async { implicit request =>
-    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[FulfilModel]) match {
+      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails), None) =>
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>

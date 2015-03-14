@@ -37,8 +37,10 @@ final class EnterAddressManually @Inject()(
   )
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+    (request.cookies.getModel[SetupBusinessDetailsFormModel],
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[FulfilModel]) match {
+      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails), None) =>
         val viewModel = EnterAddressManuallyViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         Ok(enter_address_manually(viewModel, form.fill()))
       case _ => Redirect(routes.SetUpBusinessDetails.present())

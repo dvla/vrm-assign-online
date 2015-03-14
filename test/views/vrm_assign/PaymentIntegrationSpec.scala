@@ -35,7 +35,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentPage
 
-      currentUrl should equal(ConfirmPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 

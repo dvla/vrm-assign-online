@@ -2,14 +2,7 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
-import models.BusinessChooseYourAddressFormModel
-import models.CacheKeyPrefix
-import models.CaptureCertificateDetailsFormModel
-import models.CaptureCertificateDetailsModel
-import models.CaptureCertificateDetailsViewModel
-import models.EnterAddressManuallyModel
-import models.SetupBusinessDetailsFormModel
-import models.VehicleAndKeeperLookupFormModel
+import models._
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.DateTimeFormat
@@ -66,12 +59,17 @@ final class CaptureCertificateDetails @Inject()(
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel],
+        request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey),
+        request.cookies.getModel[FulfilModel]) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel),
+        businessChooseYourAddress, enterAddressManually,
+        Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
           // Happy path for keeper keeper
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)

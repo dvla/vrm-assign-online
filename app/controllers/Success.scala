@@ -49,11 +49,10 @@ final class Success @Inject()(
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
             captureCertificateDetailsModel.outstandingFees)
 
-        Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper)).
-          discardingCookies(removeCookiesOnExit)
+        Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
         Logger.warn("Success present user arrived without all of the required cookies")
-        Redirect(routes.Payment.begin())
+        Redirect(routes.Confirm.present())
     }
   }
 

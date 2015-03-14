@@ -29,22 +29,24 @@ final class ConfirmBusiness @Inject()(
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
-  def present = Action(implicit request => {
-    val happyPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
-      businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
-    } yield {
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+  def present = Action { implicit request =>
 
-      val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
-      Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
+    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[SetupBusinessDetailsFormModel],
+      request.cookies.getModel[BusinessDetailsModel],
+      request.cookies.getModel[FulfilModel]) match {
+      case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
+      Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
+        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+        val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+
+        val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
+        Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
+      case _ =>
+        Redirect(routes.BusinessChooseYourAddress.present())
     }
-    val sadPath = Redirect(routes.BusinessChooseYourAddress.present())
-    happyPath.getOrElse(sadPath)
-  })
+  }
 
   def submit = Action {
     implicit request =>
