@@ -282,11 +282,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
     dtoPostcode match {
       case Some(postcode) => {
+        Logger.info("formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
         // strip the stars and spaces before comparison
         formModelPostcode.filterNot(" " contains _).toUpperCase() ==
           postcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
       }
-      case None => formModelPostcode.isEmpty
+      case None => {
+        Logger.info("formModelPostcode = " + formModelPostcode)
+        formModelPostcode.isEmpty
+      }
     }
   }
 }
