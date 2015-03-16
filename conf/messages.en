@@ -597,6 +597,17 @@ vrm_assign_success_payment.aboutTransactionCompletedLabel = Transaction Complete
 vrm_assign_success_payment.aboutTransactionEmployeeLabel = Employee name (optional)
 vrm_assign_success_payment.button = Next
 
+#Contacts
+assign-application-details-contact-us = To contact us:
+assign-application-details-telephone = Telephone
+assign-application-details-telephone-number = 0300 123 1350
+assign-application-details-telephone-number-extension = (please enter code 662 when prompted)
+assign-application-details-monday-to-friday = Monday to Friday: 08.00 - 19.00
+assign-application-details-saturday = Saturday: 08.00 - 14.00
+assign-application-details-sunday = Sunday: Closed
+assign-application-details-textphone = Textphone
+assign-application-details-textphone-number = 18001 0300 123 1379
+
 #Success page
 vrm_assign_success.title = Summary
 vrm_assign_success.subtitle = Put a registration number on a vehicle complete for
