@@ -1,4 +1,4 @@
-@browser @WIP
+@browser
 Feature: Navigation
 
   Background:
@@ -31,7 +31,7 @@ Feature: Navigation
     | "success" | "enter-address-manually"       | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "confirm-business"             | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "capture-certificate-details"  | "vehicle-lookup" | "not filled" | "wiped" |
-    | "success" | "confirm (business acting)"    | "vehicle-lookup" | "not filled" | "wiped" |
+    | "success" | "confirm"                      | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "payment"                      | "vehicle-lookup" | "not filled" | "wiped" |
 
   Scenario Outline: Pressing the browser's back button
