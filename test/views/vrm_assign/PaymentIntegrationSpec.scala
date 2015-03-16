@@ -99,7 +99,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       BusinessDetailsSet.foreach(cacheKey => {
-        println("*** cacheKey: " + cacheKey)
         webDriver.manage().getCookieNamed(cacheKey) should not equal null // Verify not removed in this case!
       })
 

@@ -7,20 +7,20 @@ import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.Result
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
+import views.vrm_assign.Confirm.SupplyEmailId
+import views.vrm_assign.Confirm.SupplyEmail_true
 import views.vrm_assign.Confirm._
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.Confirm.SupplyEmailId
-import views.vrm_assign.Confirm.SupplyEmail_true
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
@@ -45,13 +45,13 @@ final class Confirm @Inject()(
         val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
         val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
-      // with the situation where payment fails and they come back to this page via either back button or coming
-      // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
-      // customer gives up and then a new customer starts the journey in the same session and the email field is
-      // pre-populated with the previous customer's address.
-      val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
-      // always be hidden on first load
-      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+        // with the situation where payment fails and they come back to this page via either back button or coming
+        // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
+        // customer gives up and then a new customer starts the journey in the same session and the email field is
+        // pre-populated with the previous customer's address.
+        val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
+        // always be hidden on first load
+        val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
         Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
       case _ =>
         Redirect(routes.CaptureCertificateDetails.present())
