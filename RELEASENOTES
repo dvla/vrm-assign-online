@@ -1,6 +1,34 @@
+======= 1.4 ======
+Time of release binaries creation:
+Tue Mar 17 2015 14:13:00 GMT+0000 (GMT)
+
+14eecd2 RELEASE 1.4
+93b3f6c Set dependencies to release versions
+dc809ae DE396: comment out line of test that works in retention locally and on Jenkins, but only works on assign locally
+d6361e3 DE396: acceptance test for tracking id cookie not being a session cookie
+461f144 DE396: more logging for when it does fail
+c8c6573 US2632 Added partial postcode formatting
+2491763 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+847f183 fix to the postcode match code
+b7a2496 Tidy up Confirm controller
+0a7fe38 US2466: fix for target page as it does not care if it is via the business path
+96892cd DE396: remove debug
+e8f2f37 Merge branch 'US2650' of /home/git/repositories/dvla/vrm-assign-online into develop
+ac2aa37 fix to remove padded zeros from postcodes
+649fc38 Merge branch 'develop' into US2650
+3906f80 US2650 & US2581
+696cb9b extra logging to postcode bug
+b32a22f DE400 Fix to enable the creation of pdf from final screen
+63cc235 Putting closing time back to 18
+f318eab Temp change to closing hours for testing in the dev env and added a TODO
+dd57c1c DE396: all the business cookies need to have a 7 day expiry
+3b683b2 DE396: In RelatedCacheKeys now we should keep the EnterAddressManually with the business set so we can re-populate
+606d58b DE396: EnterAddressManually and SetupBusinessDetails cookies should be shared across services so pages can be repopulated
+b34aea7 New development version 1.4-SNAPSHOT
+
 ======= 1.3 ======
 Time of release binaries creation:
-Thur Mar 23 2015 11:10:00 GMT+0000 (GMT)
+Thur Mar 12 2015 11:10:00 GMT+0000 (GMT)
 
 3216800 Set dependencies to release versions
 c425ebf US2679: remove repetition
