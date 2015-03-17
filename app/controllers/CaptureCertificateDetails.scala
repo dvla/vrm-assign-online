@@ -20,6 +20,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
@@ -70,12 +71,20 @@ final class CaptureCertificateDetails @Inject()(
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
-          // Happy path for keeper keeper
+
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
         case _ =>
           Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
+          Logger.warn("*** Confirm present is missing cookies for either keeper or business")
+          Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
+          Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
+          Logger.warn("*** SetupBusinessDetailsFormModel " + request.cookies.getModel[SetupBusinessDetailsFormModel])
+          Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
+          Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])
+          Logger.warn("*** StoreBusinessDetailsCacheKey " + request.cookies.getString(StoreBusinessDetailsCacheKey))
+          Logger.warn("*** FulfilModel " + request.cookies.getModel[FulfilModel])
           Redirect(routes.ConfirmBusiness.present())
       }
   }
