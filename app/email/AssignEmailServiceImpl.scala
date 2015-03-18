@@ -26,7 +26,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val govUkUrl = Some("public/images/gov-uk-email.png")
+  private val govUkUrl = Some("public/images/gov-uk-email.jpg")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -115,7 +115,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           case Some(resource) =>
             val imageInFile = resource.openStream()
             val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-            "data:image/png;base64," + Base64.encodeBase64String(imageData)
+            "data:image/jpg;base64," + Base64.encodeBase64String(imageData)
           case _ => ""
         }
       case _ => ""
