@@ -24,11 +24,11 @@ import scala.concurrent.Future
 
 final class Success @Inject()(
                                pdfService: PdfService,
-                               dateService: DateService,
                                paymentSolveService: PaymentSolveService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

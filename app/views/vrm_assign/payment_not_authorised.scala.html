@@ -1,6 +1,10 @@
-@(transactionId: String, vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel, data: models.VehicleAndKeeperLookupFormModel,
-        captureCertificateDetailsFormModel: models.CaptureCertificateDetailsFormModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(transactionId: String,
+        vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
+        data: models.VehicleAndKeeperLookupFormModel,
+        captureCertificateDetailsFormModel: models.CaptureCertificateDetailsFormModel)(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_assign.main
 @import views.vrm_assign.PaymentNotAuthorised.{TryAgainId, ExitId}

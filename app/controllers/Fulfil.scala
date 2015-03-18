@@ -32,12 +32,12 @@ import scala.util.control.NonFatal
 
 final class Fulfil @Inject()(
                               vrmAssignFulfilService: VrmAssignFulfilService,
-                              dateService: DateService,
                               auditService1: audit1.AuditService,
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             config: Config) extends Controller {
+                             config: Config,
+                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
