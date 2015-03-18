@@ -210,7 +210,8 @@ object CookieFactoryForUISpecs {
                    paymentType: Option[String] = PaymentTypeValid,
                    cardType: Option[String] = CardTypeValid,
                    totalAmountPaid: Option[Long] = TotalAmountPaidValid,
-                   rejectionCode: Option[String] = None)(implicit webDriver: WebDriver) = {
+                   rejectionCode: Option[String] = None,
+                   isPrimaryUrl: Boolean = true)(implicit webDriver: WebDriver) = {
     val key = vrm_assign.Payment.PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,
@@ -220,7 +221,8 @@ object CookieFactoryForUISpecs {
       paymentType = paymentType,
       cardType = cardType,
       totalAmountPaid = totalAmountPaid,
-      rejectionCode = rejectionCode
+      rejectionCode = rejectionCode,
+      isPrimaryUrl = isPrimaryUrl
     )
     addCookie(key, value)
     this
