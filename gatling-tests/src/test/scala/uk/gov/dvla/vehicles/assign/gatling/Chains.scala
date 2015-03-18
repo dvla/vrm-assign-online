@@ -58,24 +58,8 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           """If-None-Match""" -> """0464ba08d53d88645ca77f9907c082c8c10d563b"""))
       )
       .exec(
-        http("icon-tick-green.gif")
-          .get( s"""/assets/images/icon-tick-green.gif""")
-      )
-      .exec(
-        http("open-government-licence-974ebd75112cb480aae1a55ae4593c67.png")
-          .get( s"""/assets/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png""")
-      )
-      .exec(
-        http("payMock.png")
-          .get( s"""/assets/images/payMock.png""")
-      )
-      .exec(
         http("pdf-icon-1.png")
           .get( s"""/assets/images/pdf-icon-1.png""")
-      )
-      .exec(
-        http("progress-tick.png")
-          .get( s"""/assets/images/progress-tick.png""")
       )
       .exec(
         http("v750-viewfinder-1.jpg")
@@ -110,10 +94,6 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/images/v750-viewfinder-1-960px.jpg""")
       )
       .exec(
-        http("V750_viewfinder@2x.png")
-          .get( s"""/assets/images/V750_viewfinder@2x.png""")
-      )
-      .exec(
         http("V750_viewfinder-1.png")
           .get( s"""/assets/images/V750_viewfinder-1.png""")
       )
@@ -144,10 +124,6 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
       .exec(
         http("v778-viewfinder-1-960px.jpg")
           .get( s"""/assets/images/v778-viewfinder-1-960px.jpg""")
-      )
-      .exec(
-        http("V778_viewfinder@2x.png")
-          .get( s"""/assets/images/V778_viewfinder@2x.png""")
       )
       .exec(
         http("V778_viewfinder-1.png")
