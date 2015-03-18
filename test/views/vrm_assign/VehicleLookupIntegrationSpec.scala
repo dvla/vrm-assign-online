@@ -7,7 +7,7 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
-import pages.vrm_assign.VehicleLookupPage.happyPath
+import pages.vrm_assign.VehicleLookupPage.fillWith
 import pages.vrm_assign._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -76,7 +76,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "")
+      fillWith(referenceNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -84,7 +84,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when no registrationNumber is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "")
+      fillWith(registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -92,7 +92,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when a registrationNumber is entered containing one character" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "a")
+      fillWith(registrationNumber = "a")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -100,7 +100,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when a registrationNumber is entered containing special characters" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "$^")
+      fillWith(registrationNumber = "$^")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -108,7 +108,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display two validation error messages when no vehicle details are entered but consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "", registrationNumber = "")
+      fillWith(referenceNumber = "", registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(2)
     }
@@ -116,7 +116,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when only a valid referenceNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "")
+      fillWith(registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -124,7 +124,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when an invalid postcode is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(postcode = "!@X")
+      fillWith(postcode = "!@X")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -132,7 +132,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "")
+      fillWith(referenceNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
