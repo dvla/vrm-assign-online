@@ -66,8 +66,8 @@ final class Payment @Inject()(
 
   def getWebPayment = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-      case (Some(transactionId), Some(paymentDetails)) =>
-        callGetWebPaymentService(transactionId, paymentDetails.trxRef.get)
+      case (Some(transactionId), Some(paymentModel)) =>
+        callGetWebPaymentService(transactionId, paymentModel.trxRef.get, isPrimaryUrl = paymentModel.isPrimaryUrl)
       case _ => Future.successful {
         paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
       }
@@ -77,7 +77,7 @@ final class Payment @Inject()(
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
       case (Some(transactionId), Some(paymentModel)) =>
-        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get, isPrimaryUrl = paymentModel.isPrimaryUrl)
       case (transactionId, paymentModel) => Future.successful {
         paymentFailure(s"Payment cancel missing either TransactionIdCacheKey: $transactionId or paymentModel $paymentModel cookie")
       }
@@ -151,7 +151,7 @@ final class Payment @Inject()(
     }
   }
 
-  private def callGetWebPaymentService(transactionId: String, trxRef: String)
+  private def callGetWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
                                       (implicit request: Request[_]): Future[Result] = {
 
     def paymentNotAuthorised = {
@@ -190,7 +190,8 @@ final class Payment @Inject()(
 
     val paymentSolveGetRequest = PaymentSolveGetRequest(
       transNo = transNo,
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 
@@ -220,14 +221,15 @@ final class Payment @Inject()(
     }
   }
 
-  private def callCancelWebPaymentService(transactionId: String, trxRef: String)
+  private def callCancelWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
       transNo = transNo,
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 

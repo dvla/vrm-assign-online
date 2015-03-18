@@ -26,7 +26,7 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
       request.cookies.getModel[PaymentModel]) match {
 
       case (Some(transactionId), Some(paymentModel)) =>
-        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get, paymentModel.isPrimaryUrl)
       case (Some(transactionId), None) =>
         Future.successful(Ok(views.html.vrm_assign.fulfil_failure(false)))
       case _ =>
@@ -34,12 +34,17 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
     }
   }
 
-  private def callCancelWebPaymentService(transactionId: String, trxRef: String)
+  private def callCancelWebPaymentService(
+                                           transactionId: String,
+                                           trxRef: String,
+                                           isPrimaryUrl: Boolean
+                                           )
                                          (implicit request: Request[_]): Future[Result] = {
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
       transNo = transactionId.replaceAll("[^0-9]", ""),
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 

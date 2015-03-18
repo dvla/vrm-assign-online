@@ -89,12 +89,15 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
             )
         }
 
-        val paymentModel = request.cookies.getModel[PaymentModel]
-        if (paymentModel.isDefined) {
-          callUpdateWebPaymentService(paymentModel.get.trxRef.get, successViewModel,
-            isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
-        } else {
-          Future.successful(Redirect(routes.Success.present()))
+        request.cookies.getModel[PaymentModel] match {
+          case Some(paymentModel) =>
+            callUpdateWebPaymentService(
+              paymentModel.trxRef.get,
+              successViewModel,
+              isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper,
+              isPrimaryUrl = paymentModel.isPrimaryUrl
+            )
+          case _ => Future.successful(Redirect(routes.Success.present()))
         }
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
@@ -164,7 +167,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     ))
   }
 
-  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel, isKeeper: Boolean)
+  private def callUpdateWebPaymentService(
+                                           trxRef: String,
+                                           successViewModel: SuccessViewModel,
+                                           isKeeper: Boolean,
+                                           isPrimaryUrl: Boolean
+                                           )
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -172,7 +180,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
       transNo = transNo,
       trxRef = trxRef,
-      authType = FulfilSuccess.SETTLE_AUTH_CODE
+      authType = FulfilSuccess.SETTLE_AUTH_CODE,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
     paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
