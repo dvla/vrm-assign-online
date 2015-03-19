@@ -1,3 +1,22 @@
+======= 1.4.1 ======
+Time of release binaries creation:
+Thur Mar 19 2015 11:18:00 GMT+0000 (GMT)
+
+82d0bd9 RELEASE 1.4.1
+c361b3b Set dependencies to release versions
+e3ea9bd Merge branch 'master' into develop
+7af05cc US2759: WebApp to Payment micro-service requests (other than /begin) should have a boolean parameter 'isPrimaryUrl'
+4a0b71d US2759: the WebApp receives the response and saves isPrimaryUrl in the PaymentModel cookie
+47619f5 US2759: the Payment micro-service /begin call's response must return a boolean parameter isPrimaryUrl. This is set to true if the call was made using the primary url.
+dbd11f1 Hotfix: BusinessChooseYourAddress cookie needs to have a cross-domain name so it can be used across the PR services
+a01bc36 DE327: change .png to .jpg to make it hopefully work on Outlook
+b7b1da8 Refactor: remove unused .gif and .png
+fb16a34 Refactor: remove unused .pngs
+813fadc Refactor: remove any new'ing up of new DateServiceImpl - we should use IoC
+713affc Refactor: rename function as it is not only used for happy path
+f058ee5 Refactor: rename config2 to config
+eee421f New development version 1.5-SNAPSHOT
+
 ======= 1.4 ======
 Time of release binaries creation:
 Tue Mar 17 2015 14:13:00 GMT+0000 (GMT)
