@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
@@ -70,7 +70,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                    addressLine2: Option[String] = KeeperAddressLine2Valid,
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid): Cookie = {
-    val key = VehicleAndKeeperLookupDetailsCacheKey
+    val key = vehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
