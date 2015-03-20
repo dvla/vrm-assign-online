@@ -115,7 +115,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           case Some(resource) =>
             val imageInFile = resource.openStream()
             val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-            "data:image/jpg;base64," + Base64.encodeBase64String(imageData)
+            "data:image/jpeg;base64," + Base64.encodeBase64String(imageData)
           case _ => ""
         }
       case _ => ""
