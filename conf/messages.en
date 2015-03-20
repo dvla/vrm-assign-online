@@ -661,7 +661,7 @@ success-application-details-keeper-details = Keeper details
 success-application-details-keeper-details-name = Name:
 success-application-details-keeper-details-address = Address:
 
-vrm_assign_success.buttonnavprint = Print Full Summary
+vrm_assign_success.buttonnavprint = Print this page
 
 micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.

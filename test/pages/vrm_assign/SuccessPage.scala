@@ -6,6 +6,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.Success.FinishId
+import views.vrm_assign.Success.PrintId
 
 object SuccessPage extends Page {
 
@@ -16,4 +17,6 @@ object SuccessPage extends Page {
   final override val title: String = "Summary"
 
   def finish(implicit driver: WebDriver) = find(id(FinishId)).get
+
+  def print(implicit driver: WebDriver) = find(id(PrintId)).get
 }
