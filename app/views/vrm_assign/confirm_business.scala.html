@@ -47,14 +47,6 @@
                 <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmBusinessViewModel.registrationNumber</dd>
-                @if(confirmBusinessViewModel.vehicleMake.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@confirmBusinessViewModel.vehicleMake.get.take(20)</dd>
-                }
-                @if(confirmBusinessViewModel.vehicleModel.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@confirmBusinessViewModel.vehicleModel.get.take(20)</dd>
-                }
             </dl>
         </div>
     </div>

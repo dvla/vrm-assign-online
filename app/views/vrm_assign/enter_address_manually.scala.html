@@ -45,14 +45,6 @@
                 <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@enterAddressManuallyViewModel.registrationNumber</dd>
-                @if(enterAddressManuallyViewModel.vehicleMake.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@enterAddressManuallyViewModel.vehicleMake.get.take(20)</dd>
-                }
-                @if(enterAddressManuallyViewModel.vehicleModel.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@enterAddressManuallyViewModel.vehicleModel.get.take(20)</dd>
-                }
             </dl>
         </div>
     </div>
