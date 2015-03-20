@@ -4,12 +4,10 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
-import pages.common.ErrorPanel
-import pages.vrm_assign.VehicleLookupPage.fillWith
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.SuccessPage.finish
 import pages.vrm_assign._
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
@@ -26,7 +24,30 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
+  "finish" should {
+
+    "redirect to feedback page" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to SuccessPage
+      click on finish
+
+      currentUrl should equal(LeaveFeedbackPage.url)
+    }
+
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to SuccessPage
+      click on finish
+
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.AssignSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
   "print button" should {
+
     "have the label 'Print this page'" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
