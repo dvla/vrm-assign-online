@@ -75,10 +75,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
-
-        //vehicle_and_keeper_lookup_document_reference_mismatch
-        //vehicle_and_keeper_lookup_keeper_postcode_mismatch
-        //vehicle_and_keeper_lookup_vrm_not_found
       case _ =>
         vehicle_lookup_failure(
           transactionId = transactionId,
