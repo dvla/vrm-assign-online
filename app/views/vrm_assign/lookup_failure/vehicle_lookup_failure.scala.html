@@ -1,0 +1,97 @@
+@(transactionId: String,
+        viewModel: models.VehicleLookupFailureViewModel,
+        responseCodeVehicleLookupMSErrorMessage: String,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import views.html.vrm_assign.main
+@import views.html.vrm_assign.lookup_failure.failure_playback
+@import views.vrm_assign.VehicleLookupFailure.{CaptureCertificateDetailsId, ExitId, VehicleLookupId, `v50-or-v778-id`}
+
+@main(
+    title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+) {
+    <div class="two-col">
+        @failure_playback(
+            viewModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel
+        )
+        <div class="second-col">
+            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+
+            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {
+
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+
+                @{
+                    /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
+                }
+                <div class="form-steps">
+                    @{
+                        /* Note the reverse routing syntax for the hyperlink */
+                    }
+                    @if(captureCertificateDetailsModel.isDefined) {
+                        @if(captureCertificateDetailsModel.get.outstandingDates.size > 0) {
+                            <p>@Messages("vrm_assign_eligibility_failure.noticePayment.p1a")</p>
+                            <p><strong>@Messages("vrm_assign_eligibility_failure.noticePayment.desc1")</strong></p>
+                            <p>
+                            @for(payment <- captureCertificateDetailsModel.get.outstandingDates) {
+                                @payment.split("£")(0)
+                                <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+                            }
+                            <p class="price-total">
+                                <strong>Total</strong>
+                                <span class="renewalFee">£@(captureCertificateDetailsModel.get.outstandingFees / 100.0)0</span>
+                            </p>
+                            </p>
+                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a2")</p>
+                        } else {
+                            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2b") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2b2")</p>
+                        }
+                    }
+
+                    <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3a")<br/>
+                        @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3b")<br/>
+                        @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3c")</p>
+                    <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4")</p>
+
+
+                    <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
+                </div>
+
+            } else {
+
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+                <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_cert_number_mismatch")) {<a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2a")}</p>
+
+                @{
+                    /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
+                }
+                <div class="form-steps">
+                    @{
+                        /* Note the reverse routing syntax for the hyperlink */
+                    }
+                    @if(Seq("vehicle_and_keeper_lookup_document_reference_mismatch",
+                        "vehicle_and_keeper_lookup_keeper_postcode_mismatch",
+                        "vehicle_and_keeper_lookup_vrm_not_found").contains(responseCodeVehicleLookupMSErrorMessage)) {
+                        <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
+                        <br/>
+                    }
+                    @if(responseCodeVehicleLookupMSErrorMessage.contains("vrm_assign_eligibility_cert_number_mismatch")) {
+                        <a class="button" id="@CaptureCertificateDetailsId" href="@controllers.routes.CaptureCertificateDetails.present()" role="button">@Messages("vrm_assign_vehiclelookupfailure.button")</a>
+                        <br/>
+                    }
+                    <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_assign_vehiclelookupfailure.button2")</a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+}

@@ -9,6 +9,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
+import views.html.vrm_assign.lookup_failure.direct_to_paper
+import views.html.vrm_assign.lookup_failure.eligibility_failure
+import views.html.vrm_assign.lookup_failure.postcode_mismatch
+import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
 import views.vrm_assign.VehicleLookup._
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -39,6 +43,10 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     }
   }
 
+  def tryAgain = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present())
+  }
+
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           bruteForcePreventionModel: BruteForcePreventionModel,
@@ -49,16 +57,41 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
-    Ok(views.html.vrm_assign.vehicle_lookup_failure(
-      transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
-      responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-      attempts = bruteForcePreventionModel.attempts,
-      maxAttempts = bruteForcePreventionModel.maxAttempts,
-      captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
-    )
-    ).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    val failurePage = vehicleAndKeeperLookupResponseCode match {
+      case "vrm_retention_eligibility_direct_to_paper" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
+        )
+      case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
+        postcode_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
+        )
+      case "vrm_retention_eligibility_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
+        )
+      case _ =>
+        vehicle_lookup_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
+          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
+        )
+    }
+
+    Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
 }

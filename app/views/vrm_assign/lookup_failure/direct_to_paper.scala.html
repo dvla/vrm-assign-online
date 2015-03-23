@@ -1,9 +1,6 @@
 @(transactionId: String,
-        vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
-        data: models.VehicleAndKeeperLookupFormModel,
+        viewModel: models.VehicleLookupFailureViewModel,
         responseCodeVehicleLookupMSErrorMessage: String,
-        attempts: Int,
-        maxAttempts: Int,
         captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
         captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
         )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -11,53 +8,22 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_assign.main
+@import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.vrm_assign.VehicleLookupFailure.{CaptureCertificateDetailsId, ExitId, VehicleLookupId, `v50-or-v778-id`}
 
 @main(
     title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <div class="two-col">
-        <div id="vehicle-details" class="first-col trader-details">
-            <dl class="playback">
-                <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
-                @if(vehicleLookupFailureViewModel.make.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
-                }
-                @if(vehicleLookupFailureViewModel.model.isDefined) {
-                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
-                }
-                @if(captureCertificateDetailsFormModel.isDefined) {
-                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@captureCertificateDetailsModel.get.prVrm</dd>
-                }
-
-                <br/>
-                <p>@Messages("assign-application-details-contact-us")</p>
-                <p>@Messages("assign-application-details-telephone")</p>
-                <p><strong>@Messages("assign-application-details-telephone-number")</strong> <br/>
-                    <small>@Messages("assign-application-details-telephone-number-extension")</small></p>
-                <p><strong>@Messages("assign-application-details-monday-to-friday")</strong></p>
-                <p><strong>@Messages("assign-application-details-saturday")</strong></p>
-                <p><strong>@Messages("assign-application-details-sunday")</strong></p>
-                <br/>
-                <p style="font-size: 14px;">@Messages("assign-application-details-textphone")</p>
-                <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
-            </dl>
-        </div>
+        @failure_playback(
+            viewModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel
+        )
         <div class="second-col">
-            @*@if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {*@
-                @*<h2>@Messages("vrm_assign_eligibility_direct_to_paper.title")</h2>*@
-            @*}*@
-            @*@if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {*@
-                @*<h2>@Messages("vrm_assign_eligibility_failure.title")</h2>*@
-            @*}*@
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
 
-            <p>Transaction Id @transactionId</p>
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
 
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_assign_eligibility_direct_to_paper")) {
 
@@ -91,8 +57,8 @@
                     }
 
                     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3a")<br/>
-                    @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3b")<br/>
-                    @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3c")</p>
+                        @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3b")<br/>
+                        @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3c")</p>
                     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4")</p>
 
 
