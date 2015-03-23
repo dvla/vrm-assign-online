@@ -10,6 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.html.vrm_assign.lookup_failure.direct_to_paper
+import views.html.vrm_assign.lookup_failure.cert_number_mismatch
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
 import views.vrm_assign.VehicleLookup._
 
@@ -67,11 +68,17 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
+      case "vrm_assign_eligibility_cert_number_mismatch" =>
+        cert_number_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
+          captureCertificateDetailsModel = captureCertificateDetailsModel
+        )
 
         //vehicle_and_keeper_lookup_document_reference_mismatch
         //vehicle_and_keeper_lookup_keeper_postcode_mismatch
         //vehicle_and_keeper_lookup_vrm_not_found
-        //vrm_assign_eligibility_cert_number_mismatch
       case _ =>
         vehicle_lookup_failure(
           transactionId = transactionId,

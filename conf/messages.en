@@ -215,10 +215,10 @@ error.validTraderBusinessName = Must be between 2 and 58 characters and only con
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
 error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
-vrm_assign_eligibility_cert_number_mismatch.title = Certificate Reference Number could not be found
-vrm_assign_eligibility_cert_number_mismatch.p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
-vrm_assign_eligibility_cert_number_mismatch.p2 = Please make sure you have the most recent
-vrm_assign_eligibility_cert_number_mismatch.p2a = and try again.
+vehicle-lookup-failure-cert-number-mismatch-title = Certificate Reference Number could not be found
+vehicle-lookup-failure-cert-number-mismatch-p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
+vehicle-lookup-failure-cert-number-mismatch-p2 = Please make sure you have the most recent
+vehicle-lookup-failure-cert-number-mismatch-p2a = and try again.
 vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration number, there will be limited attempts to retrieve the vehicle details.
 
 
@@ -365,7 +365,7 @@ postcode = Postcode
 # vehicle lookup failure
 vrm_assign_vehiclelookupfailure.name = Failure
 vrm_assign_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
-vrm_assign_vehiclelookupfailure.button = Try again
+vehicle-lookup-failure-cert-number-try-again = Try again
 vehicle-lookup-failure-exit = Exit
 vehicle_and_keeper_lookup_vrm_not_found.title = Unable to find vehicle record
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The V5C document reference number and/or the vehicle registration number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
