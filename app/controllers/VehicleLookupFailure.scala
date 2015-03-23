@@ -9,8 +9,9 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.cert_number_mismatch
+import views.html.vrm_assign.lookup_failure.direct_to_paper
+import views.html.vrm_assign.lookup_failure.eligibility
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
 import views.vrm_assign.VehicleLookup._
 
@@ -70,6 +71,13 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         )
       case "vrm_assign_eligibility_cert_number_mismatch" =>
         cert_number_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
+          captureCertificateDetailsModel = captureCertificateDetailsModel
+        )
+      case "vrm_assign_eligibility_failure" =>
+        eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
           captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
