@@ -25,6 +25,10 @@ ul.hint-list {
 
 #{$htmlNamespace} {
 
+    .reg-number {
+      font-family: 'mandatoryregular';
+    }
+  
     .beta-info {
         clear: both;
         color: $grey-1;
