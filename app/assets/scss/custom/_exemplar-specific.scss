@@ -25,6 +25,10 @@ ul.hint-list {
 
 #{$htmlNamespace} {
 
+    .reg-number {
+      font-family: 'mandatoryregular';
+    }
+  
     .beta-info {
         clear: both;
         color: $grey-1;
@@ -57,7 +61,8 @@ ul.hint-list {
 
 .vrm-assign-online .first-col .playback {
     .reg-number {
-      font-size: 20px;
+      font-family: 'mandatoryregular';
+      font-size: 30px;
       padding: 0.1em;
     }
     .reg-number-zoomed {
