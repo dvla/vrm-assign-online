@@ -96,11 +96,11 @@
                     <dt>@Messages("success-application-details-keeper-details-name")</dt>
                     <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
-                    <dd>
+                    <dt>
                     @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
-                        @keeperAddressLine <br>
+                        <strong>@keeperAddressLine</strong> <br>
                     }
-                    </dd>
+                    </dt>
                 </dl>
             </div>
         </div>
