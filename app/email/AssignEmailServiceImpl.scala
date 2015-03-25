@@ -26,7 +26,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val govUkUrl = Some("public/images/gov-uk-email.png")
+  private val govUkUrl = Some("public/images/gov-uk-email.jpg")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -77,7 +77,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             }
           } // US1589: Do not send keeper a pdf
 
-          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
+          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from,
+            subject, Option(List(emailAddress)), None)
 
           Logger.info(s"About to send email to ${emailAddress} - trackingId ${trackingId}")
           if (emailServiceSendRequest.attachment.isDefined) {
@@ -114,7 +115,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           case Some(resource) =>
             val imageInFile = resource.openStream()
             val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-            "data:image/png;base64," + Base64.encodeBase64String(imageData)
+            "data:image/jpeg;base64," + Base64.encodeBase64String(imageData)
           case _ => ""
         }
       case _ => ""

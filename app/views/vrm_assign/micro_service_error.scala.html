@@ -1,6 +1,7 @@
 @()(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_assign.main
 @import views.vrm_assign.MicroserviceError.{ExitId, TryAgainId}
@@ -17,4 +18,6 @@
         <br/>
         <a class="exit" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
     </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

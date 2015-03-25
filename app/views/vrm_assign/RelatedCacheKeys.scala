@@ -1,17 +1,19 @@
 package views.vrm_assign
 
 import models.CacheKeyPrefix
+import play.api.Logger
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
 import views.vrm_assign.Confirm.ConfirmCacheKey
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
@@ -28,13 +30,13 @@ object RelatedCacheKeys {
 
   val AssignSet = Set(
     bruteForcePreventionViewModelCacheKey,
-    VehicleAndKeeperLookupDetailsCacheKey,
+    vehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
     CaptureCertificateDetailsCacheKey,
     CaptureCertificateDetailsFormModelCacheKey,
-    EnterAddressManuallyCacheKey,
     ConfirmCacheKey,
+    GranteeConsentCacheKey,
     REFERER,
     FulfilCacheKey,
     FulfilResponseCodeCacheKey,
@@ -43,7 +45,7 @@ object RelatedCacheKeys {
   )
 
   val VehicleAndKeeperLookupSet = Set(
-    VehicleAndKeeperLookupDetailsCacheKey,
+    vehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey
   )
@@ -52,6 +54,7 @@ object RelatedCacheKeys {
     BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
     SetupBusinessDetailsCacheKey,
+    EnterAddressManuallyCacheKey,
     StoreBusinessDetailsCacheKey
   )
 

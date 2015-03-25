@@ -7,7 +7,6 @@
 main.back = Back
 main.banner.help = Help
 main.banner.feedback = your feedback
-main.banner.feedback.link = mailto:retention.online@dvla.gsi.gov.uk?Subject=Assign%20a%20Personalised%20Number%20Feedback
 crown-copyright = Crown Copyright
 open-government-licence = Open Government Licence v2.0
 open-government-licence-p1 = All content is available under the
@@ -26,6 +25,8 @@ global.buttonnavback = Back
 global.buttonnavcancel = Cancel
 global.buttonnavupdate = Update
 global.buttonnavprint = Print
+
+global.serviceCloseWarning = The service will close soon - the time now is {0} the service will close at {1}:00:00
 
 footer.helpdesk = Help
 footer.privacypolicy = Cookies
@@ -155,6 +156,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVrnOnly = Must be valid registration number
+error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C document
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 datePlaceholder.day=Day
@@ -204,9 +206,6 @@ keeperConsent = Are you the registered keeper
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
 vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
@@ -216,8 +215,10 @@ error.validTraderBusinessName = Must be between 2 and 58 characters and only con
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
 error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
-vrm_assign_eligibility_cert_number_mismatch.p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
-vrm_assign_eligibility_cert_number_mismatch.p2 = Please make sure you have the most recent V750 or V778 and try again.
+vehicle-lookup-failure-cert-number-mismatch-title = Certificate Reference Number could not be found
+vehicle-lookup-failure-cert-number-mismatch-p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
+vehicle-lookup-failure-cert-number-mismatch-p2 = Please make sure you have the most recent
+vehicle-lookup-failure-cert-number-mismatch-p2a = and try again.
 vrm_assign_eligibility_cert_number_mismatch.p3 = For each personal registration number, there will be limited attempts to retrieve the vehicle details.
 
 
@@ -237,7 +238,8 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
-soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed
+soap-endpoint-error-text2= to DVLA Swansea, SA99 1DS.
 soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
@@ -245,8 +247,8 @@ soap_endpoint_error.exit.button=Exit
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
-
+vrm_locked.text3=If you are sure that the details entered are correct then please send your completed
+vrm-locked-text4=to DVLA, Swansea, SA99 1BD
 
 vrm_locked.newdisposalbutton=Sell another vehicle
 vrm_locked.exit.button=Exit
@@ -353,43 +355,45 @@ vrm_assign_vehiclelookup.businessaddresslabel = Business address
 vrm_assign_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed on the V5C
 vrm_assign_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper''s behalf and have their consent
 vrm_assign_vehiclelookup.postcodelabel = Keeper postcode
-vrm_assign_vehiclelookup.postcodeHint = Example: SA1 2FA
-vrm_assign_vehiclelookup.keeper = Yes, I am the registered keeper or I am a private individual acting with their consent
+vrm_assign_vehiclelookup.postcodeHint = The postcode of the registered keeper exactly as printed on the V5C document
+vrm_assign_vehiclelookup.keeper = Yes I am
 vrm_assign_vehiclelookup.business = No, I am a business and have consent to act on their behalf
-vrm_assign_vehiclelookup.label = Are you the keeper?
+vrm_assign_vehiclelookup.label = Are you the registered keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
 
 # vehicle lookup failure
-vehicle_and_keeper_lookup_vrm_not_found.title = Look-up was unsuccessful
-vehicle_and_keeper_lookup_document_reference_mismatch.title = Look-up was unsuccessful
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Look-up was unsuccessful
-vrm_assign_eligibility_direct_to_paper.title = Direct to Paper Channel Error Message
-vrm_assign_eligibility_failure.title = Not Eligible to Transact Error Message
-vrm_assign_vehiclelookupfailure.title.greaterThanOneAttempt = ({0} of {1})
 vrm_assign_vehiclelookupfailure.name = Failure
 vrm_assign_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
-vrm_assign_vehiclelookupfailure.button = Try again
-vrm_assign_vehiclelookupfailure.button2 = Exit
-vehicle_and_keeper_lookup_vrm_not_found.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+vehicle-lookup-failure-cert-number-try-again = Try again
+vehicle-lookup-failure-exit = Exit
+vehicle_and_keeper_lookup_vrm_not_found.title = Unable to find vehicle record
+vehicle_and_keeper_lookup_vrm_not_found.p1 = The V5C document reference number and/or the vehicle registration number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again. For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+vehicle_and_keeper_lookup_document_reference_mismatch.title = Unable to find vehicle record
+vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again. For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Unable to find vehicle record
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
-vrm_assign_eligibility_direct_to_paper.title = This registration number can not be assigned online
-vrm_assign_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line.
-vrm_assign_eligibility_direct_to_paper.p2a = You must send the V750 or V778 and the V5C along with a cheque for the above total payable to ‘DVLA Swansea’ to:
-vrm_assign_eligibility_direct_to_paper.p2b = You must send the V750 or V778 and the V5C to:
-vrm_assign_eligibility_direct_to_paper.p3a = DVLA Personalised Registrations
-vrm_assign_eligibility_direct_to_paper.p3b = Swansea
-vrm_assign_eligibility_direct_to_paper.p3c = SA99 1DS
-vrm_assign_eligibility_direct_to_paper.p4 = All documents must be originals, not photocopies or faxed copies.
-vrm_assign_eligibility_failure.title = This registration number can not be assigned
-vrm_assign_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
-vrm_assign_eligibility_failure.p2 =
-vrm_assign_eligibility_failure.noticePayment.p1a = There are outstanding renewal fees:
-vrm_assign_eligibility_failure.noticePayment.desc1 = Description
+vehicle-lookup-failure-direct_to_paper-title = This registration number cannot be assigned online
+vehicle-lookup-failure-direct_to_paper-p1 = You are unable to continue with this application on-line.
+vehicle-lookup-failure-direct-to-paper-p2a = You must send the
+vehicle-lookup-failure-direct-to-paper-p2a2 = and the V5C along with a cheque for the above total payable to ‘DVLA Swansea’ to:
+vehicle-lookup-failure-direct-to-paper-p2b = You must send the
+vehicle-lookup-failure-direct-to-paper-p2b2 = and the V5C to:
+vehicle-lookup-failure-direct-to-paper-address-line1 = DVLA Personalised Registrations
+vehicle-lookup-failure-direct-to-paper-address-line2 = Swansea
+vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
+vehicle-lookup-failure-direct-to-paper-p4 = All documents must be originals, not photocopies or faxed copies.
+vehicle-lookup-failure-eligibility-title = This registration number cannot be assigned
+vehicle-lookup-failure-eligibility-p1 = Our records show this registration number cannot be put on this vehicle.
+vehicle-lookup-failure-notice-payment-p1a = There are outstanding renewal fees:
+vehicle-lookup-failure-notice-payment-desc1 = Description
+unhandled_exception.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+unhandled_exception.p2 = Please make sure you have the most recent V5C and try again.
+unhandled_exception.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
+vehicle-lookup-failure-transaction-id = Transaction Id
 
 # Payment page
 vrm_assign_payment.title = Payment
@@ -424,9 +428,9 @@ paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment Cancelled or Not Authorised
-paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone number may be on the back of the card) to find out further information.  There is no need to contact DVLA, no payment has been taken.
-paymentNotAuthorisedErrorMessage.p2 =
-paymentNotAuthorisedErrorMessage.p3 =
+paymentNotAuthorisedErrorMessage.p1 = Payment using this card has not been authorised by the card issuer and no payment has been taken for this transaction.
+paymentNotAuthorisedErrorMessage.p2 = You may have entered your card details incorrectly.  If you would like to try re-entering your card details or pay with an alternative card please try again.
+paymentNotAuthorisedErrorMessage.p3 = If you continue to receive this error please contact the card issuer for advice.
 
 #Confirm business page
 vrm_assign_confirm_business.title = Confirm your business details
@@ -481,7 +485,7 @@ vrm_assign_confirm.businessPostcodeLabel = Postcode
 vrm_assign_confirm.positiveAction = Confirm
 vrm_assign_confirm.back = Back
 keeper-email = E-mail
-vrm_assign_confirm.emailAddressLabel = Keeper E-mail
+vrm_assign_confirm.emailAddressLabel = Customer''s Email
 vrm_assign_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
 vrm_assign_confirm.emailAddressLabelBusiness = Keeper e-mail address
 vrm_assign_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
@@ -544,7 +548,7 @@ vrm_assign_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ''Ent
 vrm_assign_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 #page 3 - uprn not found
-vrm_assign_uprnnotfound.title = Error confirming post code
+vrm_assign_uprnnotfound.title = Error confirming postcode
 vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
 vrm_assign_uprnnotfound.manualaddressbutton = Set-up business details
 vrm_assign_uprnnotfound.setuptradedetailsbutton = Manually enter address
@@ -581,7 +585,7 @@ vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate 
 
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
-vrm_assign_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_assign_success_payment.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 vrm_assign_success_payment.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
 vrm_assign_success_payment.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
 vrm_assign_success_payment.newDocumentsList-3 = A retention certificate for the Assigned registration number
@@ -592,6 +596,17 @@ vrm_assign_success_payment.aboutTransactionIdLabel = Transaction ID -
 vrm_assign_success_payment.aboutTransactionCompletedLabel = Transaction Completed -
 vrm_assign_success_payment.aboutTransactionEmployeeLabel = Employee name (optional)
 vrm_assign_success_payment.button = Next
+
+#Contacts
+assign-application-details-contact-us = To contact us:
+assign-application-details-telephone = Telephone
+assign-application-details-telephone-number = 0300 123 1350
+assign-application-details-telephone-number-extension = (please enter code 662 when prompted)
+assign-application-details-monday-to-friday = Monday to Friday: 08.00 - 19.00
+assign-application-details-saturday = Saturday: 08.00 - 14.00
+assign-application-details-sunday = Sunday: Closed
+assign-application-details-textphone = Textphone
+assign-application-details-textphone-number = 18001 0300 123 1379
 
 #Success page
 vrm_assign_success.title = Summary
@@ -614,16 +629,16 @@ vrm_assign_success.noticePayment.desc1 = Description
 
 vrm_assign_success.h2 = What to do next
 vrm_assign_success.h2a = What happens next?
-vrm_assign_success.p4 = We will send the following items to the keeper at their registered address:
+vrm_assign_success.p4 = We will send the following to the keeper at their registered address:
 vrm_assign_success.p5 = A new registration certificate (V5C) with the replacement registration number
 vrm_assign_success.p6 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_assign_success.h3a = Making up the new plates
-vrm_assign_success.p1a = Once you have received your v5c, you can make up your plates for registration number
+vrm_assign_success.p1a = Once you have received your V5C, you can make up your plates for registration number
 vrm_assign_success.p1aa = . Tell your insurance company about your new registration number.
 vrm_assign_success.p1b = on your vehicle. You can have your new plates made through one of our registered number plate suppliers. We recommend that you arrange this as soon as possible as we have updated your driver record.
 vrm_assign_success.p2= To have your new plates made up you need a V948 which you can take to your local number plate supplier who can suggest a variety of styles. You should receive this within 3-5 working days.
 vrm_assign_success.h3b = What you need to do now
-vrm_assign_success.p3 = The following items will be sent separately to you at your registered address:
+vrm_assign_success.p3 = The following will be sent separately to you at your registered address:
 vrm_assign_success.listItem1 = Print this document, as it contains important information that you may require if there is a problem in the future
 vrm_assign_success.listItem2 = If you have provided your email address during the assignment of your personal registration you will get a summary of this transaction via email
 vrm_assign_success.listItem3 = Give your insurance company your new registration number
@@ -632,7 +647,7 @@ vrm_assign_success.listItem5 = Your old V5C and MOT certificate are no longer va
 vrm_assign_success.listItem6 = For more information about vehicle registration numbers and number plates, you can download our leaflet INF104 from the website www.gov.uk/displaying-number-plates
 
 vrm_assign_success.newDocumentsTitle = About your new documents
-vrm_assign_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_assign_success.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 
 vrm_assign_success.aboutTransactionTitle = About this transaction
 vrm_assign_success.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
@@ -646,7 +661,7 @@ success-application-details-keeper-details = Keeper details
 success-application-details-keeper-details-name = Name:
 success-application-details-keeper-details-address = Address:
 
-vrm_assign_success.buttonnavprint = Print Full Summary
+vrm_assign_success.buttonnavprint = Print this page
 
 micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.
@@ -677,7 +692,7 @@ email.line18 = County
 email.line19 = Postcode
 email.line20 = Registered Keeper:
 email.line21 = New Documentation:
-email.line22 = The following documents will be sent to the registered keeper:
+email.line22 = The following will be sent to the registered keeper:
 email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
 email.line24 = A new MOT Certificate displaying the replacement registration number*
 email.line25 = A Retention Certificate for the assigned registration number
@@ -692,7 +707,8 @@ email.crest.alt = Crest
 email.email_service_impl.subject = can be put on
 #Assign failure page
 vrm_assign_failure.title = Transaction not successful
-vrm_assign_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
+vrm_assign_failure.text = This transaction has not been successful and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 123 1350 code 662.
+vrm_assign_failure_with_payment.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 123 1350 code 662.
 
 # progress messages
 vrm_assign_progress_1 = Step 1 of 6
@@ -715,6 +731,7 @@ common_feedback.message = Please don't include any Personal or financial informa
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
 common_feedback.placeholder = (Limit is 500 characters)
 common_feedback.submit_button = Submit feedback
+common_feedback.thankyou = Thank you for your feedback
 common_feedback.subject = Sell to the trade - Feedback
 common_feedback.name = Name
 common_feedback.email = Email
@@ -724,11 +741,8 @@ error.feedbackName = Name cannot be more than 60 characters
 feedbackEmail = Email
 feedbackName = Name
 feedback = Feedback Form
-
-# feedback success
-common_feedback.thankyou = Thank you for your feedback
-feedback-return-to-your-application = ◄ Return to your application
-feedback-please-close-this-page-to-return-to-your-application = Please close this page to return to your application
+feedback_return = ◄ Return to your application
+feedback_close = Please close this page to return to your application
 
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented
@@ -790,3 +804,6 @@ cookie-policy-p51 = 1 year
 closed.title = Service Unavailable
 closed.p1 = This service is only available Monday to Saturday {0} to {1}.
 closed.exit_button = Exit
+
+link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
+text-v750-or-v778=V750 or V778

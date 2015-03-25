@@ -6,4 +6,5 @@ object VrmLocked {
   final val ExitassignId = "exit-assign"
   final val NewassignAction = "new-assign"
   final val ExitAction = "exit"
+  final val `v50-or-v778-id` = "v50-or-v778"
 }

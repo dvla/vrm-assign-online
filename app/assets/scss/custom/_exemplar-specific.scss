@@ -25,6 +25,10 @@ ul.hint-list {
 
 #{$htmlNamespace} {
 
+    .reg-number {
+      font-family: 'mandatoryregular';
+    }
+  
     .beta-info {
         clear: both;
         color: $grey-1;
@@ -57,7 +61,8 @@ ul.hint-list {
 
 .vrm-assign-online .first-col .playback {
     .reg-number {
-      font-size: 20px;
+      font-family: 'mandatoryregular';
+      font-size: 30px;
       padding: 0.1em;
     }
     .reg-number-zoomed {
@@ -124,15 +129,28 @@ summary {
     }
 }
 
-.error ~ .form-checkbox {
-    margin-top: 1em !important;
-}
-
-.summary {
+.summary-wrapper {
+  .summary {
     color:#005EA5;
-    text-decoration:underline;
     margin-bottom:15px;
     cursor: pointer;
+    strong {
+      text-decoration:underline;
+    }
+    &::before {
+      content: "\25BA";
+      margin-right: 8px;
+    }
+    &.active {
+      &::before {
+        content: "\25BC";
+      }
+    }
+  }
+}
+
+.error ~ .form-checkbox {
+    margin-top: 1em !important;
 }
 
 .vrm-assign-online .alert-warning {
@@ -140,54 +158,80 @@ summary {
 }
 
 .vrm-assign-online .certificate-details {
+
+  label {
+      padding-bottom: 0px;
+  }
+  .form-hint {
+      clear: both;
+  }
+
+  .certificate-id-input {
+    display: block;
     .form-item {
-        margin: 0px;
-        padding: 0px;
-        clear:none;
-        padding-bottom: 0px;
-        vertical-align: bottom;
-        display: inline-block;
-        // below fix for IE7 inline-block
-        zoom: 1;
-        *display: inline;
-        .error {
-            padding-left: 6px;
-            padding-top: 6px;
+      display: inline;
+      margin-bottom: 8px;
+      float: left;
+      clear: right;
+      //below fix for IE7 inline-block
+      zoom: 1;
+      *display: inline;
+      *clear: both;
+      &.validation {
+        margin-right: 30px;
+      }
+      .error {
+          padding-top: 6px;
+      }
+
+      &::after {
+        content: "-";
+      }
+      &:last-child {
+        &::after {
+          content: "";
         }
-    }
-    label {
-        padding-bottom: 0px;
-    }
-    .form-hint {
-        clear: both;
-    }
+      }
 
-    #certificate-document-count {
-        float:left;
-        width:30px;
-        text-align:center;
-    }
-
-    #certificate-date, 
-    #certificate-time, 
-    #certificate-registration-mark {
-        float:left;
+      input {
+        margin: 0 10px 10px 0;
+        text-align: center;
         width:95px;
-        margin-left:10px;
-        text-align:center;
+      }
+      #certificate-document-count {
+        width:30px;
+      }
+      #certificate-registration-mark {
+        margin-right: 0;
+      }
     }
-    #certificate-date {
-        width:80px;
-    }
-    #certificate-registration-mark {
-        width:105px;
-    }
+  }
+
+  @media screen and (max-width: $device-small) {
     .certificate-id-input {
-        line-height: 2.75;
-        .form-item {
-            margin-right: 10px;
+      .form-item {
+        display: block;
+        clear: both;
+        margin-bottom: 8px;
+        &::after {
+          content: "";
         }
+      }
     }
+  }
+
+  #certificate-date {
+      width:80px;
+  }
+  #certificate-registration-mark {
+      width:105px;
+  }
+  .certificate-id-input {
+      line-height: 2.75;
+      .form-item {
+          margin-right: 10px;
+      }
+  }
 }
 
 .vrm-assign-online .alert-complete {
@@ -207,4 +251,10 @@ summary {
     p {
         margin-top: 0;
     }
+}
+
+#supply-email {
+  label {
+    clear: none;
+  }
 }

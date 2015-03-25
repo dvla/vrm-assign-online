@@ -9,7 +9,9 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
 import org.mockito.Mockito._
+import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.ErrorPage
+import pages.vrm_assign.VehicleLookupPage
 import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
@@ -27,9 +29,10 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val request = FakeRequest().
         withCookies(
-          vehicleAndKeeperDetailsModel()
+          vehicleAndKeeperDetailsModel(),
+          vehicleAndKeeperLookupFormModel()
         )
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
 
       var result = captureCertificateDetails.present(request)
 
@@ -43,7 +46,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
     "redirect back to Error page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
@@ -60,7 +63,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         .withCookies(vehicleAndKeeperLookupFormModel())
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
@@ -87,7 +90,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         .withCookies(vehicleAndKeeperLookupFormModel())
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = checkEligibilityDirectToPaper()
+      val (captureCertificateDetails, dateService, auditService) = buildWithDirectToPaper()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
@@ -98,7 +101,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-              model.outstandingDates.size should equal(2)
+              model.outstandingDates.size should equal(1)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -110,7 +113,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         .withCookies(vehicleAndKeeperLookupFormModel())
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = checkEligibilityNotEligible()
+      val (captureCertificateDetails, dateService, auditService) = buildWithNotEligible()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
@@ -135,7 +138,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperDetailsModel()
         )
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
 
       val result = captureCertificateDetails.exit(request)
 
@@ -149,7 +152,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperDetailsModel()
         )
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditMessage(
         name = AuditMessage.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
@@ -175,7 +178,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           transactionId()
         )
-      val (captureCertificateDetails, dateService, auditService) = checkEligibility()
+      val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditMessage(
         name = AuditMessage.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
@@ -196,19 +199,43 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  private def checkEligibility() = {
+  "back" should {
+    "redirect to Vehicle Lookup page when the user is a keeper" in new WithApplication {
+      whenReady(back(KeeperConsentValid)) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
+    }
+
+    "redirect to Confirm Business page when the user is a keeper" in new WithApplication {
+      whenReady(back(BusinessConsentValid)) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
+      }
+    }
+  }
+
+  private def back(keeperConsent: String) = {
+    val request = FakeRequest().
+      withCookies(
+        vehicleAndKeeperLookupFormModel(keeperConsent = keeperConsent),
+        vehicleAndKeeperDetailsModel()
+      )
+    val (captureCertificateDetails, _, _) = build()
+    captureCertificateDetails.back(request)
+  }
+
+  private def build() = {
     val ioc = testInjector()
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
-  private def checkEligibilityDirectToPaper() = {
+  private def buildWithDirectToPaper() = {
     val ioc = testInjector(
       new VrmAssignEligibilityCallDirectToPaperError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
-  private def checkEligibilityNotEligible() = {
+  private def buildWithNotEligible() = {
     val ioc = testInjector(
       new VrmAssignEligibilityCallNotEligibleError
     )

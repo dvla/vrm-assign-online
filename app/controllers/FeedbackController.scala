@@ -6,14 +6,20 @@ import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackBase
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form._
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.emailMapping
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.nameMapping
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
+import webserviceclients.emailservice.EmailService
 
-class FeedbackController @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                     config: Config) extends Controller with FeedbackBase {
+class FeedbackController @Inject()(val emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                                                   config: Config,
+                                                                   dateService: DateService) extends Controller with FeedbackBase {
 
   override val emailConfiguration = config.emailConfiguration
 
@@ -33,7 +39,8 @@ class FeedbackController @Inject()()(implicit clientSideSessionFactory: ClientSi
     form.bindFromRequest.fold(
       invalidForm => BadRequest(views.html.vrm_assign.feedback(formWithReplacedErrors(invalidForm))),
       validForm => {
-        sendFeedback(validForm, Messages("common_feedback.subject"))
+        val trackingId = request.cookies.trackingId
+        sendFeedback(validForm, Messages("common_feedback.subject"), trackingId)
         Ok(views.html.vrm_assign.feedbackSuccess())
       }
     )

@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models._
+import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -10,7 +11,8 @@ import utils.helpers.Config
 import views.vrm_assign.VehicleLookup._
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+                                             config: Config,
+                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -19,7 +21,9 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(captureCertificateDetailsFormModel)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayPaymentNotAuthorised(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, captureCertificateDetailsFormModel)
-      case _ => Redirect(routes.BeforeYouStart.present())
+      case _ =>
+        Logger.warn("*** PaymentNotAuthorised present cookie missing go to BeforeYouStart")
+        Redirect(routes.BeforeYouStart.present())
     }
   }
 
@@ -27,7 +31,9 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
     request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
       case (Some(vehicleAndKeeperLookupFormModel)) =>
         Redirect(routes.VehicleLookup.present())
-      case _ => Redirect(routes.BeforeYouStart.present())
+      case _ =>
+        Logger.warn("*** PaymentNotAuthorised submit cookie missing go to BeforeYouStart")
+        Redirect(routes.BeforeYouStart.present())
     }
   }
 

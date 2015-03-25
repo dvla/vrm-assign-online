@@ -1,7 +1,8 @@
 @(captureCertificateDetailsFormModel: Form[models.CaptureCertificateDetailsFormModel],
         viewModel: models.CaptureCertificateDetailsViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.CaptureCertificateDetails
 @import mappings.common.vrm_assign._
@@ -17,7 +18,7 @@
 @main(
     title = Messages("vrm_assign_capturecertificatedetails.title"),
     currentForm = Some(captureCertificateDetailsFormModel),
-    backNavigation = Some(controllers.routes.VehicleLookup.present())
+    backNavigation = Some(controllers.routes.CaptureCertificateDetails.back())
 ) {
     @form(action = CaptureCertificateDetails.submit) {
         @csrfTokenHiddenField()
@@ -39,17 +40,19 @@
                                         'maxLength -> CertificateDocumentCount.MaxLength,
                                         Symbol("aria-describedby") -> s"""$CertificateDocumentCountId-hint""")
                         )
-                        -
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateDate.MaxLength)) -
+                                        'maxLength -> CertificateDate.MaxLength))
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
                             args =
                                     Map('_label -> "",
                                         '_showConstraints -> false,
-                                        'maxLength -> CertificateTime.MaxLength)) -
+                                        'maxLength -> CertificateTime.MaxLength))
+
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
                             args =
                                     Map('_label -> "",
@@ -84,14 +87,6 @@
                     <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
                     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@viewModel.registrationNumber</dd>
-                    @if(viewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(viewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
-                    }
                 </dl>
                 <div class="help-thumbs">
 
@@ -143,38 +138,6 @@
             </div>
         </div>
     }
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/capture-certificate-details-page.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
-
-<script type="text/javascript">
-require.config({
-    paths: {
-    'jquery': 'lib/jquery/jquery-1.9.1',
-    'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
-    }
-});
-
-require(["jquery", "jquery-migrate"],function($) {
-
-    function autoTab(currentId, nextId) {
-        var focusable = $('#' + currentId);
-        focusable.keyup(function (e) {
-            var maxlength = false;
-            if ($(this).attr("maxlength")) {
-                if ($(this).val().length >= $(this).attr("maxlength")) maxlength = true;
-            }
-            // Tab when the input is a key betweena a - z, A - Z and 0 - 9 and the maxlength is reached.
-            // Do not auto tab when we come to the field by tabbing or shift-tabbing, otherwise it is impossible to
-            // return to the field.
-            var inp = String.fromCharCode(e.keyCode);
-            if (/[a-zA-Z0-9-_ ]/.test(inp) && maxlength) {
-                $('#' + nextId).focus();
-            }
-        });
-    }
-
-    autoTab('@CertificateDocumentCountId', '@CertificateDateId');
-    autoTab('@CertificateDateId', '@CertificateTimeId');
-    autoTab('@CertificateTimeId', '@CertificateRegistrationMarkId');
-});
-
-</script>

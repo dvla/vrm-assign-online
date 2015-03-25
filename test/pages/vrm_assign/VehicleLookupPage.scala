@@ -29,7 +29,7 @@ object VehicleLookupPage extends Page {
 
   def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 
-  def happyPath(referenceNumber: String = ReferenceNumberValid,
+  def fillWith(referenceNumber: String = ReferenceNumberValid,
                 registrationNumber: String = RegistrationNumberValid,
                 postcode: String = KeeperPostcodeValid,
                 isCurrentKeeper: Boolean = true)

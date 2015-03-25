@@ -23,7 +23,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
@@ -82,7 +82,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
             case None => fail(s"$cookieName cookie not found")
           }
 
-          val cookie2Name = VehicleAndKeeperLookupDetailsCacheKey
+          val cookie2Name = vehicleAndKeeperLookupDetailsCacheKey
           cookies.find(_.name == cookie2Name) match {
             case Some(cookie) =>
               val json = cookie.value
@@ -188,7 +188,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should not contain VehicleAndKeeperLookupDetailsCacheKey
+          cookies.map(_.name) should not contain vehicleAndKeeperLookupDetailsCacheKey
       }
     }
 

@@ -1,6 +1,9 @@
-@(transactionId: String, vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel, data: models.VehicleAndKeeperLookupFormModel,
+@(transactionId: String,
+        vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
+        data: models.VehicleAndKeeperLookupFormModel,
         captureCertificateDetailsFormModel: models.CaptureCertificateDetailsFormModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_assign.main
 @import views.vrm_assign.PaymentFailure.{TryAgainId, ExitId}
@@ -25,6 +28,18 @@
                     }
                     <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
                     <dd class="reg-number">@captureCertificateDetailsFormModel.prVrm</dd>
+
+                    <br/>
+                    <p>@Messages("assign-application-details-contact-us")</p>
+                    <p>@Messages("assign-application-details-telephone")</p>
+                    <p><strong>@Messages("assign-application-details-telephone-number")</strong> <br/>
+                        <small>@Messages("assign-application-details-telephone-number-extension")</small></p>
+                    <p><strong>@Messages("assign-application-details-monday-to-friday")</strong></p>
+                    <p><strong>@Messages("assign-application-details-saturday")</strong></p>
+                    <p><strong>@Messages("assign-application-details-sunday")</strong></p>
+                    <br/>
+                    <p style="font-size: 14px;">@Messages("assign-application-details-textphone")</p>
+                    <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
                 </dl>
         </div>
         <div class="second-col">
@@ -43,4 +58,6 @@
             </div>
         </div>
     </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

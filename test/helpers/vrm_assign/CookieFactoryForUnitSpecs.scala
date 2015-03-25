@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
@@ -70,7 +70,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                    addressLine2: Option[String] = KeeperAddressLine2Valid,
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid): Cookie = {
-    val key = VehicleAndKeeperLookupDetailsCacheKey
+    val key = vehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
@@ -89,6 +89,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       address = Some(addressViewModel),
       disposeFlag = None,
       keeperEndDate = None,
+      keeperChangeDate = None,
       suppressedV5Flag = None
     )
     createCookie(key, value)
@@ -222,7 +223,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                    paymentType: Option[String] = PaymentTypeValid,
                    cardType: Option[String] = CardTypeValid,
                    totalAmountPaid: Option[Long] = TotalAmountPaidValid,
-                   rejectionCode: Option[String] = None): Cookie = {
+                   rejectionCode: Option[String] = None,
+                   isPrimaryUrl: Boolean = true): Cookie = {
     val key = PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,
@@ -232,7 +234,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       paymentType = paymentType,
       cardType = cardType,
       totalAmountPaid = totalAmountPaid,
-      rejectionCode = rejectionCode
+      rejectionCode = rejectionCode,
+      isPrimaryUrl = isPrimaryUrl
     )
     createCookie(key, value)
   }

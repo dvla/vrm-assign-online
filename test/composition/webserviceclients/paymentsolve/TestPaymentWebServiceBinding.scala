@@ -48,7 +48,8 @@ object TestPaymentWebServiceBinding {
       response = response,
       status = status,
       trxRef = Some("TODO"),
-      redirectUrl = Some(beginWebPaymentUrl)
+      redirectUrl = Some(beginWebPaymentUrl),
+      isPrimaryUrl = true
     )
     val asJson = Json.toJson(paymentSolveBeginResponse)
     Some(asJson)

@@ -35,36 +35,26 @@ import scala.util.control.NonFatal
 
 final class Payment @Inject()(
                                paymentSolveService: PaymentSolveService,
-                               dateService: DateService,
                                refererFromHeader: RefererFromHeader,
                                auditService1: audit1.AuditService,
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (_, _, Some(fulfilModel), _) =>
-        Future.successful {
-          Redirect(routes.PaymentPreventBack.present())
-        }
-      case (None, _, None, _) =>
-        Future.successful {
-          paymentFailure("missing TransactionIdCacheKey cookie")
-        }
-      case (_, None, None, _) =>
-        Future.successful {
-          paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
-        }
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
-        if (granteeConsent == "true") =>
+      request.cookies.getString(GranteeConsentCacheKey),
+      refererFromHeader.fetch) match {
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent), Some(referer))
+        if granteeConsent == "true" =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
-        paymentFailure("Payment failed matching cookies")
+        Logger.warn("Payment present failed matching cookies")
+        Redirect(routes.Confirm.present())
       }
     }
   }
@@ -76,8 +66,8 @@ final class Payment @Inject()(
 
   def getWebPayment = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-      case (Some(transactionId), Some(paymentDetails)) =>
-        callGetWebPaymentService(transactionId, paymentDetails.trxRef.get)
+      case (Some(transactionId), Some(paymentModel)) =>
+        callGetWebPaymentService(transactionId, paymentModel.trxRef.get, isPrimaryUrl = paymentModel.isPrimaryUrl)
       case _ => Future.successful {
         paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
       }
@@ -87,7 +77,7 @@ final class Payment @Inject()(
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
       case (Some(transactionId), Some(paymentModel)) =>
-        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get, isPrimaryUrl = paymentModel.isPrimaryUrl)
       case (transactionId, paymentModel) => Future.successful {
         paymentFailure(s"Payment cancel missing either TransactionIdCacheKey: $transactionId or paymentModel $paymentModel cookie")
       }
@@ -97,8 +87,8 @@ final class Payment @Inject()(
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 
-    val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
-    val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+    val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel]
+    val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
 
     auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -108,8 +98,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
-      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-      captureCertificateDetailsModel = Some(captureCertificateDetails),
+      captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
+      captureCertificateDetailsModel = captureCertificateDetails,
       rejectionCode = Some(message)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -119,8 +109,8 @@ final class Payment @Inject()(
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
-      captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-      captureCertificateDetailsModel = Some(captureCertificateDetails),
+      captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
+      captureCertificateDetailsModel = captureCertificateDetails,
       rejectionCode = Some(message)))
 
     Redirect(routes.PaymentFailure.present())
@@ -148,7 +138,7 @@ final class Payment @Inject()(
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
           if (response.status == Payment.CardDetailsStatus) {
             Ok(views.html.vrm_assign.payment(paymentRedirectUrl = response.redirectUrl.get))
-              .withCookie(PaymentModel.from(response.trxRef.get))
+              .withCookie(PaymentModel.from(response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
           } else {
             paymentFailure(s"The begin web request to Solve was not validated. Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
@@ -161,7 +151,7 @@ final class Payment @Inject()(
     }
   }
 
-  private def callGetWebPaymentService(transactionId: String, trxRef: String)
+  private def callGetWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
                                       (implicit request: Request[_]): Future[Result] = {
 
     def paymentNotAuthorised = {
@@ -200,7 +190,8 @@ final class Payment @Inject()(
 
     val paymentSolveGetRequest = PaymentSolveGetRequest(
       transNo = transNo,
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 
@@ -230,14 +221,15 @@ final class Payment @Inject()(
     }
   }
 
-  private def callCancelWebPaymentService(transactionId: String, trxRef: String)
+  private def callCancelWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
       transNo = transNo,
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 

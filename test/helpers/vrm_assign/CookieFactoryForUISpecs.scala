@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign
@@ -130,7 +130,7 @@ object CookieFactoryForUISpecs {
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid)
                                   (implicit webDriver: WebDriver) = {
-    val key = VehicleAndKeeperLookupDetailsCacheKey
+    val key = vehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
@@ -149,6 +149,7 @@ object CookieFactoryForUISpecs {
       address = Some(addressViewModel),
       disposeFlag = None,
       keeperEndDate = None,
+      keeperChangeDate = None,
       suppressedV5Flag = None
     )
     addCookie(key, value)
@@ -209,7 +210,8 @@ object CookieFactoryForUISpecs {
                    paymentType: Option[String] = PaymentTypeValid,
                    cardType: Option[String] = CardTypeValid,
                    totalAmountPaid: Option[Long] = TotalAmountPaidValid,
-                   rejectionCode: Option[String] = None)(implicit webDriver: WebDriver) = {
+                   rejectionCode: Option[String] = None,
+                   isPrimaryUrl: Boolean = true)(implicit webDriver: WebDriver) = {
     val key = vrm_assign.Payment.PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,
@@ -219,7 +221,8 @@ object CookieFactoryForUISpecs {
       paymentType = paymentType,
       cardType = cardType,
       totalAmountPaid = totalAmountPaid,
-      rejectionCode = rejectionCode
+      rejectionCode = rejectionCode,
+      isPrimaryUrl = isPrimaryUrl
     )
     addCookie(key, value)
     this

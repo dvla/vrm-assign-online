@@ -1,0 +1,44 @@
+@(transactionId: String,
+        viewModel: models.VehicleLookupFailureViewModel,
+        responseCodeVehicleLookupMSErrorMessage: String,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import views.html.vrm_assign.main
+@import views.html.vrm_assign.lookup_failure.failure_playback
+@import views.vrm_assign.VehicleLookupFailure.{ExitId, VehicleLookupId}
+
+@main(
+    title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+) {
+    <div class="two-col">
+        @failure_playback(
+            viewModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel
+        )
+        <div class="second-col">
+            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
+
+            <div class="form-steps">
+                @if(Seq("vehicle_and_keeper_lookup_document_reference_mismatch",
+                    "vehicle_and_keeper_lookup_keeper_postcode_mismatch",
+                    "vehicle_and_keeper_lookup_vrm_not_found").contains(responseCodeVehicleLookupMSErrorMessage)) {
+                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vehicle-lookup-failure-cert-number-try-again")</a>
+                    <br/>
+                }
+                <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
+            </div>
+        </div>
+    </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+}

@@ -1,0 +1,39 @@
+@(transactionId: String,
+        viewModel: models.VehicleLookupFailureViewModel,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import views.html.vrm_assign.main
+@import views.html.vrm_assign.lookup_failure.failure_playback
+@import views.vrm_assign.VehicleLookupFailure.{TryAgainId, ExitId, `v50-or-v778-id`}
+
+@main(
+    title = Messages(s"vehicle-lookup-failure-cert-number-mismatch-title")
+) {
+    <div class="two-col">
+        @failure_playback(
+            viewModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel
+        )
+        <div class="second-col">
+            <h2>@Messages("vehicle-lookup-failure-cert-number-mismatch-title")</h2>
+
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+
+            <p>@Messages(s"vehicle-lookup-failure-cert-number-mismatch-p1")</p>
+            <p>@Messages(s"vehicle-lookup-failure-cert-number-mismatch-p2") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages(s"vehicle-lookup-failure-cert-number-mismatch-p2a")</p>
+
+            <div class="form-steps">
+                <a class="button" id="@TryAgainId" href="@controllers.routes.CaptureCertificateDetails.present()" role="button">@Messages("vehicle-lookup-failure-cert-number-try-again")</a>
+                <br/>
+                <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
+            </div>
+        </div>
+    </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+}

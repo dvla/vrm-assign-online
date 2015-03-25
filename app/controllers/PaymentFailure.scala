@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models._
+import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -12,7 +13,8 @@ import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                       config: Config,
+                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -21,7 +23,9 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(captureCertificateDetailsFormModel)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayPaymentFailure(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, captureCertificateDetailsFormModel)
-      case _ => Redirect(routes.BeforeYouStart.present())
+      case _ =>
+        Logger.warn("*** PaymentFailure present cookie missing go to BeforeYouStart")
+        Redirect(routes.BeforeYouStart.present())
     }
   }
 

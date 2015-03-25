@@ -2,8 +2,8 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
-import models.SetupBusinessDetailsFormModel
-import models.SetupBusinessDetailsViewModel
+import models.{FulfilModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel}
+import models.CacheKeyPrefix
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc._
@@ -24,10 +24,10 @@ import webserviceclients.audit2.AuditRequest
 
 final class SetUpBusinessDetails @Inject()(
                                             auditService1: audit1.AuditService,
-                                            auditService2: audit2.AuditService,
-                                            dateService: DateService
+                                            auditService2: audit2.AuditService
                                             )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                              config: Config) extends Controller {
+                                              config: Config,
+                                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -35,8 +35,9 @@ final class SetUpBusinessDetails @Inject()(
 
   def present = Action {
     implicit request =>
-      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-        case Some(vehicleAndKeeperDetails) =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[FulfilModel]) match {
+        case (Some(vehicleAndKeeperDetails), None) =>
           val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.setup_business_details(form.fill(), viewModel))
         case _ => Redirect(routes.VehicleLookup.present())

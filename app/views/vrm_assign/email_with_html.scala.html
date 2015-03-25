@@ -37,7 +37,7 @@
     </style>
     <![endif]-->
     </head>
-    <body style="width : 100 % !important ; -webkit-text-size-adjust : 100 % ; -ms-text-size-adjust : 100 % ; margin : 0 ; padding : 0 ;">
+    <body style="width : 100% !important ; -webkit-text-size-adjust : 100% ; -ms-text-size-adjust : 100% ; margin : 0 ; padding : 0 ;">
         <style type="text/css">
         h1 a : active {
         color : red !important ;
@@ -75,7 +75,7 @@
         h6 a : visited {
         color : purple !important ;
         }
-        @@ media only screen and ( max-device-width : 480 px ) {
+        @@ media only screen and ( max-device-width : 480px ) {
         a[ href ^= "tel" ] {
         text-decoration : none ; color : blue ; pointer-events : none ; cursor : default ;
         }
@@ -89,7 +89,7 @@
         text-decoration : default ; color : orange !important ; pointer-events : auto ; cursor : default ;
         }
         }
-        @@ media only screen and ( min-device-width : 768 px ) and ( max-device-width : 1024 px ) {
+        @@ media only screen and ( min-device-width : 768px ) and ( max-device-width : 1024px ) {
         a[ href ^= "tel" ] {
         text-decoration : none ; color : blue ; pointer-events : none ; cursor : default ;
         }
@@ -107,14 +107,14 @@
             <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
 
         <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable"
-        style="width : 100 % !important ; line-height : 100 % !important ; border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ; font-family : Helvetica, Arial, sans, sans-serif ; background : #fff ; margin : 0 ; padding : 0 ;"
+        style="width : 100% !important ; line-height : 100% !important ; border-collapse : collapse ; mso-table-lspace : 0pt ; mso-table-rspace : 0pt ; font-family : Helvetica, Arial, sans, sans-serif ; background : #fff ; margin : 0 ; padding : 0 ;"
         bgcolor="#fff">
             <tr>
                 <td id="GovUkContainer" class="spacing"
-                style="border-collapse : collapse ; color : #fff ; background : #000 ; padding : 0 30 px ;" bgcolor="#000">
-                    <table style="border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ;">
+                style="border-collapse : collapse ; color : #fff ; background : #000 ; padding : 0 30px ;" bgcolor="#000">
+                    <table style="border-collapse : collapse ; mso-table-lspace : 0pt ; mso-table-rspace : 0pt ;">
                         <tr>
-                            <td style="border-collapse : collapse ; font-size : 1.6 em ; padding : 20 px 0 ;">
+                            <td style="border-collapse : collapse ; font-size : 1.6em ; padding : 20px 0 ;">
                                 <a target="_blank" href="https://www.gov.uk/" style="color: white; text-decoration: none;">
                                     <img src="@govUkContentId"
                                         width="320"
@@ -128,39 +128,39 @@
                 </td>
             </tr>
             <tr>
-                <td valign="top" class="spacing" style="border-collapse : collapse ; padding : 0 30 px ;">
+                <td valign="top" class="spacing" style="border-collapse : collapse ; padding : 0 30px ;">
                         <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody"
-                    style="border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ; width : 100 % ;">
+                    style="border-collapse : collapse ; mso-table-lspace : 0pt ; mso-table-rspace : 0pt ; width : 100% ;">
                         <tr>
                             <td id="helpTop" valign="top"
-                            style="border-collapse : collapse ; text-align : right ; background : #DEE0E2 ; padding : 10 px ; font-family : Helvetica, Arial, sans, serif ;"
+                            style="border-collapse : collapse ; text-align : right ; background : #DEE0E2 ; padding : 10px ; font-family : Helvetica, Arial, sans, serif ;"
                             align="right" bgcolor="#DEE0E2">
                             @Messages("email.line1")
                             </td>
                         </tr>
                         <tr>
                             <td style="border-collapse : collapse ;">
-                                <h1 style="color : black !important ; font-size : 2 em ; line-height : 110 % ; font-family : Helvetica, Arial, sans, serif ;">
+                                <h1 style="color : black !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, serif ;">
                                 @Messages("email.line2")</h1>
                             </td>
                         </tr>
                         <tr>
                             <td style="border-collapse : collapse ;">
                                 <table class="transDetails"
-                                style="border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ; width : 100 % ;">
+                                style="border-collapse : collapse ; mso-table-lspace : 0pt ; mso-table-rspace : 0pt ; width : 100% ;">
                                     <tr>
-                                        <td style="border-collapse : collapse ; width : 33 % ; text-align : center ; padding : 30 px 0 ; font-family : Helvetica, Arial, sans, serif ;"
+                                        <td style="border-collapse : collapse ; width : 33% ; text-align : center ; padding : 30px 0 ; font-family : Helvetica, Arial, sans, serif ;"
                                         align="center">
                                             @Messages("email.line3")
                                         <br/> <strong>@retentionCertId</strong>
                                         </td>
-                                        <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, serif ; width : 33 % ; text-align : center ; padding : 30 px 0 ;"
+                                        <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, serif ; width : 33% ; text-align : center ; padding : 30px 0 ;"
                                         align="center">
                                             @Messages("email.line4")
                                         <br/> <strong>@transactionTimestamp</strong>
                                         </td>
-                                        <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, serif ; width : 33 % ; text-align : center ; padding : 30 px 0 ;"
+                                        <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, serif ; width : 33% ; text-align : center ; padding : 30px 0 ;"
                                         align="center">
                                             @Messages("email.line5")
                                         <br/> <strong>@transactionId</strong>
@@ -171,12 +171,12 @@
                         </tr>
                         <tr>
                             <td class="successBanner"
-                            style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, sans-serif ; text-align : center ; color : #fff ; background : #28A287 ; padding : 0 30 px ;"
+                            style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, sans-serif ; text-align : center ; color : #fff ; background : #28A287 ; padding : 0 30px ;"
                             align="center" bgcolor="#28A287">
-                                <h1 style="color : #fff !important ; font-size : 2 em ; line-height : 110 % ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <h1 style="color : #fff !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line6", replacementVRM)</h1>
 
-                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @* @Messages("email.line7")</p> *@
 
                                 @* @if(!isKeeper) {
@@ -202,7 +202,7 @@
                         @*style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>*@
                         @*</p>*@
                         @* @if(!isKeeper) {*@
-                        @*<p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">*@
+                        @*<p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">*@
                         @*@Messages("email.line12")*@
                         @*</p>*@
                         @*}*@
@@ -211,50 +211,50 @@
                         <tr>
                             <td class="actorDetails" style="border-collapse : collapse ;">
                                 <hr/>
-                                <h1 style="color : black !important ; font-size : 2 em ; line-height : 110 % ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <h1 style="color : black !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line13")</h1>
 
                                 @if(!isKeeper) {
                                     @businessDetailsModel.map { businessDetails =>
-                                        <div class="twoThirds" style="width : 66 % ; float : left ;">
-                                            <div style="padding : 5 px ;">
-                                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                        <div class="twoThirds" style="width : 66% ; float : left ;">
+                                            <div style="padding : 5px ;">
+                                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                                     @Messages("email.line14")</p>
 
-                                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                                     <strong>@businessDetails.name</strong><br/>
                                                     @businessAddress <br>
                                                 </p>
 
-                                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
+                                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
                                             </div>
                                         </div>
                                     }
                                 }
-                                <div class="oneThird" style="width : 33 % ; float : left ;">
-                                    <div style="border-left : 3 px solid #ccc ; display : block ; height : 100 % ; padding : 5 px 5 px 5 px 30 px ;">
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <div class="oneThird" style="width : 33% ; float : left ;">
+                                    <div style="border-left : 3px solid #ccc ; display : block ; height : 100% ; padding : 5px 5px 5px 30px ;">
+                                        <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                         @Messages("email.line20")</p>
 
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                        <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                             <strong>@keeperName</strong> <br/>
                                             @keeperAddress</p>
 
                                         @keeperEmail.map { email =>
-                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@email</p>
+                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@email</p>
                                         }
                                     </div>
                                 </div>
 
                                 @if(!outstandingDates.isEmpty) {
 
-                                    <div class="twoThirds" style="width : 66 % ; float : left ;">
-                                        <div style="padding : 5 px ;">
-                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                    <div class="twoThirds" style="width : 66% ; float : left ;">
+                                        <div style="padding : 5px ;">
+                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                                 <strong>@Messages("email.line29")</strong></p>
                                             <p>@Messages("email.line30")</p>
 
-                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                             @for(payment <- outstandingDates) {
                                                 @payment.split("£")(0)
                                                 <span class="renewalFee">£@payment.split("£")(1)</span> <br>
@@ -268,20 +268,20 @@
                         </tr>
                         <tr>
                             <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                <h1 style="color : black !important ; font-size : 2 em ; line-height : 110 % ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <h1 style="color : black !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line21")</h1>
 
-                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line22")</p>
 
 
-                                <ul class="docList" style="border-left : 5 px solid #ccc ; display : block ; height : 100 % ; padding : 5 px 5 px 5 px 30 px ; list-style : none ;">
-                                    <li style="line-height : 150 % ; list-style : none ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <ul class="docList" style="border-left : 5px solid #ccc ; display : block ; height : 100% ; padding : 5px 5px 5px 30px ; list-style : none ;">
+                                    <li style="line-height : 150% ; list-style : none ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                     @Messages("email.line23")
                                     </li>
-                                    <li style="line-height : 150 % ; list-style : none ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                    @Messages("email.line24")
-                                    </li>
+                                    @*<li style="line-height : 150% ; list-style : none ; font-family : Helvetica, Arial, sans, sans-serif ;">*@
+                                    @*@Messages("email.line24")*@
+                                    @*</li>*@
                                     @*
                                     <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                     @Messages("email.line25")
@@ -289,11 +289,11 @@
                                     *@
                                 </ul>
 
-                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line26")</p>
 
-                                <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                @Messages("email.line27")</p>
+                                @*<p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">*@
+                                @*@Messages("email.line27")</p>*@
                             </td>
                         </tr>
                         <tr>

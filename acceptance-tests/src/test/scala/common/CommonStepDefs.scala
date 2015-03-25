@@ -1,23 +1,25 @@
 package common
 
 import composition.TestHarness
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser._
 import pages._
-import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
+import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class CommonStepDefs(
-                      beforeYouStart: BeforeYouStart_PageSteps,
-                      vehicleLookup: VehicleLookup_PageSteps,
-                      vrmLocked: VrmLocked_PageSteps,
-                      captureCertificateDetails: CaptureCertificateDetails_PageSteps,
-                      setupBusinessDetails: SetupBusinessDetails_PageSteps,
-                      businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
-                      )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
+                            beforeYouStart: BeforeYouStart_PageSteps,
+                            vehicleLookup: VehicleLookup_PageSteps,
+                            vrmLocked: VrmLocked_PageSteps,
+                            captureCertificateDetails: CaptureCertificateDetails_PageSteps,
+                            setupBusinessDetails: SetupBusinessDetails_PageSteps,
+                            businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
+                            )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
     // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
@@ -25,13 +27,10 @@ final class CommonStepDefs(
     //    val value = s"http://localhost:9000/"
     //    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
     //    sys.props += ((TestUrl, value))
-    this
-  }
-
-  def `before you start` = {
     beforeYouStart.`go to BeforeYouStart page`.
-      `is displayed`.
-      `click 'Start now' button`
+      `is displayed`
+    delete all cookies
+    beforeYouStart.`click 'Start now' button`
     vehicleLookup.`is displayed`
     this
   }
@@ -79,7 +78,7 @@ final class CommonStepDefs(
   }
 
   def chooseBusinessAddress = {
-    businessChooseYourAddress.`proceed to next page`
+    businessChooseYourAddress.`choose address from the drop-down`
     this
   }
 
@@ -108,7 +107,7 @@ final class CommonStepDefs(
     }
     //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
     //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-    c.expiry should be(None)
+//    c.expiry should not be None // It is not a session cookie.
     this
   }
 }

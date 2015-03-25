@@ -15,8 +15,10 @@ trait Config extends VehicleLookupConfig {
   def vrmAssignFulfilMicroServiceUrlBase: String
   def paymentSolveMicroServiceUrlBase: String
   def paymentSolveMsRequestTimeout: Int
+
   def emailServiceMicroServiceUrlBase: String
   def emailServiceMsRequestTimeout: Int
+  def emailConfiguration: EmailConfiguration
 
   // Ordnance survey config
   def ordnanceSurveyMicroServiceUrl: String
@@ -68,8 +70,6 @@ trait Config extends VehicleLookupConfig {
   def auditMsRequestTimeout: Int
 
   def opening: Int
-
   def closing: Int
-
-  def emailConfiguration: EmailConfiguration
+  def closingWarnPeriodMins: Int
 }

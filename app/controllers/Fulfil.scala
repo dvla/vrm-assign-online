@@ -32,12 +32,12 @@ import scala.util.control.NonFatal
 
 final class Fulfil @Inject()(
                               vrmAssignFulfilService: VrmAssignFulfilService,
-                              dateService: DateService,
                               auditService1: audit1.AuditService,
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             config: Config) extends Controller {
+                             config: Config,
+                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -146,6 +146,8 @@ final class Fulfil @Inject()(
 
       // TODO need to tidy this up!!
       val paymentModel = request.cookies.getModel[PaymentModel]
+      val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
+      val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       if (paymentModel.isDefined) {
 
@@ -159,6 +161,8 @@ final class Fulfil @Inject()(
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel,
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           rejectionCode = Some(responseCode)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToPaymentFailure,
@@ -168,6 +172,8 @@ final class Fulfil @Inject()(
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = paymentModel,
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           rejectionCode = Some(responseCode)))
 
         Redirect(routes.FulfilFailure.present()).
@@ -181,6 +187,8 @@ final class Fulfil @Inject()(
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           rejectionCode = Some(responseCode)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToFulfilFailure,
@@ -189,6 +197,8 @@ final class Fulfil @Inject()(
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
           rejectionCode = Some(responseCode)))
 
         Redirect(routes.FulfilFailure.present()).

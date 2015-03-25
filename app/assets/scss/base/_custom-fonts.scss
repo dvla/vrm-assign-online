@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'mandatoryregular';
+  // for local envirorment path needs to be "/assets/..."
+  src: url('/assign/assets/fonts/Mandatory-webfont.eot');
+  src: url('/assign/assets/fonts/Mandatory-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/assign/assets/fonts/Mandatory-webfont.woff2') format('woff2'),
+  url('/assign/assets/fonts/Mandatory-webfont.woff') format('woff'),
+  url('/assign/assets/fonts/Mandatory-webfont.ttf') format('truetype'),
+  url('/assign/assets/fonts/Mandatory-webfont.svg#mandatoryregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+

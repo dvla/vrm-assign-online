@@ -1,11 +1,14 @@
-@(transactionId: String, vrmLockedViewModel: models.VrmLockedViewModel,
+@(transactionId: String,
+        vrmLockedViewModel: models.VrmLockedViewModel,
         captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel])(implicit lang: Lang,
-        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
 @import views.html.vrm_assign.main
-@import views.vrm_assign.VrmLocked.{ExitAction, ExitassignId}
+@import views.vrm_assign.VrmLocked.{ExitAction, ExitassignId, `v50-or-v778-id`}
 
 @main(
     title = Messages("vrm_locked.title")
@@ -16,7 +19,7 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_locked.text1")</p>
             <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@vrmLockedViewModel.timeString</span></p>
-            <p>@Messages("vrm_locked.text3")</p>
+            <p>@Messages("vrm_locked.text3") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vrm-locked-text4")</p>
             <div class="form-steps">
                 <div class="step">
                     @form(action = controllers.routes.VrmLocked.exit()) {
@@ -43,19 +46,33 @@
                         <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
                         <dd class="reg-number">@captureCertificateDetailsFormModel.get.prVrm</dd>
                     }
+
+                    <br/>
+                    <p>@Messages("assign-application-details-contact-us")</p>
+                    <p>@Messages("assign-application-details-telephone")</p>
+                    <p><strong>@Messages("assign-application-details-telephone-number")</strong> <br/>
+                        <small>@Messages("assign-application-details-telephone-number-extension")</small></p>
+                    <p><strong>@Messages("assign-application-details-monday-to-friday")</strong></p>
+                    <p><strong>@Messages("assign-application-details-saturday")</strong></p>
+                    <p><strong>@Messages("assign-application-details-sunday")</strong></p>
+                    <br/>
+                    <p style="font-size: 14px;">@Messages("assign-application-details-textphone")</p>
+                    <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
                 </dl>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function localize(milliseconds)
+        {
+            var date = new Date();
+            date.setTime(milliseconds);
+            var localTime = date.toLocaleTimeString();
+            document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
+        }
+
+        localize(@vrmLockedViewModel.javascriptTimestamp);
+    </script>
+
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
-
-<script type="text/javascript">
-    function localize(milliseconds)
-    {
-        var date = new Date();
-        date.setTime(milliseconds);
-        var localTime = date.toLocaleTimeString();
-        document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
-    }
-
-localize(@vrmLockedViewModel.javascriptTimestamp);
-</script>

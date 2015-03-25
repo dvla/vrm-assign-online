@@ -3,10 +3,7 @@ package controllers
 import javax.inject.Inject
 
 import audit1.AuditMessage
-import models.BusinessChooseYourAddressFormModel
-import models.BusinessChooseYourAddressViewModel
-import models.BusinessDetailsModel
-import models.SetupBusinessDetailsFormModel
+import models._
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Lang
@@ -39,17 +36,18 @@ import scala.concurrent.Future
 final class BusinessChooseYourAddress @Inject()(
                                                  addressLookupService: AddressLookupService,
                                                  auditService1: audit1.AuditService,
-                                                 auditService2: audit2.AuditService,
-                                                 dateService: DateService
+                                                 auditService2: audit2.AuditService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                config: Config) extends Controller {
+                                                config: Config,
+                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   private[controllers] val form = Form(BusinessChooseYourAddressFormModel.Form.Mapping)
 
   def present = Action.async { implicit request =>
-    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[FulfilModel]) match {
+      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails), None) =>
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>

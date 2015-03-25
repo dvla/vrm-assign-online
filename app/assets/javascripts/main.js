@@ -1,14 +1,12 @@
 require.config({
     paths: {
-        'jquery': 'lib/jquery/jquery-1.9.1',
-        'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min',
+        'jquery': '../lib/jquery/jquery.min',
         'header-footer-only': 'header-footer-only',
-        'form-checked-selection': 'form-checked-selection',
-        'picturefill': 'picturefill.min'
+        'form-checked-selection': 'form-checked-selection'
     }
 });
 
-require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selection", "picturefill"],function($) {
+require(["jquery", "header-footer-only", "form-checked-selection"],function($) {
 
     var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
     if (IE10) {
@@ -17,15 +15,18 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
 
     $(function() {
 
+        // If JS enabled hide summary details
+        $('.details').hide();
+
+        // Summary details toggle
+        $('.summary').on('click', function() {
+            $(this).siblings().toggle();
+            $(this).toggleClass('active');
+        });
+
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
             return false;
-        });
-
-        // jQuery fallback for HTML5 summary tag
-        $('summary ~ div').hide();
-        $('summary').click(function() {
-            $('summary ~ div').toggle();
         });
 
         // Print button
@@ -46,13 +47,6 @@ require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selecti
             });
         });
 
-
-        // Picture element HTML shim|v it for old IE (pairs with Picturefill.js)
-        // Example of using this script:
-        // https://googlesamples.github.io/web-fundamentals/samples/media/images/media.html
-        // https://scottjehl.github.io/picturefill/
-        // https://scottjehl.github.io/picturefill/examples/demo-01.html
-        document.createElement("picture");
     });
 
     function areCookiesEnabled(){

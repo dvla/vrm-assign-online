@@ -4,7 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.From
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 
 import scala.concurrent.duration.DurationInt
@@ -58,7 +58,7 @@ final class TestConfig(
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
     when(config.renewalFee).thenReturn("8000")
-    when(config.renewalFeeAbolitionDate).thenReturn("01/03/2015")
+    when(config.renewalFeeAbolitionDate).thenReturn("09/03/2015")
 
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
@@ -86,7 +86,6 @@ final class TestConfig(
     // Closing
     when(config.opening).thenReturn(0)
     when(config.closing).thenReturn(23)
-
     when(config.emailConfiguration).thenReturn(EmailConfiguration(
       host = "",
       port = 25,

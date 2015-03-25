@@ -1,10 +1,13 @@
 @(progress: Option[String] = None,
     title: String,
     currentForm: Option[Form[_]] = None,
-    backNavigation: Option[Call] = None)(content: Html)(implicit lang: Lang,
-    config: utils.helpers.Config)
+    backNavigation: Option[Call] = None
+    )(content: Html)(implicit lang: Lang,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 @import views.html.common.{govMainDefault, progressBar, protoType}
 @import views.vrm_assign.Main.BackId
 
@@ -12,6 +15,8 @@
     <div class="app vrm-assign-online">
 
         @protoType()
+
+        @serviceClosingWarning(config.closing, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
 

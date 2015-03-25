@@ -30,7 +30,7 @@ import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
-final class FulfilSuccessUnitSpec extends UnitSpec with MockitoSugar {
+final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {

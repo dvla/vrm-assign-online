@@ -24,11 +24,11 @@ import scala.concurrent.Future
 
 final class Success @Inject()(
                                pdfService: PdfService,
-                               dateService: DateService,
                                paymentSolveService: PaymentSolveService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -51,8 +51,8 @@ final class Success @Inject()(
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
-        Logger.warn("user went to Success present without on of the required cookies")
-        Redirect(routes.Error.present("user went to Success present without on of the required cookies"))
+        Logger.warn("Success present user arrived without all of the required cookies")
+        Redirect(routes.Confirm.present())
     }
   }
 

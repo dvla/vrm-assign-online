@@ -19,7 +19,8 @@ import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                  config: Config) extends Controller {
+                                  config: Config,
+                                  dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action {
     implicit request =>
@@ -40,7 +41,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
 
       happyPath.getOrElse {
         Logger.debug("VrmLocked - Can't find cookies")
-        Redirect(routes.VehicleLookup.present()) // TODO need an error page with a message to explain that there is a cookie problem.
+        Redirect(routes.VehicleLookup.present())
       }
   }
 

@@ -1,11 +1,15 @@
 package utils.helpers
 
-import uk.gov.dvla.vehicles.presentation.common
-import common.ConfigProperties.{getDurationProperty, getOptionalProperty, booleanProp, intProp, stringProp, longProp}
-import common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getDurationProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getStringListProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.intProp
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.longProp
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.stringProp
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.From
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 
 class ConfigImpl extends Config {
 
@@ -58,6 +62,15 @@ class ConfigImpl extends Config {
   val emailWhitelist: Option[List[String]] = getOptionalProperty[String]("email.whitelist").map(_.split(",").toList)
   //getProperty[("email.whitelist", "").split(",")
   val emailSenderAddress: String = getProperty[String]("email.senderAddress")
+  override val emailConfiguration: EmailConfiguration = EmailConfiguration(
+    getProperty[String]("smtp.host"),
+    getProperty[Int]("smtp.port"),
+    getProperty[String]("smtp.user"),
+    getProperty[String]("smtp.password"),
+    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
+    From(getProperty[String]("email.feedbackAddress"), "Feedback"),
+    getStringListProperty("email.whitelist")
+  )
 
   // Cookie flags
   val encryptCookies = getProperty[Boolean]("encryptCookies")
@@ -81,18 +94,7 @@ class ConfigImpl extends Config {
   val channelCode: String = getProperty[String]("webHeader.channelCode")
   val contactId: Long = getProperty[Long]("webHeader.contactId")
 
-  override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
-
-  override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
-
-  // Web headers
-  override val emailConfiguration: EmailConfiguration = EmailConfiguration(
-    getProperty[String]("smtp.host"),
-    getProperty[Int]("smtp.port"),
-    getProperty[String]("smtp.user"),
-    getProperty[String]("smtp.password"),
-    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
-    From(getProperty[String]("email.feedbackAddress"), "Feedback"),
-    getStringListProperty("email.whitelist")
-  )
+  override val opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
+  override val closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
+  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
 }
