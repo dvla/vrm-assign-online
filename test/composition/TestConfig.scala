@@ -87,10 +87,6 @@ final class TestConfig(
     when(config.opening).thenReturn(0)
     when(config.closing).thenReturn(23)
     when(config.emailConfiguration).thenReturn(EmailConfiguration(
-      host = "",
-      port = 25,
-      username = "",
-      password = "",
       from = From("", "DO-NOT-REPLY"),
       feedbackEmail = From("", "Feedback"),
       whiteList = None
