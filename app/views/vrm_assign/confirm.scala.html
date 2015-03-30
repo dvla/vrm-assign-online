@@ -89,7 +89,7 @@
                             },
                             args = Map(
                                 'NO_OPTIONAL_LABEL -> true,
-                                '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
+                                '_label -> {if(isKeeper) Messages("vrm_assign_confirm.emailAddressKeeperLabel") else Messages("vrm_assign_confirm.emailAddressCustomerLabel")},
                                 '_showConstraints -> false,
                                 'maxLength -> KeeperEmailMaxLength
                             )
