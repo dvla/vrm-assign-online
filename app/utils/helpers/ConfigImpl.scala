@@ -13,55 +13,55 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.F
 
 class ConfigImpl extends Config {
 
-  val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
+  override val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
 
-  val isCsrfPreventionEnabled = getProperty[Boolean]("csrf.prevention")
+  override val isCsrfPreventionEnabled = getProperty[Boolean]("csrf.prevention")
 
   // Micro-service config
-  val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase")
-  val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty[String]("vrmAssignEligibilityMicroServiceUrlBase")
-  val vrmAssignFulfilMicroServiceUrlBase: String = getProperty[String]("vrmAssignFulfilMicroServiceUrlBase")
-  val paymentSolveMicroServiceUrlBase: String = getProperty[String]("paymentSolveMicroServiceUrlBase")
-  val paymentSolveMsRequestTimeout: Int = getProperty[Int]("paymentSolve.ms.requesttimeout")
+  override val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase")
+  override val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty[String]("vrmAssignEligibilityMicroServiceUrlBase")
+  override val vrmAssignFulfilMicroServiceUrlBase: String = getProperty[String]("vrmAssignFulfilMicroServiceUrlBase")
+  override val paymentSolveMicroServiceUrlBase: String = getProperty[String]("paymentSolveMicroServiceUrlBase")
+  override val paymentSolveMsRequestTimeout: Int = getProperty[Int]("paymentSolve.ms.requesttimeout")
 
   // Ordnance survey config
-  val ordnanceSurveyMicroServiceUrl: String = getProperty[String]("ordnancesurvey.ms.url")
-  val ordnanceSurveyRequestTimeout: Int = getProperty[Int]("ordnancesurvey.requestTimeout")
-  val ordnanceSurveyUseUprn: Boolean = getProperty[Boolean]("ordnancesurvey.useUprn")
+  override val ordnanceSurveyMicroServiceUrl: String = getProperty[String]("ordnancesurvey.ms.url")
+  override val ordnanceSurveyRequestTimeout: Int = getProperty[Int]("ordnancesurvey.requestTimeout")
+  override val ordnanceSurveyUseUprn: Boolean = getProperty[Boolean]("ordnancesurvey.useUprn")
 
-  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty[Int]("vehicleAndKeeperLookup.requesttimeout")
-  val vrmAssignEligibilityRequestTimeout: Int = getProperty[Int]("vrmAssignEligibility.requestTimeout")
-  val vrmAssignFulfilRequestTimeout: Int = getProperty[Int]("vrmAssignFulfil.requestTimeout")
+  override val vehicleAndKeeperLookupRequestTimeout: Int = getProperty[Int]("vehicleAndKeeperLookup.requesttimeout")
+  override val vrmAssignEligibilityRequestTimeout: Int = getProperty[Int]("vrmAssignEligibility.requestTimeout")
+  override val vrmAssignFulfilRequestTimeout: Int = getProperty[Int]("vrmAssignFulfil.requestTimeout")
 
   // Prototype message in html
-  val isPrototypeBannerVisible: Boolean = getProperty[Boolean]("prototype.disclaimer")
+  override val isPrototypeBannerVisible: Boolean = getProperty[Boolean]("prototype.disclaimer")
 
   // Prototype survey URL
-  val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")
-  val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval")
+  override val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")
+  override val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval")
 
   // Google analytics
-  val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.assign")
+  override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.assign")
 
   // Progress step indicator
-  val isProgressBarEnabled: Boolean = getProperty[Boolean]("progressBar.enabled")
+  override val isProgressBarEnabled: Boolean = getProperty[Boolean]("progressBar.enabled")
 
   // Rabbit-MQ
-  val rabbitmqHost = getProperty[String]("rabbitmq.host")
-  val rabbitmqPort = getProperty[Int]("rabbitmq.port")
-  val rabbitmqQueue = getProperty[String]("rabbitmq.queue")
-  val rabbitmqUsername = getProperty[String]("rabbitmq.username")
-  val rabbitmqPassword = getProperty[String]("rabbitmq.password")
-  val rabbitmqVirtualHost = getProperty[String]("rabbitmq.virtualHost")
+  override val rabbitmqHost = getProperty[String]("rabbitmq.host")
+  override val rabbitmqPort = getProperty[Int]("rabbitmq.port")
+  override val rabbitmqQueue = getProperty[String]("rabbitmq.queue")
+  override val rabbitmqUsername = getProperty[String]("rabbitmq.username")
+  override val rabbitmqPassword = getProperty[String]("rabbitmq.password")
+  override val rabbitmqVirtualHost = getProperty[String]("rabbitmq.virtualHost")
 
   // Payment Service
-  val renewalFee: String = getProperty[String]("assign.renewalFee.price")
-  val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
+  override val renewalFee: String = getProperty[String]("assign.renewalFee.price")
+  override val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
 
   // Email Service
-  val emailWhitelist: Option[List[String]] = getOptionalProperty[String]("email.whitelist").map(_.split(",").toList)
+  override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
   //getProperty[("email.whitelist", "").split(",")
-  val emailSenderAddress: String = getProperty[String]("email.senderAddress")
+  override val emailSenderAddress: String = getProperty[String]("email.senderAddress")
   override val emailConfiguration: EmailConfiguration = EmailConfiguration(
     From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
     From(getProperty[String]("email.feedbackAddress"), "Feedback"),
@@ -69,26 +69,26 @@ class ConfigImpl extends Config {
   )
 
   // Cookie flags
-  val encryptCookies = getProperty[Boolean]("encryptCookies")
-  val secureCookies = getProperty[Boolean]("secureCookies")
-  val cookieMaxAge = getProperty[Int]("application.cookieMaxAge")
-  val storeBusinessDetailsMaxAge = getProperty[Int]("storeBusinessDetails.cookieMaxAge")
+  override val encryptCookies = getProperty[Boolean]("encryptCookies")
+  override val secureCookies = getProperty[Boolean]("secureCookies")
+  override val cookieMaxAge = getProperty[Int]("application.cookieMaxAge")
+  override val storeBusinessDetailsMaxAge = getProperty[Int]("storeBusinessDetails.cookieMaxAge")
 
   // Audit microservice
-  val auditMicroServiceUrlBase: String = getProperty[String]("auditMicroServiceUrlBase")
-  val auditMsRequestTimeout: Int = getProperty[Int]("audit.requesttimeout")
+  override val auditMicroServiceUrlBase: String = getProperty[String]("auditMicroServiceUrlBase")
+  override val auditMsRequestTimeout: Int = getProperty[Int]("audit.requesttimeout")
 
   // Email microservice
-  val emailServiceMicroServiceUrlBase: String = getProperty[String]("emailServiceMicroServiceUrlBase")
-  val emailServiceMsRequestTimeout: Int = getProperty[Int]("emailService.ms.requesttimeout")
+  override val emailServiceMicroServiceUrlBase: String = getProperty[String]("emailServiceMicroServiceUrlBase")
+  override val emailServiceMsRequestTimeout: Int = getProperty[Int]("emailService.ms.requesttimeout")
 
   // Web headers
-  val applicationCode: String = getProperty[String]("webHeader.applicationCode")
-  val vssServiceTypeCode: String = getProperty[String]("webHeader.vssServiceTypeCode")
-  val dmsServiceTypeCode: String = getProperty[String]("webHeader.dmsServiceTypeCode")
-  val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
-  val channelCode: String = getProperty[String]("webHeader.channelCode")
-  val contactId: Long = getProperty[Long]("webHeader.contactId")
+  override val applicationCode: String = getProperty[String]("webHeader.applicationCode")
+  override val vssServiceTypeCode: String = getProperty[String]("webHeader.vssServiceTypeCode")
+  override val dmsServiceTypeCode: String = getProperty[String]("webHeader.dmsServiceTypeCode")
+  override val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
+  override val channelCode: String = getProperty[String]("webHeader.channelCode")
+  override val contactId: Long = getProperty[Long]("webHeader.contactId")
 
   override val opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
   override val closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
