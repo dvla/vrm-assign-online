@@ -1,72 +1,75 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 
 trait Config extends VehicleLookupConfig {
 
-  def assetsUrl: Option[String]
+  val assetsUrl: Option[String]
 
-  def isCsrfPreventionEnabled: Boolean
+  val isCsrfPreventionEnabled: Boolean
 
   // Micro-service config // TODO take defaults off the timeouts
-  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
-  def vrmAssignEligibilityMicroServiceUrlBase: String
-  def vrmAssignFulfilMicroServiceUrlBase: String
-  def paymentSolveMicroServiceUrlBase: String
-  def paymentSolveMsRequestTimeout: Int
-  def emailServiceMicroServiceUrlBase: String
-  def emailServiceMsRequestTimeout: Int
+  val vehicleAndKeeperLookupMicroServiceBaseUrl: String
+  val vrmAssignEligibilityMicroServiceUrlBase: String
+  val vrmAssignFulfilMicroServiceUrlBase: String
+  val paymentSolveMicroServiceUrlBase: String
+  val paymentSolveMsRequestTimeout: Int
+
+  val emailServiceMicroServiceUrlBase: String
+  val emailServiceMsRequestTimeout: Int
+  val emailConfiguration: EmailConfiguration
 
   // Ordnance survey config
-  def ordnanceSurveyMicroServiceUrl: String
-  def ordnanceSurveyRequestTimeout: Int
-  def ordnanceSurveyUseUprn: Boolean
+  val ordnanceSurveyMicroServiceUrl: String
+  val ordnanceSurveyRequestTimeout: Int
+  val ordnanceSurveyUseUprn: Boolean
 
-  def vehicleAndKeeperLookupRequestTimeout: Int
-  def vrmAssignEligibilityRequestTimeout: Int
-  def vrmAssignFulfilRequestTimeout: Int
+  val vehicleAndKeeperLookupRequestTimeout: Int
+  val vrmAssignEligibilityRequestTimeout: Int
+  val vrmAssignFulfilRequestTimeout: Int
 
   // Prototype message in html
-  def isPrototypeBannerVisible: Boolean
+  val isPrototypeBannerVisible: Boolean
 
   // Prototype survey URL
-  def prototypeSurveyUrl: String
-  def prototypeSurveyPrepositionInterval: Long
+  val prototypeSurveyUrl: String
+  val prototypeSurveyPrepositionInterval: Long
 
   // Google analytics
-  def googleAnalyticsTrackingId: Option[String]
+  val googleAnalyticsTrackingId: Option[String]
 
   // Progress step indicator
-  def isProgressBarEnabled: Boolean
+  val isProgressBarEnabled: Boolean
 
   // Rabbit-MQ
-  def rabbitmqHost: String
-  def rabbitmqPort: Int
-  def rabbitmqQueue: String
-  def rabbitmqUsername:String
-  def rabbitmqPassword: String
-  def rabbitmqVirtualHost: String
+  val rabbitmqHost: String
+  val rabbitmqPort: Int
+  val rabbitmqQueue: String
+  val rabbitmqUsername:String
+  val rabbitmqPassword: String
+  val rabbitmqVirtualHost: String
 
   // Payment Service
-  def renewalFee: String
-  def renewalFeeAbolitionDate: String
+  val renewalFee: String
+  val renewalFeeAbolitionDate: String
 
   // Email Service
-  def emailWhitelist: Option[List[String]]
+  val emailWhitelist: Option[List[String]]
   //getOptionalProperty[("email.whitelist", "").split(",")
-  def emailSenderAddress: String
+  val emailSenderAddress: String
 
   // Cookie flags
-  def encryptCookies: Boolean
-  def secureCookies: Boolean
-  def cookieMaxAge: Int
-  def storeBusinessDetailsMaxAge:Int
+  val encryptCookies: Boolean
+  val secureCookies: Boolean
+  val cookieMaxAge: Int
+  val storeBusinessDetailsMaxAge:Int
 
   // Audit microservice
-  def auditMicroServiceUrlBase: String
-  def auditMsRequestTimeout: Int
+  val auditMicroServiceUrlBase: String
+  val auditMsRequestTimeout: Int
 
-  def opening: Int
-  def closing: Int
-  def closingWarnPeriodMins: Int
+  val opening: Int
+  val closing: Int
+  val closingWarnPeriodMins: Int
 }

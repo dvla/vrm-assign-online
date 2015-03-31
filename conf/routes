@@ -106,3 +106,7 @@ GET         /cookie-policy                                 @controllers.CookiePo
 
 GET         /version                                       @controllers.Version.version
 GET         /closed-stub                                   @controllers.Closed.present
+
+# feedback
+GET         /feedback                                      @controllers.FeedbackController.present
+POST        /feedback                                      @controllers.FeedbackController.submit
