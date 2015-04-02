@@ -432,6 +432,11 @@ paymentNotAuthorisedErrorMessage.p1 = Payment using this card has not been autho
 paymentNotAuthorisedErrorMessage.p2 = You may have entered your card details incorrectly.  If you would like to try re-entering your card details or pay with an alternative card please try again.
 paymentNotAuthorisedErrorMessage.p3 = If you continue to receive this error please contact the card issuer for advice.
 
+# Payment post shutdown page
+paymentPostShutdownErrorMessage.title = We are sorry but the service is now offline
+paymentPostShutdownErrorMessage.p1 = Our Service is now closed. Opening hours are 08:00 to 18:00.
+paymentPostShutdownErrorMessage.p2 = We are unable to continue with your application at this time, you will need to return during opening hours. No payment has been taken.
+
 #Confirm business page
 vrm_assign_confirm_business.title = Confirm your business details
 vrm_assign_confirm_business.button = Confirm
