@@ -16,7 +16,7 @@ require(["jquery", "header-footer-only", "form-checked-selection"],function($) {
     $(function() {
 
         // Enabling loading class/js animation on submit's CTAs
-        $(':submit').on('click', function(e) {
+        $('button[type="submit"]').on('click', function(e) {
             var runTimes;
 
             if ( $(this).hasClass("disabled") ) {
@@ -27,11 +27,11 @@ require(["jquery", "header-footer-only", "form-checked-selection"],function($) {
             runTimes = 0;
             setInterval(function() {
                 if ( runTimes < 3 ){
-                    $(':submit').append('.');
+                    $('button[type="submit"]').append('.');
                     runTimes++;
                 } else {
                     runTimes = 0;
-                    $(':submit').html('Loading');
+                    $('button[type="submit"]').html('Loading');
                 }
             }, 1000);
         });
@@ -68,6 +68,33 @@ require(["jquery", "header-footer-only", "form-checked-selection"],function($) {
             });
         });
 
+        function updateCountdown() {
+            var remaining = 500 - $('#feedback-form textarea').val().length;
+            $('.character-countdown').text(remaining + ' characters remaining.');
+        }
+
+        $(document).ready(function($) {
+
+            // IE 9- maxlenght on input textarea
+            var txts = document.getElementsByTagName('TEXTAREA')
+            for(var i = 0, l = txts.length; i < l; i++) {
+                if(/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
+                    var func = function() {
+                        var len = parseInt(this.getAttribute("maxlength"), 10);
+
+                        if(this.value.length > len) {
+                            this.value = this.value.substr(0, len);
+                            return false;
+                        }
+                    }
+                    txts[i].onkeyup = func;
+                    txts[i].onblur = func;
+                }
+            }
+            // Update Countdown on input textarea
+            $('#feedback-form textarea').change(updateCountdown);
+            $('#feedback-form textarea').keyup(updateCountdown);
+        });
     });
 
     function areCookiesEnabled(){

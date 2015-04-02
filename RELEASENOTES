@@ -1,3 +1,60 @@
+======= 1.5 ======
+Time of release binaries creation:
+Tue Apr 1 2015 15:14:00 GMT+0000 (GMT)
+
+6594728 RELEASE 1.5
+3c4d6ed Set dependencies to release versions
+ff3d83b US2193: move script referrence to main.js to the govMainDefault, remove it from any child of govMainDefault
+6c79e5e US2193: print button should not say loading
+77d75a2 Adding feedback countdown script
+d47357e Remove '/' route as we can use Pay's reverse routing to go straight to the before-you-start page
+aa42be6 US2784: Update the email subject lines
+50a6271 Merge branch 'US2193' of /home/git/repositories/dvla/vrm-assign-online into develop
+eace2d3 US2193: fix copy-&-paste message mistake
+4add62c US2193: in config change val to override val, change whitelist to use getStringListProperty
+17f9e69 DE431 stop double clicking
+78b44b1 US2193: remove unused values from email config
+1c61d0d Merge branch 'develop' into US2193
+08cd6ba fix to audit transaction id problem
+271697d US2784 fix to the assign email subject line
+04196f2 fix to the email header depending upon customer or keeper
+1c703da Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+2edd9e7 change to the line spacing of address lines
+1f9db85 Fix merge plus US2193: Deploy the VM feedback form in the PR exemplar services
+0070a1b Merge branch 'DE428' of /home/git/repositories/dvla/vrm-assign-online into develop
+e691200 DE428
+6b7c04d Merge branch 'US2455' of /home/git/repositories/dvla/vrm-assign-online into develop
+64914d2 US2455 - updating production path for font
+e81d556 Fix the exception cases for the access logging
+fadfa8c Merge branch 'US2455' of /home/git/repositories/dvla/vrm-assign-online into develop
+4d4971b Merge branch 'US2641' of /home/git/repositories/dvla/vrm-assign-online into develop
+1946ceb US2455 - updating font on summary page
+0168544 US2455 - Registration Number font
+a9c8464 US2455 - adding reg font
+48343f0 US2641 -
+df32b4f Merge branch 'US2599' into develop
+fbac02f US2656: re-name for clarity
+f820a37 US2599: if a cookie is an option, then if the option is None then make no change to the Result. If the option is Some, then add the cookie to the Result. Now we can try to read all the business cookies set on the confirm page and all those that exist get re-written so that the maxAge is bumped
+63fd673 US2656: extract eligibility failure page
+611509e US2656: remove comments
+3c7819f US2656: extract cert number mismatch
+e5cbb99 US2656: made direct to paper page unique
+887ccc5 US2656: identical pages extracted
+3417db6 US2657: Rename the Keeper Email field on Business Journey
+5cec23f DE327: change code to specify the image as an image/jpeg instead of image/jpg to make it hopefully work on Outlook
+4ae90aa Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+cac9c79 Test for cookies being removed after clicking the finish button
+7790601 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+633a686 US2675: Change print button label to be Print this page
+bfc09be Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+c88e3ec US2720: Remove Make and Model from all pages before the Confirm page
+8bcdf34 US2635: Added prefix to vehicleAndKeeperLookupDetailsCacheKey cookie.
+88a7dfe US2720: Remove Make and Model from Business Details Pages
+5307da3 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+847d01a Fix due to address line validation changes
+53d1c4b Merge back into development version 1.5-SNAPSHOT
+ff67ecb US2193: common feedback form, mothballed because the common component expects us to pass in config values but Ops have directed us for security not to send emails from the webapp but from a micro-service. We need the common feedback form to to use the email micro-service and not take any config values from the webapp before we can continue
+
 ======= 1.4.1 ======
 Time of release binaries creation:
 Thur Mar 19 2015 11:18:00 GMT+0000 (GMT)
