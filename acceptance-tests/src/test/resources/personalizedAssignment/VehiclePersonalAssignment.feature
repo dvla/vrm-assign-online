@@ -28,6 +28,7 @@ Feature: Assignment of Vehicle
   Scenario Outline: Vehicle Not Found
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> that does not match a valid vehicle record
     Then the vrm not found page is displayed
+    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "C1"                      | "11111111111" | "SA11AA" |
@@ -35,6 +36,7 @@ Feature: Assignment of Vehicle
   Scenario Outline: Doc Ref Mismatch
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> that does not match a valid vehicle record
     Then the doc ref mismatch page is displayed
+    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "A1"                      | "22222222222" | "AA11AA" |
@@ -44,11 +46,12 @@ Feature: Assignment of Vehicle
     Then the brute force lock out page is displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
-    | "ST05YYC"                 | "11111111111" | "SA11AA" |
+    | "B1"                 | "22222222222" | "AA11AA" |
 
   Scenario Outline: Direct to Paper Channel
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that has a marker set
     Then the direct to paper channel page is displayed
+    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "D1"                      | "11111111111" | "SA11AA" |
@@ -56,6 +59,7 @@ Feature: Assignment of Vehicle
   Scenario Outline: Vehicle not Eligible
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is not eligible for retention
     Then the vehicle not eligible page is displayed
+    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "E1"                      | "11111111111" | "SA11AA" |

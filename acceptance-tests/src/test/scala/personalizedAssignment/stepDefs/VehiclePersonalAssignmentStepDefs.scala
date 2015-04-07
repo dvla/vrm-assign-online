@@ -105,20 +105,33 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   //Scenario 4
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\"  that does not match a valid vehicle record three times in a row$")
   def `i enter data in the and that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.`vehicleLookupDoesNotMatchRecord`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      //`enterCertificateDetails`.
-      `goToVehicleLookupPage`
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
 
-      .`vehicleLookupDoesNotMatchRecord`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      //`enterCertificateDetails`.
-      `goToVehicleLookupPage`.
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
 
-      `vehicleLookupDoesNotMatchRecord`(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
+
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
   }
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() {
     vrmLocked.`is displayed`
+  }
+
+  @Then("^reset the (.*?) so it won't be locked next time we run the tests$")
+  def `reset the <vehicle-registration-number> so it won't be locked next time we run the tests`(registrationNumber: String) {
+    user.goToVehicleLookupPage
+    vehicleLookup.
+      enter(registrationNumber, "11111111111", "AA11AA").
+      `keeper is not acting`.
+      `find vehicle`
   }
 
   //Scenario 5

@@ -45,7 +45,6 @@ final class CommonStepDefs(
       enter(registrationNumber, docRefNumber, postcode).
       `keeper is acting`.
       `find vehicle`
-    vrmLocked.`is displayed`
     this
   }
 
