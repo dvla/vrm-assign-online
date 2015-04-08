@@ -6,7 +6,7 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.ConfirmBusinessPage.url
 import pages.vrm_assign.ConfirmBusinessPage.confirm
 import pages.vrm_assign.ConfirmBusinessPage.rememberDetails
 import pages.vrm_assign.ConfirmBusinessPage.exit
@@ -23,7 +23,7 @@ final class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver, timeo
 
   def `is displayed` = {
     eventually {
-      currentUrl should include(ConfirmBusinessPage.address)
+      currentUrl should equal(url)
     }(timeout)
     this
   }

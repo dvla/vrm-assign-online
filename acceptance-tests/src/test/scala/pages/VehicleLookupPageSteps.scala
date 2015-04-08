@@ -24,7 +24,7 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout
 
   def `is displayed` = {
     eventually {
-      currentUrl should include(address)
+      currentUrl should equal(url)
     }(timeout)
     this
   }

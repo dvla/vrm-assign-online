@@ -13,7 +13,7 @@ final class VrmLockedPageSteps(implicit webDriver: WebBrowserDriver, timeout: Pa
 
   def `is displayed` = {
     eventually {
-      currentUrl should include(address)
+      currentUrl should equal(url)
     }(timeout)
     this
   }

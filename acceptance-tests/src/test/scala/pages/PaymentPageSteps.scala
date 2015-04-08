@@ -11,7 +11,7 @@ import pages.vrm_assign.PaymentPage
 import pages.vrm_assign.PaymentPage.expiryMonth
 import pages.vrm_assign.PaymentPage.expiryYear
 import pages.vrm_assign.PaymentPage.payNow
-import pages.vrm_assign.PaymentPage.address
+import pages.vrm_assign.PaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
@@ -27,7 +27,7 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: Pati
 
   def `is displayed` = {
     eventually {
-      currentUrl should include(address)
+      currentUrl should equal(url)
     }(timeout)
     this
   }

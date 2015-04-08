@@ -13,7 +13,7 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeo
 
   def `is displayed` = {
     eventually {
-      currentUrl should include(address)
+      currentUrl should equal(url)
     }(timeout)
     this
   }
