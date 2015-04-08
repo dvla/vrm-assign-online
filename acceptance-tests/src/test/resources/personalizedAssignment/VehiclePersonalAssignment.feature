@@ -46,12 +46,9 @@ Feature: Assignment of Vehicle
     | "F1"                      | "22222222222" | "AA11AA" |
 
   @UnHappyPath
-  Scenario Outline: Brute Force Lockout
-    When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode>  that does not match a valid vehicle record three times in a row
+  Scenario: Brute Force Lockout
+    When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
-  Examples:
-    | VehicleRegistrationNumber | DocRefID      | Postcode |
-    | "B1"                 | "22222222222" | "AA11AA" |
 
   @UnHappyPath
   Scenario Outline: Direct to Paper Channel
