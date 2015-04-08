@@ -21,6 +21,7 @@ Feature: Assignment of Vehicle
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
     When I enter invalid data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> fields
     Then the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed
+    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode  |
     | "1XCG456"                 | "abgdrt12345" | "SA000AS" |
