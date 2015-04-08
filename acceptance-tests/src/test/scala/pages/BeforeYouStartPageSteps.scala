@@ -7,9 +7,11 @@ import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.BeforeYouStartPage.startNow
+import pages.vrm_assign.BeforeYouStartPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class BeforeYouStart_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `go to BeforeYouStart page` = {
     go to BeforeYouStartPage
@@ -17,14 +19,14 @@ final class BeforeYouStart_PageSteps(implicit webDriver: WebBrowserDriver, timeo
   }
 
   def `click 'Start now' button` = {
-    click on BeforeYouStartPage.startNow
+    click on startNow
     this
   }
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(BeforeYouStartPage.url)
-    }
+      currentUrl should equal(url)
+    }(timeout)
     this
   }
 }

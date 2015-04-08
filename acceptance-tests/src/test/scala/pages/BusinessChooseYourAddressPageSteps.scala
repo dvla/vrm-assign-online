@@ -11,7 +11,7 @@ import pages.vrm_assign.BusinessChooseYourAddressPage
 import pages.vrm_assign.BusinessChooseYourAddressPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class BusinessChooseYourAddress_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class BusinessChooseYourAddressPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `choose address from the drop-down` = {
     `is displayed`
@@ -29,7 +29,7 @@ final class BusinessChooseYourAddress_PageSteps(implicit webDriver: WebBrowserDr
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 

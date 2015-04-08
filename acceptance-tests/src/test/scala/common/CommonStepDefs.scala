@@ -13,12 +13,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class CommonStepDefs(
-                            beforeYouStart: BeforeYouStart_PageSteps,
-                            vehicleLookup: VehicleLookup_PageSteps,
-                            vrmLocked: VrmLocked_PageSteps,
-                            captureCertificateDetails: CaptureCertificateDetails_PageSteps,
-                            setupBusinessDetails: SetupBusinessDetails_PageSteps,
-                            businessChooseYourAddress: BusinessChooseYourAddress_PageSteps
+                            beforeYouStart: BeforeYouStartPageSteps,
+                            vehicleLookup: VehicleLookupPageSteps,
+                            vrmLocked: VrmLockedPageSteps,
+                            captureCertificateDetails: CaptureCertificateDetailsPageSteps,
+                            setupBusinessDetails: SetupBusinessDetailsPageSteps,
+                            businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
+                            confirmBusiness: ConfirmBusinessPageSteps
                             )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
@@ -40,12 +41,11 @@ final class CommonStepDefs(
     this
   }
 
-  def `vehicleLookupDoesNotMatchRecord`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `perform vehicle lookup (trader acting)`(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
-      `keeper is acting`.
+      `keeper is not acting`.
       `find vehicle`
-    vrmLocked.`is displayed`
     this
   }
 
@@ -62,43 +62,18 @@ final class CommonStepDefs(
     this
   }
 
-  def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
-    vehicleLookup.
-      enter(RegistrationNumber, DocRefNumber, Postcode).
-      `keeper is not acting`.
-      `find vehicle`
-    //confirmBusiness.`is displayed`
-    this
-  }
-
-  def provideBusinessDetails = {
-    setupBusinessDetails.`is displayed`
-    setupBusinessDetails.`enter business details`
-    this
-  }
-
-  def chooseBusinessAddress = {
+  def `provide business details` = {
+    setupBusinessDetails.
+      `is displayed`.
+      `enter business details`
     businessChooseYourAddress.`choose address from the drop-down`
-    this
-  }
-
-  def storeBusinessDetails = {
+    confirmBusiness.`is displayed`
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
     this
   }
 
-  def confirmBusinessDetailsIsDisplayed = {
-    pageTitle should equal(ConfirmBusinessPage.title)
-    this
-  }
-
-  def exitBusiness = {
-    click on ConfirmBusinessPage.exit
-    this
-  }
-
-  def validateCookieIsFresh = {
+  def `check tracking cookie is fresh` = {
     val c = cookie(TrackingIdCookieName)
     try {
       c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
@@ -107,7 +82,7 @@ final class CommonStepDefs(
     }
     //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
     //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-//    c.expiry should not be None // It is not a session cookie.
+    //    c.expiry should not be None // It is not a session cookie.
     this
   }
 }

@@ -9,7 +9,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.SetupBusinessDetailsPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class SetupBusinessDetails_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
@@ -20,8 +20,7 @@ final class SetupBusinessDetails_PageSteps(implicit webDriver: WebBrowserDriver,
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-      pageSource contains title
-    }
+    }(timeout)
     this
   }
 

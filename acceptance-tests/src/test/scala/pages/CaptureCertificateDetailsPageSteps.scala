@@ -13,7 +13,7 @@ import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
-final class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
@@ -26,7 +26,7 @@ final class CaptureCertificateDetails_PageSteps(implicit webDriver: WebBrowserDr
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 

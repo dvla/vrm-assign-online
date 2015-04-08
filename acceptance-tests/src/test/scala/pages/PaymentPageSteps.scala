@@ -14,7 +14,7 @@ import pages.vrm_assign.PaymentPage.payNow
 import pages.vrm_assign.PaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class Payment_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
@@ -28,7 +28,7 @@ final class Payment_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 
@@ -65,7 +65,7 @@ final class Payment_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
       pageSource should include("Please enter your password")
       PaymentPage.acsPassword.value = "password"
       submit()
-    }
+    }(timeout)
     this
   }
 }
