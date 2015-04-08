@@ -1,4 +1,6 @@
-@(paymentDue: Boolean)(implicit lang: Lang,
+@(transactionId: String, paymentDue: Boolean, viewModel: models.VehicleLookupFailureViewModel,
+        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -6,11 +8,22 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_assign.main
 @import views.vrm_assign.PaymentFailure.ExitId
+@import views.html.vrm_assign.lookup_failure.failure_playback
 
 @main(
     title = Messages("vrm_assign_failure.title")
 ) {
+    <div class="two-col">
+        @failure_playback(
+            viewModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel
+        )
+        <div class="second-col">
     <h2>@Messages("vrm_assign_failure.title")</h2>
+
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+
     @if(paymentDue) {
         <p>@Messages("vrm_assign_failure_with_payment.text")</p>
     } else {
@@ -21,5 +34,7 @@
         @csrfTokenHiddenField()
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_assign_paymentfailure.exitbutton")</a>
+    </div>
+        </div>
     </div>
 }
