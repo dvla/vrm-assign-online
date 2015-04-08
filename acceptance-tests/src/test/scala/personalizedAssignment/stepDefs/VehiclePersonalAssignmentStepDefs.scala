@@ -11,6 +11,7 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
 import scala.concurrent.duration.DurationInt
 
@@ -105,21 +106,24 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   }
 
   //Scenario 4
-  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\"  that does not match a valid vehicle record three times in a row$")
-  def `i enter data in the and that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+  @When("^I enter data that does not match a valid vehicle record three times in a row$")
+  def `i enter data that does not match a valid vehicle record three times in a row`() {
+    val vehicleRegistrationNumber = RandomVrmGenerator.vrm
+    val documentReferenceNumber = "22222222222"
+
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 1st
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 2nd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 3rd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 4th
   }
 
   @Then("^the brute force lock out page is displayed$")
