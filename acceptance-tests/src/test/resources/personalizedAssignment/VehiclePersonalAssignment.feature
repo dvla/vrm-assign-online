@@ -40,7 +40,7 @@ Feature: Assignment of Vehicle
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "A1"                      | "22222222222" | "AA11AA" |
-
+  @WIP
   Scenario Outline: Brute Force Lockout
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode>  that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
@@ -72,7 +72,7 @@ Feature: Assignment of Vehicle
     | "ABC1"                    | "11111111111" | "SA11AA" |
 
   Scenario Outline: Trader Acting (details stored)
-    When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old)
+    When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old
     Then the confirm business details page is displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |

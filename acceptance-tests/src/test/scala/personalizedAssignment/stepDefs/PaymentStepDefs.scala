@@ -18,23 +18,24 @@ import scala.concurrent.duration.DurationInt
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
-  lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
-  lazy val confirm = new Confirm_PageSteps()(webDriver, timeout)
-  lazy val payment = new Payment_PageSteps()(webDriver, timeout)
-  lazy val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
-  lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
-  lazy val success = new Success_PageSteps()(webDriver, timeout)
-  lazy val user = new CommonStepDefs(
+  private implicit val timeout = PatienceConfig(timeout = 5.seconds)
+  private val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  private val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  private val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val payment = new Payment_PageSteps()(webDriver, timeout)
+  private val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
+  private val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  private val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  private val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
+  private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
     vrmLocked,
     captureCertificateDetails,
     setupBusinessDetails,
-    businessChooseYourAddress
+    businessChooseYourAddress,
+    confirmBusiness
   )(webDriver, timeout)
   //  private implicit val webDriver: EventFiringWebDriver = {
   //    import com.typesafe.config.ConfigFactory
@@ -44,7 +45,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  implicit val timeout = PatienceConfig(timeout = 5.seconds)
 
   @Given("^that I have started the PR Assign Service for payment$")
   def `that I have started the PR Assign Service for payment`() {

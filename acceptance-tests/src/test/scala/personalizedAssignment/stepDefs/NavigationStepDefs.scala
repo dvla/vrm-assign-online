@@ -22,28 +22,18 @@ import scala.concurrent.duration.DurationInt
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
-  lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
-  lazy val confirm = new Confirm_PageSteps()(webDriver, timeout)
-  lazy val payment = new Payment_PageSteps()(webDriver, timeout)
-  lazy val paymentPreventBack = new PaymentPreventBack_PageSteps()(webDriver, timeout)
-  lazy val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
-  lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
-  lazy val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
-  lazy val success = new Success_PageSteps()(webDriver, timeout)
-  lazy val enterAddressManually = new EnterAddressManually_PageSteps()(webDriver, timeout)
-  lazy val user = new CommonStepDefs(
-    beforeYouStart,
-    vehicleLookup,
-    vrmLocked,
-    captureCertificateDetails,
-    setupBusinessDetails,
-    businessChooseYourAddress
-  )(webDriver, timeout)
-  implicit val timeout = PatienceConfig(timeout = 5.seconds)
+  private implicit val timeout = PatienceConfig(timeout = 5.seconds)
+  private val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  private val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  private val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val payment = new Payment_PageSteps()(webDriver, timeout)
+  private val paymentPreventBack = new PaymentPreventBack_PageSteps()(webDriver, timeout)
+  private val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  private val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  private val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
+  private val success = new Success_PageSteps()(webDriver, timeout)
+  private val enterAddressManually = new EnterAddressManually_PageSteps()(webDriver, timeout)
 
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {

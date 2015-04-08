@@ -6,9 +6,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.ConfirmBusinessPage.confirm
 import pages.vrm_assign.ConfirmBusinessPage.rememberDetails
-import pages.vrm_assign.ConfirmBusinessPage.url
+import pages.vrm_assign.ConfirmBusinessPage.exit
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class ConfirmBusiness_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
@@ -22,8 +23,8 @@ final class ConfirmBusiness_PageSteps(implicit webDriver: WebBrowserDriver, time
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(url)
-    }
+      currentUrl should include(ConfirmBusinessPage.address)
+    }(timeout)
     this
   }
 
@@ -34,6 +35,11 @@ final class ConfirmBusiness_PageSteps(implicit webDriver: WebBrowserDriver, time
 
   def `form is not filled`() = {
     rememberDetails.isSelected should equal(false)
+    this
+  }
+
+  def `exit the service` = {
+    click on exit
     this
   }
 }

@@ -16,24 +16,26 @@ import scala.concurrent.duration.DurationInt
 
 final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  lazy val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
-  lazy val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
-  lazy val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
-  lazy val confirm = new Confirm_PageSteps()(webDriver, timeout)
-  lazy val payment = new Payment_PageSteps()(webDriver, timeout)
-  lazy val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
-  lazy val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
-  lazy val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
-  lazy val user = new CommonStepDefs(
+  private implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  private val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
+  private val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
+  private val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
+  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val payment = new Payment_PageSteps()(webDriver, timeout)
+  private val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
+  private val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
+  private val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
+  private val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
+  private val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
+  private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
     vrmLocked,
     captureCertificateDetails,
     setupBusinessDetails,
-    businessChooseYourAddress
+    businessChooseYourAddress,
+    confirmBusiness
   )(webDriver, timeout)
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
 
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
@@ -105,19 +107,19 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   //Scenario 4
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\"  that does not match a valid vehicle record three times in a row$")
   def `i enter data in the and that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
   }
 
   @Then("^the brute force lock out page is displayed$")
@@ -188,21 +190,22 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   }
 
   //Scenario 8
-  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old\\)$")
-  def `i_enter_data_in_the_and_for_a_vehicle_that_is_eligible_for_retention_and_I_indicate_that_the_keeper_is_not_acting_and_I_have_previously_chosen_to_store_my_details_and_the_cookie_is_still_fresh_less_than_seven_days_old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    //1st Store the details
+  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
+  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
+    // 1st Store the details
     user.
-      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      provideBusinessDetails.
-      chooseBusinessAddress.
-      confirmBusinessDetailsIsDisplayed.
-      storeBusinessDetails.
-      exitBusiness.
-      validateCookieIsFresh.
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `provide business details`
+    confirmBusiness.`exit the service` // Exit the service
 
-      //2nd validate details are stored
-      goToVehicleLookupPage.
-      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+    //2nd validate the details are still stored
+    user.`check tracking cookie is fresh`
+
+    beforeYouStart.`go to BeforeYouStart page`.
+      `is displayed`
+    beforeYouStart.`click 'Start now' button`
+    vehicleLookup.`is displayed`
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")
