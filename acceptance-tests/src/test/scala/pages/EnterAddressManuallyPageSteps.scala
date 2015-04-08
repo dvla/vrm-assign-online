@@ -24,8 +24,8 @@ final class EnterAddressManuallyPageSteps(implicit webDriver: WebBrowserDriver, 
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(url)
-    }
+      currentUrl should include(address)
+    }(timeout)
     this
   }
 

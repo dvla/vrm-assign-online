@@ -23,8 +23,8 @@ final class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver, timeou
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(BeforeYouStartPage.url)
-    }
+      currentUrl should include(BeforeYouStartPage.address)
+    }(timeout)
     this
   }
 }

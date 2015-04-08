@@ -21,8 +21,8 @@ final class ConfirmPageSteps(implicit webDriver: WebBrowserDriver, timeout: Pati
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(url)
-    }
+      currentUrl should include(address)
+    }(timeout)
     this
   }
 

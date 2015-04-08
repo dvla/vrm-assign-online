@@ -19,9 +19,8 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(url)
-      pageSource contains title
-    }
+      currentUrl should include(address)
+    }(timeout)
     this
   }
 

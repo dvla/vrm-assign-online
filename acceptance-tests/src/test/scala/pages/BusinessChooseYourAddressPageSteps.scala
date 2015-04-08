@@ -28,8 +28,8 @@ final class BusinessChooseYourAddressPageSteps(implicit webDriver: WebBrowserDri
 
   def `is displayed` = {
     eventually {
-      currentUrl should equal(url)
-    }
+      currentUrl should include(address)
+    }(timeout)
     this
   }
 
