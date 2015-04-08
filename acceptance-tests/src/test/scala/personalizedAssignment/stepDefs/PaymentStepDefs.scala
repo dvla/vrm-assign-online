@@ -18,7 +18,7 @@ import scala.concurrent.duration.DurationInt
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  private implicit val timeout = PatienceConfig(timeout = 5.seconds)
+  private val timeout = PatienceConfig(timeout = 5.seconds)
   private val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
   private val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
   private val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
