@@ -14,7 +14,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.Line2Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
 
-final class EnterAddressManually_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class EnterAddressManuallyPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`

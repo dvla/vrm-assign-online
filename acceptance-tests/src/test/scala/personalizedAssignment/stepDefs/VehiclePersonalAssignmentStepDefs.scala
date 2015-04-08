@@ -17,16 +17,16 @@ import scala.concurrent.duration.DurationInt
 final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   private val timeout = PatienceConfig(timeout = 30.seconds)
-  private val beforeYouStart = new BeforeYouStart_PageSteps()(webDriver, timeout)
-  private val vehicleLookup = new VehicleLookup_PageSteps()(webDriver, timeout)
-  private val captureCertificateDetails = new CaptureCertificateDetails_PageSteps()(webDriver, timeout)
-  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
-  private val payment = new Payment_PageSteps()(webDriver, timeout)
-  private val vehicleNotFound = new VehicleNotFound_PageSteps()(webDriver, timeout)
-  private val vrmLocked = new VrmLocked_PageSteps()(webDriver, timeout)
-  private val setupBusinessDetails = new SetupBusinessDetails_PageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddress_PageSteps()(webDriver, timeout)
-  private val confirmBusiness = new ConfirmBusiness_PageSteps()(webDriver, timeout)
+  private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
+  private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
+  private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()(webDriver, timeout)
+  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
+  private val payment = new PaymentPageSteps()(webDriver, timeout)
+  private val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
+  private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
+  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
+  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
+  private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -65,7 +65,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   def `the enter confirm details page is displayed and the payment required section is shown`() {
     confirm.`is displayed`
     confirm.`select consent`
-    confirm.`proceed to confirm`
+    confirm.`confirm the details`
     payment.`is displayed`
   }
 
@@ -208,7 +208,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
 
   @Then("^the confirm business details page is displayed$")
   def `the_confirm_business_details_page_is_displayed`() {
-    user.confirmBusinessDetailsIsDisplayed
+    confirmBusiness.`is displayed`
   }
 
   /** DO NOT REMOVE **/

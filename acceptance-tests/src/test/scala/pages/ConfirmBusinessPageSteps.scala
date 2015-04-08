@@ -12,7 +12,7 @@ import pages.vrm_assign.ConfirmBusinessPage.rememberDetails
 import pages.vrm_assign.ConfirmBusinessPage.exit
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class ConfirmBusiness_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`

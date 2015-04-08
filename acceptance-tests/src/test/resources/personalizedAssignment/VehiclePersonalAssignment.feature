@@ -41,7 +41,7 @@ Feature: Assignment of Vehicle
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "A1"                      | "22222222222" | "AA11AA" |
-  @WIP
+
   Scenario Outline: Brute Force Lockout
     When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode>  that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed

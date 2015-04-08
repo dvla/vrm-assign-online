@@ -13,13 +13,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class CommonStepDefs(
-                            beforeYouStart: BeforeYouStart_PageSteps,
-                            vehicleLookup: VehicleLookup_PageSteps,
-                            vrmLocked: VrmLocked_PageSteps,
-                            captureCertificateDetails: CaptureCertificateDetails_PageSteps,
-                            setupBusinessDetails: SetupBusinessDetails_PageSteps,
-                            businessChooseYourAddress: BusinessChooseYourAddress_PageSteps,
-                            confirmBusiness: ConfirmBusiness_PageSteps
+                            beforeYouStart: BeforeYouStartPageSteps,
+                            vehicleLookup: VehicleLookupPageSteps,
+                            vrmLocked: VrmLockedPageSteps,
+                            captureCertificateDetails: CaptureCertificateDetailsPageSteps,
+                            setupBusinessDetails: SetupBusinessDetailsPageSteps,
+                            businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
+                            confirmBusiness: ConfirmBusinessPageSteps
                             )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the Assign service` = {
@@ -70,16 +70,6 @@ final class CommonStepDefs(
     confirmBusiness.`is displayed`
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
-    this
-  }
-
-  def confirmBusinessDetailsIsDisplayed = {
-    currentUrl should include(ConfirmBusinessPage.address)
-    this
-  }
-
-  def exitBusiness = {
-    click on ConfirmBusinessPage.exit
     this
   }
 
