@@ -6,10 +6,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.ConfirmBusinessPage.url
 import pages.vrm_assign.ConfirmBusinessPage.confirm
-import pages.vrm_assign.ConfirmBusinessPage.rememberDetails
 import pages.vrm_assign.ConfirmBusinessPage.exit
+import pages.vrm_assign.ConfirmBusinessPage.rememberDetails
+import pages.vrm_assign.ConfirmBusinessPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {

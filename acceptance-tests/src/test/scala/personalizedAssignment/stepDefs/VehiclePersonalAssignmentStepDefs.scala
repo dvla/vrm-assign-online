@@ -131,7 +131,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   def `reset the <vehicle-registration-number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) {
     user.
       goToVehicleLookupPage.
-    `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA") // This combination of doc ref and postcode should always appear valid to the legacy stubs, so will reset the brute force count.
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA") // This combination of doc ref and postcode should always appear valid to the legacy stubs, so will reset the brute force count.
   }
 
   //Scenario 5
