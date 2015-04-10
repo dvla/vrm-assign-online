@@ -1,11 +1,12 @@
-@(request: RequestHeader)(implicit lang: Lang, config: utils.helpers.Config)
+@(request: RequestHeader, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang, config: utils.helpers.Config)
 
 @import views.html.common.{govMainDefault, protoType}
 @import views.vrm_assign.OnHandlerNotFound.ExitId
 
 @govMainDefault(Messages("onHandlerNotFound.title")) {
     <div class="app vrm-assign-online">
-        @protoType()
+
+        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
             <h2>@Messages("onHandlerNotFound.header")</h2>

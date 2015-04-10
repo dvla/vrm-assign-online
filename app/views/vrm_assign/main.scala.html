@@ -14,7 +14,7 @@
 @govMainDefault(title) {
     <div class="app vrm-assign-online">
 
-        @protoType()
+        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
 
         @serviceClosingWarning(config.closing, config.closingWarnPeriodMins, dateService)
 
