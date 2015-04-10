@@ -29,15 +29,12 @@
     @* POST body could return trxRef that we can CSRF against, we need to ask them to enable it. Else we can have CSRF on the callback url *@
     <div class="form-steps">
         @csrfTokenHiddenField()
-
-        <noscript>
-            @*
-            Non-javascript browsers need a way of causing the parent browser to redirect, as meta-refresh won't work
-            on the parent when in an iframe
-            *@
-            <p>@Messages("vrm_assign_payment.javascript-disabled.message")</p>
-            <a class="button" id="@GetWebPaymentlId" href="@Payment.getWebPayment" role="button">@Messages("vrm_assign_payment.javascript-disabled.button")</a>
-        </noscript>
         <a id="@CancelId" href="@Payment.cancel()">@Messages("vrm_assign_payment.cancel.button")</a>
     </div>
+
+    @if(config.googleAnalyticsTrackingId.isDefined) {
+        <script type="text/javascript">
+            trackClick(['@CancelId']);
+        </script>
+    }
 }
