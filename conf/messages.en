@@ -41,7 +41,7 @@ error.required = This field is required
 #prototype
 prototype.banner.part1 = This is a new service -
 prototype.link =  your feedback
-prototype.banner.part2 = will help us improve it
+prototype.banner.part2 = will help us to improve it
 
 #page 2
 keeperstatus.title = Change of keeper address2
