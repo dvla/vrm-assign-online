@@ -71,7 +71,7 @@ final class Payment @Inject()(
           Future.successful(Redirect(routes.PaymentPostShutdown.present()))
       }
     else
-      Future.successful(Ok(views.html.vrm_assign.payment_callback_interstitial()))
+      Future.successful(Redirect(routes.Payment.getWebPayment()))
   }
 
   def getWebPayment = Action.async { implicit request =>
