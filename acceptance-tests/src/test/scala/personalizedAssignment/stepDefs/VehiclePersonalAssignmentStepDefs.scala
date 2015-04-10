@@ -87,10 +87,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   //Scenario 3
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" that does not match a valid vehicle record$")
   def `i enter data in the and that does not match a valid vehicle record`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    vehicleLookup.
-      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      `keeper is acting`.
-      `find vehicle`
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the vrm not found page is displayed$")
