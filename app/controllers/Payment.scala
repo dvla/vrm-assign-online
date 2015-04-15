@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import composition.RefererFromHeader
 import models._
@@ -101,7 +100,7 @@ final class Payment @Inject()(
     val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
 
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.PaymentToPaymentFailure,
+      pageMovement = AuditRequest.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -161,7 +160,7 @@ final class Payment @Inject()(
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
+        pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -231,7 +230,7 @@ final class Payment @Inject()(
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToExit,
+        pageMovement = AuditRequest.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

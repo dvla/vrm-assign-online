@@ -1,6 +1,5 @@
 package controllers
 
-import audit1.{AuditMessage}
 import composition.WithApplication
 import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
 import helpers.JsonUtils.deserializeJsonToModel
@@ -156,7 +155,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         )
       val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditRequest(
-        name = AuditMessage.CaptureCertificateDetailsToExit,
+        name = AuditRequest.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
         data = Seq(
           ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -184,7 +183,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         )
       val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditRequest(
-        name = AuditMessage.CaptureCertificateDetailsToExit,
+        name = AuditRequest.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
         data = Seq(
           ("transactionId", TransactionIdValid),

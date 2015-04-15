@@ -1,6 +1,5 @@
 package controllers
 
-import audit1.AuditMessage
 import composition.TestConfig
 import composition.WithApplication
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
@@ -31,6 +30,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import views.vrm_assign.Payment._
 import views.vrm_assign.VehicleLookup._
+import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
@@ -402,7 +402,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
-    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[audit1.AuditService]))
+    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,

@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.data.Form
@@ -75,7 +74,7 @@ final class ConfirmBusiness @Inject()(
           case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel, enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
+              pageMovement = AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -111,7 +110,7 @@ final class ConfirmBusiness @Inject()(
 
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.ConfirmBusinessToExit,
+      pageMovement = AuditRequest.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

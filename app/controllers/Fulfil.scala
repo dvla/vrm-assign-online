@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import org.joda.time.{DateTimeZone, DateTime}
@@ -49,7 +48,7 @@ final class Fulfil @Inject()(
         fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
       case (_, Some(transactionId), _, _) => {
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToMicroServiceError,
+          pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
         ))
@@ -86,7 +85,7 @@ final class Fulfil @Inject()(
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
 
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToSuccess,
+          pageMovement = AuditRequest.PaymentToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -101,7 +100,7 @@ final class Fulfil @Inject()(
           withCookie(FulfilModel.from(transactionTimestampWithZone))
       } else {
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.ConfirmToSuccess,
+          pageMovement = AuditRequest.ConfirmToSuccess,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -131,7 +130,7 @@ final class Fulfil @Inject()(
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
 
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToPaymentFailure,
+          pageMovement = AuditRequest.PaymentToPaymentFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -147,7 +146,7 @@ final class Fulfil @Inject()(
           withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       } else {
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.ConfirmToFulfilFailure,
+          pageMovement = AuditRequest.ConfirmToFulfilFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

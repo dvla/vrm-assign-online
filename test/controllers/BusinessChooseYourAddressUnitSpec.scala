@@ -1,7 +1,6 @@
 package controllers
 
 import org.mockito.Matchers.any
-import audit1.{AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
@@ -157,7 +156,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditRequest = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data)
+      val auditRequest = new AuditRequest(AuditRequest.CaptureActorToConfirmBusiness, AuditRequest.AuditServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
