@@ -1,3 +1,40 @@
+======= 1.6 ======
+Time of release binaries creation:
+Wed Apr 15 2015 14:44:00 GMT+0000 (GMT)
+
+3e6685c Set dependencies to release versions
+753375a fix to feedback banner text
+1bb4af1 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+02a4d17 use correct timezone when checking if past closing time for payments
+b8b7137 acceptance test: code re-use
+71d0109 Remove the payment interstitial as the portal no longer works this way and has been fixed in Retain
+da1e7c5 Track users clicking the 'Cancel' button on the payment page
+134d9ba US2789 Disable feedback link outside core hours for PR
+53acc40 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+dc9e97a DE446 fix to the timestamps on emails and the pdf being UTC and not local
+07d6621 Merge branch 'US2857' of /home/git/repositories/dvla/vrm-assign-online into develop
+341389b US2587: post request on healthcheck returns a bad requests if no tracking id is present
+e3bdbf6 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+72edc98 acceptance tests: use RandomVrmGenerator from common
+4f8262a Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+1ed01b1 US2706 Apply two column layout to error pages
+af0c924 acceptance test: tidy up
+1e65fe1 acceptance tests: undo the change from url to address, add HappyPath and UnHappyPath tags to code
+c804e94 acceptance tests: to speed up compilation explicitly state timeout rather than use implicits, match url against the address instead of the full URL as I don't think it will behave the same when we make the apps into one service
+da291aa acceptance tests: re-name files
+2cda35a acceptance tests timeout doesn't need to be implicit, no need for lazy
+d490d89 acceptance tests: consistancy with retention for resetting brute force count
+1e75dbb acceptance tests: re-names, made lazy vals into private vals
+8f28b59 Enable brute force in sandbox. Re-enable acceptance tests marked as WIP, fix the tests now that the brute force is enabled in sandbox.
+c362691 DE439: restore a message that Ed removed
+8932c04 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+eda5b16 US2801 Go to new page if payment attempted after service shutdown
+cda1422 remove 2 gatling tests for unused assets
+3df7a4d Merge hotfix for DE441 back to develop
+3eb551c Hotfix RELEASE 1.5.1 for DE441
+163d10a US2193: email subject line
+617d875 New development version 2.20-SNAPSHOT
+
 ======= 1.5 ======
 Time of release binaries creation:
 Tue Apr 1 2015 15:14:00 GMT+0000 (GMT)
