@@ -2,7 +2,6 @@ package controllers
 
 import audit1.AuditMessage
 import composition.WithApplication
-import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -112,11 +111,8 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
 
     "call the audit service" in new WithApplication {
-      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
       val auditService2 = new AuditServiceDoesNothing
-
       val injector = testInjector(
-        auditLocalService1,
         auditService2
       )
 
@@ -144,7 +140,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
-        verify(auditLocalService1.stub).send(auditMessage)
         verify(auditService2.stub).send(auditRequest)
       }
     }

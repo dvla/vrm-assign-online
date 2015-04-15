@@ -25,7 +25,6 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class Confirm @Inject()(
-                               auditService1: audit1.AuditService,
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -100,15 +99,6 @@ final class Confirm @Inject()(
 
       // check for outstanding fees
       if (captureCertificateDetails.outstandingFees > 0) {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmToPayment,
-          timestamp = dateService.dateTimeISOChronology,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          keeperEmail = model.keeperEmail,
-          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-          captureCertificateDetailsModel = Some(captureCertificateDetails),
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.ConfirmToPayment,
           timestamp = dateService.dateTimeISOChronology,
@@ -122,13 +112,6 @@ final class Confirm @Inject()(
           withCookiesEx(cookies: _*).
           withCookie(model)
       } else {
-        //        auditService1.send(AuditMessage.from(
-        //          pageMovement = AuditMessage.ConfirmToSuccess,
-        //          timestamp = dateService.dateTimeISOChronology,
-        //          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        //          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        //          keeperEmail = model.keeperEmail,
-        //          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
         //        auditService2.send(AuditRequest.from(
         //          pageMovement = AuditMessage.ConfirmToSuccess,
         //          timestamp = dateService.dateTimeISOChronology,
@@ -165,13 +148,6 @@ final class Confirm @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.ConfirmToExit,
-      timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,

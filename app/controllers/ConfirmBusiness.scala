@@ -19,7 +19,6 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class ConfirmBusiness @Inject()(
-                                       auditService1: AuditService,
                                        auditService2: audit2.AuditService
                                        )
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -75,12 +74,6 @@ final class ConfirmBusiness @Inject()(
           ) match {
           case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel, enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
-              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.ConfirmBusinessToCaptureCertificateDetails,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -117,7 +110,7 @@ final class ConfirmBusiness @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
+    auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,

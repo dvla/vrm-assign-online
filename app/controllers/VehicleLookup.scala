@@ -34,7 +34,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
                                     dateService: DateService,
-                                    auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
@@ -93,13 +92,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     // so it eventually redirects to DirectToPaper
     if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
       if (formModel.userType == UserType_Keeper) {
-
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
-          transactionId = txnId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(responseCode)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
           transactionId = txnId,
@@ -113,14 +105,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
         if (storeBusinessDetails && businessDetailsModel.isDefined) {
-
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-            transactionId = txnId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            businessDetailsModel = businessDetailsModel,
-            rejectionCode = Some(responseCode)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
             transactionId = txnId,
@@ -132,13 +116,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), txnId).
             withCookie(vehicleAndKeeperDetailsModel)
         } else {
-
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-            transactionId = txnId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            rejectionCode = Some(responseCode)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToCaptureActor,
             transactionId = txnId,
@@ -151,13 +128,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         }
       }
     } else {
-
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-        transactionId = txnId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
@@ -178,13 +148,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
 
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
-
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-        transactionId = txnId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
@@ -200,11 +163,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       if (formModel.userType == UserType_Keeper) {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
-          transactionId = txnId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.VehicleLookupToCaptureCertificateDetails,
           transactionId = txnId,
@@ -215,12 +173,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       } else {
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
         if (storeBusinessDetails && businessDetailsModel.isDefined) {
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-            transactionId = txnId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            businessDetailsModel = businessDetailsModel))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
             transactionId = txnId,
@@ -230,11 +182,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), txnId).
             withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
         } else {
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-            transactionId = txnId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToCaptureActor,
             transactionId = txnId,

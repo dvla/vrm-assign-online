@@ -1,9 +1,8 @@
 package controllers
 
 import org.mockito.Matchers.any
-import audit1.{AuditMessage, AuditService}
+import audit1.{AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
 import composition.{TestConfig, TestDateServiceBinding, WithApplication}
@@ -138,12 +137,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
       val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
         new TestConfig(ordnanceSurveyUseUprn = true),
-        auditLocalService1,
         auditService2
       )
 
@@ -160,7 +157,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data: _*)
       val auditRequest = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
@@ -171,7 +167,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(auditLocalService1.stub).send(auditMessage)
         verify(auditService2.stub).send(auditRequest)
       }
     }

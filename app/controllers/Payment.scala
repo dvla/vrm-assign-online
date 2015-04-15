@@ -36,7 +36,6 @@ import scala.util.control.NonFatal
 final class Payment @Inject()(
                                paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
-                               auditService1: audit1.AuditService,
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -101,17 +100,6 @@ final class Payment @Inject()(
     val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel]
     val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
 
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.PaymentToPaymentFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-      paymentModel = request.cookies.getModel[PaymentModel],
-      captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
-      captureCertificateDetailsModel = captureCertificateDetails,
-      rejectionCode = Some(message)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -172,16 +160,6 @@ final class Payment @Inject()(
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        captureCertificateDetailsModel = Some(captureCertificateDetails),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -252,15 +230,6 @@ final class Payment @Inject()(
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        captureCertificateDetailsModel = Some(captureCertificateDetails),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),

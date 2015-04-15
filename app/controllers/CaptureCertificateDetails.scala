@@ -45,7 +45,6 @@ import scala.util.control.NonFatal
 final class CaptureCertificateDetails @Inject()(
                                                  val bruteForceService: BruteForcePreventionService,
                                                  eligibilityService: VrmAssignEligibilityService,
-                                                 auditService1: audit1.AuditService,
                                                  auditService2: audit2.AuditService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -154,11 +153,6 @@ final class CaptureCertificateDetails @Inject()(
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToMicroServiceError,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology
-      ))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToMicroServiceError,
         transactionId = transactionId,
@@ -175,13 +169,6 @@ final class CaptureCertificateDetails @Inject()(
       val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
 
       val redirectLocation = {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
-          transactionId = transactionId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-          captureCertificateDetailsModel = Some(captureCertificateDetailsModel)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
@@ -218,14 +205,6 @@ final class CaptureCertificateDetails @Inject()(
 
       val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
-        rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
         transactionId = transactionId,
@@ -343,11 +322,6 @@ final class CaptureCertificateDetails @Inject()(
 
   def exit = Action {
     implicit request =>
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureCertificateDetailsToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
