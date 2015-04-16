@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -25,7 +24,6 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class EnterAddressManually @Inject()(
-                                            auditService1: audit1.AuditService,
                                             auditService2: audit2.AuditService
                                             )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -64,14 +62,8 @@ final class EnterAddressManually @Inject()(
 
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+              pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -88,14 +80,8 @@ final class EnterAddressManually @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
+      pageMovement = AuditRequest.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
