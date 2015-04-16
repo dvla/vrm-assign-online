@@ -633,7 +633,6 @@ vrm_assign_success.newPlateLink = Download the eV948
 
 vrm_assign_success.noticePayment.h3 = Payment
 vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
-vrm_assign_success.noticePayment.desc1 = Description
 
 vrm_assign_success.h2 = What to do next
 vrm_assign_success.h2a = What happens next?

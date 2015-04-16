@@ -104,7 +104,8 @@ final class Success @Inject()(
       businessAddress = Some(AddressModel(address = Seq("stub-businessAddress-line1", "stub-businessAddress-line2"))),
       prVrm = "A1",
       transactionId = "stub-transactionId",
-      transactionTimestamp = "stub-transactionTimestamp"
+      transactionTimestamp = "stub-transactionTimestamp",
+      paymentMade = true
     )
     Ok(views.html.vrm_assign.success(successViewModel, true))
   }
