@@ -1,8 +1,0 @@
-# monit/vrm-assign-online
-#
-check process vrm-assign-online
-  matching vrm-assign-online
-  start program = "/sbin/start vrm-assign-online"
-  stop program = "/sbin/stop vrm-assign-online"
-  if failed host 127.0.0.1 port 9002 then restart
-
