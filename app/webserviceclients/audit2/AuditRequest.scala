@@ -1,10 +1,5 @@
 package webserviceclients.audit2
 
-import audit1.CaptureCertificateDetailsModelOptSeq
-import audit1.BusinessDetailsModelOptSeq
-import audit1.CaptureCertificateDetailsFormModelOptSeq
-import audit1.PaymentModelOptSeq
-import audit1.VehicleAndKeeperDetailsModelOptSeq
 import models.CaptureCertificateDetailsModel
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
@@ -19,6 +14,36 @@ object AuditRequest {
 
   // service types
   final val AuditServiceType = "PR Assign"
+
+  // page movement names
+  final val VehicleLookupToCaptureCertificateDetails = "VehicleLookupToCaptureCertificateDetails"
+  final val VehicleLookupToConfirmBusiness = "VehicleLookupToConfirmBusiness"
+  final val VehicleLookupToCaptureActor = "VehicleLookupToCaptureActor"
+  final val VehicleLookupToVehicleLookupFailure = "VehicleLookupToVehicleLookupFailure"
+  final val VehicleLookupToExit = "VehicleLookupToExit"
+  final val VehicleLookupToMicroServiceError = "VehicleLookupToMicroServiceError"
+
+  final val CaptureActorToConfirmBusiness = "CaptureActorToConfirmBusiness"
+  final val CaptureActorToExit = "CaptureActorToExit"
+
+  final val ConfirmBusinessToCaptureCertificateDetails = "ConfirmBusinessToCaptureCertificateDetails"
+  final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+
+  final val CaptureCertificateDetailsToConfirm = "CaptureCertificateDetailsToConfirm"
+  final val CaptureCertificateDetailsToMicroServiceError = "CaptureCertificateDetailsToMicroServiceError"
+  final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
+  final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure = "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
+
+  final val ConfirmToPayment = "ConfirmToPayment"
+  final val ConfirmToSuccess = "ConfirmToSuccess"
+  final val ConfirmToExit = "ConfirmToExit"
+  final val ConfirmToFulfilFailure = "ConfirmToFulfilFailure"
+
+  final val PaymentToSuccess = "PaymentToSuccess"
+  final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"
+  final val PaymentToPaymentFailure = "PaymentToPaymentFailure"
+  final val PaymentToExit = "PaymentToExit"
+  final val PaymentToMicroServiceError = "PaymentToMicroServiceError"
 
   implicit val jsonWrites = new Writes[Seq[(String, Any)]] {
     def writes(o: Seq[(String, Any)]): JsValue = obj(

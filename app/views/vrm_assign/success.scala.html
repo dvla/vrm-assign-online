@@ -19,16 +19,9 @@
                 <span class="reg-number">@successViewModel.prVrm</span>
             </div>
 
-            @if(successViewModel.outstandingPaymentAmount > 0.0) {
+            @if(successViewModel.paymentMade) {
                 <h3>@Messages("vrm_assign_success.noticePayment.h3")</h3>
                 <p>@Messages("vrm_assign_success.noticePayment.p1")</p>
-                <strong>@Messages("vrm_assign_success.noticePayment.desc1")</strong>
-                <p/>
-                @for(payment <- successViewModel.outstandingPaymentList) {
-                    @payment.split("£")(0)
-                    <span class="renewalFee">£@payment.split("£")(1)</span> <br>
-                }
-                <p/>
             }
 
             @if(isKeeper) {

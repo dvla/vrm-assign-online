@@ -19,8 +19,7 @@ final case class SuccessViewModel(registrationNumber: String,
                                   prVrm: String,
                                   transactionId: String,
                                   transactionTimestamp: String,
-                                  outstandingPaymentList: List[String],
-                                  outstandingPaymentAmount: Double)
+                                  paymentMade: Boolean)
 
 object SuccessViewModel {
 
@@ -56,8 +55,7 @@ object SuccessViewModel {
       prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
       fulfilModel.transactionTimestamp,
-      outstandingPaymentList = outstandingPaymentList,
-      outstandingPaymentAmount = outstandingPaymentAmount
+      paymentMade = outstandingPaymentAmount > 0
     )
   }
 
@@ -83,8 +81,7 @@ object SuccessViewModel {
       prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
       fulfilModel.transactionTimestamp,
-      outstandingPaymentList = outstandingPaymentList,
-      outstandingPaymentAmount = outstandingPaymentAmount
+      paymentMade = outstandingPaymentAmount > 0
     )
   }
 }

@@ -3,7 +3,6 @@ package composition
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import composition.addresslookup.TestAddressLookupWebServiceBinding
-import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.{AuditServiceDoesNothing, AuditServiceBinding}
@@ -41,7 +40,6 @@ trait TestComposition extends Composition {
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding,
-      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
       new audit2.AuditMicroServiceCallNotOk,
       new TestAssignEmailServiceBinding,

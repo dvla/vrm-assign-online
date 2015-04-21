@@ -105,8 +105,7 @@ final class Success @Inject()(
       prVrm = "A1",
       transactionId = "stub-transactionId",
       transactionTimestamp = "stub-transactionTimestamp",
-      outstandingPaymentList = List.empty,
-      outstandingPaymentAmount = 0.0
+      paymentMade = true
     )
     Ok(views.html.vrm_assign.success(successViewModel, true))
   }

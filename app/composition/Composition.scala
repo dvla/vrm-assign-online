@@ -19,7 +19,6 @@ trait Composition {
 
   lazy val injector = Guice.createInjector(
     new DevModule,
-    new composition.webserviceclients.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
     new audit2.AuditServiceBinding,
     new ConfigBinding,
