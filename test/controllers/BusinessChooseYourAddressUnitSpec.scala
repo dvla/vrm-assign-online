@@ -1,8 +1,8 @@
 package controllers
 
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.TestConfig
 import composition.WithApplication
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -17,8 +17,8 @@ import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.SET_COOKIE
-import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers._
+import play.api.test.Helpers.contentAsString
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey

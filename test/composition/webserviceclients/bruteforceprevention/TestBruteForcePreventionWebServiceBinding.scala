@@ -1,11 +1,11 @@
 package composition.webserviceclients.bruteforceprevention
 
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseFirstAttempt
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseSecondAttempt
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.FakeResponse
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when

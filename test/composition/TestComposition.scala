@@ -1,9 +1,9 @@
 package composition
 
-import com.google.inject.util.Modules
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Module
+import com.google.inject.util.Modules
 import composition.addresslookup.TestAddressLookupWebServiceBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2

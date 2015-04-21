@@ -38,10 +38,10 @@ object VehicleLookupPage extends Page {
   def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 
   def fillWith(referenceNumber: String = ReferenceNumberValid,
-                registrationNumber: String = RegistrationNumberValid,
-                postcode: String = KeeperPostcodeValid,
-                isCurrentKeeper: Boolean = true)
-               (implicit driver: WebDriver) = {
+               registrationNumber: String = RegistrationNumberValid,
+               postcode: String = KeeperPostcodeValid,
+               isCurrentKeeper: Boolean = true)
+              (implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     vehicleRegistrationNumber.value = registrationNumber

@@ -1,9 +1,9 @@
 package pages.vrm_assign
 
 import helpers.webbrowser.Page
-import org.openqa.selenium.support.ui.Select
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.Select
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory

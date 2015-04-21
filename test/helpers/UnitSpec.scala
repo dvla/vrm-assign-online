@@ -1,13 +1,13 @@
 package helpers
 
 import composition.TestComposition
+import org.scalatest.Matchers
+import org.scalatest.WordSpec
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.time.Second
 import org.scalatest.time.Span
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
 
 import scala.concurrent.duration._
 

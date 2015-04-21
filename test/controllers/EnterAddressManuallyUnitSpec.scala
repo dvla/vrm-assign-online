@@ -7,9 +7,9 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import models.BusinessDetailsModel
 import models.EnterAddressManuallyModel
+import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.SetupBusinessDetailsPage
 import play.api.mvc.Result
@@ -130,63 +130,63 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-//    "submit removes commas and full stops from the end of each address line" in new WithApplication {
-//      val result = enterAddressManually.submit(requestWithValidDefaults(
-//        buildingName = "my house,",
-//        line2 = "my street.",
-//        line3 = "my area.",
-//        postTown = "my town,"
-//      ))
-//
-//      validateAddressCookieValues(result,
-//        buildingName = "MY HOUSE",
-//        line2 = "MY STREET",
-//        line3 = "MY AREA",
-//        postTown = "MY TOWN"
-//      )
-//    }
+    //    "submit removes commas and full stops from the end of each address line" in new WithApplication {
+    //      val result = enterAddressManually.submit(requestWithValidDefaults(
+    //        buildingName = "my house,",
+    //        line2 = "my street.",
+    //        line3 = "my area.",
+    //        postTown = "my town,"
+    //      ))
+    //
+    //      validateAddressCookieValues(result,
+    //        buildingName = "MY HOUSE",
+    //        line2 = "MY STREET",
+    //        line3 = "MY AREA",
+    //        postTown = "MY TOWN"
+    //      )
+    //    }
 
-//    "submit removes multiple commas and full stops from the end of each address line" in new WithApplication {
-//      val result = enterAddressManually.submit(requestWithValidDefaults(
-//        buildingName = "my house,.,..,,",
-//        line2 = "my street...,,.,",
-//        line3 = "my area.,,..",
-//        postTown = "my town,,,.,,,."
-//      ))
-//
-//      validateAddressCookieValues(result,
-//        buildingName = "MY HOUSE",
-//        line2 = "MY STREET",
-//        line3 = "MY AREA",
-//        postTown = "MY TOWN"
-//      )
-//    }
+    //    "submit removes multiple commas and full stops from the end of each address line" in new WithApplication {
+    //      val result = enterAddressManually.submit(requestWithValidDefaults(
+    //        buildingName = "my house,.,..,,",
+    //        line2 = "my street...,,.,",
+    //        line3 = "my area.,,..",
+    //        postTown = "my town,,,.,,,."
+    //      ))
+    //
+    //      validateAddressCookieValues(result,
+    //        buildingName = "MY HOUSE",
+    //        line2 = "MY STREET",
+    //        line3 = "MY AREA",
+    //        postTown = "MY TOWN"
+    //      )
+    //    }
 
-//    "submit does not remove multiple commas and full stops from the middle of address lines" in new WithApplication {
-//      val result = enterAddressManually.submit(requestWithValidDefaults(
-//        buildingName = "my house 1.1,",
-//        line2 = "st. something street",
-//        line3 = "st. johns",
-//        postTown = "my t.own"
-//      ))
-//
-//      validateAddressCookieValues(result,
-//        buildingName = "MY HOUSE 1.1",
-//        line2 = "ST. SOMETHING STREET",
-//        line3 = "ST. JOHNS",
-//        postTown = "MY T.OWN"
-//      )
-//    }
+    //    "submit does not remove multiple commas and full stops from the middle of address lines" in new WithApplication {
+    //      val result = enterAddressManually.submit(requestWithValidDefaults(
+    //        buildingName = "my house 1.1,",
+    //        line2 = "st. something street",
+    //        line3 = "st. johns",
+    //        postTown = "my t.own"
+    //      ))
+    //
+    //      validateAddressCookieValues(result,
+    //        buildingName = "MY HOUSE 1.1",
+    //        line2 = "ST. SOMETHING STREET",
+    //        line3 = "ST. JOHNS",
+    //        postTown = "MY T.OWN"
+    //      )
+    //    }
 
-//    "submit removes commas, but still applies the min length rule" in new WithApplication {
-//      uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
-//      val result = enterAddressManually.submit(requestWithValidDefaults(
-//        buildingName = "m...,,,,   " // This should be a min length of 4 chars
-//      ))
-//      whenReady(result) { r =>
-//        r.header.status should equal(BAD_REQUEST)
-//      }
-//    }
+    //    "submit removes commas, but still applies the min length rule" in new WithApplication {
+    //      uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
+    //      val result = enterAddressManually.submit(requestWithValidDefaults(
+    //        buildingName = "m...,,,,   " // This should be a min length of 4 chars
+    //      ))
+    //      whenReady(result) { r =>
+    //        r.header.status should equal(BAD_REQUEST)
+    //      }
+    //    }
 
     "submit does not accept an address containing only full stops" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(

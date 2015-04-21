@@ -19,5 +19,6 @@ final class VrmAssignEligibilityCallNotEligibleError extends ScalaModule with Mo
       thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseNotEligibleError)))
     webService
   }
+
   def configure() = bind[VrmAssignEligibilityWebService].toInstance(stub)
 }

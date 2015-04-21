@@ -9,11 +9,11 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.BusinessChooseYourAddressPage
 import pages.vrm_assign.BusinessChooseYourAddressPage.back
 import pages.vrm_assign.BusinessChooseYourAddressPage.happyPath
 import pages.vrm_assign.BusinessChooseYourAddressPage.sadPath
-import pages.vrm_assign.BeforeYouStartPage
-import pages.vrm_assign.BusinessChooseYourAddressPage
 import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.VehicleLookupPage

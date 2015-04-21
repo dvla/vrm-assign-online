@@ -11,10 +11,10 @@ import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import org.mockito.Mockito._
 import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.VehicleLookupPage
 import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VehicleLookupFailurePage
+import pages.vrm_assign.VehicleLookupPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

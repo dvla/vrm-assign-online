@@ -13,9 +13,9 @@ import pages.vrm_assign.BusinessChooseYourAddressPage
 import pages.vrm_assign.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers._
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
-import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
 import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
