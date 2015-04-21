@@ -13,6 +13,7 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
+import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
 
 name := "vrm-assign-online"
 
@@ -121,6 +122,8 @@ ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverag
 CoverallsPlugin.coverallsSettings
 
 resolvers ++= projectResolvers
+
+webJarCdns := Map()
 
 // ====================== Sandbox Settings ==========================
 lazy val osAddressLookupProject = osAddressLookup("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
