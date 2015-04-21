@@ -7,7 +7,6 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.interactions.Actions
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
@@ -17,7 +16,6 @@ import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
 import pages.vrm_assign._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import org.openqa.selenium.Keys
 
 final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 

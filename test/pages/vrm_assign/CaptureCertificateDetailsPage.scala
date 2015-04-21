@@ -6,7 +6,6 @@ import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.CaptureCertificateDetails._
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 
 object CaptureCertificateDetailsPage extends Page {
 

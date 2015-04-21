@@ -3,8 +3,8 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup

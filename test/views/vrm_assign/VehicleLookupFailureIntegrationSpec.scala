@@ -6,8 +6,12 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.VehicleLookupFailurePage.{exit, tryAgain}
-import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import pages.vrm_assign.VehicleLookupFailurePage.exit
+import pages.vrm_assign.VehicleLookupFailurePage.tryAgain
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.VehicleLookupFailurePage
+import pages.vrm_assign.VehicleLookupPage
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 

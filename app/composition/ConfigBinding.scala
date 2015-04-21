@@ -1,7 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import utils.helpers.{ConfigImpl, Config}
+import utils.helpers.Config
+import utils.helpers.ConfigImpl
 
 final class ConfigBinding extends ScalaModule {
 

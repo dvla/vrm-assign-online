@@ -4,17 +4,18 @@ import com.google.inject.Inject
 import composition.RefererFromHeader
 import models._
 import org.apache.commons.codec.binary.Base64
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import play.api.Logger
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.Confirm._

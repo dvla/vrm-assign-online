@@ -2,10 +2,7 @@ package controllers
 
 import helpers.UnitSpec
 import mappings.common.vrm_assign.CertificateDate
-import mappings.common.vrm_assign.CertificateDate
 import mappings.common.vrm_assign.CertificateDocumentCount
-import mappings.common.vrm_assign.CertificateDocumentCount
-import mappings.common.vrm_assign.CertificateTime
 import mappings.common.vrm_assign.CertificateTime
 import models.CaptureCertificateDetailsFormModel
 import play.api.data.Form
@@ -18,7 +15,6 @@ import views.vrm_assign.CaptureCertificateDetails.PrVrmId
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 final class CaptureCertificateDetailsFormSpec extends UnitSpec {

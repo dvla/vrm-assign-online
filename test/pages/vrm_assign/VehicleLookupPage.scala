@@ -5,9 +5,17 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
+import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_assign.VehicleLookup.KeeperConsentId
+import views.vrm_assign.VehicleLookup.PostcodeId
+import views.vrm_assign.VehicleLookup.SubmitId
+import views.vrm_assign.VehicleLookup.UserType_Business
+import views.vrm_assign.VehicleLookup.UserType_Keeper
+import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 object VehicleLookupPage extends Page {
 

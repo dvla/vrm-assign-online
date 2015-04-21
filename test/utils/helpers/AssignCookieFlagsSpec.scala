@@ -1,8 +1,8 @@
 package utils.helpers
 
+import helpers.UnitSpec
 import play.api.mvc.Cookie
 import play.api.test.WithApplication
-import helpers.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 

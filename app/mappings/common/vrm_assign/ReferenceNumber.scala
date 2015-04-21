@@ -1,10 +1,10 @@
 package mappings.common.vrm_assign
 
 import play.api.data.Mapping
-import uk.gov.dvla.vehicles.presentation.common
-import common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 import play.api.data.validation.Constraint
 import play.api.data.validation.Constraints._
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object ReferenceNumber {
   final val MinLength = 14

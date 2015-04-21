@@ -1,7 +1,6 @@
 package controllers
 
 import composition.TestAssignEmailServiceBinding
-import composition.TestEmailService
 import composition.WithApplication
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import helpers.UnitSpec
@@ -26,7 +25,6 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import views.vrm_assign.Confirm.SupplyEmail_false
-import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 

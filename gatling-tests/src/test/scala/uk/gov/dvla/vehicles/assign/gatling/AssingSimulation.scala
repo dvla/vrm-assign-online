@@ -1,8 +1,8 @@
 package uk.gov.dvla.vehicles.assign.gatling
 
 import io.gatling.core.Predef._
-import Helper.httpConf
-import Scenarios._
+import uk.gov.dvla.vehicles.assign.gatling.Helper.httpConf
+import uk.gov.dvla.vehicles.assign.gatling.Scenarios._
 
 final class AssingSimulation extends Simulation {
 

@@ -1,8 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import uk.gov.dvla.vehicles.presentation.common.services.{DateServiceImpl, DateService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 
 final class DateServiceBinding extends ScalaModule {
 

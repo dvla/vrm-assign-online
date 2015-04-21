@@ -3,7 +3,8 @@ package webserviceclients.vrmassignfulfil
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 
 case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   currentVehicleRegistrationMark: String,

@@ -6,9 +6,9 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import views.html.vrm_assign.main
 @import views.html.vrm_assign.lookup_failure.failure_playback
-@import views.vrm_assign.VehicleLookupFailure.{ExitId, VehicleLookupId}
+@import views.html.vrm_assign.main
+@import views.vrm_assign.VehicleLookupFailure.ExitId
 
 @main(
     title = Messages(s"vehicle-lookup-failure-eligibility-title")

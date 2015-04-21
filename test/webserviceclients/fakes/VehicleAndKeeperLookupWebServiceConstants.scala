@@ -1,11 +1,11 @@
 package webserviceclients.fakes
 
-import org.joda.time.DateTime
-import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
+import play.api.http.Status.OK
+import play.api.http.Status.SERVICE_UNAVAILABLE
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 
 object VehicleAndKeeperLookupWebServiceConstants {
 

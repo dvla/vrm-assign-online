@@ -1,8 +1,8 @@
 package webserviceclients.audit2
 
-import models.CaptureCertificateDetailsModel
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
 import models.PaymentModel
 import play.api.libs.json.Json._
 import play.api.libs.json._

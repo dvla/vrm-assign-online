@@ -6,8 +6,12 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.PaymentNotAuthorisedPage.{tryAgain, exit}
-import pages.vrm_assign.{PaymentPage, BeforeYouStartPage, LeaveFeedbackPage, PaymentNotAuthorisedPage}
+import pages.vrm_assign.PaymentNotAuthorisedPage.exit
+import pages.vrm_assign.PaymentNotAuthorisedPage.tryAgain
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.PaymentNotAuthorisedPage
+import pages.vrm_assign.PaymentPage
 
 final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 

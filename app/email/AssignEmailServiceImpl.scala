@@ -1,27 +1,26 @@
 package email
 
-import java.io.{FileInputStream, File}
-
-import play.api.Logger
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
-import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.libs.json.Json
-import play.api.{Logger, Play}
+import play.api.Logger
+import play.api.Play
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
-import views.html.vrm_assign.{email_without_html, email_with_html}
-import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
+import views.html.vrm_assign.email_with_html
+import views.html.vrm_assign.email_without_html
+import webserviceclients.emailservice.EmailService
+import webserviceclients.emailservice.EmailServiceSendRequest
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.io.Source
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
 

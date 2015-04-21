@@ -4,7 +4,8 @@ import helpers.UnitSpec
 import models.ConfirmFormModel
 import play.api.data.Form
 import views.vrm_assign.Confirm._
-import webserviceclients.fakes.ConfirmFormConstants.{GranteeConsentValid, KeeperEmailValid}
+import webserviceclients.fakes.ConfirmFormConstants.GranteeConsentValid
+import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 
 final class ConfirmFormSpec extends UnitSpec {
 

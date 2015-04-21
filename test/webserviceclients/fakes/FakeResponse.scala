@@ -1,7 +1,8 @@
 package webserviceclients.fakes
 
 import play.api.libs.json.JsValue
-import play.api.libs.ws.{WSCookie, WSResponse}
+import play.api.libs.ws.WSCookie
+import play.api.libs.ws.WSResponse
 
 import scala.xml.Elem
 

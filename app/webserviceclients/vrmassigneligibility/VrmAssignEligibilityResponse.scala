@@ -1,9 +1,9 @@
 package webserviceclients.vrmretentioneligibility
 
-import play.api.libs.json._
-import play.api.libs.json.Json.toJson
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
+import play.api.libs.json.Json.toJson
+import play.api.libs.json._
 
 case class VrmAssignEligibilityResponse(certificateExpiryDate: Option[DateTime], responseCode: Option[String])
 

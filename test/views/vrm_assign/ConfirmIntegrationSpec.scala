@@ -11,9 +11,6 @@ import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_assign.ConfirmPage.`don't supply keeper email`
-import pages.vrm_assign.ConfirmPage.`supply keeper email`
-import pages.vrm_assign.ConfirmPage.isKeeperEmailHidden
 import pages.vrm_assign._
 import views.vrm_assign.Confirm.ConfirmCacheKey
 
