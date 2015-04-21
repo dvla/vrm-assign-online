@@ -17,13 +17,5 @@ require(["assign-page-init"], function(assignPageInit) {
     $(function() {
         assignPageInit.init();
 
-        // If JS enabled hide summary details
-        $('.details').hide();
-
-        // Summary details toggle
-        $('.summary').on('click', function() {
-            $(this).siblings().toggle();
-            $(this).toggleClass('active');
-        });
     });
 });
