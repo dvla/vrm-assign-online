@@ -20,4 +20,5 @@ object ConfirmBusinessFormModel {
       StoreDetailsConsentId -> boolean
     )(ConfirmBusinessFormModel.apply)(ConfirmBusinessFormModel.unapply)
   }
+
 }

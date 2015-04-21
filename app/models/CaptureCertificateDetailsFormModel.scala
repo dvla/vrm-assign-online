@@ -28,4 +28,5 @@ object CaptureCertificateDetailsFormModel {
       PrVrmId -> VehicleRegistrationNumber.registrationNumber
     )(CaptureCertificateDetailsFormModel.apply)(CaptureCertificateDetailsFormModel.unapply)
   }
+
 }

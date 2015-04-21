@@ -4,10 +4,10 @@ import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
-import play.api.Play.current
-import play.api.i18n.Messages
 import play.api.Logger
 import play.api.Play
+import play.api.Play.current
+import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -54,9 +54,9 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
             confirmFormModel, businessDetailsModel, isKeeper)
           val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ","") +
+          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
             " " + Messages("email.email_service_impl.subject") +
-            " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ","")
+            " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "")
 
           val attachment: Option[Attachment] = {
             isKeeper match {
@@ -82,7 +82,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
             case NonFatal(e) =>
               Logger.error(s"Email Service web service call failed. Exception " + e.toString)
           }
-
       }
     } else {
       Logger.error("Email not sent as not in whitelist")

@@ -33,4 +33,5 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
+
 }

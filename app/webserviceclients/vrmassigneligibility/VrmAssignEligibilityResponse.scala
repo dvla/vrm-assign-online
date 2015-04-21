@@ -23,7 +23,6 @@ object VrmAssignEligibilityResponse {
         case e: Throwable => JsSuccess(new DateTime)
       }
     }
-
   }
 
   implicit val JsonFormat = Json.format[VrmAssignEligibilityResponse]

@@ -29,4 +29,5 @@ object SetupBusinessDetailsFormModel {
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }
+
 }

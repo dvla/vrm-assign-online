@@ -6,6 +6,7 @@ import play.api.data.validation.Constraints._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object CertificateDocumentCount {
+
   final val MinLength = 1
   final val MaxLength = 1
 
