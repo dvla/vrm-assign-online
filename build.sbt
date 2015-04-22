@@ -14,6 +14,7 @@ import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 name := "vrm-assign-online"
 
@@ -115,11 +116,21 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-ScoverageSbtPlugin.instrumentSettings
+//////////////////
+// Scoverage
+//
+// Code coverage plugin
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
 
-CoverallsPlugin.coverallsSettings
+ScoverageKeys.coverageMinimum := 60
+
+ScoverageKeys.coverageFailOnMinimum := true
+
+ScoverageKeys.coverageHighlighting := true
+
+// End Scoverage
+//////////////////
 
 resolvers ++= projectResolvers
 
