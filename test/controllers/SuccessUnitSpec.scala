@@ -1,10 +1,21 @@
 package controllers
 
 import composition.TestAssignEmailServiceBinding
-import composition.WithApplication
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
+import composition.WithApplication
 import helpers.UnitSpec
-import helpers.vrm_assign.CookieFactoryForUnitSpecs._
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessChooseYourAddress
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.fulfilModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
@@ -24,7 +35,6 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import views.vrm_assign.Confirm.SupplyEmail_false
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
@@ -85,7 +95,7 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = SupplyEmail_false),
+          confirmFormModel(keeperEmail = None),
           fulfilModel(),
           transactionId(),
           paymentTransNo(),
@@ -116,7 +126,7 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = supplyEmailTrue),
+          confirmFormModel(keeperEmail = KeeperEmailValid),
           fulfilModel(),
           transactionId(),
           paymentTransNo(),
@@ -147,7 +157,7 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = supplyEmailTrue),
+          confirmFormModel(keeperEmail = None),
           fulfilModel(),
           transactionId(),
           paymentTransNo(),
@@ -178,38 +188,7 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = "no"),
-          fulfilModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
-      whenReady(result) { r =>
-        verify(emailService, never).sendEmail(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[CaptureCertificateDetailsFormModel],
-          any[CaptureCertificateDetailsModel],
-          any[FulfilModel],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[String]
-        )
-      }
-    }
-
-    "not call the email service when keeper did not select to supply an email address but did provide one" in new WithApplication {
-      val isKeeper = true
-      val request = FakeRequest().
-        withCookies(
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          captureCertificateDetailsFormModel(),
-          captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = "no"),
+          confirmFormModel(keeperEmail = None),
           fulfilModel(),
           transactionId(),
           paymentTransNo(),
