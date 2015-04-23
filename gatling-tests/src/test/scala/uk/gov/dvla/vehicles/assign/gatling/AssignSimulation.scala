@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import uk.gov.dvla.vehicles.assign.gatling.Helper.httpConf
 import uk.gov.dvla.vehicles.assign.gatling.Scenarios._
 
-final class AssingSimulation extends Simulation {
+final class AssignSimulation extends Simulation {
 
   private val oneUser = atOnceUsers(1)
 

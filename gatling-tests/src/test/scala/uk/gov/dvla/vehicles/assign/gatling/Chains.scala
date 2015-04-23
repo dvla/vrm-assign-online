@@ -136,10 +136,6 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/javascripts/capture-certificate-details-page.js""")
       )
       .exec(
-        http("confirm-page.js")
-          .get( s"""/assets/javascripts/confirm-page.js""")
-      )
-      .exec(
         http("firefox-dont-cache-page.js")
           .get( s"""/assets/javascripts/firefox-dont-cache-page.js""")
       )
@@ -150,14 +146,6 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           """Accept""" -> """*/*""",
           """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:10:42 GMT""",
           """If-None-Match""" -> """5f859f72e7cc426915cf32f2643ee5fc494b04a8"""))
-      )
-      .exec(
-        http("on-event-change-display.js")
-          .get( s"""/assets/javascripts/on-event-change-display.js""")
-      )
-      .exec(
-        http("on-load-conditional-display.js")
-          .get( s"""/assets/javascripts/on-load-conditional-display.js""")
       )
       .exec(
         http("picturefill.min.js")
@@ -181,7 +169,6 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
           """If-None-Match""" -> """858bab5a8e8f73a1d706221ed772a4f740e168d5"""))
       )
-
 
       /* css */
       .exec(
