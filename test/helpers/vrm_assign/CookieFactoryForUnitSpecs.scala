@@ -177,9 +177,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid, supplyEmail: String = SupplyEmail_true): Cookie = {
+  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
     val key = ConfirmCacheKey
-    val value = ConfirmFormModel(keeperEmail = keeperEmail, granteeConsent = "true", supplyEmail = supplyEmail)
+    val value = ConfirmFormModel(keeperEmail = keeperEmail, granteeConsent = "true")
     createCookie(key, value)
   }
 
