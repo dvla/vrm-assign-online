@@ -171,13 +171,11 @@ object CookieFactoryForUISpecs {
   }
 
   def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid,
-                       granteeConsent: String = GranteeConsentValid,
-                       supplyEmail: String = "true")(implicit webDriver: WebDriver) = {
+                       granteeConsent: String = GranteeConsentValid)(implicit webDriver: WebDriver) = {
     val key = ConfirmCacheKey
     val value = ConfirmFormModel(
       keeperEmail = keeperEmail,
-      granteeConsent = granteeConsent,
-      supplyEmail = supplyEmail
+      granteeConsent = granteeConsent
     )
     addCookie(key, value)
     this

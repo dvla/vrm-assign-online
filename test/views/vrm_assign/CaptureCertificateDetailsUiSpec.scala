@@ -7,7 +7,6 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.interactions.Actions
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
@@ -17,7 +16,6 @@ import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
 import pages.vrm_assign._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import org.openqa.selenium.Keys
 
 final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
@@ -61,46 +59,46 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
   }
 
   "certificate field" should {
-//    "auto tab when entering the maximum number of characters" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to CaptureCertificateDetailsPage
-//
-//      documentCount.underlying.sendKeys("1", "11111", "111111", "11111111") // using sendKeys so that when the text of
-//      // the max length for that field is entered it should tab to the next field.
-//
-//      documentCount.value should equal("1")
-//      date.value should equal("11111")
-//      time.value should equal("111111")
-//      registrationMark.value should equal("11111111")
-//    }
-//
-//    "allow the user to change the value they have already entered in a field when they go back to the field (it should not immediatly auto-tab them away on arrival into the field)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to CaptureCertificateDetailsPage
-//      documentCount.underlying.sendKeys("1", "11111", "111111", "11111111") // using sendKeys so that when the text of
-//      // the max length for that field is entered it should tab to the next field.
-//      // Verify that all the fields have the values we would expect if auto-tabbing works
-//      documentCount.value should equal("1")
-//      date.value should equal("11111")
-//      time.value should equal("111111")
-//      registrationMark.value should equal("11111111")
-//
-//      // Starting from the first field, delete some values and write new values. When the number of characters is back
-//      // up to the max length it should auto-yab to the next field, but NOT before!
-//      documentCount.underlying.sendKeys(
-//        Keys.BACK_SPACE, "2", // edit documentCount
-//        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222", // edit date
-//        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222", // edit time
-//        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222" // edit registrationMark
-//      )
-//
-//      documentCount.value should equal("2")
-//      date.value should equal("11222")
-//      time.value should equal("111222")
-//      registrationMark.value should equal("11111222")
-//    }
+    //    "auto tab when entering the maximum number of characters" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    //      go to BeforeYouStartPage
+    //      cacheSetup()
+    //      go to CaptureCertificateDetailsPage
+    //
+    //      documentCount.underlying.sendKeys("1", "11111", "111111", "11111111") // using sendKeys so that when the text of
+    //      // the max length for that field is entered it should tab to the next field.
+    //
+    //      documentCount.value should equal("1")
+    //      date.value should equal("11111")
+    //      time.value should equal("111111")
+    //      registrationMark.value should equal("11111111")
+    //    }
+    //
+    //    "allow the user to change the value they have already entered in a field when they go back to the field (it should not immediatly auto-tab them away on arrival into the field)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    //      go to BeforeYouStartPage
+    //      cacheSetup()
+    //      go to CaptureCertificateDetailsPage
+    //      documentCount.underlying.sendKeys("1", "11111", "111111", "11111111") // using sendKeys so that when the text of
+    //      // the max length for that field is entered it should tab to the next field.
+    //      // Verify that all the fields have the values we would expect if auto-tabbing works
+    //      documentCount.value should equal("1")
+    //      date.value should equal("11111")
+    //      time.value should equal("111111")
+    //      registrationMark.value should equal("11111111")
+    //
+    //      // Starting from the first field, delete some values and write new values. When the number of characters is back
+    //      // up to the max length it should auto-yab to the next field, but NOT before!
+    //      documentCount.underlying.sendKeys(
+    //        Keys.BACK_SPACE, "2", // edit documentCount
+    //        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222", // edit date
+    //        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222", // edit time
+    //        Keys.BACK_SPACE, Keys.BACK_SPACE, Keys.BACK_SPACE, "222" // edit registrationMark
+    //      )
+    //
+    //      documentCount.value should equal("2")
+    //      date.value should equal("11222")
+    //      time.value should equal("111222")
+    //      registrationMark.value should equal("11111222")
+    //    }
   }
 
   "exit" should {

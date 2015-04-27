@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -9,13 +8,12 @@ import play.api.data.FormError
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.html.vrm_assign.enter_address_manually
@@ -25,7 +23,6 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class EnterAddressManually @Inject()(
-                                            auditService1: audit1.AuditService,
                                             auditService2: audit2.AuditService
                                             )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -64,14 +61,8 @@ final class EnterAddressManually @Inject()(
 
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+              pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -88,14 +79,8 @@ final class EnterAddressManually @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
+      pageMovement = AuditRequest.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

@@ -2,7 +2,6 @@ package controllers
 
 import javax.inject.Inject
 
-import audit1.AuditMessage
 import models._
 import play.api.data.Form
 import play.api.data.FormError
@@ -10,15 +9,14 @@ import play.api.i18n.Lang
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSession
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import utils.helpers.Config
@@ -35,7 +33,6 @@ import scala.concurrent.Future
 
 final class BusinessChooseYourAddress @Inject()(
                                                  addressLookupService: AddressLookupService,
-                                                 auditService1: audit1.AuditService,
                                                  auditService2: audit2.AuditService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -103,14 +100,8 @@ final class BusinessChooseYourAddress @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
+      pageMovement = AuditRequest.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -121,9 +112,9 @@ final class BusinessChooseYourAddress @Inject()(
   }
 
   private def index(addresses: Seq[(String, String)]) = {
-    addresses.map { case (uprn, address) => address}. // Extract the address.
+    addresses.map { case (uprn, address) => address }. // Extract the address.
       zipWithIndex. // Add an index for each address
-      map { case (address, index) => (index.toString, address)} // Flip them around so index comes first.
+      map { case (address, index) => (index.toString, address) } // Flip them around so index comes first.
   }
 
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
@@ -177,14 +168,8 @@ final class BusinessChooseYourAddress @Inject()(
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
 
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+      pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

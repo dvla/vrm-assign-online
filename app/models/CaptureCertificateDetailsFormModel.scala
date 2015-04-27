@@ -1,11 +1,11 @@
 package models
 
+import mappings.common.vrm_assign._
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.vrm_assign.CaptureCertificateDetails._
 import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
-import mappings.common.vrm_assign._
+import views.vrm_assign.CaptureCertificateDetails._
 
 final case class CaptureCertificateDetailsFormModel(certificateDocumentCount: String,
                                                     certificateDate: String,
@@ -28,4 +28,5 @@ object CaptureCertificateDetailsFormModel {
       PrVrmId -> VehicleRegistrationNumber.registrationNumber
     )(CaptureCertificateDetailsFormModel.apply)(CaptureCertificateDetailsFormModel.unapply)
   }
+
 }

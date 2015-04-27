@@ -1,10 +1,10 @@
 package models
 
+import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import org.joda.time.DateTime
-import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 
 final case class CaptureCertificateDetailsModel(prVrm: String, certificateExpiryDate: Option[DateTime], outstandingDates: List[String], outstandingFees: Int)
 

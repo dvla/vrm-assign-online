@@ -1,30 +1,33 @@
 package controllers
 
-import java.io.ByteArrayInputStream
-
 import com.google.inject.Inject
 import email.AssignEmailService
-import models._
+import java.io.ByteArrayInputStream
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.SuccessViewModel
+import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request, Result}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_assign.Confirm.SupplyEmail_true
-import views.vrm_assign.Payment._
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
 import webserviceclients.paymentsolve.PaymentSolveService
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
                                     assignEmailService: AssignEmailService,
@@ -45,9 +48,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap { confirm =>
-          if (confirm.supplyEmail == SupplyEmail_true) confirm.keeperEmail else None
-        }
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap ( _.keeperEmail )
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
@@ -161,8 +162,18 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       captureCertificateDetailsModel = CaptureCertificateDetailsModel("ABC123", None, List.empty, 0),
       fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
-      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), granteeConsent = "true", supplyEmail = SupplyEmail_true)),
-      businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+      confirmFormModel = Some(ConfirmFormModel(
+        keeperEmail = Some("stub-keeper-email"),
+        granteeConsent = "true")
+      ),
+      businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name",
+        contact = "stub-business-contact",
+        email = "stub-business-email",
+        address = AddressModel(
+          address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3",
+            "stub-business-line4", "stub-business-postcode"))
+        )
+      ),
       isKeeper = true
     ))
   }

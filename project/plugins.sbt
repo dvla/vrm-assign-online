@@ -8,9 +8,9 @@ resolvers += "Nexus releases" at "http://rep002-01.skyscape.preview-dvla.co.uk:8
 
 resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("dvla" % "build-details-generator" % "1.3.1")
+addSbtPlugin("dvla" % "build-details-generator" % "1.3.2-SNAPSHOT")
 
-addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.4")
+addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.5-SNAPSHOT")
 
 // The Typesafe repository 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
@@ -44,8 +44,8 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
 
 // Plugin for publishing scoverage results to coveralls
-addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.98.2")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")
 
-addSbtPlugin("com.sksamuel.scoverage" %% "sbt-coveralls" % "0.0.5")
+addSbtPlugin("org.scoverage" %% "sbt-coveralls" % "1.0.0.BETA1")
 
 addSbtPlugin("io.gatling" % "gatling-sbt" % "2.1.0")

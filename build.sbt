@@ -3,8 +3,8 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
@@ -13,6 +13,8 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
+import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 name := "vrm-assign-online"
 
@@ -114,22 +116,34 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-ScoverageSbtPlugin.instrumentSettings
+//////////////////
+// Scoverage
+//
+// Code coverage plugin
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
 
-CoverallsPlugin.coverallsSettings
+ScoverageKeys.coverageMinimum := 60
+
+ScoverageKeys.coverageFailOnMinimum := true
+
+ScoverageKeys.coverageHighlighting := true
+
+// End Scoverage
+//////////////////
 
 resolvers ++= projectResolvers
 
+webJarCdns := Map()
+
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.13").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.11").disablePlugins(PlayScala, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.10").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.7").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.6").disablePlugins(PlayScala, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.12-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.11-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.4").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.5-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 

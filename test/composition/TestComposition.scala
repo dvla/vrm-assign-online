@@ -1,18 +1,24 @@
 package composition
 
+import com.google.inject.Guice
+import com.google.inject.Injector
+import com.google.inject.Module
 import com.google.inject.util.Modules
-import com.google.inject.{Guice, Injector, Module}
 import composition.addresslookup.TestAddressLookupWebServiceBinding
-import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.audit2
-import composition.webserviceclients.audit2.{AuditServiceDoesNothing, AuditServiceBinding}
-import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
-import composition.webserviceclients.emailservice.{TestEmailServiceWebServiceBinding, EmailServiceBinding}
-import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
-import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
-import composition.webserviceclients.vrmassigneligibility.{TestVrmAssignEligibilityWebServiceBinding, VrmAssignEligibilityServiceBinding}
-import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, TestVrmAssignFulfilWebServiceBinding}
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
+import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBinding
+import composition.webserviceclients.paymentsolve.PaymentServiceBinding
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
+import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebServiceBinding
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityServiceBinding
+import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
+import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilServiceBinding
 
 trait TestComposition extends Composition {
 
@@ -41,7 +47,6 @@ trait TestComposition extends Composition {
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebServiceBinding,
       new TestRefererFromHeaderBinding,
-      new AuditLocalServiceDoesNothingBinding,
       new AuditServiceDoesNothing,
       new audit2.AuditMicroServiceCallNotOk,
       new TestAssignEmailServiceBinding,

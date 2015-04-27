@@ -1,18 +1,31 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.TestConfig
+import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import models.SetupBusinessDetailsFormModel
-import pages.vrm_assign.{BusinessChooseYourAddressPage, VehicleLookupPage}
+import pages.vrm_assign.BusinessChooseYourAddressPage
+import pages.vrm_assign.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout, _}
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers._
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
-import views.vrm_assign.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SetupBusinessDetailsCacheKey}
-import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
+import views.vrm_assign.SetupBusinessDetails.BusinessContactId
+import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
+import views.vrm_assign.SetupBusinessDetails.BusinessNameId
+import views.vrm_assign.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 

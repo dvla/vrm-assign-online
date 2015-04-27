@@ -1,7 +1,6 @@
 package views.vrm_assign
 
 import models.CacheKeyPrefix
-import play.api.Logger
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

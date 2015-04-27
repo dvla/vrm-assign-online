@@ -5,7 +5,9 @@ import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBind
 import org.mockito.Matchers.any
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import webserviceclients.emailservice.{EmailServiceSendRequest, EmailServiceWebService, EmailServiceSendResponse}
+import webserviceclients.emailservice.EmailServiceSendRequest
+import webserviceclients.emailservice.EmailServiceSendResponse
+import webserviceclients.emailservice.EmailServiceWebService
 import webserviceclients.fakes.EmailServiceWebServiceConstants._
 import webserviceclients.fakes._
 

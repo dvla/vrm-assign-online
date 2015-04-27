@@ -5,7 +5,8 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.BAD_REQUEST
-import webserviceclients.audit2.{AuditMicroService, AuditRequest}
+import webserviceclients.audit2.AuditMicroService
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.FakeResponse
 
 import scala.concurrent.Future

@@ -18,7 +18,8 @@ final case class SuccessViewModel(registrationNumber: String,
                                   businessAddress: Option[AddressModel],
                                   prVrm: String,
                                   transactionId: String,
-                                  transactionTimestamp: String)
+                                  transactionTimestamp: String,
+                                  paymentMade: Boolean)
 
 object SuccessViewModel {
 
@@ -53,7 +54,8 @@ object SuccessViewModel {
       },
       prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
-      fulfilModel.transactionTimestamp
+      fulfilModel.transactionTimestamp,
+      paymentMade = outstandingPaymentAmount > 0
     )
   }
 
@@ -78,7 +80,8 @@ object SuccessViewModel {
       businessAddress = None,
       prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       transactionId,
-      fulfilModel.transactionTimestamp
+      fulfilModel.transactionTimestamp,
+      paymentMade = outstandingPaymentAmount > 0
     )
   }
 }

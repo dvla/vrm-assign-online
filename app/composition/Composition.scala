@@ -1,25 +1,33 @@
 package composition
 
 import com.google.inject.Guice
-import composition.webserviceclients.addresslookup.{AddressLookupServiceBinding, AddressLookupWebServiceBinding}
+import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
+import composition.webserviceclients.addresslookup.AddressLookupWebServiceBinding
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditMicroServiceBinding
-import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, BruteForcePreventionWebServiceBinding}
-import composition.webserviceclients.emailservice.{EmailServiceWebServiceBinding, EmailServiceBinding}
-import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, PaymentWebServiceBinding}
-import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
-import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityServiceBinding, VrmAssignEligibilityWebServiceBinding}
-import composition.webserviceclients.vrmassignfulfil.{VrmAssignFulfilServiceBinding, VrmAssignFulfilWebServiceBinding}
-import play.filters.gzip.GzipFilter
-import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
-import utils.helpers.ErrorStrategy
+import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
+import composition.webserviceclients.bruteforceprevention.BruteForcePreventionWebServiceBinding
+import composition.webserviceclients.emailservice.EmailServiceBinding
+import composition.webserviceclients.emailservice.EmailServiceWebServiceBinding
+import composition.webserviceclients.paymentsolve.PaymentServiceBinding
+import composition.webserviceclients.paymentsolve.PaymentWebServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceBinding
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityServiceBinding
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebServiceBinding
+import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilServiceBinding
+import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilWebServiceBinding
 import filters.ServiceOpenFilter
+import play.filters.gzip.GzipFilter
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionFilter
+import uk.gov.dvla.vehicles.presentation.common.filters.EnsureSessionCreatedFilter
+import utils.helpers.ErrorStrategy
 
 trait Composition {
 
   lazy val injector = Guice.createInjector(
     new DevModule,
-    new composition.webserviceclients.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
     new audit2.AuditServiceBinding,
     new ConfigBinding,

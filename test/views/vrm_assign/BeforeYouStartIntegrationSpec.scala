@@ -6,8 +6,9 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.BeforeYouStartPage.startNow
-import pages.vrm_assign.{BeforeYouStartPage, VehicleLookupPage}
+import pages.vrm_assign.VehicleLookupPage
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 

@@ -19,6 +19,11 @@
                 <span class="reg-number">@successViewModel.prVrm</span>
             </div>
 
+            @if(successViewModel.paymentMade) {
+                <h3>@Messages("vrm_assign_success.noticePayment.h3")</h3>
+                <p>@Messages("vrm_assign_success.noticePayment.p1")</p>
+            }
+
             @if(isKeeper) {
 
                 <h3>@Messages("vrm_assign_success.h2a")</h3>
@@ -65,7 +70,7 @@
 
             <div class="form-steps">
                 <div class="step">
-                    <button id="@PrintId" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+                    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
                     <br /><br />
                     <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_assign_finish.button")</a>
                 </div>

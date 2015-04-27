@@ -13,7 +13,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
@@ -104,7 +103,8 @@ final class Success @Inject()(
       businessAddress = Some(AddressModel(address = Seq("stub-businessAddress-line1", "stub-businessAddress-line2"))),
       prVrm = "A1",
       transactionId = "stub-transactionId",
-      transactionTimestamp = "stub-transactionTimestamp"
+      transactionTimestamp = "stub-transactionTimestamp",
+      paymentMade = true
     )
     Ok(views.html.vrm_assign.success(successViewModel, true))
   }

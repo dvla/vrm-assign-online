@@ -1,29 +1,33 @@
 package controllers
 
-import org.mockito.Matchers.any
-import audit1.{AuditMessage, AuditService}
-import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalServiceDoesNothingBinding
+import composition.TestConfig
+import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
-import composition.{TestConfig, TestDateServiceBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import org.mockito.Mockito._
-import pages.vrm_assign.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
+import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.SetupBusinessDetailsPage
+import pages.vrm_assign.UprnNotFoundPage
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.SET_COOKIE
+import play.api.test.Helpers._
+import play.api.test.Helpers.contentAsString
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupWebServiceConstants
-import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnInvalid
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -138,12 +142,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
       val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
         new TestConfig(ordnanceSurveyUseUprn = true),
-        auditLocalService1,
         auditService2
       )
 
@@ -160,8 +162,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data: _*)
-      val auditRequest = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.AuditServiceType, data)
+      val auditRequest = new AuditRequest(AuditRequest.CaptureActorToConfirmBusiness, AuditRequest.AuditServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
@@ -171,7 +172,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(auditLocalService1.stub).send(auditMessage)
         verify(auditService2.stub).send(auditRequest)
       }
     }

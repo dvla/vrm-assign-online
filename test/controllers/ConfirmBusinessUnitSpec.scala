@@ -1,8 +1,6 @@
 package controllers
 
-import audit1.AuditMessage
 import composition.WithApplication
-import composition.audit1.AuditLocalServiceDoesNothingBinding
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -76,8 +74,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data: _*)
-      val auditRequest = new AuditRequest(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data)
+      val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToCaptureCertificateDetails, AuditRequest.AuditServiceType, data)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -112,11 +109,8 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
 
     "call the audit service" in new WithApplication {
-      val auditLocalService1 = new AuditLocalServiceDoesNothingBinding
       val auditService2 = new AuditServiceDoesNothing
-
       val injector = testInjector(
-        auditLocalService1,
         auditService2
       )
 
@@ -133,8 +127,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data: _*)
-      val auditRequest = new AuditRequest(AuditMessage.ConfirmBusinessToCaptureCertificateDetails, AuditMessage.AuditServiceType, data)
+      val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToCaptureCertificateDetails, AuditRequest.AuditServiceType, data)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -144,7 +137,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
-        verify(auditLocalService1.stub).send(auditMessage)
         verify(auditService2.stub).send(auditRequest)
       }
     }

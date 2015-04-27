@@ -15,6 +15,5 @@ import com.tzavellas.sse.guice.ScalaModule
 final class DevModule extends ScalaModule {
 
   def configure() {
-
   }
 }

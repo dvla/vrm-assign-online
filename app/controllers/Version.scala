@@ -13,7 +13,7 @@ class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,
     osAddressLookupConfig.baseUrl + "/version",
     vehiclesKeeperConfig.vehicleAndKeeperLookupMicroServiceBaseUrl + "/version",
     config.emailServiceMicroServiceUrlBase + "/version",
-//    config2.paymentSolveMicroServiceUrlBase + "/version",
+    //    config2.paymentSolveMicroServiceUrlBase + "/version",
     config.vrmAssignEligibilityMicroServiceUrlBase + "/version",
     config.vrmAssignFulfilMicroServiceUrlBase + "/version"
   )

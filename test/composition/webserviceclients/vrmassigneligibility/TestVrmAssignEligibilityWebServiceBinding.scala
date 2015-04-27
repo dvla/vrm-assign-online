@@ -8,7 +8,9 @@ import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants._
-import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityResponse, VrmAssignEligibilityWebService}
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityResponse
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityWebService
 
 import scala.concurrent.Future
 

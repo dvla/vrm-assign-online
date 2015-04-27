@@ -1,24 +1,28 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
 import composition.WithApplication
-import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
 import org.mockito.Mockito._
 import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.ErrorPage
+import pages.vrm_assign.ConfirmPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.VehicleLookupFailurePage
 import pages.vrm_assign.VehicleLookupPage
-import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.CaptureCertificateDetails._
+import webserviceclients.audit2.AuditRequest
+import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
@@ -153,16 +157,18 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
-      val expected = new AuditMessage(
-        name = AuditMessage.CaptureCertificateDetailsToExit,
+      val expected = new AuditRequest(
+        name = AuditRequest.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
-        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
-        ("timestamp", dateService.dateTimeISOChronology),
-        ("currentVrm", RegistrationNumberValid),
-        ("make", VehicleMakeValid.get),
-        ("model", VehicleModelValid.get),
-        ("keeperName", "MR DAVID JONES"),
-        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        data = Seq(
+          ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+          ("timestamp", dateService.dateTimeISOChronology),
+          ("currentVrm", RegistrationNumberValid),
+          ("make", VehicleMakeValid.get),
+          ("model", VehicleModelValid.get),
+          ("keeperName", "MR DAVID JONES"),
+          ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        )
       )
 
       val result = captureCertificateDetails.exit(request)
@@ -179,16 +185,18 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           transactionId()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
-      val expected = new AuditMessage(
-        name = AuditMessage.CaptureCertificateDetailsToExit,
+      val expected = new AuditRequest(
+        name = AuditRequest.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
-        ("transactionId", TransactionIdValid),
-        ("timestamp", dateService.dateTimeISOChronology),
-        ("currentVrm", RegistrationNumberValid),
-        ("make", VehicleMakeValid.get),
-        ("model", VehicleModelValid.get),
-        ("keeperName", "MR DAVID JONES"),
-        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        data = Seq(
+          ("transactionId", TransactionIdValid),
+          ("timestamp", dateService.dateTimeISOChronology),
+          ("currentVrm", RegistrationNumberValid),
+          ("make", VehicleMakeValid.get),
+          ("model", VehicleModelValid.get),
+          ("keeperName", "MR DAVID JONES"),
+          ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        )
       )
 
       val result = captureCertificateDetails.exit(request)

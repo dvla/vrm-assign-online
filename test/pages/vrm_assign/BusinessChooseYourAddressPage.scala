@@ -1,12 +1,15 @@
 package pages.vrm_assign
 
 import helpers.webbrowser.Page
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.Select
-import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId}
+import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_assign.BusinessChooseYourAddress.EnterAddressManuallyButtonId
+import views.vrm_assign.BusinessChooseYourAddress.SelectId
 import views.vrm_assign.Main.BackId
 
 object BusinessChooseYourAddressPage extends Page {

@@ -1,6 +1,8 @@
 package composition
 
-import _root_.webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
+import _root_.webserviceclients.fakes.DateServiceConstants.DayValid
+import _root_.webserviceclients.fakes.DateServiceConstants.MonthValid
+import _root_.webserviceclients.fakes.DateServiceConstants.YearValid
 import com.tzavellas.sse.guice.ScalaModule
 import org.joda.time.DateTime
 import org.mockito.Mockito.when

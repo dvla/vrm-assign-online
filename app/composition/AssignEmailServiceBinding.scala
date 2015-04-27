@@ -1,7 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import email.{AssignEmailServiceImpl, AssignEmailService}
+import email.AssignEmailService
+import email.AssignEmailServiceImpl
 
 final class AssignEmailServiceBinding extends ScalaModule {
 

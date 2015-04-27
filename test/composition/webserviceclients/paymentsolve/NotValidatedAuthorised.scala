@@ -1,7 +1,8 @@
 package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{getResponseWithValidDefaults, invalidResponse}
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.getResponseWithValidDefaults
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.invalidResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
