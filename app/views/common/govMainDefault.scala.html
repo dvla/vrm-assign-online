@@ -3,7 +3,7 @@
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.common.{footer, header}
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarningV2
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -18,7 +18,7 @@
 
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        @serviceClosingWarningV2(config.opening, config.closing, config.closingWarnPeriodMins, dateService)
+        @serviceClosingWarning(config.opening, config.closing, config.closingWarnPeriodMins)
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">
