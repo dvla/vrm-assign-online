@@ -2,6 +2,7 @@
     config: utils.helpers.Config)
 
 @import views.html.common.{footer, header}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.pleaseWait
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -50,6 +51,8 @@
         </div>
 
         @footer()
+
+        @pleaseWait()
 
         <div id="global-app-error" class="app-error hidden"></div>
 
