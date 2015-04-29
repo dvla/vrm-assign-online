@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit
 import akka.actor.Props
 import com.google.inject.Inject
 import com.rabbitmq.client.Channel
-import play.api.Logger
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import utils.helpers.Config
@@ -35,6 +34,5 @@ final class AuditLocalServiceImpl @Inject()(config: Config) extends AuditService
         message = auditMessage
       )
     }
-    Logger.info(s"Audit message: $auditMessage")
   }
 }
