@@ -4,6 +4,7 @@
 
 @import views.html.common.{footer, header}
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.pleaseWait
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -18,7 +19,7 @@
 
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        @serviceClosingWarning(config.opening, config.closing, config.closingWarnPeriodMins)
+        @serviceClosingWarning(config.opening, config.closing, dateService)
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">
@@ -54,6 +55,8 @@
         </div>
 
         @footer()
+
+        @pleaseWait()
 
         <div id="global-app-error" class="app-error hidden"></div>
 
