@@ -2,19 +2,20 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
+import controllers.Payment.AuthorisedStatus
 import models._
-import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
@@ -44,26 +45,27 @@ final class Fulfil @Inject()(
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent))
-        if (granteeConsent == "true") =>
+      request.cookies.getString(GranteeConsentCacheKey),
+      request.cookies.getModel[CaptureCertificateDetailsModel],
+      request.cookies.getModel[PaymentModel]
+      ) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent), Some(captureCertificateDetails), Some(payment))
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees > 0 && payment.paymentStatus == Some(AuthorisedStatus)) =>
         fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
-      case (_, Some(transactionId), _, _) => {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent), Some(captureCertificateDetails), _)
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees == 0) =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
+      case _ =>
         auditService1.send(AuditMessage.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
-          transactionId = transactionId,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
-          transactionId = transactionId,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
-        Future.successful {
-          Redirect(routes.MicroServiceError.present())
-        }
-      }
-      case _ =>
         Future.successful {
           Redirect(routes.Error.present("user went to fulfil mark without correct cookies"))
         }

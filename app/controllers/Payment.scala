@@ -47,9 +47,8 @@ final class Payment @Inject()(
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[FulfilModel],
-      request.cookies.getString(GranteeConsentCacheKey),
-      refererFromHeader.fetch) match {
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent), Some(referer))
+      request.cookies.getString(GranteeConsentCacheKey)) match {
+      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
         if granteeConsent == "true" =>
         callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
       case _ => Future.successful {
