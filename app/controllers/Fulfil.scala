@@ -1,10 +1,11 @@
 package controllers
 
 import com.google.inject.Inject
+import controllers.Payment.AuthorisedStatus
 import models._
+import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc._
@@ -42,21 +43,22 @@ final class Fulfil @Inject()(
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent))
-        if (granteeConsent == "true") =>
+      request.cookies.getString(GranteeConsentCacheKey),
+      request.cookies.getModel[CaptureCertificateDetailsModel],
+      request.cookies.getModel[PaymentModel]
+      ) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent), Some(captureCertificateDetails), Some(payment))
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees > 0 && payment.paymentStatus == Some(AuthorisedStatus)) =>
         fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
-      case (_, Some(transactionId), _, _) => {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent), Some(captureCertificateDetails), _)
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees == 0) =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
+      case _ =>
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
-          transactionId = transactionId,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
-        Future.successful {
-          Redirect(routes.MicroServiceError.present())
-        }
-      }
-      case _ =>
         Future.successful {
           Redirect(routes.Error.present("user went to fulfil mark without correct cookies"))
         }
