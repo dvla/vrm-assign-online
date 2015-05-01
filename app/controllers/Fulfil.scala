@@ -21,6 +21,7 @@ import utils.helpers.Config
 import views.vrm_assign.Confirm._
 import views.vrm_assign.Fulfil._
 import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.Payment._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
@@ -42,11 +43,13 @@ final class Fulfil @Inject()(
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent))
-        if (granteeConsent == "true") =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel)
-      case (_, Some(transactionId), _, _) => {
+      request.cookies.getString(GranteeConsentCacheKey),
+      request.cookies.getString(PaymentTransNoCacheKey),
+      request.cookies.getModel[PaymentModel]) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel),
+      Some(granteeConsent), Some(paymentTransNo), Some(paymentModel)) if (granteeConsent == "true") =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, paymentTransNo, paymentModel)
+      case (_, Some(transactionId), _, _, _, _) => {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -64,7 +67,8 @@ final class Fulfil @Inject()(
   }
 
   private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String,
-                        captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel)
+                        captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+                        paymentTransNo: String, paymentModel: PaymentModel)
                        (implicit request: Request[_]): Future[Result] = {
 
     def fulfilSuccess() = {
@@ -177,7 +181,10 @@ final class Fulfil @Inject()(
       certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
       replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
-      transactionTimestamp = dateService.now.toDateTime
+      transactionTimestamp = dateService.now.toDateTime,
+      paymentTransNo = paymentTransNo,
+      paymentTrxRef = paymentModel.trxRef.get,
+      isPaymentPrimaryUrl = paymentModel.isPrimaryUrl
     )
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {

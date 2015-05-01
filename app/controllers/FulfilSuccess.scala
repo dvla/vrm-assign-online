@@ -173,24 +173,24 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
                                            isKeeper: Boolean,
                                            isPrimaryUrl: Boolean
                                            )
-                                         (implicit request: Request[_]): Future[Result] = {
+                                         (implicit request: Request[_]): Future[Result] = Future {
 
-    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-
-    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      authType = FulfilSuccess.SETTLE_AUTH_CODE,
-      isPrimaryUrl = isPrimaryUrl
-    )
-    val trackingId = request.cookies.trackingId()
-    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
+//    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+//
+//    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
+//      transNo = transNo,
+//      trxRef = trxRef,
+//      authType = FulfilSuccess.SETTLE_AUTH_CODE,
+//      isPrimaryUrl = isPrimaryUrl
+//    )
+//    val trackingId = request.cookies.trackingId()
+//    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
       Redirect(routes.Success.present())
-    }.recover {
-      case NonFatal(e) =>
-        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Redirect(routes.Success.present())
-    }
+//    }.recover {
+//      case NonFatal(e) =>
+//        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
+//        Redirect(routes.Success.present())
+//    }
   }
 }
 

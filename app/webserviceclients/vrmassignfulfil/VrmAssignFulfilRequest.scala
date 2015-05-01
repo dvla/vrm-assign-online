@@ -13,7 +13,10 @@ case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   certificateTime: String,
                                   replacementVehicleRegistrationMark: String,
                                   v5DocumentReference: String,
-                                  transactionTimestamp: DateTime)
+                                  transactionTimestamp: DateTime,
+                                  paymentTransNo: String,
+                                  paymentTrxRef: String,
+                                  isPaymentPrimaryUrl: Boolean)
 
 object VrmAssignFulfilRequest {
 
