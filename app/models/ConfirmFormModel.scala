@@ -4,7 +4,7 @@ import mappings.common.Consent.consent
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.emailConfirm
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.Confirm.GranteeConsentId
@@ -21,7 +21,7 @@ object ConfirmFormModel {
   object Form {
 
     final val Mapping = mapping(
-      SupplyEmailId -> OptionalToggle.optional(email.withPrefix(KeeperEmailId)),
+      SupplyEmailId -> OptionalToggle.optional(emailConfirm.withPrefix(KeeperEmailId)),
       GranteeConsentId -> consent
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }

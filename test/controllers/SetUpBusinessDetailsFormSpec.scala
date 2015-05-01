@@ -5,6 +5,7 @@ import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
 import views.vrm_assign.SetupBusinessDetails._
 import webserviceclients.fakes.AddressLookupServiceConstants._
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
@@ -90,6 +91,8 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
         BusinessNameId -> traderBusinessName,
         BusinessContactId -> traderBusinessContact,
         BusinessEmailId -> traderBusinessEmail,
+        s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
+        s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
         BusinessPostcodeId -> traderPostcode
       )
     )

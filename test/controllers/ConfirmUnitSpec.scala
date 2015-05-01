@@ -15,6 +15,7 @@ import play.api.test.Helpers.OK
 import views.vrm_assign.Confirm._
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -98,7 +99,8 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid, supplyEmail: String = SupplyEmail_true) = {
     FakeRequest().withFormUrlEncodedBody(
-      KeeperEmailId -> keeperEmail,
+      s"$KeeperEmailId.$EmailId" -> keeperEmail,
+      s"$KeeperEmailId.$EmailVerifyId" -> keeperEmail,
       GranteeConsentId -> "true",
       SupplyEmailId -> supplyEmail
     )

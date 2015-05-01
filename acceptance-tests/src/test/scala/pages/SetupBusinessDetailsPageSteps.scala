@@ -27,6 +27,7 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
   def `enter business details` = {
     traderContact.value = "VALTECH"
     traderEmail.value = "business.example@test.com"
+    traderEmailVerify.value = "business.example@test.com"
     traderName.value = "TRADER-NAME"
     traderPostcode.value = "SA11AA"
     click on lookup
@@ -36,6 +37,7 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
   def `form is filled with the values I previously entered` = {
     traderContact.value should equal("VALTECH")
     traderEmail.value should equal("business.example@test.com")
+    traderEmailVerify.value should equal("business.example@test.com")
     traderName.value should equal("TRADER-NAME")
     traderPostcode.value should equal("SA11AA")
     this
@@ -44,6 +46,7 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
   def `form is not filled` = {
     traderContact.value should equal("")
     traderEmail.value should equal("")
+    traderEmailVerify.value should equal("")
     traderName.value should equal("")
     traderPostcode.value should equal("")
     this
