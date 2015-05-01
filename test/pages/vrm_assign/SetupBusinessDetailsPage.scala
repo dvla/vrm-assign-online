@@ -15,6 +15,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 object SetupBusinessDetailsPage extends Page {
 
@@ -28,7 +29,9 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
 
-  def traderEmail(implicit driver: WebDriver): EmailField = emailField(id(BusinessEmailId))
+  def traderEmail(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailId"))
+
+  def traderEmailVerify(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
   def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
 
