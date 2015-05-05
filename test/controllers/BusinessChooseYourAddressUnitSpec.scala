@@ -1,27 +1,33 @@
 package controllers
 
-import org.mockito.Matchers.any
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
+import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
-import composition.{TestConfig, TestDateServiceBinding, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import org.mockito.Mockito._
-import pages.vrm_assign.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
+import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.SetupBusinessDetailsPage
+import pages.vrm_assign.UprnNotFoundPage
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.SET_COOKIE
+import play.api.test.Helpers._
+import play.api.test.Helpers.contentAsString
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_assign.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupWebServiceConstants
-import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnInvalid
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 

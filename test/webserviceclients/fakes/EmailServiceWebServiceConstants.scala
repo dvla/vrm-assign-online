@@ -8,5 +8,4 @@ object EmailServiceWebServiceConstants {
   def emailServiceSendResponseSuccess: (Int, Option[EmailServiceSendResponse]) = {
     (OK, Some(new EmailServiceSendResponse()))
   }
-
 }

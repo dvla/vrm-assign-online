@@ -44,8 +44,8 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
 
 // Plugin for publishing scoverage results to coveralls
-addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.98.2")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")
 
-addSbtPlugin("com.sksamuel.scoverage" %% "sbt-coveralls" % "0.0.5")
+addSbtPlugin("org.scoverage" %% "sbt-coveralls" % "1.0.0.BETA1")
 
 addSbtPlugin("io.gatling" % "gatling-sbt" % "2.1.0")

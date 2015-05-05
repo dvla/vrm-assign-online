@@ -1,7 +1,8 @@
 package webserviceclients.fakes
 
 import play.api.libs.json.JsValue
-import play.api.libs.ws.{WSCookie, WSResponse}
+import play.api.libs.ws.WSCookie
+import play.api.libs.ws.WSResponse
 
 import scala.xml.Elem
 
@@ -12,7 +13,7 @@ final class FakeResponse(override val status: Int,
                          fakeXml: Option[Elem] = None,
                          fakeJson: Option[JsValue] = None) extends WSResponse {
 
-  def allHeaders: Map[String, Seq[String]] = headers.map { case (k, v) => k -> Seq(v)}.toMap
+  def allHeaders: Map[String, Seq[String]] = headers.map { case (k, v) => k -> Seq(v) }.toMap
 
   def underlying[T]: T = ???
 

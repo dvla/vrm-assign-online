@@ -7,7 +7,8 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_assign.ConfirmBusinessPage.{confirm,exit}
+import pages.vrm_assign.ConfirmBusinessPage.confirm
+import pages.vrm_assign.ConfirmBusinessPage.exit
 import pages.vrm_assign._
 
 final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {

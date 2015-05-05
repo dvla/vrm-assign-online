@@ -3,10 +3,10 @@ package mappings.common.vrm_assign
 import play.api.data.Mapping
 import play.api.data.validation.Constraint
 import play.api.data.validation.Constraints._
-import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object CertificateDate {
+
   final val MinLength = 5
   final val MaxLength = 5
 

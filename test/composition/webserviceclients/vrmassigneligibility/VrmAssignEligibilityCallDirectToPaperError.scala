@@ -6,7 +6,8 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseDirectToPaperError
-import webserviceclients.vrmretentioneligibility.{VrmAssignEligibilityRequest, VrmAssignEligibilityWebService}
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityWebService
 
 import scala.concurrent.Future
 

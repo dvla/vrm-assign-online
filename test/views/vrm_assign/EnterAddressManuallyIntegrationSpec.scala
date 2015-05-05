@@ -4,11 +4,15 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.common.MainPanel.back
-import pages.vrm_assign.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
+import pages.vrm_assign.EnterAddressManuallyPage.happyPath
+import pages.vrm_assign.EnterAddressManuallyPage.happyPathMandatoryFieldsOnly
+import pages.vrm_assign.EnterAddressManuallyPage.sadPath
 import pages.vrm_assign._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {

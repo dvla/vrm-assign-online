@@ -6,8 +6,12 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.PaymentFailurePage.{exit, tryAgain}
-import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentFailurePage, VehicleLookupPage}
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.PaymentFailurePage
+import pages.vrm_assign.PaymentFailurePage.exit
+import pages.vrm_assign.PaymentFailurePage.tryAgain
+import pages.vrm_assign.VehicleLookupPage
 
 final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 

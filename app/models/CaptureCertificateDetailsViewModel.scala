@@ -4,8 +4,8 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class CaptureCertificateDetailsViewModel(registrationNumber: String,
-                                               vehicleMake: Option[String],
-                                               vehicleModel: Option[String])
+                                                    vehicleMake: Option[String],
+                                                    vehicleModel: Option[String])
 
 object CaptureCertificateDetailsViewModel {
 

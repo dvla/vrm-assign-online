@@ -6,8 +6,9 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.ErrorPage
 import pages.vrm_assign.ErrorPage.startAgain
-import pages.vrm_assign.{BeforeYouStartPage, ErrorPage}
 
 final class ErrorUiSpec extends UiSpec with TestHarness {
 

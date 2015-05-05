@@ -1,17 +1,20 @@
 package controllers
 
 import composition.WithApplication
-import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallDirectToPaperError, VrmAssignEligibilityCallNotEligibleError}
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import models.{CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
 import org.mockito.Mockito._
 import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.ErrorPage
+import pages.vrm_assign.ConfirmPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.VehicleLookupFailurePage
 import pages.vrm_assign.VehicleLookupPage
-import pages.vrm_assign.{ConfirmPage, LeaveFeedbackPage, VehicleLookupFailurePage}
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

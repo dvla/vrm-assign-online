@@ -19,8 +19,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
@@ -68,7 +66,7 @@ final class CaptureCertificateDetails @Inject()(
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None)  if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
@@ -313,8 +311,8 @@ final class CaptureCertificateDetails @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       if vehicleAndKeeperLookupForm.userType == UserType_Business
     } yield {
-      Redirect(routes.ConfirmBusiness.present())
-    }
+        Redirect(routes.ConfirmBusiness.present())
+      }
     val keeperPath = Redirect(routes.VehicleLookup.present())
     businessPath.getOrElse(keeperPath)
   }

@@ -1,6 +1,7 @@
 package webserviceclients.fakes
 
-import org.joda.time.{DateTime, Period}
+import org.joda.time.DateTime
+import org.joda.time.Period
 import play.api.http.Status._
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityResponse
 

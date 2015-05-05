@@ -97,9 +97,6 @@ GET         /fulfil-failure                                @controllers.FulfilFa
 
 GET         /healthcheck                                   @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
-GET         /help                                          @controllers.Help.present
-POST        /help                                          @controllers.Help.back
-
 GET         /leave-feedback                                @controllers.LeaveFeedback.present
 
 GET         /with-language/:chosenLanguage                 uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)

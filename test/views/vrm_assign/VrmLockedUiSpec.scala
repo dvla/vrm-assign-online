@@ -4,10 +4,14 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.VrmLockedPage
 import pages.vrm_assign.VrmLockedPage.exit
-import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, VrmLockedPage}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 

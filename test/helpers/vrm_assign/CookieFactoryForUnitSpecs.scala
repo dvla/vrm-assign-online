@@ -19,6 +19,7 @@ import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
 import views.vrm_assign.Confirm.ConfirmCacheKey
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.Confirm.SupplyEmail_true
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -177,9 +178,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid, supplyEmail: String = SupplyEmail_true): Cookie = {
+  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
     val key = ConfirmCacheKey
-    val value = ConfirmFormModel(keeperEmail = keeperEmail, granteeConsent = "true", supplyEmail = supplyEmail)
+    val value = ConfirmFormModel(keeperEmail = keeperEmail, granteeConsent = "true")
     createCookie(key, value)
   }
 
@@ -244,5 +245,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     val key = FulfilCacheKey
     val value = FulfilModel(transactionTimestamp)
     createCookie(key, value)
+  }
+
+  def granteeConsent(consent: String = "true"): Cookie = {
+    val key = GranteeConsentCacheKey
+    createCookie(key, consent)
   }
 }

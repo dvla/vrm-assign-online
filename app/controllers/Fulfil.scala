@@ -1,19 +1,20 @@
 package controllers
 
 import com.google.inject.Inject
+import controllers.Payment.AuthorisedStatus
 import models._
-import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
@@ -44,22 +45,25 @@ final class Fulfil @Inject()(
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getString(GranteeConsentCacheKey),
+      request.cookies.getModel[CaptureCertificateDetailsModel],
       request.cookies.getString(PaymentTransNoCacheKey),
-      request.cookies.getModel[PaymentModel]) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel),
-      Some(granteeConsent), Some(paymentTransNo), Some(paymentModel)) if (granteeConsent == "true") =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, paymentTransNo, paymentModel)
-      case (_, Some(transactionId), _, _, _, _) => {
+      request.cookies.getModel[PaymentModel]
+      ) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
+      Some(captureCertificateDetails), Some(paymentTransNo), Some(payment))
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees > 0 && payment.paymentStatus == Some(AuthorisedStatus)) =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel,
+          Some(paymentTransNo), Some(payment.trxRef.get), Some(payment.isPrimaryUrl))
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
+      Some(captureCertificateDetails), _, _)
+        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees == 0) =>
+        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, None, None, None)
+      case _ =>
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
-          transactionId = transactionId,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
-        Future.successful {
-          Redirect(routes.MicroServiceError.present())
-        }
-      }
-      case _ =>
         Future.successful {
           Redirect(routes.Error.present("user went to fulfil mark without correct cookies"))
         }
@@ -68,7 +72,8 @@ final class Fulfil @Inject()(
 
   private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String,
                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
-                        paymentTransNo: String, paymentModel: PaymentModel)
+                        paymentTransNo: Option[String], paymentTrxRef: Option[String],
+                        isPaymentPrimaryUrl: Option[Boolean])
                        (implicit request: Request[_]): Future[Result] = {
 
     def fulfilSuccess() = {
@@ -183,9 +188,8 @@ final class Fulfil @Inject()(
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime,
       paymentTransNo = paymentTransNo,
-      paymentTrxRef = paymentModel.trxRef.get,
-      isPaymentPrimaryUrl = paymentModel.isPrimaryUrl
-    )
+      paymentTrxRef = paymentTrxRef,
+      isPaymentPrimaryUrl = isPaymentPrimaryUrl)
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>

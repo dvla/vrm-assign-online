@@ -3,8 +3,8 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
@@ -13,6 +13,8 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
+import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 name := "vrm-assign-online"
 
@@ -114,13 +116,25 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-ScoverageSbtPlugin.instrumentSettings
+//////////////////
+// Scoverage
+//
+// Code coverage plugin
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
 
-CoverallsPlugin.coverallsSettings
+ScoverageKeys.coverageMinimum := 60
+
+ScoverageKeys.coverageFailOnMinimum := true
+
+ScoverageKeys.coverageHighlighting := true
+
+// End Scoverage
+//////////////////
 
 resolvers ++= projectResolvers
+
+webJarCdns := Map()
 
 // ====================== Sandbox Settings ==========================
 lazy val osAddressLookupProject = osAddressLookup("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)

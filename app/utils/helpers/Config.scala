@@ -46,7 +46,7 @@ trait Config extends VehicleLookupConfig {
   val rabbitmqHost: String
   val rabbitmqPort: Int
   val rabbitmqQueue: String
-  val rabbitmqUsername:String
+  val rabbitmqUsername: String
   val rabbitmqPassword: String
   val rabbitmqVirtualHost: String
 
@@ -63,7 +63,7 @@ trait Config extends VehicleLookupConfig {
   val encryptCookies: Boolean
   val secureCookies: Boolean
   val cookieMaxAge: Int
-  val storeBusinessDetailsMaxAge:Int
+  val storeBusinessDetailsMaxAge: Int
 
   // Audit microservice
   val auditMicroServiceUrlBase: String

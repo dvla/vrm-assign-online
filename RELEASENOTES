@@ -1,3 +1,18 @@
+======= 1.6.3 ======
+Time of release binaries creation:
+Thu Apr 30 2015 14:41:00 GMT+0000 (GMT)
+
+036aa01 Hotfix: fulfil must not allow user through if fees are due and they do not have payment status 'AUTHORISED'
+
+======= 1.6.2 ======
+Time of release binaries creation:
+Wed Apr 29 2015 10:47:00 GMT+0000 (GMT)
+
+90d9351 Hotfix: make sure we are not logging audit local service messages
+bb55318 Hotfix: make sure we are not logging audit service messages
+702e42d RELEASE 1.6.1
+b7d7ffc fix to the telephone text
+
 ======= 1.6 ======
 Time of release binaries creation:
 Wed Apr 15 2015 14:44:00 GMT+0000 (GMT)

@@ -1,13 +1,19 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.TestConfig
+import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.bruteForcePreventionViewModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import pages.vrm_assign.LeaveFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class VrmLockedUnitSpec extends UnitSpec {

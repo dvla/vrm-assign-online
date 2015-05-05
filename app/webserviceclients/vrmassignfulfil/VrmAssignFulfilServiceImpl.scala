@@ -12,8 +12,7 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
   extends VrmAssignFulfilService {
 
   override def invoke(cmd: VrmAssignFulfilRequest,
-                      trackingId: String): Future[VrmAssignFulfilResponse] =
-
+                      trackingId: String): Future[VrmAssignFulfilResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VrmAssignFulfilResponse]
       else throw new RuntimeException(
@@ -23,4 +22,5 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
     }.recover {
       case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
     }
+  }
 }
