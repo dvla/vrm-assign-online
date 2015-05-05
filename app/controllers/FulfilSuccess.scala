@@ -1,28 +1,21 @@
 package controllers
 
 import com.google.inject.Inject
-import email.AssignEmailService
+import email.{ReceiptEmailMessageBuilder, AssignEmailService}
 import java.io.ByteArrayInputStream
-import models.BusinessDetailsModel
-import models.CacheKeyPrefix
-import models.CaptureCertificateDetailsFormModel
-import models.CaptureCertificateDetailsModel
-import models.ConfirmFormModel
-import models.FulfilModel
-import models.PaymentModel
-import models.SuccessViewModel
-import models.VehicleAndKeeperLookupFormModel
+import models._
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.services.SEND
+import webserviceclients.emailservice.EmailService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{VehicleAndKeeperDetailsModel, AddressModel}
 import utils.helpers.Config
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
@@ -31,7 +24,8 @@ import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
                                     assignEmailService: AssignEmailService,
-                                    paymentSolveService: PaymentSolveService)
+                                    paymentSolveService: PaymentSolveService,
+                                    emailService: EmailService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -96,7 +90,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               paymentModel.trxRef.get,
               successViewModel,
               isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper,
-              isPrimaryUrl = paymentModel.isPrimaryUrl
+              isPrimaryUrl = paymentModel.isPrimaryUrl,
+              businessDetailsModel = businessDetailsModel,
+              confirmFormModel = request.cookies.getModel[ConfirmFormModel],
+              captureCertificateDetails = captureCertificateDetailsModel,
+              paymentModel = paymentModel,
+              trackingId = trackingId
             )
           case _ => Future.successful(Redirect(routes.Success.present()))
         }
@@ -182,7 +181,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
                                            trxRef: String,
                                            successViewModel: SuccessViewModel,
                                            isKeeper: Boolean,
-                                           isPrimaryUrl: Boolean
+                                           isPrimaryUrl: Boolean,
+                                           businessDetailsModel: Option[BusinessDetailsModel],
+                                           confirmFormModel: Option[ConfirmFormModel],
+                                           captureCertificateDetails: CaptureCertificateDetailsModel,
+                                           paymentModel: PaymentModel,
+                                           trackingId: String
                                            )
                                          (implicit request: Request[_]): Future[Result] = {
 
@@ -196,6 +200,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     )
     val trackingId = request.cookies.trackingId()
     paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
+      //send email
+      sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetails, transNo, paymentModel, trackingId)
       Redirect(routes.Success.present())
     }.recover {
       case NonFatal(e) =>
@@ -203,6 +209,44 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         Redirect(routes.Success.present())
     }
   }
+
+  /**
+   * Sends a receipt for payment to both keeper and the business if present.
+   */
+  private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
+                          confirmFormModel: Option[ConfirmFormModel],
+                          captureCertificateDetails: CaptureCertificateDetailsModel,
+                          transactionId: String,
+                          paymentModel: PaymentModel,
+                          trackingId: String) = {
+
+    implicit val emailConfiguration = config.emailConfiguration
+    implicit val implicitEmailService = implicitly[EmailService](emailService)
+
+    val businessDetails = businessDetailsModel.map(model =>
+      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+
+    val template = ReceiptEmailMessageBuilder.buildWith(
+      captureCertificateDetails.prVrm,
+      captureCertificateDetails.outstandingFees.toString,
+      transactionId, paymentModel.maskedPAN.getOrElse(""),
+      businessDetails)
+
+    val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
+
+    //send keeper email if present
+    for {
+    model <- confirmFormModel
+      email <- model.keeperEmail
+    } SEND email template withSubject title to email send trackingId
+
+    //send business email if present
+    for {
+      model <- businessDetailsModel
+    } SEND email template withSubject title to model.email send trackingId
+
+  }
+
 }
 
 object FulfilSuccess {
