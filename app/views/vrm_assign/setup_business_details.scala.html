@@ -12,6 +12,7 @@
 @import views.html.vrm_assign.main
 @import views.vrm_assign.SetupBusinessDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 
 @main(
     title = Messages("vrm_assign_setupbusinessdetails.title"),
@@ -31,10 +32,11 @@
                             '_showConstraints -> false,
                             'maxLength -> BusinessName.MaxLength))
                 </div>
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessemailhelper")), args =
-                        Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessemaillabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> BusinessEmailMaxLength))
+                @email(setupBusinessDetailsFormModel(BusinessEmailId),
+                    labelText = Messages("vrm_assign_setupbusinessdetails.businessemaillabel"),
+                    hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessemailhelper")),
+                    args = Map('maxLength -> BusinessEmailMaxLength)
+                )
                 <div class="uppercase-input">
                 @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
                 Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessnamelabel"),

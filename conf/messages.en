@@ -21,6 +21,12 @@ global.browserfindoutmore = Find out more about browsers
 global.browserclosetitle = Dismiss this message
 global.browserclosemessage = Close
 
+
+error.email = Email address is required
+error.email.confirm.required = Please confirm the email address
+error.email.not.match = The email addresses did not match
+email.verify.label = Confirm email address
+
 global.buttonnavback = Back
 global.buttonnavcancel = Cancel
 global.buttonnavupdate = Update
