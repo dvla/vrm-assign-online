@@ -25,6 +25,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
@@ -72,7 +73,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   }
 
   // TODO need to combine vehicleLookupFailure and vehicleFoundResult as they are very similar after recent changes
-  override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
+  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
     // need to record the current vrm from the form so put this into the
@@ -95,14 +96,14 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     // check whether the response code is a VMPR6 code, if so redirect to CaptureCertificateDetails
     // so it eventually redirects to DirectToPaper
-    if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+    if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
       if (formModel.userType == UserType_Keeper) {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.VehicleLookupToCaptureCertificateDetails,
           transactionId = txnId,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(responseCode)))
+          rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
 
         addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), txnId).
           withCookie(vehicleAndKeeperDetailsModel)
@@ -116,7 +117,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             businessDetailsModel = businessDetailsModel,
-            rejectionCode = Some(responseCode)))
+            rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
 
           addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), txnId).
             withCookie(vehicleAndKeeperDetailsModel)
@@ -126,7 +127,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             transactionId = txnId,
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            rejectionCode = Some(responseCode)))
+            rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
 
           addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), txnId).
             withCookie(vehicleAndKeeperDetailsModel)
@@ -138,7 +139,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(responseCode)))
+        rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId)
     }

@@ -25,7 +25,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import views.vrm_assign.Payment._
 import views.vrm_assign.VehicleLookup._
@@ -372,7 +372,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     vehicleLookupStubs().present(request)
   }
 
-  private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+  private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     ).getInstance(classOf[VehicleLookup])
@@ -397,7 +397,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
   }
 
-  private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+  private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
