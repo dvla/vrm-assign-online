@@ -3,7 +3,15 @@ package controllers
 import com.google.inject.Inject
 import email.{ReceiptEmailMessageBuilder, AssignEmailService}
 import java.io.ByteArrayInputStream
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.SuccessViewModel
+import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
@@ -15,7 +23,8 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.{VehicleAndKeeperDetailsModel, AddressModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
@@ -42,7 +51,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap ( _.keeperEmail )
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
@@ -84,21 +93,15 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
             )
         }
 
-        request.cookies.getModel[PaymentModel] match {
-          case Some(paymentModel) =>
-            callUpdateWebPaymentService(
-              paymentModel.trxRef.get,
-              successViewModel,
-              isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper,
-              isPrimaryUrl = paymentModel.isPrimaryUrl,
-              businessDetailsModel = businessDetailsModel,
-              confirmFormModel = request.cookies.getModel[ConfirmFormModel],
-              captureCertificateDetails = captureCertificateDetailsModel,
-              paymentModel = paymentModel,
-              trackingId = trackingId
-            )
-          case _ => Future.successful(Redirect(routes.Success.present()))
+        if( captureCertificateDetailsModel.outstandingFees > 0 ) {
+          val paymentModel = request.cookies.getModel[PaymentModel]
+          //send email
+          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel, transactionId,
+            paymentModel, trackingId)
         }
+
+
+        Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
     }
@@ -171,43 +174,10 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         address = AddressModel(
           address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3",
             "stub-business-line4", "stub-business-postcode"))
-        )
+      )
       ),
       isKeeper = true
     ))
-  }
-
-  private def callUpdateWebPaymentService(
-                                           trxRef: String,
-                                           successViewModel: SuccessViewModel,
-                                           isKeeper: Boolean,
-                                           isPrimaryUrl: Boolean,
-                                           businessDetailsModel: Option[BusinessDetailsModel],
-                                           confirmFormModel: Option[ConfirmFormModel],
-                                           captureCertificateDetails: CaptureCertificateDetailsModel,
-                                           paymentModel: PaymentModel,
-                                           trackingId: String
-                                           )
-                                         (implicit request: Request[_]): Future[Result] = {
-
-    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-
-    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      authType = FulfilSuccess.SETTLE_AUTH_CODE,
-      isPrimaryUrl = isPrimaryUrl
-    )
-    val trackingId = request.cookies.trackingId()
-    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
-      //send email
-      sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetails, transNo, paymentModel, trackingId)
-      Redirect(routes.Success.present())
-    }.recover {
-      case NonFatal(e) =>
-        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Redirect(routes.Success.present())
-    }
   }
 
   /**
@@ -217,7 +187,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
                           confirmFormModel: Option[ConfirmFormModel],
                           captureCertificateDetails: CaptureCertificateDetailsModel,
                           transactionId: String,
-                          paymentModel: PaymentModel,
+                          paymentModel: Option[PaymentModel],
                           trackingId: String) = {
 
     implicit val emailConfiguration = config.emailConfiguration
@@ -226,10 +196,13 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     val businessDetails = businessDetailsModel.map(model =>
       ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
 
+    val maskedPan = paymentModel.flatMap(_.maskedPAN).getOrElse("")
+    val paidFee = f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f"
+
     val template = ReceiptEmailMessageBuilder.buildWith(
       captureCertificateDetails.prVrm,
-      captureCertificateDetails.outstandingFees.toString,
-      transactionId, paymentModel.maskedPAN.getOrElse(""),
+      paidFee,
+      transactionId, maskedPan,
       businessDetails)
 
     val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""

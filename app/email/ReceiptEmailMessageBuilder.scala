@@ -18,7 +18,7 @@ object ReceiptEmailMessageBuilder {
                 business: Option[BusinessDetails]): Contents = {
 
     val now = Instant.now.toDateTime(DateTimeZone.forID("Europe/London"))
-    val dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(now)
+    val dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(now.toDate)
 
     Contents(
       buildHtml(assignVrn, amountCharged, transactionId,maskedCard, dateStr, business.map(buildBusinessHtml).getOrElse("")),
@@ -32,9 +32,9 @@ object ReceiptEmailMessageBuilder {
       |<li>Business Only</li>
       |<li>Business Name: ${business.name}</li>
       |<li>Business Contact: ${business.contact}</li>
-      |<li>Business Address: <ul>${ for {
+      |<li>Business Address: ${ (for {
            addr <- business.address
-         }yield s"<li>$addr</li>"  }</ul></li>
+         } yield s"<li>$addr</li>").mkString("<ul>", "", "</ul>")  }</li>
        |</ul>
      """.stripMargin
 
@@ -61,6 +61,7 @@ object ReceiptEmailMessageBuilder {
        |p {
        |  line-height: 200%;
        |}
+       |li { list-style: none; padding: 0; margin:0;}
        |</style>
        |</head>
        |<body>
