@@ -49,6 +49,33 @@ ul.hint-list {
             font-size: 1.3em;
         }
     }
+
+    .vehicle-lookup {
+      input[type="text"], label.form-radio, .vrm-assign-online label.form-checkbox {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      label.form-radio {
+        display: inline-block;
+        span {
+          margin-left: 10px;
+          display: inline-block;
+          width: 80%;
+        }
+      }
+      ::-webkit-input-placeholder {
+        text-transform: none;
+      }
+      :-moz-placeholder { /* Firefox 18- */
+        text-transform: none;
+      }
+      ::-moz-placeholder {  /* Firefox 19+ */
+        text-transform: none;
+      }
+      :-ms-input-placeholder {
+        text-transform: none;
+      }
+    }
 }
 
 .vrm-assign-online .prototype {
