@@ -14,6 +14,14 @@ define(['jquery', 'jquery-migrate', "page-init"], function($, jqueryMigrate, pag
                 $(this).siblings().toggle();
                 $(this).toggleClass('active');
             });
+
+            /* Testing stuff */
+            $('.js-tooltip').hide();
+            $('.js-has-tooltip').on('click', function() {
+                $('.js-tooltip').addClass('js-tooltip-style');
+                $('.js-tooltip').toggle();
+            });
+            /* Testing stuff */
         }
     }
 });
