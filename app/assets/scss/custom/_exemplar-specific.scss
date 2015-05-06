@@ -105,6 +105,7 @@ ul.hint-list {
   &.js-tooltip-style {
     p {
       color: $govuk-blue;
+      text-align: left;
     }
     position: absolute;
     border: 1px solid $govuk-blue;

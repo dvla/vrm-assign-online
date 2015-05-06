@@ -18,8 +18,9 @@ define(['jquery', 'jquery-migrate', "page-init"], function($, jqueryMigrate, pag
             /* Testing stuff */
             $('.js-tooltip').hide();
             $('.js-has-tooltip').on('click', function() {
-                $('.js-tooltip').addClass('js-tooltip-style');
-                $('.js-tooltip').toggle();
+                var tooltip = $(this).attr('data-tooltip');
+                $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
+                $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
             });
             /* Testing stuff */
         }
