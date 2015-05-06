@@ -14,22 +14,21 @@ object ReceiptEmailMessageBuilder {
 
   case class BusinessDetails(name: String, contact: String, address: Seq[String])
 
-  def buildWith(assignVrn: String, amountCharged: String, transactionId: String, maskedCard: String,
+  def buildWith(assignVrn: String, amountCharged: String, transactionId: String,
                 business: Option[BusinessDetails]): Contents = {
 
     val now = Instant.now.toDateTime(DateTimeZone.forID("Europe/London"))
     val dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(now.toDate)
 
     Contents(
-      buildHtml(assignVrn, amountCharged, transactionId,maskedCard, dateStr, business.map(buildBusinessHtml).getOrElse("")),
-      buildText(assignVrn, amountCharged, transactionId,maskedCard, dateStr, business.map(buildBusinessPlain).getOrElse(""))
+      buildHtml(assignVrn, amountCharged, transactionId, dateStr, business.map(buildBusinessHtml).getOrElse("")),
+      buildText(assignVrn, amountCharged, transactionId, dateStr, business.map(buildBusinessPlain).getOrElse(""))
     )
   }
 
    private def buildBusinessHtml(business: BusinessDetails): String =
    s"""
       |<ul>
-      |<li>Business Only</li>
       |<li>Business Name: ${business.name}</li>
       |<li>Business Contact: ${business.contact}</li>
       |<li>Business Address: ${ (for {
@@ -40,7 +39,6 @@ object ReceiptEmailMessageBuilder {
 
   private def buildBusinessPlain(business: BusinessDetails): String =
   s"""
-     |Business Only
      |Business Name
    }: ${business.name}
      |Business Contact: ${business.contact}
@@ -50,7 +48,6 @@ object ReceiptEmailMessageBuilder {
   private def buildHtml(assignVrn: String,
                         amountCharged: String,
                         transactionId: String,
-                        maskedCard: String,
                         dateStr: String,
                         business: String): String =
     s"""
@@ -71,20 +68,19 @@ object ReceiptEmailMessageBuilder {
        |
        |<ul>
        |<li>£$amountCharged DVLA Online Assignment of $assignVrn</li>
-       |<li>Card Number: $maskedCard</li>
+       |<li>Paid by Credit/Debit Card</li>
        |<li>Date:  $dateStr</li>
        |<li>Transaction Number:  $transactionId</li>
        |</ul>
        |
        |$business
        |
-       |<p>DVLA, Swansea, West Glamorgan SA99 1DN</p>
+       |<p>DVLA, Swansea, SA6 7JL</p>
       """.stripMargin
 
   private def buildText(assignVrn: String,
                         amountCharged: String,
                         transactionId: String,
-                        maskedCard: String,
                         dateStr: String,
                         business: String): String =
     s"""
@@ -94,13 +90,16 @@ object ReceiptEmailMessageBuilder {
        |Payment received
        |
        |£$amountCharged DVLA Online Assignment of $assignVrn
-       |Card Number: $maskedCard
+       |
+       |Paid by Credit/Debit Card
+       |
        |Date:  $dateStr
+       |
        |Transaction Number:  $transactionId
        |
        |$business
        |
-       |DVLA, Swansea, West Glamorgan SA99 1DN
+       |DVLA, Swansea, SA6 7JL
        |
       """.stripMargin
 

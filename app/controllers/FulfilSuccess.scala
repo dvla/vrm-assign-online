@@ -94,10 +94,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         }
 
         if( captureCertificateDetailsModel.outstandingFees > 0 ) {
-          val paymentModel = request.cookies.getModel[PaymentModel]
           //send email
-          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel, transactionId,
-            paymentModel, trackingId)
+          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel, transactionId, trackingId)
         }
 
 
@@ -187,7 +185,6 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
                           confirmFormModel: Option[ConfirmFormModel],
                           captureCertificateDetails: CaptureCertificateDetailsModel,
                           transactionId: String,
-                          paymentModel: Option[PaymentModel],
                           trackingId: String) = {
 
     implicit val emailConfiguration = config.emailConfiguration
@@ -196,13 +193,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     val businessDetails = businessDetailsModel.map(model =>
       ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
 
-    val maskedPan = paymentModel.flatMap(_.maskedPAN).getOrElse("")
     val paidFee = f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f"
 
     val template = ReceiptEmailMessageBuilder.buildWith(
       captureCertificateDetails.prVrm,
       paidFee,
-      transactionId, maskedPan,
+      transactionId,
       businessDetails)
 
     val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
