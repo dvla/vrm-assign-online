@@ -4,21 +4,13 @@ import composition.RefererFromHeaderBinding
 import composition.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding._
 import composition.webserviceclients.paymentsolve._
-import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
 import controllers.Payment.AuthorisedStatus
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import pages.vrm_assign.ConfirmPage
-import pages.vrm_assign.ErrorPage
-import pages.vrm_assign.FulfilPage
-import pages.vrm_assign.LeaveFeedbackPage
-import pages.vrm_assign.PaymentFailurePage
-import pages.vrm_assign.PaymentNotAuthorisedPage
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 
 final class FulfilUnitSpec extends UnitSpec {
 
