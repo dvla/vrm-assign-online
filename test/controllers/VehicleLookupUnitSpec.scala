@@ -28,7 +28,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import views.vrm_assign.Payment._
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.{ ReplacementVRN => ReplacementVRNForm, _ }
 import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
@@ -404,11 +404,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
-  private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
+  private def buildCorrectlyPopulatedRequest(replacementVRN: String = ReplacementVRN,
+                                             referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid,
                                              postcode: String = PostcodeValid,
                                              KeeperConsent: String = KeeperConsentValid) = {
     FakeRequest().withFormUrlEncodedBody(
+      ReplacementVRNForm -> replacementVRN,
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
       PostcodeId -> postcode,
