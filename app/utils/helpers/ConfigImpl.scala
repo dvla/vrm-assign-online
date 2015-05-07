@@ -46,14 +46,6 @@ class ConfigImpl extends Config {
   // Progress step indicator
   override val isProgressBarEnabled: Boolean = getProperty[Boolean]("progressBar.enabled")
 
-  // Rabbit-MQ
-  override val rabbitmqHost = getProperty[String]("rabbitmq.host")
-  override val rabbitmqPort = getProperty[Int]("rabbitmq.port")
-  override val rabbitmqQueue = getProperty[String]("rabbitmq.queue")
-  override val rabbitmqUsername = getProperty[String]("rabbitmq.username")
-  override val rabbitmqPassword = getProperty[String]("rabbitmq.password")
-  override val rabbitmqVirtualHost = getProperty[String]("rabbitmq.virtualHost")
-
   // Payment Service
   override val renewalFee: String = getProperty[String]("assign.renewalFee.price")
   override val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
