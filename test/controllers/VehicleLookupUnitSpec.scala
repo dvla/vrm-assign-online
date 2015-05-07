@@ -3,7 +3,12 @@ package controllers
 import composition.TestConfig
 import composition.WithApplication
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
-import composition.webserviceclients.vehicleandkeeperlookup._
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallDocRefNumberNotLatest
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallServerDown
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallVRMNotFound
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallNoResponse
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallFails
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -11,9 +16,12 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
-import org.mockito.Mockito._
+import org.mockito.Mockito.verify
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.CaptureCertificateDetailsPage
+import pages.vrm_assign.MicroServiceErrorPage
 import pages.vrm_assign.VehicleLookupFailurePage
-import pages.vrm_assign._
+import pages.vrm_assign.VrmLockedPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.contentAsString
@@ -27,16 +35,30 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebH
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import views.vrm_assign.Payment._
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
+import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_assign.VehicleLookup.KeeperConsentId
+import views.vrm_assign.VehicleLookup.PostcodeId
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotFoundResponseCode
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsServerDown
 
-final class VehicleLookupUnitSpec extends UnitSpec {
+class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
 
@@ -91,7 +113,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "submit removes spaces from registrationNumber" in new WithApplication {
+    "remove spaces from registrationNumber" in new WithApplication {
       // DE7 Spaces should be stripped
       val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
       val result = vehicleLookupStubs().submit(request)
@@ -107,7 +129,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotFoundResponseCode).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result) {
+        r => r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
@@ -372,7 +396,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     vehicleLookupStubs().present(request)
   }
 
-  private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+  private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse:
+                                 (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     ).getInstance(classOf[VehicleLookup])
@@ -397,7 +422,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
   }
 
-  private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+  private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse:
+                                         (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
