@@ -104,7 +104,7 @@ ul.hint-list {
   background: $white;
   z-index: 9999;
   margin: 10px 0;
-  &.js-tooltip-style {
+  &.js-tooltip-visible {
     p {
       color: $govuk-blue;
       text-align: left;
@@ -115,7 +115,6 @@ ul.hint-list {
     border: 1px solid $govuk-blue;
   }
 }
-
 /* Testing stuff */
 
 .vrm-assign-online .prototype {

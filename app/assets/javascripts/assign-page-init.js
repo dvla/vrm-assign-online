@@ -26,7 +26,7 @@ define(['jquery', 'jquery-migrate', "page-init"], function($, jqueryMigrate, pag
             });
             $('.js-has-tooltip').on('click', function() {
                 var tooltip = $(this).attr('data-tooltip');
-                $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
+                $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-visible');
                 $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
 
             });
