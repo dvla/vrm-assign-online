@@ -16,7 +16,7 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout
 
   def `happy path for business` = {
     `is displayed`.
-      enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
+      enter(replacementVRN = "ABC123", registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is not acting`.
       `find vehicle`
     this
@@ -34,7 +34,8 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout
     this
   }
 
-  def enter(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def enter(replacementVRN: String, registrationNumber: String, docRefNumber: String, postcode: String) = {
+    replacementVRNTag.value = replacementVRN
     vehicleRegistrationNumber.value = registrationNumber
     documentReferenceNumber.value = docRefNumber
     keeperPostcode.value = postcode
@@ -47,7 +48,7 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout
   }
 
   def `happy path for keeper` = {
-    enter(registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
+    enter(replacementVRN = "ABC123", registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is acting`.
       `find vehicle`
     this
