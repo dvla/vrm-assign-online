@@ -32,7 +32,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
@@ -290,7 +290,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(
+          val expectedRequest = VehicleAndKeeperLookupRequest(
             dmsHeader = buildHeader(trackingId, dateService),
             referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,

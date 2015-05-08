@@ -7,7 +7,7 @@ import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
@@ -20,7 +20,7 @@ final class TestVehicleAndKeeperLookupWebServiceBinding(vehicleAndKeeperLookupWe
                                                        ) extends ScalaModule with MockitoSugar {
 
   val stub = {
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String]))
+    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperLookupRequest], any[String]))
       .thenReturn(Future.successful(createResponse(statusAndResponse)))
     vehicleAndKeeperLookupWebService
   }

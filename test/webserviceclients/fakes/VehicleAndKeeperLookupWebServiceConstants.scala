@@ -2,7 +2,7 @@ package webserviceclients.fakes
 
 import play.api.http.Status.OK
 import play.api.http.Status.SERVICE_UNAVAILABLE
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import views.vrm_assign.VehicleLookup.UserType_Keeper
@@ -48,7 +48,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message = "200")
 
-  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
+  private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
     vehicleModel = VehicleModelValid,
     keeperTitle = KeeperTitleValid,
