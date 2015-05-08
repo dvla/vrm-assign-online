@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import email.AssignEmailService
+import email.{ReceiptEmailMessageBuilder, AssignEmailService}
 import java.io.ByteArrayInputStream
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
@@ -16,6 +16,8 @@ import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.services.SEND
+import webserviceclients.emailservice.EmailService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -31,7 +33,8 @@ import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
                                     assignEmailService: AssignEmailService,
-                                    paymentSolveService: PaymentSolveService)
+                                    paymentSolveService: PaymentSolveService,
+                                    emailService: EmailService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -89,6 +92,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               trackingId = trackingId
             )
         }
+
+        if( captureCertificateDetailsModel.outstandingFees > 0 ) {
+          //send email
+          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel, transactionId, trackingId)
+        }
+
 
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
@@ -169,4 +178,47 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     ))
   }
 
+  /**
+   * Sends a receipt for payment to both keeper and the business if present.
+   */
+  private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
+                          confirmFormModel: Option[ConfirmFormModel],
+                          captureCertificateDetails: CaptureCertificateDetailsModel,
+                          transactionId: String,
+                          trackingId: String) = {
+
+    implicit val emailConfiguration = config.emailConfiguration
+    implicit val implicitEmailService = implicitly[EmailService](emailService)
+
+    val businessDetails = businessDetailsModel.map(model =>
+      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+
+    val paidFee = f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f"
+
+    val template = ReceiptEmailMessageBuilder.buildWith(
+      captureCertificateDetails.prVrm,
+      paidFee,
+      transactionId,
+      businessDetails)
+
+    val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
+
+    //send keeper email if present
+    for {
+    model <- confirmFormModel
+      email <- model.keeperEmail
+    } SEND email template withSubject title to email send trackingId
+
+    //send business email if present
+    for {
+      model <- businessDetailsModel
+    } SEND email template withSubject title to model.email send trackingId
+
+  }
+
+}
+
+object FulfilSuccess {
+
+  private val SETTLE_AUTH_CODE = "Settle"
 }

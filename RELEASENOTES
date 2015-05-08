@@ -1,3 +1,60 @@
+======= 1.7 ======
+Time of release binaries creation:
+Wed May 06 2015 10:40:00 GMT+0000 (GMT)
+
+b1bdec5 Set dependencies to release versions
+b1ba7c2 Tidy imports
+8e08311 fix for the count down time when closing
+865cec1 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+ce491e0 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+bf46664 Merge branch 'US3114' of /home/git/repositories/dvla/vrm-assign-online into develop
+02e07c4 US3114: Apply dual email entry pattern
+9c31039 US2990 [Assign, Retain] Settle payment after service timeout and fulfilment
+6236ca4 Merge hotfix
+614c2dc Merge branch 'US2610' of /home/git/repositories/dvla/vrm-assign-online into develop
+8dc6281 Fix failing test on Jenkins that is a timing issues by adding a tolerance
+30401be US2802: fix
+3aeaed5 Fix hotfix version merge
+818ddf9 Merge branch 'IE7-bug-js' of /home/git/repositories/dvla/vrm-assign-online into develop
+79ee1c1 IE7 JS bug fix
+c713c48 Merge branch 'US2802-in-widget' of /home/git/repositories/dvla/vrm-assign-online into develop
+dbbcf64 Fix merge
+40f70d8 Merge branch 'US2798' of /home/git/repositories/dvla/vrm-assign-online into develop
+9ac3fee US2798: use common please wait widget
+85a6634 US2802: renamed widget
+42116f1 Merge branch 'US2938' of /home/git/repositories/dvla/vrm-assign-online into develop
+dea35ef US2938
+99221a0 US2802: span around the dynamic text
+d0e5063 US2802: fix merge
+aa66bc1 US2860 use a single require.js configuration file
+587010d Merge branch 'US3014' of /home/git/repositories/dvla/vrm-assign-online into develop
+6002c32 US3014 removed the PR specific hide/show javascript now we are using the generic solution
+d87fc99 US3014 use common show/hide widget
+0030323 US3020 changes to internationalise the feedback count down text
+a130552 Upgrade scoverage plugin
+6ea693f Refactor: tidy-up reformat code, removed unused help page
+956e3b1 Refactor: tidy-up reformat code
+4d98abe Refactor: tidy-up reformat code
+48b6cbd Refactor: tidy-up reformat code
+ef2c089 Merge branch 'US2859' of /home/git/repositories/dvla/vrm-assign-online into develop
+335d837 Refactor: Tidy imports
+05f0b23 US2859 - Tidy up JS and bugfix
+8438e41 Merge branches 'develop' and 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+de05cf2 US2859 use the js from common
+e350302 US2802: fix message
+afc32bd Merge branch 'US2883' of /home/git/repositories/dvla/vrm-assign-online into develop
+3d4ebff US2883 fix tests after change of http status
+076b34c US2802: move serviceClosingWarning to the govMainDefault, add new message
+d7345d9 US2610: clean up repository from vagrant and ansible code
+89936e0 US2882: Remove payment description from  Success pages, but LP still wants us to say 'Thank you for your payment, your credit/debit card has been charged.'
+df909fa Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-assign-online into develop
+aac3b1e fix to the telephone text
+90277fc Bump presentation-common to latest snapshot
+e3eca8d US2230: removed audit1 package, moved surviving code to live in the audit2 package
+27a9748 US2230: remove webapp to rabbit code, still one piece of code that needs to move over
+f4569e8 New development version 1.7-SNAPSHOT
+
+
 ======= 1.6.3 ======
 Time of release binaries creation:
 Thu Apr 30 2015 14:41:00 GMT+0000 (GMT)
