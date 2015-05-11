@@ -14,23 +14,6 @@ define(['jquery', 'jquery-migrate', "page-init"], function($, jqueryMigrate, pag
                 $(this).siblings().toggle();
                 $(this).toggleClass('active');
             });
-
-            /* Testing stuff */
-            $('.js-tooltip').hide();
-            $('.js-has-tooltip').addClass('enabled');
-            $(document).mouseup(function (e) {
-                var tooltipContainer = $(".js-tooltip");
-                if ( !tooltipContainer.is(e.target) && tooltipContainer.has(e.target).length === 0 && (!$('.js-has-tooltip').is(e.target)) )  {
-                    tooltipContainer.hide();
-                }
-            });
-            $('.js-has-tooltip').on('click', function() {
-                var tooltip = $(this).attr('data-tooltip');
-                $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
-                $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
-
-            });
-            /* Testing stuff */
         }
     }
 });
