@@ -44,12 +44,13 @@ final class Payment @Inject()(
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[CaptureCertificateDetailsFormModel],
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[FulfilModel],
       request.cookies.getString(GranteeConsentCacheKey)) match {
-      case (Some(transactionId), Some(captureCertificateDetailsFormModel), None, Some(granteeConsent))
+      case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), None, Some(granteeConsent))
         if granteeConsent == "true" =>
-        callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
+//        callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
+        callBeginWebPaymentService(transactionId, vehicleAndKeeperLookupFormModel.replacementVRN)
       case _ => Future.successful {
         Logger.warn("Payment present failed matching cookies")
         Redirect(routes.Confirm.present())

@@ -27,7 +27,8 @@
                         <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
                     }
                     <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@captureCertificateDetailsFormModel.prVrm</dd>
+                    @*<dd class="reg-number">@captureCertificateDetailsFormModel.prVrm</dd>*@
+                    <dd class="reg-number">@data.replacementVRN</dd>
 
 
                     <br/>

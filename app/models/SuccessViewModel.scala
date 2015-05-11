@@ -26,6 +26,7 @@ object SuccessViewModel {
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             businessDetailsModelOpt: Option[BusinessDetailsModel],
             captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+            vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
             keeperEmail: Option[String],
             fulfilModel: FulfilModel,
             transactionId: String,
@@ -52,15 +53,18 @@ object SuccessViewModel {
       businessAddress = for (businessDetails <- businessDetailsModelOpt) yield {
         businessDetails.address
       },
-      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
+//      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
+      prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       transactionId,
       fulfilModel.transactionTimestamp,
       paymentMade = outstandingPaymentAmount > 0
     )
   }
 
+  /** @TODO check if this is used and if we can remove it */
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
+            vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
             fulfilModel: FulfilModel,
             transactionId: String,
             outstandingPaymentList: List[String],
@@ -78,7 +82,8 @@ object SuccessViewModel {
       businessContact = None,
       businessEmail = None,
       businessAddress = None,
-      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
+//      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
+      prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       transactionId,
       fulfilModel.transactionTimestamp,
       paymentMade = outstandingPaymentAmount > 0

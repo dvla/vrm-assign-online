@@ -24,45 +24,60 @@
             <div class="second-col uppercase-input">
                 <h2>@Messages("vrm_assign_vehiclelookup.title")</h2>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
+                @valtechInputText(vehicleAndKeeperLookupForm(ReplacementVRN), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.vrninputlabel"),
                         'hint -> Messages("vrm_assign_vehiclelookup.vrnHint"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        '_showConstraints -> false
+                        '_showConstraints -> false,
+                        'placeholder -> Messages("vrm_assign_vehiclelookup.vrninputlabelPlaceholder")
                     )
                 )
 
-                @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.refnumHint")),
+                @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
+                    optionsWithHint = Seq(
+                        RadioWithHint(UserType_Keeper, Messages("vrm_assign_vehiclelookup.keeper"), ""),
+                        RadioWithHint(UserType_Business, Messages("vrm_assign_vehiclelookup.business"), "")
+                    ),
                     args = Map(
-                        '_label -> Messages("vrm_assign_vehiclelookup.refnumlabel"),
-                        'hint -> Messages("vrm_assign_vehiclelookup.refnumHint"),
-                        '_showConstraints -> false,
-                        //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
-                        'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                        //'title -> Messages("error.validDocumentReferenceNumber")
-                        'title -> Messages("")
+                        '_label -> Messages("vrm_assign_vehiclelookup.granteeOrPurchaser")
                     )
                 )
+
+                <h2>@Messages("vrm_assign_vehiclelookup.label")</h2>
+
+
+
+
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.currentVrnHint")),
+                    args = Map(
+                        '_label -> Messages("vrm_assign_vehiclelookup.currentVrnLabel"),
+                        'hint -> Messages("vrm_assign_vehiclelookup.currentVrnHint"),
+                        'maxLength -> VehicleRegistrationNumber.MaxLength,
+                        '_showConstraints -> false,
+                        'placeholder -> Messages("vrm_assign_vehiclelookup.currentVrnPlaceholder")
+                    )
+                )
+
+                @helper.input(vehicleAndKeeperLookupForm(DocumentReferenceNumberId)) { (id, name, value, args) =>
+                    <div class="form-item">
+                        <label for="">@Messages("vrm_assign_vehiclelookup.refnumlabel")<span class="js-has-tooltip" data-tooltip="v5c">i</span></label>
+                        <div class="js-tooltip" data-tooltip="v5c">
+                            <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
+                        </div>
+                        <input id="@id" name="@name" value="@value" aria-describedby="document-reference-number-hint" placeholder="@Messages("vrm_assign_vehiclelookup.refnumPlaceholder")" hint="@Messages("vrm_assign_vehiclelookup.refnumHint")" aria-required="true" title="" type="text" autocomplete="off" maxlength="11">
+                        <span class="form-hint" id="document-reference-number-hint">@Messages("vrm_assign_vehiclelookup.refnumHint")</span>
+                    </div>
+                }
 
                 @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), hintText = Some(Messages("vrm_assign_vehiclelookup.postcodeHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.postcodelabel"),
                         '_showConstraints -> false,
                         'NO_OPTIONAL_LABEL -> true,
-                        'maxLength -> Postcode.MaxLength
-                    )
-                )
-
-                <h3>@Messages("vrm_assign_vehiclelookup.label")</h3>
-
-                @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
-                    optionsWithHint = Seq(
-                        RadioWithHint(UserType_Business, Messages("vrm_assign_vehiclelookup.business"), ""),
-                        RadioWithHint(UserType_Keeper, Messages("vrm_assign_vehiclelookup.keeper"), "")
-                    ),
-                    args = Map(
-                        '_label -> Messages("")
+                        'maxLength -> Postcode.MaxLength,
+                        'placeholder -> Messages("vrm_assign_vehiclelookup.postcodePlaceholder")
                     )
                 )
 
@@ -71,13 +86,13 @@
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_vehiclelookup.button")</button>
                 </div>
             </div>
-            <div class="first-col">
-                <div class="img-wrap related">
-                    <h3>@Messages("vrm_assign_vehiclelookup.intro")</h3>
-                    <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
-                    <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
-                </div>
-            </div>
+            @*<div class="first-col">*@
+                @*<div class="img-wrap related">*@
+                    @*<h3>@Messages("vrm_assign_vehiclelookup.intro")</h3>*@
+                    @*<p>@Messages("vrm_assign_vehiclelookup.v5c")</p>*@
+                    @*<img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">*@
+                @*</div>*@
+            @*</div>*@
         </div>
     }
 }

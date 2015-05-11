@@ -31,6 +31,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                          captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                          captureCertificateDetailsModel: CaptureCertificateDetailsModel,
+                         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                          fulfilModel: FulfilModel,
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
@@ -47,14 +48,17 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
       pdfService.create(transactionId,
         keeperName,
         vehicleAndKeeperDetailsModel.address,
-        captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
+//        captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
+        vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
         pdf =>
 
           val plainTextMessage = populateEmailWithoutHtml(
-            vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId,
-            confirmFormModel, businessDetailsModel, isKeeper)
-          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
+            vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
+            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
+          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
+            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
+//          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
+          var subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
             " " + Messages("email.email_service_impl.subject") +
             " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "")
 
@@ -91,6 +95,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                            captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                            captureCertificateDetailsModel: CaptureCertificateDetailsModel,
+                           vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                            fulfilModel: FulfilModel,
                            transactionId: String,
                            confirmFormModel: Option[ConfirmFormModel],
@@ -120,7 +125,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.renewalFee.toDouble / 100.0).toString,
-      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+//      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+      replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
       govUkContentId = govUkContentId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
@@ -133,6 +139,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
   private def populateEmailWithoutHtml(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                                        captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                                        captureCertificateDetailsModel: CaptureCertificateDetailsModel,
+                                       vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                        fulfilModel: FulfilModel,
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
@@ -149,7 +156,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.renewalFee.toDouble / 100.0).toString,
-      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+//      replacementVRM = captureCertificateDetailsFormModel.prVrm,
+      replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,

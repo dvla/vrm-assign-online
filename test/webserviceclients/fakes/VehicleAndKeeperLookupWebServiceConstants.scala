@@ -10,6 +10,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 object VehicleAndKeeperLookupWebServiceConstants {
 
+  final val ReplacementVRN = "ABC123"
   final val RegistrationNumberValid = "AB12AWR"
   final val RegistrationNumberWithSpaceValid = "AB12 AWR"
   final val ReferenceNumberValid = "12345678910"
