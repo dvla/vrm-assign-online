@@ -93,15 +93,29 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     font.getStringWidth(content) / 1000 * fontSize
   }
 
+  private def wrap(words: List[String]): List[List[String]] = words match {
+    case Nil => Nil
+    case _ =>
+      val output = (words.inits.dropWhile { _.mkString(" ").length > 30 }) next;
+      output :: wrap(words.drop(output.length))
+  }
+
   private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
-    contentStream.beginText()
-    fontHelvetica(fontDefaultSize)
-    contentStream.moveTextPositionByAmount(330, 580)
-    contentStream.drawString(name)
-    contentStream.endText()
+
+    var positionY = 580
+
+    wrap((name) split(" ") toList) foreach {
+      words => {
+        contentStream.beginText()
+        fontHelvetica(fontDefaultSize)
+        contentStream.moveTextPositionByAmount(330, positionY)
+        contentStream.drawString(words.mkString)
+        contentStream.endText()
+        positionY = positionY - 15
+      }
+    }
 
     address.map { a =>
-      var positionY = 565
       for (line <- a.address) {
         contentStream.beginText()
         fontHelvetica(fontDefaultSize)
