@@ -41,9 +41,9 @@ final class CommonStepDefs(
     this
   }
 
-  def `perform vehicle lookup (trader acting)`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `perform vehicle lookup (trader acting)`(replacementVRN: String, registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
-      enter(registrationNumber, docRefNumber, postcode).
+      enter(replacementVRN, registrationNumber, docRefNumber, postcode).
       `keeper is not acting`.
       `find vehicle`
     this

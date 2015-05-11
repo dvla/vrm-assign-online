@@ -32,17 +32,11 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import views.vrm_assign.Payment.PaymentTransNoCacheKey
-import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
-import views.vrm_assign.VehicleLookup.KeeperConsentId
-import views.vrm_assign.VehicleLookup.PostcodeId
-import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
+import views.vrm_assign.Payment._
+import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNForm, _ }
 import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
@@ -50,6 +44,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReplacementVRN
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
@@ -290,7 +285,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(
+          val expectedRequest = VehicleAndKeeperLookupRequest(
             dmsHeader = buildHeader(trackingId, dateService),
             referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,
@@ -397,7 +392,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse:
-                                 (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                 (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     ).getInstance(classOf[VehicleLookup])
@@ -423,18 +418,20 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse:
-                                         (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                         (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     )
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
-  private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
+  private def buildCorrectlyPopulatedRequest(replacementVRN: String = ReplacementVRN,
+                                             referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid,
                                              postcode: String = PostcodeValid,
                                              KeeperConsent: String = KeeperConsentValid) = {
     FakeRequest().withFormUrlEncodedBody(
+      ReplacementVRNForm -> replacementVRN,
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
       PostcodeId -> postcode,

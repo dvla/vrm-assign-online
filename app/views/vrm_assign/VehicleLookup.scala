@@ -4,6 +4,7 @@ import models.CacheKeyPrefix
 
 object VehicleLookup {
 
+  final val ReplacementVRN = "document-replacement-vrn"
   final val DocumentReferenceNumberId = "document-reference-number"
   final val VehicleRegistrationNumberId = "vehicle-registration-number"
   final val PostcodeId = "postcode"

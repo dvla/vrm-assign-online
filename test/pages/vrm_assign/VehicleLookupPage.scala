@@ -6,6 +6,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNID}
 import views.vrm_assign.VehicleLookup.KeeperConsentId
 import views.vrm_assign.VehicleLookup.PostcodeId
 import views.vrm_assign.VehicleLookup.SubmitId
@@ -16,6 +17,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReplacementVRN
 
 object VehicleLookupPage extends Page {
 
@@ -29,6 +31,8 @@ object VehicleLookupPage extends Page {
 
   def documentReferenceNumber(implicit driver: WebDriver) = textField(id(DocumentReferenceNumberId))
 
+  def replacementVRNTag(implicit driver: WebDriver) = textField(id(ReplacementVRNID))
+
   def keeperPostcode(implicit driver: WebDriver) = textField(id(PostcodeId))
 
   def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_" + UserType_Keeper))
@@ -37,12 +41,15 @@ object VehicleLookupPage extends Page {
 
   def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 
-  def fillWith(referenceNumber: String = ReferenceNumberValid,
+  def fillWith(replacementVRN: String = ReplacementVRN,
+               referenceNumber: String = ReferenceNumberValid,
                registrationNumber: String = RegistrationNumberValid,
                postcode: String = KeeperPostcodeValid,
                isCurrentKeeper: Boolean = true)
               (implicit driver: WebDriver) = {
     go to VehicleLookupPage
+
+    replacementVRNTag.value = replacementVRN
     documentReferenceNumber.value = referenceNumber
     vehicleRegistrationNumber.value = registrationNumber
     keeperPostcode.value = postcode

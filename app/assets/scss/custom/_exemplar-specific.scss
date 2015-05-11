@@ -49,7 +49,74 @@ ul.hint-list {
             font-size: 1.3em;
         }
     }
+
+    .vehicle-lookup {
+      h2 {
+        width: 90%;
+      }
+      input[type="text"], label.form-radio, .vrm-assign-online label.form-checkbox {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      label.form-radio {
+        display: inline-block;
+        span {
+          margin-left: 10px;
+          display: inline-block;
+          width: 80%;
+        }
+      }
+      ::-webkit-input-placeholder {
+        text-transform: none;
+      }
+      :-moz-placeholder { /* Firefox 18- */
+        text-transform: none;
+      }
+      ::-moz-placeholder {  /* Firefox 19+ */
+        text-transform: none;
+      }
+      :-ms-input-placeholder {
+        text-transform: none;
+      }
+
+    }
 }
+
+
+/* Testing stuff */
+.js-has-tooltip {
+  display: none;
+  color: $govuk-blue;
+  border: 1px solid $govuk-blue;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 25px;
+  text-align: center;
+  margin-left: 5px;
+  cursor: pointer;
+  &.enabled {
+    display: inline-block;
+  }
+}
+
+.js-tooltip {
+  background: $white;
+  z-index: 9999;
+  margin: 10px 0;
+  &.js-tooltip-style {
+    p {
+      color: $govuk-blue;
+      text-align: left;
+    }
+    margin: 0;
+    padding: 16px 32px;
+    position: absolute;
+    border: 1px solid $govuk-blue;
+  }
+}
+
+/* Testing stuff */
 
 .vrm-assign-online .prototype {
     border-bottom:1px solid #DCDCDC;

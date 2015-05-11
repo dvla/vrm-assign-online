@@ -53,7 +53,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
         val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel,
+          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel, vehicleAndKeeperLookupForm,
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
             captureCertificateDetailsModel.outstandingFees)
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
@@ -68,6 +68,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
               captureCertificateDetailsModel,
+              vehicleAndKeeperLookupForm,
               fulfilModel,
               transactionId,
               confirmFormModel,
@@ -84,6 +85,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               vehicleAndKeeperDetails,
               captureCertificateDetailsFormModel,
               captureCertificateDetailsModel,
+              vehicleAndKeeperLookupForm,
               fulfilModel,
               transactionId,
               confirmFormModel,
@@ -95,7 +97,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
         if( captureCertificateDetailsModel.outstandingFees > 0 ) {
           //send email
-          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel, transactionId, trackingId)
+          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel,
+            vehicleAndKeeperLookupForm, transactionId, trackingId)
         }
 
 
@@ -107,10 +110,10 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
   def createPdf = Action.async {
     implicit request =>
-      (request.cookies.getModel[CaptureCertificateDetailsFormModel],
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[CaptureCertificateDetailsFormModel],
         request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-        case (Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
+        case (Some(vehicleDetails), Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
           val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
           pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
             captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
@@ -119,7 +122,8 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
-              val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
+//              val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
+              val newVRM = vehicleDetails.replacementVRN.replace(" ", "")
               val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
@@ -160,6 +164,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         certificateRegistrationMark = "A1",
         prVrm = "A1"),
       captureCertificateDetailsModel = CaptureCertificateDetailsModel("ABC123", None, List.empty, 0),
+      vehicleAndKeeperLookupFormModel = VehicleAndKeeperLookupFormModel("GDS123", "A1", "11111111111", "QQ99QQ", ""),
       fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       confirmFormModel = Some(ConfirmFormModel(
@@ -184,6 +189,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
   private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
                           confirmFormModel: Option[ConfirmFormModel],
                           captureCertificateDetails: CaptureCertificateDetailsModel,
+                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                           transactionId: String,
                           trackingId: String) = {
 
@@ -196,12 +202,13 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     val paidFee = f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f"
 
     val template = ReceiptEmailMessageBuilder.buildWith(
-      captureCertificateDetails.prVrm,
+      vehicleAndKeeperLookupForm.replacementVRN,
       paidFee,
       transactionId,
       businessDetails)
 
-    val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
+//    val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
+    val title = s"""Payment Receipt for assignment of ${vehicleAndKeeperLookupForm.replacementVRN}"""
 
     //send keeper email if present
     for {
