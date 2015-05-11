@@ -25,7 +25,6 @@ object SuccessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             businessDetailsModelOpt: Option[BusinessDetailsModel],
-            captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
             keeperEmail: Option[String],
             fulfilModel: FulfilModel,
@@ -53,7 +52,6 @@ object SuccessViewModel {
       businessAddress = for (businessDetails <- businessDetailsModelOpt) yield {
         businessDetails.address
       },
-//      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       transactionId,
       fulfilModel.transactionTimestamp,
@@ -61,7 +59,7 @@ object SuccessViewModel {
     )
   }
 
-  /** @TODO check if this is used and if we can remove it */
+  /** TODO check if this is used and if we can remove it */
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
             vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
@@ -82,7 +80,6 @@ object SuccessViewModel {
       businessContact = None,
       businessEmail = None,
       businessAddress = None,
-//      prVrm = formatVrm(captureCertificateDetailsFormModel.prVrm),
       prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       transactionId,
       fulfilModel.transactionTimestamp,

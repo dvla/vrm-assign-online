@@ -44,7 +44,7 @@ final class Success @Inject()(
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
         val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel, vehicleAndKeeperLookupForm,
+          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, vehicleAndKeeperLookupForm,
             keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
             captureCertificateDetailsModel.outstandingFees)
 
@@ -63,14 +63,12 @@ final class Success @Inject()(
       case (Some(vehicleAndKeeperLookupFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
         val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
         pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
-          //captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
           vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)
             // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
             // and manually test after making any change.
-            //val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
             val newVRM =  vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
             val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
             Ok.feed(dataContent).

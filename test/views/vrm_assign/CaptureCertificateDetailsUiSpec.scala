@@ -11,7 +11,6 @@ import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
 import pages.vrm_assign.CaptureCertificateDetailsPage.documentCount
-import pages.vrm_assign.CaptureCertificateDetailsPage.prVrm
 import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
 import pages.vrm_assign._
@@ -50,7 +49,6 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
       date.value = "11111"
       time.value = "111111"
       registrationMark.value = RegistrationNumberValid
-      prVrm.value = RegistrationNumberValid
 
       click on CaptureCertificateDetailsPage.lookup
 

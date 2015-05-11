@@ -39,7 +39,7 @@ final class Confirm @Inject()(
       request.cookies.getModel[FulfilModel]) match {
       case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
       Some(captureCertDetailsForm), Some(captureCertDetails), None) =>
-        val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm, vehicleAndKeeperLookupForm,
+        val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
         val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
       // with the situation where payment fails and they come back to this page via either back button or coming
@@ -133,7 +133,7 @@ final class Confirm @Inject()(
       captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]}
       yield {
-        val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm, vehicleAndKeeperLookupForm,
+        val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees,
           vehicleAndKeeperLookupForm.userType)
         val updatedForm = formWithReplacedErrors(form, KeeperEmailId, "error.validEmail").distinctErrors

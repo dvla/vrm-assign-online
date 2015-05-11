@@ -82,7 +82,6 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
               model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
               model.certificateRegistrationMark should equal(RegistrationNumberValid.toUpperCase)
               model.certificateTime should equal(CertificateTimeValid.toUpperCase)
-              model.prVrm should equal(RegistrationNumberValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -253,13 +252,11 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(certificateDate: String = CertificateDateValid,
                                              certificateDocumentCount: String = CertificateDocumentCountValid,
                                              certificateRegistrationMark: String = RegistrationNumberValid,
-                                             certificateTime: String = CertificateTimeValid,
-                                             prVrm: String = RegistrationNumberValid) = {
+                                             certificateTime: String = CertificateTimeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       CertificateDateId -> certificateDate,
       CertificateDocumentCountId -> certificateDocumentCount,
       CertificateRegistrationMarkId -> certificateRegistrationMark,
-      CertificateTimeId -> certificateTime,
-      PrVrmId -> prVrm)
+      CertificateTimeId -> certificateTime)
   }
 }
