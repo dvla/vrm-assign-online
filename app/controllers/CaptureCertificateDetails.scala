@@ -73,14 +73,6 @@ final class CaptureCertificateDetails @Inject()(
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
         case _ =>
           Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
-          Logger.warn("*** Confirm present is missing cookies for either keeper or business")
-          Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
-          Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
-          Logger.warn("*** SetupBusinessDetailsFormModel " + request.cookies.getModel[SetupBusinessDetailsFormModel])
-          Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
-          Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])
-          Logger.warn("*** StoreBusinessDetailsCacheKey " + request.cookies.getString(StoreBusinessDetailsCacheKey))
-          Logger.warn("*** FulfilModel " + request.cookies.getModel[FulfilModel])
           Redirect(routes.ConfirmBusiness.present())
       }
   }

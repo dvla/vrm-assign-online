@@ -25,7 +25,7 @@
 
                 <h2>@Messages("vrm_assign_vehiclelookup.title")</h2>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
+                @valtechInputText(vehicleAndKeeperLookupForm(ReplacementVRN), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.vrninputlabel"),
                         'hint -> Messages("vrm_assign_vehiclelookup.vrnHint"),
@@ -57,15 +57,17 @@
                     )
                 )
 
-                <div class="form-item">
-                    <label for="">@Messages("vrm_assign_vehiclelookup.refnumlabel")<span class="js-has-tooltip" data-tooltip="v5c">i</span></label>
-                    <div class="js-tooltip" data-tooltip="v5c">
-                        <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
-                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
+                @helper.input(vehicleAndKeeperLookupForm(DocumentReferenceNumberId)) { (id, name, value, args) =>
+                    <div class="form-item">
+                        <label for="">@Messages("vrm_assign_vehiclelookup.refnumlabel")<span class="js-has-tooltip" data-tooltip="v5c">i</span></label>
+                        <div class="js-tooltip" data-tooltip="v5c">
+                            <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
+                        </div>
+                        <input id="@id" name="@name" value="@value" aria-describedby="document-reference-number-hint" placeholder="@Messages("vrm_assign_vehiclelookup.refnumPlaceholder")" hint="@Messages("vrm_assign_vehiclelookup.refnumHint")" aria-required="true" title="" type="text" autocomplete="off" maxlength="11">
+                        <span class="form-hint" id="document-reference-number-hint">@Messages("vrm_assign_vehiclelookup.refnumHint")</span>
                     </div>
-                    <input id="document-reference-number" name="document-reference-number" value="" aria-describedby="document-reference-number-hint" placeholder="@Messages("vrm_assign_vehiclelookup.refnumPlaceholder")" hint="@Messages("vrm_assign_vehiclelookup.refnumHint")" aria-required="true" title="" type="text" autocomplete="off" maxlength="11">
-                    <span class="form-hint" id="document-reference-number-hint">@Messages("vrm_assign_vehiclelookup.refnumHint")</span>
-                </div>
+                }
 
                 @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), hintText = Some(Messages("vrm_assign_vehiclelookup.postcodeHint")),
                     args = Map(

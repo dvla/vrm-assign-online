@@ -107,13 +107,14 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+  def vehicleAndKeeperLookupFormModel(replacementVRN: String = ReplacementVRN,
+                                       referenceNumber: String = ReferenceNumberValid,
                                       registrationNumber: String = RegistrationNumberValid,
                                       postcode: String = PostcodeValid,
                                       keeperConsent: String = KeeperConsentValid)
                                      (implicit webDriver: WebDriver) = {
     val key = vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-    val value = VehicleAndKeeperLookupFormModel(referenceNumber = referenceNumber,
+    val value = VehicleAndKeeperLookupFormModel(replacementVRN = replacementVRN, referenceNumber = referenceNumber,
       registrationNumber = registrationNumber, postcode = postcode, userType = keeperConsent)
     addCookie(key, value)
     this

@@ -42,14 +42,6 @@ trait Config extends VehicleLookupConfig {
   // Progress step indicator
   val isProgressBarEnabled: Boolean
 
-  // Rabbit-MQ
-  val rabbitmqHost: String
-  val rabbitmqPort: Int
-  val rabbitmqQueue: String
-  val rabbitmqUsername: String
-  val rabbitmqPassword: String
-  val rabbitmqVirtualHost: String
-
   // Payment Service
   val renewalFee: String
   val renewalFeeAbolitionDate: String

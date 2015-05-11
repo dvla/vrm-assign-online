@@ -53,10 +53,6 @@ final class TestConfig(
 
     when(config.isProgressBarEnabled).thenReturn(true)
 
-    when(config.rabbitmqHost).thenReturn(rabbitmqHost)
-    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
-    when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
-
     when(config.renewalFee).thenReturn("8000")
     when(config.renewalFeeAbolitionDate).thenReturn("09/03/2015")
 

@@ -102,12 +102,14 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     session.newCookie(cookieName, json)
   }
 
-  def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+  def vehicleAndKeeperLookupFormModel(replacementVRN: String = ReplacementVRN,
+                                      referenceNumber: String = ReferenceNumberValid,
                                       registrationNumber: String = RegistrationNumberValid,
                                       postcode: String = KeeperPostcodeValid,
                                       keeperConsent: String = KeeperConsentValid): Cookie = {
     val key = VehicleAndKeeperLookupFormModelCacheKey
     val value = VehicleAndKeeperLookupFormModel(
+      replacementVRN = replacementVRN,
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       postcode = postcode,
