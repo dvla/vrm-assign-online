@@ -92,9 +92,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         }
 
         if( captureCertificateDetailsModel.outstandingFees > 0 ) {
+
           //send email
-          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel,
+          sendReceipt( if (vehicleAndKeeperLookupForm.userType == UserType_Keeper) None else businessDetailsModel,
+            confirmFormModel, captureCertificateDetailsModel,
             vehicleAndKeeperLookupForm, transactionId, trackingId)
+
         }
 
 
