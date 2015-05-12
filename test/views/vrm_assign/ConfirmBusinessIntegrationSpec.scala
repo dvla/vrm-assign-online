@@ -6,6 +6,7 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
+import pages.common.MainPanel.back
 import pages.vrm_assign.ConfirmBusinessPage.confirm
 import pages.vrm_assign.ConfirmBusinessPage.exit
 import pages.vrm_assign._
@@ -47,6 +48,34 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       click on exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
+    }
+  }
+
+  "back button" should {
+
+    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup().
+        businessChooseYourAddress() // EnterAddressManually cookie does not exist therefore we did not come via the EnterAddressManually Page
+      go to ConfirmBusinessPage
+
+      click on back
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
+
+    }
+
+    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup().
+        enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page
+      go to ConfirmBusinessPage
+
+      click on back
+
+      currentUrl should equal(EnterAddressManuallyPage.url)
+
     }
   }
 

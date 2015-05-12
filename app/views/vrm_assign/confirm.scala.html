@@ -20,7 +20,7 @@
 @main(
     title = Messages("vrm_assign_confirm.title"),
     currentForm = Some(confirmForm),
-    backNavigation = Some(controllers.routes.CaptureCertificateDetails.present())
+    backNavigation = None //Some(controllers.routes.CaptureCertificateDetails.present())
 ) {
 
     @form(action = controllers.routes.Confirm.submit()) {

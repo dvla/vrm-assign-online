@@ -23,6 +23,8 @@ object BusinessChooseYourAddressPage extends Page {
 
   def chooseAddress(implicit driver: WebDriver) = singleSel(id(AddressSelectId))
 
+  def back(implicit driver: WebDriver) = find(id(BackId)).get
+
   def manualAddress(implicit driver: WebDriver) = find(id(EnterAddressManuallyButtonId)).get
 
   def getList(implicit driver: WebDriver) = {

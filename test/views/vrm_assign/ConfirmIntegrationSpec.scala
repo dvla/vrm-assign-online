@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement
 import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser._
+import pages.common.MainPanel.back
 import pages.vrm_assign._
 import views.vrm_assign.Confirm.ConfirmCacheKey
 
@@ -122,6 +123,19 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       webDriver.manage().getCookieNamed(ConfirmCacheKey) should equal(null)
     }
   }
+//
+//  "back button" should {
+//    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+//
+//      go to BeforeYouStartPage
+//      cacheSetup()
+//      go to ConfirmPage
+//
+//      click on back
+//      currentUrl should equal(CaptureCertificateDetailsPage.url)
+//
+//    }
+//  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

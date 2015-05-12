@@ -9,12 +9,10 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
-import pages.vrm_assign.BeforeYouStartPage
-import pages.vrm_assign.BusinessChooseYourAddressPage
+import pages.vrm_assign._
+import pages.vrm_assign.BusinessChooseYourAddressPage.back
 import pages.vrm_assign.BusinessChooseYourAddressPage.happyPath
 import pages.vrm_assign.BusinessChooseYourAddressPage.sadPath
-import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.VehicleLookupPage
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -105,6 +103,22 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       // Verify the cookies identified by the full set of cache keys have been removed
       webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
     }
+  }
+
+  "back button" should {
+    "display previous page" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to BusinessChooseYourAddressPage
+
+      click on back
+
+      currentUrl should equal(SetupBusinessDetailsPage.url)
+
+    }
+
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

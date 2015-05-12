@@ -4,6 +4,7 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
+import pages.common.MainPanel.back
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -108,6 +109,22 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }
+  }
+
+  "back button" should {
+
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to CaptureCertificateDetailsPage
+
+      click on back
+
+      currentUrl should equal(VehicleLookupPage.url)
+
+    }
+
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

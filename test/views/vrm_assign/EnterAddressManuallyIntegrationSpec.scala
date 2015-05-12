@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
+import pages.common.MainPanel.back
 import pages.vrm_assign.EnterAddressManuallyPage.happyPath
 import pages.vrm_assign.EnterAddressManuallyPage.happyPathMandatoryFieldsOnly
 import pages.vrm_assign.EnterAddressManuallyPage.sadPath
@@ -75,6 +76,19 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       sadPath
 
       ErrorPanel.numberOfErrors should equal(2)
+    }
+  }
+
+  "back button" should {
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to EnterAddressManuallyPage
+
+      click on back
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
+
     }
   }
 
