@@ -214,10 +214,6 @@ summary {
       .error {
           padding-top: 6px;
       }
-
-      &::after {
-        content: "-";
-      }
       &:last-child {
         &::after {
           content: "";
@@ -240,12 +236,13 @@ summary {
 
   @media screen and (max-width: $device-small) {
     .certificate-id-input {
+
       .form-item {
         display: block;
         clear: both;
         margin-bottom: 8px;
-        &::after {
-          content: "";
+        #certificate-document-count {
+          width:50px;
         }
       }
     }
@@ -258,10 +255,15 @@ summary {
       width:105px;
   }
   .certificate-id-input {
+    margin-top: 10px;
       line-height: 2.75;
       .form-item {
           margin-right: 10px;
       }
+    label {
+      color: #6f777b;
+      font-size: 1.6rem;
+    }
   }
 }
 
@@ -287,5 +289,21 @@ summary {
 #supply-email {
   label {
     clear: none;
+  }
+}
+
+.certificate-details {
+  .form-hint {
+    margin-bottom: 10px;
+  }
+  .js-has-tooltip {
+    width: auto;
+    text-align: left;
+    margin-bottom: 10px;
+    border: none;
+    text-decoration: none;
+  }
+  .js-tooltip-style {
+    max-width: 280px;
   }
 }
