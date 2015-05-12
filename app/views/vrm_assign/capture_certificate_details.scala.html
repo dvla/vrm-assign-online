@@ -91,6 +91,13 @@
                     <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>
             </div>
+            <div id="vehicle-details" class="first-col trader-details">
+                <dl class="playback">
+                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
+                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                    <dd><span class="reg-number">@vehicleDetails.registrationNumber</span></dd>
+                </dl>
+            </div>
         </div>
     }
 
