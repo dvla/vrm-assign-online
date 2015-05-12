@@ -8,7 +8,6 @@ object CaptureCertificateDetails {
   final val CertificateTimeId = "certificate-time"
   final val CertificateDocumentCountId = "certificate-document-count"
   final val CertificateRegistrationMarkId = "certificate-registration-mark"
-  final val PrVrmId = "pr-vrm"
   final val CaptureCertificateDetailsCacheKey = s"${CacheKeyPrefix}capture-certificate-details"
   final val CaptureCertificateDetailsFormModelCacheKey = s"${CacheKeyPrefix}capture-certificate-details-form-model"
   final val SubmitId = "submit"

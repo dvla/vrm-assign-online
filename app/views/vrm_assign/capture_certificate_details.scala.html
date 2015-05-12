@@ -1,5 +1,6 @@
 @(captureCertificateDetailsFormModel: Form[models.CaptureCertificateDetailsFormModel],
-        viewModel: models.CaptureCertificateDetailsViewModel)(implicit lang: Lang,
+        viewModel: models.CaptureCertificateDetailsViewModel,
+        vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -9,6 +10,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
+@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.CaptureCertificateDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
@@ -26,16 +28,30 @@
         <div class="two-col">
             <div class="second-col inline-form">
                 <div class="certificate-details">
-                    <h2>
-                        @Messages("vrm_assign_capturecertificatedetails.title")
-                    </h2>
+                    <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
+                    <h3>@Messages("vrm_assign_capturecertificatedetails.title-2") </h3>
+
                     <div class="form-hint">
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
                     </div>
+
+                    <span class="js-has-tooltip" data-tooltip="v750">@Messages("vrm_assign_capturecertificatedetails.hintCertificate")</span><br/>
+                    <div class="js-tooltip" data-tooltip="v750">
+                        <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
+                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                    </div>
+
+                    <span class="js-has-tooltip" data-tooltip="v778">@Messages("vrm_assign_capturecertificatedetails.hintDocumentReference")</span>
+                    <div class="js-tooltip" data-tooltip="v778">
+                        <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
+                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                    </div>
+
+
                     <div class="uppercase-input certificate-id-input">
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
                             args =
-                                    Map('_label -> "",
+                                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberBox1"),
                                         '_showConstraints -> false,
                                         'maxLength -> CertificateDocumentCount.MaxLength,
                                         Symbol("aria-describedby") -> s"""$CertificateDocumentCountId-hint""")
@@ -43,37 +59,30 @@
 
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDateId),
                             args =
-                                    Map('_label -> "",
+                                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberBox2"),
                                         '_showConstraints -> false,
                                         'maxLength -> CertificateDate.MaxLength))
 
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateTimeId),
                             args =
-                                    Map('_label -> "",
+                                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberBox3"),
                                         '_showConstraints -> false,
                                         'maxLength -> CertificateTime.MaxLength))
 
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateRegistrationMarkId),
                             args =
-                                    Map('_label -> "",
+                                    Map('_label -> Messages("vrm_assign_capturecertificatedetails.referencenumberBox4"),
                                         '_showConstraints -> false,
                                         'minLength -> VehicleRegistrationNumber.MinLength,
                                         'maxLength -> VehicleRegistrationNumber.MaxLength))
                     </div>
                     <div id="@{s"""$CertificateDocumentCountId-hint"""}" class="form-hint">
-                        @Messages("capture-certificate-details-reference-number-helper-1")
-                        <br />
-                        @Messages("capture-certificate-details-reference-number-helper-2")
+                        <p>@Messages("capture-certificate-details-reference-number-helper-1")</p>
+                        <p><strong>@Messages("capture-certificate-details-reference-number-helper-2")</strong></p>
+                        <p>@Messages("capture-certificate-details-reference-number-helper-3")</p>
                     </div>
                 </div>
                 <br />
-                <div class="uppercase-input">
-                    @valtechInputText(captureCertificateDetailsFormModel(PrVrmId),
-                        args =
-                                Map('_label -> Messages("vrm_assign_capturecertificatedetails.prvrmlabel"),
-                                    '_showConstraints -> false,
-                                    'maxLength -> VehicleRegistrationNumber.MaxLength))
-                </div>
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">
                         @Messages("vrm_assign_capturecertificatedetails.button")
@@ -83,58 +92,7 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@viewModel.registrationNumber</dd>
-                </dl>
-                <div class="help-thumbs">
-
-                    <h3>@Messages("capture-certificate-details-you-will-need")</h3>
-                    <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
-                    <a target="_blank" href="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1.png")" >
-                        <picture>
-                            @*
-                            See w3 spec for 'picture' element:
-                            https://html.spec.whatwg.org/multipage/embedded-content.html#embedded-content
-
-                            See media queries such as 'max-width':
-                            https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries
-
-                            See list of browser support:
-                            http://caniuse.com/#feat=picture
-                            *@
-                            <!--[if IE 9]><video style="display: none;"><![endif]-->
-                            <source media="(min-width: 769px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-960px.jpg")">
-                            <source media="(min-width: 601px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-768px.jpg")">
-                            <source media="(min-width: 481px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-600px.jpg")">
-                            <source media="(min-width: 321px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")">
-                            <source media="(min-width: 241px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-320px.jpg")">
-                            <source media="(min-width: 0px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-240px.jpg")">
-                            <!--[if IE 9]></video><![endif]-->
-                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-320px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" style='width:100%;'> @* Default for users that don't support the 'picture' element. Legacy mobile user agents are more important by default use the smallest image *@
-                        </picture>
-                    </a>
-
-                    <br/><br/>
-                    <h3>@Messages("capture-certificate-details-you-will-need-or")</h3>
-                    <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
-                    <a target="_blank" href="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1.png")" >
-                        <picture>
-                            <!--[if IE 9]><video style="display: none;"><![endif]-->
-                            <source media="(min-width: 769px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-960px.jpg")">
-                            <source media="(min-width: 601px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-768px.jpg")">
-                            <source media="(min-width: 481px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-600px.jpg")">
-                            <source media="(min-width: 321px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")">
-                            <source media="(min-width: 241px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-320px.jpg")">
-                            <source media="(min-width: 0px)" srcset="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-240px.jpg")">
-                            <!--[if IE 9]></video><![endif]-->
-                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-320px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-retention-document")" style='width:100%;'>
-                        </picture>
-                    </a>
-
-
-                </div>
+               @vehicle_details_playback(vehicleDetails)
             </div>
         </div>
     }

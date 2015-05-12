@@ -37,7 +37,7 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
           case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
         }
         Future.successful(Ok(views.html.vrm_assign.fulfil_failure(transactionId, paymentModelOpt.isDefined, viewModel,
-          captureCertificateDetailsFormModel, captureCertificateDetailsModel)))
+          vehicleAndKeeperLookupForm )))
       }
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilFailure but the required cookie was not present")))

@@ -52,10 +52,6 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-        val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, captureCertificateDetailsFormModel, vehicleAndKeeperLookupForm,
-            keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
-            captureCertificateDetailsModel.outstandingFees)
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
@@ -96,9 +92,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         }
 
         if( captureCertificateDetailsModel.outstandingFees > 0 ) {
+
           //send email
-          sendReceipt(businessDetailsModel, confirmFormModel, captureCertificateDetailsModel,
+          sendReceipt( if (vehicleAndKeeperLookupForm.userType == UserType_Keeper) None else businessDetailsModel,
+            confirmFormModel, captureCertificateDetailsModel,
             vehicleAndKeeperLookupForm, transactionId, trackingId)
+
         }
 
 
@@ -116,13 +115,12 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         case (Some(vehicleDetails), Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
           val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
           pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
-            captureCertificateDetailsFormModel.prVrm.replace(" ", "")).map {
+            vehicleDetails.replacementVRN.replace(" ", "")).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
-//              val newVRM = captureCertificateDetailsFormModel.prVrm.replace(" ", "")
               val newVRM = vehicleDetails.replacementVRN.replace(" ", "")
               val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
@@ -161,8 +159,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         certificateDocumentCount = "1",
         certificateDate = "11111",
         certificateTime = "111111",
-        certificateRegistrationMark = "A1",
-        prVrm = "A1"),
+        certificateRegistrationMark = "A1"),
       captureCertificateDetailsModel = CaptureCertificateDetailsModel("ABC123", None, List.empty, 0),
       vehicleAndKeeperLookupFormModel = VehicleAndKeeperLookupFormModel("GDS123", "A1", "11111111111", "QQ99QQ", ""),
       fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),

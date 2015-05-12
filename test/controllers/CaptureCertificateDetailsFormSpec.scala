@@ -11,7 +11,6 @@ import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
 import views.vrm_assign.CaptureCertificateDetails.CertificateDocumentCountId
 import views.vrm_assign.CaptureCertificateDetails.CertificateRegistrationMarkId
 import views.vrm_assign.CaptureCertificateDetails.CertificateTimeId
-import views.vrm_assign.CaptureCertificateDetails.PrVrmId
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
@@ -30,8 +29,7 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDate = "",
         certificateDocumentCount = "",
         certificateRegistrationMark = "",
-        certificateTime = "",
-        prVrm = ""
+        certificateTime = ""
       )
       result.hasErrors should equal(true)
     }
@@ -193,65 +191,19 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
       errors(0).message should equal("error.validCertificateTime")
     }
 
-    "reject when pr-vrm is blank" in {
-      val errors = formWithValidDefaults(
-        prVrm = ""
-      ).errors
-      errors should have length 3
-      errors(0).key should equal(PrVrmId)
-      errors(0).message should equal("error.minLength")
-      errors(1).key should equal(PrVrmId)
-      errors(1).message should equal("error.required")
-      errors(2).key should equal(PrVrmId)
-      errors(2).message should equal("error.restricted.validVrnOnly")
-    }
-
-    "reject when pr-vrm has too few characters" in {
-      val errors = formWithValidDefaults(
-        prVrm = "1" * (VehicleRegistrationNumber.MinLength - 1)
-      ).errors
-      errors should have length 2
-      errors(0).key should equal(PrVrmId)
-      errors(0).message should equal("error.minLength")
-      errors(1).key should equal(PrVrmId)
-      errors(1).message should equal("error.restricted.validVrnOnly")
-    }
-
-    "reject when pr-vrm has too many characters" in {
-      val errors = formWithValidDefaults(
-        prVrm = "9" * (VehicleRegistrationNumber.MaxLength + 1)
-      ).errors
-      errors should have length 2
-      errors(0).key should equal(PrVrmId)
-      errors(0).message should equal("error.maxLength")
-      errors(1).key should equal(PrVrmId)
-      errors(1).message should equal("error.restricted.validVrnOnly")
-    }
-
-    "reject when pr-vrm has invalid characters" in {
-      val errors = formWithValidDefaults(
-        prVrm = "?" * VehicleRegistrationNumber.MinLength
-      ).errors
-      errors should have length 1
-      errors(0).key should equal(PrVrmId)
-      errors(0).message should equal("error.restricted.validVrnOnly")
-    }
   }
 
   private def formWithValidDefaults(
                                      certificateDate: String = CertificateDateValid,
                                      certificateDocumentCount: String = CertificateDocumentCountValid,
                                      certificateRegistrationMark: String = RegistrationNumberValid,
-                                     certificateTime: String = CertificateTimeValid,
-                                     prVrm: String = RegistrationNumberValid
-                                     ) = {
+                                     certificateTime: String = CertificateTimeValid) = {
     Form(CaptureCertificateDetailsFormModel.Form.Mapping).bind(
       Map(
         CertificateDateId -> certificateDate,
         CertificateDocumentCountId -> certificateDocumentCount,
         CertificateRegistrationMarkId -> certificateRegistrationMark,
-        CertificateTimeId -> certificateTime,
-        PrVrmId -> prVrm
+        CertificateTimeId -> certificateTime
       )
     )
   }

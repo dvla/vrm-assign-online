@@ -18,7 +18,6 @@ final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDri
   def `happy path` = {
     `is displayed`.
       `enter certificate details`(box1 = CertificateDocumentCountValid, box2 = CertificateDateValid, box3 = CertificateTimeValid, box4 = RegistrationNumberValid).
-      `enter registration number`(RegistrationNumberValid).
       `submit details`
     this
   }
@@ -38,11 +37,6 @@ final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDri
     this
   }
 
-  def `enter registration number`(registrationNumber: String) = {
-    prVrm.value = registrationNumber
-    this
-  }
-
   def `submit details` = {
     click on lookup
     this
@@ -53,7 +47,6 @@ final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDri
     date.value should equal(CertificateDateValid)
     time.value should equal(CertificateTimeValid)
     registrationMark.value should equal(RegistrationNumberValid)
-    prVrm.value should equal(RegistrationNumberValid)
   }
 
   def `form is not filled`() = {
@@ -61,6 +54,5 @@ final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDri
     date.value should equal("")
     time.value should equal("")
     registrationMark.value should equal("")
-    prVrm.value should equal("")
   }
 }

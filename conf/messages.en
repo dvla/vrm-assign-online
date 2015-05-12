@@ -379,7 +379,9 @@ vrm_assign_vehiclelookup.granteeOrPurchaser = Are you the grantee or purchaser o
 vrm_assign_vehiclelookup.keeper = Yes, I am the Grantee / Purchaser
 vrm_assign_vehiclelookup.business = No, I am a business and have consent to act on behalf of the Grantee / Purchaser
 vrm_assign_vehiclelookup.label = Vehicle details
+document-replacement-vrn = Document replacement Vehicle registration number
 keeper-consent = Keeper consent
+document-replacement-vrn = Document replacement Vehicle registration number
 postcode = Postcode
 
 # vehicle lookup failure
@@ -435,10 +437,12 @@ vrm_assign_payment.callback.message-when-javascript-enabled = Redirecting, pleas
 vrm_assign_payment.callback.message-when-javascript-disabled = The payment process has ended. Please click the Continue button below.
 
 # Vehicle details partial view
-vrm_assign_vehicle_callback.title = Vehicle details
-vrm_assign_vehicle_callback.regNumLabel = Registration number:
-vrm_assign_vehicle_callback.makeLabel = Make:
-vrm_assign_vehicle_callback.modelLabel = Model:
+vrm_assign_vehicle_callback.title = Existing vehicle details
+vrm_assign_vehicle_callback.title-2 = Your personal registration number is being placed on the vehicle below:
+vrm_assign_vehicle_callback.makeLabel =  Vehicle make:
+vrm_assign_vehicle_callback.modelLabel = Vehicle model:
+vrm_assign_vehicle_callback.VinLabel = Vehicle VIN/Chassis Number:
+vrm_assign_vehicle_callback.regNumLabel = The current registration being replaced:
 
 # Payment failure page
 paymentFailureErrorMessage.title = Payment Failure
@@ -462,10 +466,16 @@ vrm_assign_confirm_business.title = Confirm your business details
 vrm_assign_confirm_business.button = Confirm
 
 #Capture Certificate Details
-vrm_assign_capturecertificatedetails.title = Enter Certificate Details
-vrm_assign_capturecertificatedetails.referencenumberhelper = This will be a 14 to 20 reference number from either the online retention service, the V750 Certificate of Entitlement or the V778 Retention Document
+vrm_assign_capturecertificatedetails.title = Certificate details
+vrm_assign_capturecertificatedetails.title-2 = Certificate or Document reference number
+vrm_assign_capturecertificatedetails.referencenumberhelper = Please enter the 14 to 20 digit Certificate number from the online retention service or V750 Certificate of Entitlement. If you have a V778 Retention Document please look fot the Document reference number.
+vrm_assign_capturecertificatedetails.referencenumberBox1 = Box 1
+vrm_assign_capturecertificatedetails.referencenumberBox2 = Box 2
+vrm_assign_capturecertificatedetails.referencenumberBox3 = Box 3
+vrm_assign_capturecertificatedetails.referencenumberBox4 = Box 4
 capture-certificate-details-reference-number-helper-1 = Example:  1 - 14316 - 054027 - GK64BCC
-capture-certificate-details-reference-number-helper-2 = Where the number in box 3 only displays 5 digits on the printed certificate, please add a '0' to the beginning of the number e.g. '54027' would become '054027'
+capture-certificate-details-reference-number-helper-2 = Should you have a number sequence where the number in box 3 only display 5 digits on the printed document, please add a 0 to the beginning of the number
+capture-certificate-details-reference-number-helper-3 = e.g. 54027 would become 054027
 vrm_assign_capturecertificatedetails.prvrmlabel = Registration number
 vrm_assign_capturecertificatedetails.prvrmhelper = Enter the new personal registration here without spaces, for example: ''AMV1''
 vrm_assign_capturecertificatedetails.button = Next
@@ -474,7 +484,8 @@ error.validReferenceNumber = You must supply a Valid Certificate Document Refere
 error.validPrVrm = Must be valid format
 pr-vrm = Registration number
 reference-number = Certificate Document Reference Number
-
+vrm_assign_capturecertificatedetails.hintCertificate = Where is my certificate number (V750)?
+vrm_assign_capturecertificatedetails.hintDocumentReference = Where is my document reference number (V778)?
 certificate-document-count = Reference number Box 1
 certificate-date = Reference number Box 2
 certificate-time = Reference number Box 3
@@ -492,10 +503,12 @@ error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3
 error.validCertificateTime = Must be 6 digits
 
 #Confirm page
-vrm_assign_confirm.title = Confirm keeper and new registration
+vrm_assign_confirm.title = Confirm keeper information
 vrm_assign_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
 vrm_assign_confirm.warn = If any of these details are incorrect, please ''Exit'' the service and update the details before returning to take a registration number off a vehicle
-vrm_assign_confirm.toAssign = Registration number to put on:
+vrm_assign_confirm.toAssign = Registered keeper receiving the registration number:
+vrm_assign_confirm.consent = Consent
+vrm_assign_confirm.email = Email options
 vrm_assign_confirm.keeperTitle = Keeper details
 vrm_assign_confirm.keeperLabel = Registered keeper
 vrm_assign_confirm.keeperAddressLabel = Address
@@ -538,7 +551,8 @@ vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public comput
 
 vrm_assign_confirm.grantee_consent.notgiven = You must confirm that you have consent to put this registration number on this vehicle
 grantee-consent-id = Grantee Consent
-vrm_assign_confirm.granteeConsent = I confirm that I have the consent of the named party on the certificate of entitlement or retention to assign this registration number to this vehicle.
+vrm_assign_confirm.granteeConsent = I, the grantee, confirm this registration number can go onto this vehicle
+vrm_assign_confirm.businessConsent = I confirm that the grantee has given me permission for this registration number to go onto this vehicle
 
 vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
 vrm_assign_confirm.outstandingFees = You owe

@@ -58,7 +58,7 @@ object ReceiptEmailMessageBuilder {
        |p {
        |  line-height: 200%;
        |}
-       |li { list-style: none; padding: 0; margin:0;}
+       |ul,li { list-style: none; padding: 0; margin:0;}
        |</style>
        |</head>
        |<body>

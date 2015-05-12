@@ -1,5 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
         confirmForm: Form[models.ConfirmFormModel],
+        vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
         isKeeperEmailDisplayedOnLoad: Boolean,
         isKeeper: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -10,6 +11,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
+@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Confirm._
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
@@ -26,25 +28,24 @@
         <div class="two-col">
             <div class="second-col">
                 <h2>@Messages("vrm_assign_confirm.title")</h2>
+                <div class="confirm-registration-number">
+                    <h3>@Messages("vrm_assign_confirm.toAssign")</h3>
+                    <span class="reg-number">@confirmViewModel.replacementRegistration</span>
+                </div>
                 <dl>
-                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@confirmViewModel.replacementRegistration</dd>
-                    <br/>
                     <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
                     <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
                     <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
                     <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address) {
                         <strong>@keeperAddressLine </strong><br>
                         }</dt>
-                    <br />
                     @*<dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>*@
                     @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
                 </dl>
 
-                <br/>
 
-                <div class="summary-wrapper">
-                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span>
+                <div class="summary-wrapper confirmation-block">
+                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span> <br/>
                     <div class="details">
                         <div class="panel-indent">
                             <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
@@ -56,41 +57,48 @@
                     </div>
                 </div>
 
-                <br>
-                </br>
-                <br/>
+                <div class="confirmation-block">
+                    <h3>@Messages("vrm_assign_confirm.consent")</h3>
+                    @if(isKeeper) {
+                        @valtechDeclareCheck(confirmForm(GranteeConsentId),
+                            args = Map(
+                                '_showConstraints -> false,
+                                '_label -> Messages("vrm_assign_confirm.granteeConsent")
+                            )
+                        )
+                    } else {
+                        @valtechDeclareCheck(confirmForm(GranteeConsentId),
+                            args = Map(
+                                '_showConstraints -> false,
+                                '_label -> Messages("vrm_assign_confirm.businessConsent")
+                            )
+                        )
+                    }
+                </div>
 
-                @valtechDeclareCheck(confirmForm(GranteeConsentId),
-                    args = Map(
-                        '_showConstraints -> false,
-                        '_label -> Messages("vrm_assign_confirm.granteeConsent")
-                    )
-                )
-
-                <br/>
-                <br>
-                </br>
-
-                @optionalToggle(
-                    field = confirmForm(SupplyEmailId),
-                    title = {
-                        if(isKeeper) Messages("supply-email-keeper-acting")
-                        else Messages("supply-email-business-acting")
-                    },
-                    visibleLabel = Messages("supply-email-true"),
-                    invisibleLable = Messages("supply-email-false"),
-                    optionalField = email(confirmForm(KeeperEmailId),
-                                        labelText = if(isKeeper) Messages("vrm_assign_confirm.emailAddressKeeperLabel")
-                                                     else Messages("vrm_assign_confirm.emailAddressCustomerLabel"),
-                                        hintText = if(isKeeper) Some(Messages("vrm_assign_confirm.emailKeeper"))
-                                                    else Some(Messages("vrm_assign_confirm.emailTrade")),
-                                        args = Map('maxLength -> KeeperEmailMaxLength,
-                                            '_showConstraints -> false,
-                                            'NO_OPTIONAL_LABEL -> false
+                <div class="confirmation-block">
+                    <h3>@Messages("vrm_assign_confirm.email")</h3>
+                    @optionalToggle(
+                        field = confirmForm(SupplyEmailId),
+                        title = {
+                            if(isKeeper) Messages("supply-email-keeper-acting")
+                            else Messages("supply-email-business-acting")
+                        },
+                        visibleLabel = Messages("supply-email-true"),
+                        invisibleLable = Messages("supply-email-false"),
+                        optionalField = email(confirmForm(KeeperEmailId),
+                                            labelText = if(isKeeper) Messages("vrm_assign_confirm.emailAddressKeeperLabel")
+                                                         else Messages("vrm_assign_confirm.emailAddressCustomerLabel"),
+                                            hintText = if(isKeeper) Some(Messages("vrm_assign_confirm.emailKeeper"))
+                                                        else Some(Messages("vrm_assign_confirm.emailTrade")),
+                                            args = Map('maxLength -> KeeperEmailMaxLength,
+                                                '_showConstraints -> false,
+                                                'NO_OPTIONAL_LABEL -> false
+                                            )
                                         )
-                                    )
 
-                )
+                    )
+                </div>
 
                 @if(confirmViewModel.outstandingPaymentAmount > 0) {
                     <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
@@ -103,19 +111,7 @@
                 }
             </div>
             <div class="first-col">
-                <dl class="playback">
-                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
-                    @if(confirmViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                        <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(confirmViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                        <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
-                    }
-                </dl>
+                @vehicle_details_playback(vehicleDetails)
             </div>
 
         </div>

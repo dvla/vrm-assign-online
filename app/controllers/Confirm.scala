@@ -22,9 +22,7 @@ import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class Confirm @Inject()(
-                               auditService2: audit2.AuditService
-                               )
+final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -39,7 +37,7 @@ final class Confirm @Inject()(
       request.cookies.getModel[FulfilModel]) match {
       case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
       Some(captureCertDetailsForm), Some(captureCertDetails), None) =>
-        val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm, vehicleAndKeeperLookupForm,
+        val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
         val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
       // with the situation where payment fails and they come back to this page via either back button or coming
@@ -49,7 +47,7 @@ final class Confirm @Inject()(
       val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
       // always be hidden on first load
       val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
-        Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
+        Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, vehicleAndKeeper, isKeeperEmailDisplayedOnLoad, isKeeper))
       case _ =>
         Redirect(routes.CaptureCertificateDetails.present())
     }
@@ -133,13 +131,13 @@ final class Confirm @Inject()(
       captureCertDetailsForm <- request.cookies.getModel[CaptureCertificateDetailsFormModel]
       captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]}
       yield {
-        val viewModel = ConfirmViewModel(vehicleAndKeeper, captureCertDetailsForm, vehicleAndKeeperLookupForm,
+        val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees,
           vehicleAndKeeperLookupForm.userType)
         val updatedForm = formWithReplacedErrors(form, KeeperEmailId, "error.validEmail").distinctErrors
         val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
         val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
-        BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
+        BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm, vehicleAndKeeper, isKeeperEmailDisplayedOnLoad, isKeeper))
       }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)

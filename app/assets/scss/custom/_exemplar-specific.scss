@@ -82,42 +82,6 @@ ul.hint-list {
     }
 }
 
-
-/* Testing stuff */
-.js-has-tooltip {
-  display: none;
-  color: $govuk-blue;
-  border: 1px solid $govuk-blue;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  width: 25px;
-  text-align: center;
-  margin-left: 5px;
-  cursor: pointer;
-  &.enabled {
-    display: inline-block;
-  }
-}
-
-.js-tooltip {
-  background: $white;
-  z-index: 9999;
-  margin: 10px 0;
-  &.js-tooltip-style {
-    p {
-      color: $govuk-blue;
-      text-align: left;
-    }
-    margin: 0;
-    padding: 16px 32px;
-    position: absolute;
-    border: 1px solid $govuk-blue;
-  }
-}
-
-/* Testing stuff */
-
 .vrm-assign-online .prototype {
     border-bottom:1px solid #DCDCDC;
 }
@@ -128,9 +92,12 @@ ul.hint-list {
 
 .vrm-assign-online .first-col .playback {
     .reg-number {
+      margin-top: 10px;
       font-family: 'mandatoryregular';
       font-size: 30px;
       padding: 4px 10px 0px;
+      min-width: 180px;
+      text-align: center;
     }
     .reg-number-zoomed {
       @extend .reg-number;
@@ -216,6 +183,27 @@ summary {
   }
 }
 
+
+.confirm-registration-number {
+  width: 100%;
+  display: inline-block;
+  h3 {
+    width: 60%;
+    line-height: 1.1;
+    float: left;
+  }
+  .reg-number {
+    min-width: 180px;
+    text-align: center;
+    font-size: 27px;
+    display: inline-block;
+  }
+}
+.confirmation-block {
+  margin-bottom: 30px;
+  display: inline-block;
+  width: 100%;
+}
 .error ~ .form-checkbox {
     margin-top: 1em !important;
 }
@@ -250,10 +238,6 @@ summary {
       .error {
           padding-top: 6px;
       }
-
-      &::after {
-        content: "-";
-      }
       &:last-child {
         &::after {
           content: "";
@@ -276,12 +260,13 @@ summary {
 
   @media screen and (max-width: $device-small) {
     .certificate-id-input {
+
       .form-item {
         display: block;
         clear: both;
         margin-bottom: 8px;
-        &::after {
-          content: "";
+        #certificate-document-count {
+          width:50px;
         }
       }
     }
@@ -294,10 +279,15 @@ summary {
       width:105px;
   }
   .certificate-id-input {
+    margin-top: 10px;
       line-height: 2.75;
       .form-item {
           margin-right: 10px;
       }
+    label {
+      color: #6f777b;
+      font-size: 1.6rem;
+    }
   }
 }
 
@@ -323,5 +313,21 @@ summary {
 #supply-email {
   label {
     clear: none;
+  }
+}
+
+.certificate-details {
+  .form-hint {
+    margin-bottom: 10px;
+  }
+  .js-has-tooltip {
+    width: auto;
+    text-align: left;
+    margin-bottom: 10px;
+    border: none;
+    text-decoration: none;
+  }
+  .js-tooltip-style {
+    max-width: 280px;
   }
 }
