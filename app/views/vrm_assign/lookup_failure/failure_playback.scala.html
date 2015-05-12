@@ -1,6 +1,5 @@
 @(viewModel: models.VehicleLookupFailureViewModel,
-    captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
-    captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])(implicit lang: Lang,
+        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
@@ -17,10 +16,9 @@
             <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
             <dd>@viewModel.model.get.take(20)</dd>
         }
-        @if(captureCertificateDetailsFormModel.isDefined) {
-            <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-            <dd class="reg-number">@captureCertificateDetailsModel.get.prVrm</dd>
-        }
+
+        <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+        <dd class="reg-number">@vehicleAndKeeperLookupFormModel.replacementVRN</dd>
 
         <br/>
         <br/>

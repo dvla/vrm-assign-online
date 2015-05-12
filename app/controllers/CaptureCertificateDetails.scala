@@ -1,5 +1,7 @@
 package controllers
 
+import java.io.Serializable
+
 import com.google.inject.Inject
 import models._
 import org.joda.time.DateTime
@@ -65,12 +67,12 @@ final class CaptureCertificateDetails @Inject()(
         Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case _ =>
           Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
           Redirect(routes.ConfirmBusiness.present())
@@ -86,7 +88,7 @@ final class CaptureCertificateDetails @Inject()(
               val captureCertificateDetailsViewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
               Future.successful {
                 BadRequest(views.html.vrm_assign.capture_certificate_details(formWithReplacedErrors(invalidForm),
-                  captureCertificateDetailsViewModel))
+                  captureCertificateDetailsViewModel, vehicleAndKeeperDetails))
               }
             case _ =>
               Future.successful {
@@ -95,9 +97,11 @@ final class CaptureCertificateDetails @Inject()(
           }
         },
         validForm => {
-          bruteForceAndLookup(
-            validForm.prVrm,
-            validForm)
+          val vehicleAndKeeperLookupFormOpt= request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+          vehicleAndKeeperLookupFormOpt match {
+            case Some(vehicleAndKeeperLookupForm) => bruteForceAndLookup(vehicleAndKeeperLookupForm.replacementVRN, validForm)
+            case _ =>  Future.successful( Redirect(routes.MicroServiceError.present()) )
+          }
         }
       )
   }
@@ -106,7 +110,7 @@ final class CaptureCertificateDetails @Inject()(
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
-        // TODO use a for-comprehension instead of having to use .get
+//         TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
@@ -155,7 +159,7 @@ final class CaptureCertificateDetails @Inject()(
       // calculate number of years owed if any
       val outstandingDates = calculateYearsOwed(certificateExpiryDate)
 
-      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(vehicleAndKeeperLookupFormModel.replacementVRN, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
 
       val redirectLocation = {
         auditService2.send(AuditRequest.from(
@@ -168,7 +172,7 @@ final class CaptureCertificateDetails @Inject()(
         routes.Confirm.present()
       }
 
-      bruteForceService.reset(captureCertificateDetailsFormModel.prVrm).onComplete {
+      bruteForceService.reset(vehicleAndKeeperLookupFormModel.replacementVRN).onComplete {
         case scala.util.Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
         case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
       }
@@ -192,7 +196,7 @@ final class CaptureCertificateDetails @Inject()(
         }
       }
 
-      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(captureCertificateDetailsFormModel.prVrm, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(vehicleAndKeeperLookupFormModel.replacementVRN, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
@@ -233,7 +237,7 @@ final class CaptureCertificateDetails @Inject()(
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
       certificateDocumentCount = captureCertificateDetailsFormModel.certificateDocumentCount,
       certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
-      replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
+      replacementVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.replacementVRN,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
@@ -278,8 +282,7 @@ final class CaptureCertificateDetails @Inject()(
     val replacedErrors = (form /: List(
       (CertificateDocumentCountId, "error.validCertificateDocumentCount"),
       (CertificateDateId, "error.validCertificateDate"),
-      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"),
-      (PrVrmId, "error.validPrVrm"))) {
+      (CertificateRegistrationMarkId, "error.restricted.validVrnOnly"))) {
       (form, error) =>
         form.replaceError(error._1, FormError(
           key = error._1,

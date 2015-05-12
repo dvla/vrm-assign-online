@@ -66,30 +66,28 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case "vrm_assign_eligibility_cert_number_mismatch" =>
         cert_number_mismatch(
           transactionId = transactionId,
           viewModel = viewModel,
-          captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_failure" =>
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+
         )
       case _ =>
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-          captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
-          captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel]
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
     }
 

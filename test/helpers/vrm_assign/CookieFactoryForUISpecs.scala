@@ -238,10 +238,9 @@ object CookieFactoryForUISpecs {
   def captureCertificateDetailsFormModel(certificateDocumentCount: String = CertificateDocumentCountValid,
                                          certificateDate: String = CertificateDateValid,
                                          certificateTime: String = CertificateTimeValid,
-                                         certificateRegistrationMark: String = RegistrationNumberValid,
-                                         prVrm: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
+                                         certificateRegistrationMark: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsFormModelCacheKey
-    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark, prVrm)
+    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark)
     addCookie(key, value)
     this
   }
