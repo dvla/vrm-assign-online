@@ -105,6 +105,19 @@ ul.hint-list {
       width:170px;
       padding-bottom:0px;
     }
+  .contact-info-wrapper {
+    margin-top: 20px;
+    h4 {
+      margin-bottom: 10px;
+    }
+    small {
+      width: 100%;
+      display: inline-block;
+    }
+    .text-phone {
+      margin-top: 10px;
+    }
+  }
 }
 
 .renewalFee {

@@ -8,6 +8,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
 @import views.html.vrm_assign.main
+@import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.vrm_assign.VrmLocked.{ExitAction, ExitassignId, `v50-or-v778-id`}
 
 @main(
@@ -29,35 +30,12 @@
                 </div>
             </div>
         </div>
-        <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@vrmLockedViewModel.registrationNumber</dd>
-
-                    @vehicleAndKeeperLookupFormModel.map { replacementVrn =>
-                        <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                        <dd class="reg-number">@replacementVrn.replacementVRN</dd>
-                    }
-
-                    <br/>
-                    <p>@Messages("assign-application-details-contact-us")</p>
-                    <div style="line-height : 75 % ;">
-                        <br>
-                    </div>
-                    <p>@Messages("assign-application-details-telephone")</p>
-                    <p><strong>@Messages("assign-application-details-telephone-number")</strong>
-                        <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
-                    </p>
-                    <br/>
-                    <p>@Messages("assign-application-details-monday-to-friday")</p>
-                    <p>@Messages("assign-application-details-saturday")</p>
-                    <p>@Messages("assign-application-details-sunday")</p>
-                    <br/>
-                    <p>@Messages("assign-application-details-textphone")</p>
-                    <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
-                </dl>
-        </div>
+        @vehicleAndKeeperLookupFormModel.map { vehicleDetails =>
+            @failure_playback(
+                vrmLockedViewModel.vehicleLookupFailureViewModel,
+                vehicleDetails
+            )
+        }
     </div>
 
     <script type="text/javascript">

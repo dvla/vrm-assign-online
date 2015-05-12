@@ -1,11 +1,10 @@
 package models
 
+import models.VehicleLookupFailureViewModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
-final case class VrmLockedViewModel(registrationNumber: String,
-                                    vehicleMake: Option[String],
-                                    vehicleModel: Option[String],
+final case class VrmLockedViewModel(vehicleLookupFailureViewModel: VehicleLookupFailureViewModel,
                                     timeString: String,
                                     javascriptTimestamp: Long)
 
@@ -15,9 +14,7 @@ object VrmLockedViewModel {
             timeString: String,
             javascriptTimestamp: Long): VrmLockedViewModel =
     VrmLockedViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
+      VehicleLookupFailureViewModel(vehicleAndKeeperDetails),
       timeString,
       javascriptTimestamp
     )
@@ -26,9 +23,7 @@ object VrmLockedViewModel {
             timeString: String,
             javascriptTimestamp: Long): VrmLockedViewModel =
     VrmLockedViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
-      vehicleMake = None,
-      vehicleModel = None,
+      VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm),
       timeString,
       javascriptTimestamp
     )
