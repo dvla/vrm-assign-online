@@ -49,7 +49,6 @@ final class Payment @Inject()(
       request.cookies.getString(GranteeConsentCacheKey)) match {
       case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), None, Some(granteeConsent))
         if granteeConsent == "true" =>
-//        callBeginWebPaymentService(transactionId, captureCertificateDetailsFormModel.prVrm)
         callBeginWebPaymentService(transactionId, vehicleAndKeeperLookupFormModel.replacementVRN)
       case _ => Future.successful {
         Logger.warn("Payment present failed matching cookies")

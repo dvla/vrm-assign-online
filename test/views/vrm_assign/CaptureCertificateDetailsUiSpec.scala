@@ -8,10 +8,8 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
-import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
 import pages.vrm_assign.CaptureCertificateDetailsPage.documentCount
-import pages.vrm_assign.CaptureCertificateDetailsPage.prVrm
 import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
 import pages.vrm_assign.CaptureCertificateDetailsPage.time
 import pages.vrm_assign._
@@ -50,7 +48,6 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
       date.value = "11111"
       time.value = "111111"
       registrationMark.value = RegistrationNumberValid
-      prVrm.value = RegistrationNumberValid
 
       click on CaptureCertificateDetailsPage.lookup
 
@@ -113,22 +110,9 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  "back button" should {
-
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to CaptureCertificateDetailsPage
-
-      click on back
-
-      currentUrl should equal(VehicleLookupPage.url)
-    }
-  }
-
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperLookupFormModel(replacementVRN = "AB12AWR").
       vehicleAndKeeperDetailsModel().
       businessDetails().
       transactionId()

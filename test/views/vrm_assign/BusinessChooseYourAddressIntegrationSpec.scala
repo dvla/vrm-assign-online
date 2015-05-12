@@ -11,11 +11,9 @@ import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.BusinessChooseYourAddressPage
-import pages.vrm_assign.BusinessChooseYourAddressPage.back
 import pages.vrm_assign.BusinessChooseYourAddressPage.happyPath
 import pages.vrm_assign.BusinessChooseYourAddressPage.sadPath
 import pages.vrm_assign.ConfirmBusinessPage
-import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.VehicleLookupPage
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
@@ -78,18 +76,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
-    }
-  }
-
-  "back button" should {
-    "display previous page" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to BusinessChooseYourAddressPage
-
-      click on back
-
-      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 

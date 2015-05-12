@@ -36,7 +36,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
           val timeString = bruteForcePreventionModel.dateTimeISOChronology
           val javascriptTimestamp = DateTime.parse(timeString).getMillis
           Ok(views.html.vrm_assign.vrm_locked(transactionId, viewModel(timeString, javascriptTimestamp),
-            request.cookies.getModel[CaptureCertificateDetailsFormModel]))
+            request.cookies.getModel[VehicleAndKeeperLookupFormModel]))
         }
 
       happyPath.getOrElse {

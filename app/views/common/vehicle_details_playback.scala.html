@@ -1,0 +1,19 @@
+@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang)
+
+<dl class="playback">
+    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
+    <p><strong>@Messages("vrm_assign_vehicle_callback.title-2")</strong></p>
+
+    <p>
+        <span>@Messages("vrm_assign_vehicle_callback.makeLabel")</span>
+        <span><strong>@vehicleDetails.make</strong></span>
+    </p>
+    <p>
+        <span>@Messages("vrm_assign_vehicle_callback.modelLabel")</span>
+        <span><strong>@vehicleDetails.model</strong></span>
+    </p>
+    <p>
+        <p>@Messages("vrm_assign_vehicle_callback.regNumLabel")</p>
+        <span class="reg-number">@vehicleDetails.registrationNumber</span>
+    </p>
+</dl>

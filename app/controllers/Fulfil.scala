@@ -184,7 +184,6 @@ final class Fulfil @Inject()(
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
       certificateDocumentCount = captureCertificateDetailsFormModel.certificateDocumentCount,
       certificateRegistrationMark = captureCertificateDetailsFormModel.certificateRegistrationMark,
-//      replacementVehicleRegistrationMark = captureCertificateDetailsFormModel.prVrm,
       replacementVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.replacementVRN,
       v5DocumentReference = vehicleAndKeeperLookupFormModel.referenceNumber,
       transactionTimestamp = dateService.now.toDateTime,

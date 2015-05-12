@@ -23,8 +23,6 @@ object CaptureCertificateDetailsPage extends Page {
 
   def registrationMark(implicit driver: WebDriver) = textField(id(CertificateRegistrationMarkId))
 
-  def prVrm(implicit driver: WebDriver) = textField(id(PrVrmId))
-
   def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
   def exit(implicit driver: WebDriver) = find(id(ExitId)).get

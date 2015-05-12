@@ -1,8 +1,7 @@
 @(transactionId: String,
         viewModel: models.VehicleLookupFailureViewModel,
         responseCodeVehicleLookupMSErrorMessage: String,
-        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
-        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel
         )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -36,8 +35,7 @@
         </div>
         @failure_playback(
             viewModel,
-            captureCertificateDetailsFormModel,
-            captureCertificateDetailsModel
+            vehicleAndKeeperLookupFormModel
         )
     </div>
 }

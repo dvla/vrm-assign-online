@@ -19,14 +19,12 @@ final case class ConfirmViewModel(registrationNumber: String,
 object ConfirmViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            captureCertDetails: CaptureCertificateDetailsFormModel,
             vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
             outstandingPaymentList: List[String],
             outstandingPaymentAmount: Double,
             userType: String): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
-//      replacementRegistration = formatVrm(captureCertDetails.prVrm),
       replacementRegistration = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,

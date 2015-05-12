@@ -1,6 +1,6 @@
 @(transactionId: String,
         vrmLockedViewModel: models.VrmLockedViewModel,
-        captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel])(implicit lang: Lang,
+        vehicleAndKeeperLookupFormModel: Option[VehicleAndKeeperLookupFormModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -42,9 +42,9 @@
                         <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
                         <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
                     }
-                    @if(captureCertificateDetailsFormModel.isDefined) {
+                    @vehicleAndKeeperLookupFormModel.map { replacementVrn =>
                         <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                        <dd class="reg-number">@captureCertificateDetailsFormModel.get.prVrm</dd>
+                        <dd class="reg-number">@replacementVrn</dd>
                     }
 
                     <br/>

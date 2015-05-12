@@ -1,6 +1,7 @@
 package controllers
 
 import composition.WithApplication
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
@@ -64,7 +65,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to confirm page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = build()
@@ -82,7 +83,6 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
               model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
               model.certificateRegistrationMark should equal(RegistrationNumberValid.toUpperCase)
               model.certificateTime should equal(CertificateTimeValid.toUpperCase)
-              model.prVrm should equal(RegistrationNumberValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -91,7 +91,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithDirectToPaper()
@@ -114,7 +114,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithNotEligible()
@@ -253,13 +253,11 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(certificateDate: String = CertificateDateValid,
                                              certificateDocumentCount: String = CertificateDocumentCountValid,
                                              certificateRegistrationMark: String = RegistrationNumberValid,
-                                             certificateTime: String = CertificateTimeValid,
-                                             prVrm: String = RegistrationNumberValid) = {
+                                             certificateTime: String = CertificateTimeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       CertificateDateId -> certificateDate,
       CertificateDocumentCountId -> certificateDocumentCount,
       CertificateRegistrationMarkId -> certificateRegistrationMark,
-      CertificateTimeId -> certificateTime,
-      PrVrmId -> prVrm)
+      CertificateTimeId -> certificateTime)
   }
 }
