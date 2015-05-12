@@ -1,5 +1,6 @@
 @(captureCertificateDetailsFormModel: Form[models.CaptureCertificateDetailsFormModel],
-        viewModel: models.CaptureCertificateDetailsViewModel)(implicit lang: Lang,
+        viewModel: models.CaptureCertificateDetailsViewModel,
+        vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -9,6 +10,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
+@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.CaptureCertificateDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
@@ -90,26 +92,7 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                    <p><strong>@Messages("vrm_assign_vehicle_callback.title-2")</strong></p>
-                    <p>
-                        <span>@Messages("vrm_assign_vehicle_callback.makeLabel")</span>
-                        <span><strong>[Vehicle Make]</strong></span>
-                    </p>
-                    <p>
-                        <span>@Messages("vrm_assign_vehicle_callback.modelLabel")</span>
-                        <span><strong>[Vehicle Model]</strong></span>
-                    </p>
-                    <p>
-                        <span>@Messages("vrm_assign_vehicle_callback.VinLabel")</span>
-                        <span><strong>[Vehicle VIN/Chassis]</strong></span>
-                    </p>
-                    <p>
-                        <p>@Messages("vrm_assign_vehicle_callback.regNumLabel")</p>
-                        <span class="reg-number">@viewModel.registrationNumber</span>
-                    </p>
-                </dl>
+               @vehicle_details_playback(vehicleDetails)
             </div>
         </div>
     }

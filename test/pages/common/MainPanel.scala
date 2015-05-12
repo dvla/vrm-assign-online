@@ -6,5 +6,6 @@ import views.vrm_assign.Main.BackId
 
 object MainPanel {
 
-  def back(implicit driver: WebDriver) = find(id(BackId)).get
+  /** back button is removed from the panel. This is left here is case of refactoring */
+  //def back(implicit driver: WebDriver) = find(id(BackId)).get
 }

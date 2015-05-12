@@ -232,9 +232,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   private def build() = {
-    val ioc = testInjector(
-      new TestBruteForcePreventionWebServiceBinding(permitted = false)
-    )
+    val ioc = testInjector()
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 

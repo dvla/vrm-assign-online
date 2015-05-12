@@ -8,7 +8,6 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
-import pages.common.MainPanel.back
 import pages.vrm_assign.CaptureCertificateDetailsPage.date
 import pages.vrm_assign.CaptureCertificateDetailsPage.documentCount
 import pages.vrm_assign.CaptureCertificateDetailsPage.registrationMark
@@ -108,19 +107,6 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
       click on CaptureCertificateDetailsPage.exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
-    }
-  }
-
-  "back button" should {
-
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to CaptureCertificateDetailsPage
-
-      click on back
-
-      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 

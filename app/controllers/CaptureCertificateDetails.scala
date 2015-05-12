@@ -67,12 +67,12 @@ final class CaptureCertificateDetails @Inject()(
         Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case _ =>
           Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
           Redirect(routes.ConfirmBusiness.present())
@@ -88,7 +88,7 @@ final class CaptureCertificateDetails @Inject()(
               val captureCertificateDetailsViewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
               Future.successful {
                 BadRequest(views.html.vrm_assign.capture_certificate_details(formWithReplacedErrors(invalidForm),
-                  captureCertificateDetailsViewModel))
+                  captureCertificateDetailsViewModel, vehicleAndKeeperDetails))
               }
             case _ =>
               Future.successful {
