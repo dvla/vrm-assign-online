@@ -34,14 +34,7 @@
                     <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
                     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@vrmLockedViewModel.registrationNumber</dd>
-                    @if(vrmLockedViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                        <dd>@vrmLockedViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(vrmLockedViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                        <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
-                    }
+
                     @vehicleAndKeeperLookupFormModel.map { replacementVrn =>
                         <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
                         <dd class="reg-number">@replacementVrn.replacementVRN</dd>
