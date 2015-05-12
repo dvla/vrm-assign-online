@@ -379,6 +379,7 @@ vrm_assign_vehiclelookup.granteeOrPurchaser = Are you the grantee or purchaser o
 vrm_assign_vehiclelookup.keeper = Yes, I am the Grantee / Purchaser
 vrm_assign_vehiclelookup.business = No, I am a business and have consent to act on behalf of the Grantee / Purchaser
 vrm_assign_vehiclelookup.label = Vehicle details
+document-replacement-vrn = Document replacement Vehicle registration number
 keeper-consent = Keeper consent
 document-replacement-vrn = Document replacement Vehicle registration number
 postcode = Postcode
