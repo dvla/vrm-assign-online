@@ -14,6 +14,7 @@ define(['jquery', 'jquery-migrate', "page-init"], function($, jqueryMigrate, pag
                 $(this).siblings().toggle();
                 $(this).toggleClass('active');
             });
+
         }
     }
 });

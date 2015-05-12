@@ -46,9 +46,6 @@
 
                 <h2>@Messages("vrm_assign_vehiclelookup.label")</h2>
 
-
-
-
                 @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_assign_vehiclelookup.currentVrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.currentVrnLabel"),
@@ -86,6 +83,7 @@
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_vehiclelookup.button")</button>
                 </div>
             </div>
+
         </div>
     }
 }
