@@ -1,5 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
         confirmForm: Form[models.ConfirmFormModel],
+        vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
         isKeeperEmailDisplayedOnLoad: Boolean,
         isKeeper: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -10,6 +11,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
+@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Confirm._
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
@@ -103,19 +105,7 @@
                 }
             </div>
             <div class="first-col">
-                <dl class="playback">
-                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
-                    @if(confirmViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                        <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(confirmViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                        <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
-                    }
-                </dl>
+                @vehicle_details_playback(vehicleDetails)
             </div>
 
         </div>

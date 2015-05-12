@@ -6,11 +6,11 @@
 
     <p>
         <span>@Messages("vrm_assign_vehicle_callback.makeLabel")</span>
-        <span><strong>@vehicleDetails.make</strong></span>
+        <span><strong>@vehicleDetails.make.take(20)</strong></span>
     </p>
     <p>
         <span>@Messages("vrm_assign_vehicle_callback.modelLabel")</span>
-        <span><strong>@vehicleDetails.model</strong></span>
+        <span><strong>@vehicleDetails.model.take(20)</strong></span>
     </p>
     <p>
         <p>@Messages("vrm_assign_vehicle_callback.regNumLabel")</p>
