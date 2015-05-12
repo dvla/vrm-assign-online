@@ -7,16 +7,16 @@ Feature: Assignment of Vehicle
   Scenario Outline: Keeper Acting and Fees Due
     When I enter data in the <ReplacementVRN>,<VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention
     And I indicate that the keeper is acting
-    And I enter certificate <CertificateIdBox1>,<CertificateIdBox2>,<CertificateIdBox3>,<CertificateIdBox4> and <RegistrationNumber>
+    And I enter certificate <CertificateIdBox1>,<CertificateIdBox2>,<CertificateIdBox3> and <CertificateIdBox4>
     Then the confirm details page is displayed
   Examples:
-    | ReplacementVRN     | VehicleRegistrationNumber | DocRefID      | Postcode  | CertificateIdBox1 | CertificateIdBox2 | CertificateIdBox3 | CertificateIdBox4 | RegistrationNumber |
-    | "ABC123"           | "DD22"                    | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "ABC123"           | "S11"                     | "11111111111" | "SA1"     | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "ABC123"           | "S13"                     | "11111111111" | ""        | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "ABC123"           | "S14"                     | "11111111111" | "SA27UB"  | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "ABC123"           | "S14"                     | "11111111111" | "SA2 7UB" | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
-    | "ABC123"           | "S15"                     | "11111111111" | "SA2"     | "1"               | "23456"           | "891234"          | "ABC123"          | "ABC123"           |
+    | ReplacementVRN     | VehicleRegistrationNumber | DocRefID      | Postcode  | CertificateIdBox1 | CertificateIdBox2 | CertificateIdBox3 | CertificateIdBox4 |
+    | "ABC123"           | "DD22"                    | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          |
+    | "ABC123"           | "S11"                     | "11111111111" | "SA1"     | "1"               | "23456"           | "891234"          | "ABC123"          |
+    | "ABC123"           | "S13"                     | "11111111111" | ""        | "1"               | "23456"           | "891234"          | "ABC123"          |
+    | "ABC123"           | "S14"                     | "11111111111" | "SA27UB"  | "1"               | "23456"           | "891234"          | "ABC123"          |
+    | "ABC123"           | "S14"                     | "11111111111" | "SA2 7UB" | "1"               | "23456"           | "891234"          | "ABC123"          |
+    | "ABC123"           | "S15"                     | "11111111111" | "SA2"     | "1"               | "23456"           | "891234"          | "ABC123"          |
 
   @UnHappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
