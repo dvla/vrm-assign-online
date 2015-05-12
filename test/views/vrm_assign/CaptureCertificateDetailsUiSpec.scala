@@ -126,7 +126,7 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperLookupFormModel(replacementVRN = "AB12AWR").
       vehicleAndKeeperDetailsModel().
       businessDetails().
       transactionId()

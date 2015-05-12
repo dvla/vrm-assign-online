@@ -1,6 +1,7 @@
 package controllers
 
 import composition.WithApplication
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
@@ -64,7 +65,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to confirm page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = build()
@@ -90,7 +91,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithDirectToPaper()
@@ -113,7 +114,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithNotEligible()
@@ -231,7 +232,9 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   private def build() = {
-    val ioc = testInjector()
+    val ioc = testInjector(
+      new TestBruteForcePreventionWebServiceBinding(permitted = false)
+    )
     (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 

@@ -58,7 +58,6 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   def `I enter certificate and`(box1: String, box2: String, box3: String, box4: String, registrationNumber: String) {
     captureCertificateDetails.`is displayed`
     captureCertificateDetails.`enter certificate details`(box1, box2, box3, box4)
-    captureCertificateDetails.`enter registration number`(registrationNumber)
     captureCertificateDetails.`submit details`
   }
 
