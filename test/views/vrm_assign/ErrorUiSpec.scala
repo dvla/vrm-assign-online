@@ -9,6 +9,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.ErrorPage
 import pages.vrm_assign.ErrorPage.startAgain
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 final class ErrorUiSpec extends UiSpec with TestHarness {
 
@@ -23,7 +24,8 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "startAgain button" should {
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs){
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().

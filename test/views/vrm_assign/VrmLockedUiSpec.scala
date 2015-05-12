@@ -12,6 +12,7 @@ import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VrmLockedPage
 import pages.vrm_assign.VrmLockedPage.exit
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
@@ -46,7 +47,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
