@@ -12,6 +12,7 @@ import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_assign._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.Confirm.ConfirmCacheKey
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
@@ -113,7 +114,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium {
+    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup().confirmFormModel()
       go to ConfirmPage

@@ -13,6 +13,7 @@ import pages.vrm_assign._
 import pages.vrm_assign.BusinessChooseYourAddressPage.back
 import pages.vrm_assign.BusinessChooseYourAddressPage.happyPath
 import pages.vrm_assign.BusinessChooseYourAddressPage.sadPath
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -95,7 +96,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup().enterAddressManually()
       happyPath

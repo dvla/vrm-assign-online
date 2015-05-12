@@ -9,6 +9,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.BeforeYouStartPage.startNow
 import pages.vrm_assign.VehicleLookupPage
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
@@ -20,7 +21,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(BeforeYouStartPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().

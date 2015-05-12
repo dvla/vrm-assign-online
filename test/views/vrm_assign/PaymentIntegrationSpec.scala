@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.RelatedCacheKeys.AssignSet
 import views.vrm_assign.RelatedCacheKeys.BusinessDetailsSet
 
@@ -56,7 +57,8 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove AssignSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove AssignSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
@@ -69,7 +71,8 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove AssignSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove AssignSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().
@@ -89,7 +92,8 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove AssignSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove AssignSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().
