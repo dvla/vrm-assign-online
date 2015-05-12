@@ -92,9 +92,12 @@ ul.hint-list {
 
 .vrm-assign-online .first-col .playback {
     .reg-number {
+      margin-top: 10px;
       font-family: 'mandatoryregular';
       font-size: 30px;
       padding: 4px 10px 0px;
+      min-width: 180px;
+      text-align: center;
     }
     .reg-number-zoomed {
       @extend .reg-number;
@@ -180,6 +183,27 @@ summary {
   }
 }
 
+
+.confirm-registration-number {
+  width: 100%;
+  display: inline-block;
+  h3 {
+    width: 60%;
+    line-height: 1.1;
+    float: left;
+  }
+  .reg-number {
+    min-width: 180px;
+    text-align: center;
+    font-size: 27px;
+    display: inline-block;
+  }
+}
+.confirmation-block {
+  margin-bottom: 30px;
+  display: inline-block;
+  width: 100%;
+}
 .error ~ .form-checkbox {
     margin-top: 1em !important;
 }

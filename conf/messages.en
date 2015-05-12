@@ -381,6 +381,7 @@ vrm_assign_vehiclelookup.business = No, I am a business and have consent to act 
 vrm_assign_vehiclelookup.label = Vehicle details
 document-replacement-vrn = Document replacement Vehicle registration number
 keeper-consent = Keeper consent
+document-replacement-vrn = Document replacement Vehicle registration number
 postcode = Postcode
 
 # vehicle lookup failure
@@ -483,8 +484,8 @@ error.validReferenceNumber = You must supply a Valid Certificate Document Refere
 error.validPrVrm = Must be valid format
 pr-vrm = Registration number
 reference-number = Certificate Document Reference Number
-vrm_assign_capturecertificatedetails.hintCertificate = Where is my certificate number?
-vrm_assign_capturecertificatedetails.hintDocumentReference = Where is my document reference number?
+vrm_assign_capturecertificatedetails.hintCertificate = Where is my certificate number (V750)?
+vrm_assign_capturecertificatedetails.hintDocumentReference = Where is my document reference number (V778)?
 certificate-document-count = Reference number Box 1
 certificate-date = Reference number Box 2
 certificate-time = Reference number Box 3
@@ -502,10 +503,12 @@ error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3
 error.validCertificateTime = Must be 6 digits
 
 #Confirm page
-vrm_assign_confirm.title = Confirm keeper and new registration
+vrm_assign_confirm.title = Confirm keeper information
 vrm_assign_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
 vrm_assign_confirm.warn = If any of these details are incorrect, please ''Exit'' the service and update the details before returning to take a registration number off a vehicle
-vrm_assign_confirm.toAssign = Registration number to put on:
+vrm_assign_confirm.toAssign = Registered keeper receiving the registration number:
+vrm_assign_confirm.consent = Consent
+vrm_assign_confirm.email = Email options
 vrm_assign_confirm.keeperTitle = Keeper details
 vrm_assign_confirm.keeperLabel = Registered keeper
 vrm_assign_confirm.keeperAddressLabel = Address
@@ -548,7 +551,8 @@ vrm_assign_confirm.storeDetailsConsentWarning = if you are using a public comput
 
 vrm_assign_confirm.grantee_consent.notgiven = You must confirm that you have consent to put this registration number on this vehicle
 grantee-consent-id = Grantee Consent
-vrm_assign_confirm.granteeConsent = I confirm that I have the consent of the named party on the certificate of entitlement or retention to assign this registration number to this vehicle.
+vrm_assign_confirm.granteeConsent = I, the grantee, confirm this registration number can go onto this vehicle
+vrm_assign_confirm.businessConsent = I confirm that the grantee has given me permission for this registration number to go onto this vehicle
 
 vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
 vrm_assign_confirm.outstandingFees = You owe
