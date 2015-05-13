@@ -1,6 +1,5 @@
 package models
 
-import models.VehicleLookupFailureViewModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
