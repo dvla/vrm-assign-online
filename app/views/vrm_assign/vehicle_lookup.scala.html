@@ -29,8 +29,7 @@
                         '_label -> Messages("vrm_assign_vehiclelookup.vrninputlabel"),
                         'hint -> Messages("vrm_assign_vehiclelookup.vrnHint"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        '_showConstraints -> false,
-                        'placeholder -> Messages("vrm_assign_vehiclelookup.vrninputlabelPlaceholder")
+                        '_showConstraints -> false
                     )
                 )
 
@@ -51,8 +50,7 @@
                         '_label -> Messages("vrm_assign_vehiclelookup.currentVrnLabel"),
                         'hint -> Messages("vrm_assign_vehiclelookup.currentVrnHint"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        '_showConstraints -> false,
-                        'placeholder -> Messages("vrm_assign_vehiclelookup.currentVrnPlaceholder")
+                        '_showConstraints -> false
                     )
                 )
 
@@ -63,7 +61,7 @@
                             <p>@Messages("vrm_assign_vehiclelookup.v5c")</p>
                             <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="V5C document reference number">
                         </div>
-                        <input id="@id" name="@name" value="@value" aria-describedby="document-reference-number-hint" placeholder="@Messages("vrm_assign_vehiclelookup.refnumPlaceholder")" hint="@Messages("vrm_assign_vehiclelookup.refnumHint")" aria-required="true" title="" type="text" autocomplete="off" maxlength="11">
+                        <input id="@id" name="@name" value="@value" aria-describedby="document-reference-number-hint" hint="@Messages("vrm_assign_vehiclelookup.refnumHint")" aria-required="true" title="" type="text" autocomplete="off" maxlength="11">
                         <span class="form-hint" id="document-reference-number-hint">@Messages("vrm_assign_vehiclelookup.refnumHint")</span>
                     </div>
                 }
@@ -73,8 +71,7 @@
                         '_label -> Messages("vrm_assign_vehiclelookup.postcodelabel"),
                         '_showConstraints -> false,
                         'NO_OPTIONAL_LABEL -> true,
-                        'maxLength -> Postcode.MaxLength,
-                        'placeholder -> Messages("vrm_assign_vehiclelookup.postcodePlaceholder")
+                        'maxLength -> Postcode.MaxLength
                     )
                 )
 
