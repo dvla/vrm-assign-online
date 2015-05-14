@@ -1,3 +1,21 @@
+======= 1.8 ======
+Time of release binaries creation:
+Thu May 14 2015 13:31:00 GMT+0000 (GMT)
+
+8dbeb83 DE490 [PR] - Thank You Page feedback link directs to a page which doesn't exist.
+5aed96b US3153 upgrade to play 2.3.9
+09b5ec5 DE491: fixed registration number
+72bd1c7 US3140 set the default timezone to Europe/London
+35e7d08 DE407 - Name wrapping on eV948
+093b14a DE486: fix email issue
+8b62926 US3013: add the current playback to the page
+eb9dbab US3012: remove replacement VRN from Certificate details page
+407dd1c US3123 - [Assign, Retain] Issue Cancel request from fulfil micro service
+3377a24 US3011 - JS data-tooltip development
+40a0a1f US2580: support the new v&k return type
+7f6667c US3022 - removing contact details from email
+ee2902d US2231: Add email receipt for payment
+
 ======= 1.7 ======
 Time of release binaries creation:
 Wed May 06 2015 10:40:00 GMT+0000 (GMT)
