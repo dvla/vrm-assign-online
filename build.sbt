@@ -51,7 +51,7 @@ libraryDependencies ++= {
   Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
+    "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test",
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
 //    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
