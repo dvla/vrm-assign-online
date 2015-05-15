@@ -19,7 +19,7 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
       model.name should equal(TraderBusinessNameValid.toUpperCase)
       model.contact should equal(TraderBusinessContactValid.toUpperCase)
       model.email should equal(TraderBusinessEmailValid)
-      model.postcode should equal(PostcodeValid)
+//      model.postcode should equal(PostcodeValid)
     }
   }
 

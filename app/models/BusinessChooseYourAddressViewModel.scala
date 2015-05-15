@@ -28,7 +28,7 @@ object BusinessChooseYourAddressViewModel {
       name = businessDetailsForm.name,
       contact = businessDetailsForm.contact,
       email = businessDetailsForm.email,
-      postCode = formatPostcode(businessDetailsForm.postcode),
+      postCode = formatPostcode(""),
       title = vehicleAndKeeperDetails.title,
       firstName = vehicleAndKeeperDetails.firstName,
       lastName = vehicleAndKeeperDetails.lastName,

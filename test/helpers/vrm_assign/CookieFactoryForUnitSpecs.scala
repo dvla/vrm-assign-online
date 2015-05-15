@@ -56,8 +56,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
-      email = businessEmail,
-      postcode = businessPostcode)
+      email = businessEmail,null)
     createCookie(key, value)
   }
 

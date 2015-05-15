@@ -90,6 +90,7 @@ final class BusinessChooseYourAddress @Inject()(
                 setupBusinessDetailsForm.contact,
                 setupBusinessDetailsForm.email)
             } else {
+              Future.successful(Redirect(routes.ConfirmBusiness.present()))
               lookupAddressByPostcodeThenIndex(validForm, setupBusinessDetailsForm)
             }
           case None => Future.successful {
@@ -126,7 +127,7 @@ final class BusinessChooseYourAddress @Inject()(
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(postcode = model.postcode, trackingId = session.trackingId, showBusinessName = Some(true))
+    addressLookupService.fetchAddressesForPostcode(postcode = "", trackingId = session.trackingId, showBusinessName = Some(true))
 
   private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {

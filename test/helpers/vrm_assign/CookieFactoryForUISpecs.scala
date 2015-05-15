@@ -51,8 +51,7 @@ object CookieFactoryForUISpecs {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
-      email = businessEmail,
-      postcode = businessPostcode)
+      email = businessEmail, null)
     addCookie(key, value)
     this
   }

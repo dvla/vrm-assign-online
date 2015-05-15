@@ -13,6 +13,7 @@
 @import views.vrm_assign.SetupBusinessDetails._
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
 
 @main(
     title = Messages("vrm_assign_setupbusinessdetails.title"),
@@ -42,10 +43,8 @@
                 Map('_label -> Messages("vrm_assign_setupbusinessdetails.businessnamelabel"),
                 '_showConstraints -> false,
                 'maxLength -> BusinessName.MaxLength))
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
-                        Map('_label -> Messages("vrm_assign_setupbusinessdetails.businesspostcodelabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> Postcode.MaxLength))
+
+                @addressPicker(setupBusinessDetailsFormModel(BusinessPostcodeId))
                 </div>
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
