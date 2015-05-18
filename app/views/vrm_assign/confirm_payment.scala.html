@@ -24,17 +24,17 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-                @if(confirmViewModel.outstandingPaymentAmount > 0) {
+                @if(confirmViewModel.hasOutstandingPayments) {
                     <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
                     <p>@Messages("vrm_assign_confirm.outstandingFees") @confirmViewModel.replacementRegistration@Messages("vrm_assign_confirm.outstandingFees-1")</p>
                     <h3>@Messages("vrm_assign_confirm.outstandingFeesTitle")</h3>
                     @for(payment <- confirmViewModel.outstandingPaymentList) {
-                        @payment.split("£")(0)
-                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+                        @confirmViewModel.replacementRegistration - @payment.split("£")(0)
+                        <span class="renewalFee">£ @payment.split("£")(1)</span> <br>
                     }
                     <div class="renewalFeeTotalRow">
                         <span><strong>@Messages("vrm_assign_confirm.feesRelatedTotal")</strong></span>
-                        <span class="renewalFee">@confirmViewModel.outstandingPaymentAmount</span>
+                        <span class="renewalFee">£ @confirmViewModel.outstandingPaymentAmount</span>
                     </div>
                 }
             </div>
@@ -45,12 +45,16 @@
                     <h3>@Messages("vrm_assign_confirm.feesRelatedH3")</h3>
                     <h4>@Messages("vrm_assign_confirm.feesRelatedH4")</h4>
                     <dl class="playback bg-plain">
-                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleMake")</dt>
-                        <dd><strong>[Vehicle make]</strong></dd>
-                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleModel")</dt>
-                        <dd><strong>[Vehicle model]</strong></dd>
+                        @vehicleDetails.make.map { make =>
+                            <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleMake")</dt>
+                            <dd><strong>@make</strong></dd>
+                        }
+                        @vehicleDetails.model.map { model =>
+                            <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleModel")</dt>
+                            <dd><strong>@model</strong></dd>
+                        }
                         <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleRegistration")</dt>
-                        <dd><span class="reg-number">[PR NUMBER]</span></dd>
+                        <dd><span class="reg-number">@confirmViewModel.replacementRegistration</span></dd>
                     </dl>
                 </div>
 
