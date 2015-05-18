@@ -104,9 +104,10 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
           captureCertificateDetailsModel = Some(captureCertificateDetails),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-        Redirect(routes.Payment.begin()).
-          withCookiesEx(cookies: _*).
-          withCookie(model)
+          Redirect(routes.ConfirmPayment.present()).withCookiesEx(cookies: _*).withCookie(model)
+//        Redirect(routes.Payment.begin()).
+//          withCookiesEx(cookies: _*).
+//          withCookie(model)
       } else {
         //        auditService2.send(AuditRequest.from(
         //          pageMovement = AuditMessage.ConfirmToSuccess,
