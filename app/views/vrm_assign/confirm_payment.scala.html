@@ -24,25 +24,42 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-
                 @if(confirmViewModel.outstandingPaymentAmount > 0) {
-                    <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
-                    <p>@Messages("vrm_assign_confirm.outstandingFees")</p>
+                    <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
+                    <p>@Messages("vrm_assign_confirm.outstandingFees") @confirmViewModel.replacementRegistration@Messages("vrm_assign_confirm.outstandingFees-1")</p>
+                    <h3>@Messages("vrm_assign_confirm.outstandingFeesTitle")</h3>
                     @for(payment <- confirmViewModel.outstandingPaymentList) {
                         @payment.split("£")(0)
                         <span class="renewalFee">£@payment.split("£")(1)</span> <br>
                     }
-                    <br>
+                    <div class="renewalFeeTotalRow">
+                        <span><strong>@Messages("vrm_assign_confirm.feesRelatedTotal")</strong></span>
+                        <span class="renewalFee">@confirmViewModel.outstandingPaymentAmount</span>
+                    </div>
                 }
             </div>
             <div class="first-col">
-                @vehicle_details_playback(vehicleDetails)
+@*//                @vehicle_details_playback(vehicleDetails)*@
+
+                <div class="related">
+                    <h3>@Messages("vrm_assign_confirm.feesRelatedH3")</h3>
+                    <h4>@Messages("vrm_assign_confirm.feesRelatedH4")</h4>
+                    <dl class="playback bg-plain">
+                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleMake")</dt>
+                        <dd><strong>[Vehicle make]</strong></dd>
+                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleModel")</dt>
+                        <dd><strong>[Vehicle model]</strong></dd>
+                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleRegistration")</dt>
+                        <dd><span class="reg-number">[PR NUMBER]</span></dd>
+                    </dl>
+                </div>
+
             </div>
 
         </div>
 
         <div class="form-steps">
-            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.outstandingFeesCta")</button>
             <br/>
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmPayment.exit()">@Messages("vrm_assign_exit.button")</a>
         </div>
