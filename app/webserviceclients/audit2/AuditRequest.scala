@@ -34,10 +34,13 @@ object AuditRequest {
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
   final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure = "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
 
-  final val ConfirmToPayment = "ConfirmToPayment"
+  //final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToSuccess = "ConfirmToSuccess"
   final val ConfirmToExit = "ConfirmToExit"
   final val ConfirmToFulfilFailure = "ConfirmToFulfilFailure"
+  final val ConfirmToFeesDue = "ConfirmToFeesDue"
+  final val FeesDueToPay = "FeesDueToPay"
+
 
   final val PaymentToSuccess = "PaymentToSuccess"
   final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"

@@ -532,7 +532,7 @@ vrm_assign_confirm.emailHint1 = We require your email to send you:
 vrm_assign_confirm.emailHint2 = your payment receipt
 vrm_assign_confirm.emailHint3 = a summary of this transaction
 vrm_assign_confirm.button = Confirm
-vrm_assign_confirm.newRegTitle = Renewal fees for registration number
+vrm_assign_confirm.newRegTitle = Renewal fees
 vrm_assign_confirm.newRegp2 = If you wish to continue with this transaction and place this registration number on the vehicle identified above please select ''Next'' below.
 vrm_assign_confirm.emailWarn = Incorrect Details?
 vrm_assign_confirm.emailWarnp1 = You must update your registration certificate (V5C) if there are any mistakes on it, or if you make a number of changes to your vehicle.
@@ -554,8 +554,6 @@ grantee-consent-id = Grantee Consent
 vrm_assign_confirm.granteeConsent = I, the grantee, confirm this registration number can go onto this vehicle
 vrm_assign_confirm.businessConsent = I confirm that the grantee has given me permission for this registration number to go onto this vehicle
 
-vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
-vrm_assign_confirm.outstandingFees = You owe
 vrm_assign_exit.button = Exit
 vrm_assign_finish.button = Finish
 vrm_assign_changedetails.button = Change Details
@@ -565,6 +563,18 @@ supply-email-true = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
 
+# fees page
+vrm_assign_confirm.outstandingFees.h1 = Renewal fees for registration number
+vrm_assign_confirm.outstandingFees = There are outstanding renewal fees for
+vrm_assign_confirm.outstandingFees-1 =. These fees need to be paid if you wish to continue with this application.
+vrm_assign_confirm.outstandingFeesTitle = Outstanding renewal fees
+vrm_assign_confirm.feesRelatedH3 = New vehicle details
+vrm_assign_confirm.feesRelatedH4 = The new registration details for your vehicle will be:
+vrm_assign_confirm.feesRelatedVehicleMake = Vehicle make:
+vrm_assign_confirm.feesRelatedVehicleModel = Vehicle model:
+vrm_assign_confirm.feesRelatedVehicleRegistration = New registration number:
+vrm_assign_confirm.feesRelatedTotal = Total to pay today
+vrm_assign_confirm.outstandingFeesCta = Pay now
 # choose business address
 vrm_assign_businessChooseYourAddress_title = Select your business address
 vrm_assign_businessChooseYourAddress_legend = Set up business details

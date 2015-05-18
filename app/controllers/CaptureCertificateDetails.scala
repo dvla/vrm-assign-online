@@ -159,7 +159,11 @@ final class CaptureCertificateDetails @Inject()(
       // calculate number of years owed if any
       val outstandingDates = calculateYearsOwed(certificateExpiryDate)
 
-      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(vehicleAndKeeperLookupFormModel.replacementVRN, Some(certificateExpiryDate), outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
+        vehicleAndKeeperLookupFormModel.replacementVRN,
+        Some(certificateExpiryDate),
+        outstandingDates.toList,
+        (outstandingDates.size * config.renewalFee.toInt))
 
       val redirectLocation = {
         auditService2.send(AuditRequest.from(

@@ -1,7 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
         confirmForm: Form[models.ConfirmFormModel],
         vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
-        isKeeperEmailDisplayedOnLoad: Boolean,
         isKeeper: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
@@ -100,15 +99,6 @@
                     )
                 </div>
 
-                @if(confirmViewModel.outstandingPaymentAmount > 0) {
-                    <h3>@Messages("vrm_assign_confirm.newRegTitle") @confirmViewModel.replacementRegistration</h3>
-                    <p>@Messages("vrm_assign_confirm.outstandingFees")</p>
-                    @for(payment <- confirmViewModel.outstandingPaymentList) {
-                        @payment.split("£")(0)
-                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
-                    }
-                    <br>
-                }
             </div>
             <div class="first-col">
                 @vehicle_details_playback(vehicleDetails)
