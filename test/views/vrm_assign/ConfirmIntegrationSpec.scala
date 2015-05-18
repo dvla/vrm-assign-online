@@ -124,19 +124,19 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       webDriver.manage().getCookieNamed(ConfirmCacheKey) should equal(null)
     }
   }
-//
-//  "back button" should {
-//    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
-//
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to ConfirmPage
-//
-//      click on back
-//      currentUrl should equal(CaptureCertificateDetailsPage.url)
-//
-//    }
-//  }
+
+  "back button" should {
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to ConfirmPage
+
+      click on back
+      currentUrl should equal(CaptureCertificateDetailsPage.url)
+
+    }
+  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
