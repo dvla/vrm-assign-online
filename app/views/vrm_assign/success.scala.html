@@ -15,8 +15,8 @@
     <div class="two-col assign-success">
         <div class="second-col">
             <div class="alert-complete">
-                <h2>@Messages("vrm_assign_success.subtitle")</h2>
                 <span class="reg-number">@successViewModel.prVrm</span>
+                <h2>@Messages("vrm_assign_success.subtitle")</h2>
             </div>
 
             @if(successViewModel.paymentMade) {
@@ -39,9 +39,11 @@
             <h3>@Messages("vrm_assign_success.h3a")</h3>
 
             @if(isKeeper) {
-                <p>@Messages("vrm_assign_success.p1a") <strong>@successViewModel.prVrm</strong>
-                    @Messages("vrm_assign_success.p1aa")
-                </p>
+                <ul>
+                    <li>@Messages("vrm_assign_success.p1a")</li>
+                    <li>@Messages("vrm_assign_success.p1aa") <a href="http://www.gov.uk/number-plate-supplier" target="_blank">@Messages("vrm_assign_success.plateSupplier")</a></li>
+                </ul>
+
             } else {
                 <div class="info-highlight two-col">
                     <div class="second-col">
@@ -89,6 +91,9 @@
                         <strong>@keeperAddressLine</strong> <br>
                     }
                     </dt>
+
+                    <dt>@Messages("success-application-details-previous")</dt>
+                    <dd><span class="reg-number">[PREVIOUS]</span></dd>
                 </dl>
             </div>
         </div>
