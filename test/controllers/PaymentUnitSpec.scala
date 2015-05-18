@@ -6,10 +6,7 @@ import composition.webserviceclients.paymentsolve._
 import helpers.UnitSpec
 import org.apache.commons.codec.binary.Base64
 import org.mockito.Mockito.verify
-import pages.vrm_assign.ConfirmPage
-import pages.vrm_assign.LeaveFeedbackPage
-import pages.vrm_assign.PaymentFailurePage
-import pages.vrm_assign.PaymentNotAuthorisedPage
+import pages.vrm_assign._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
@@ -19,14 +16,13 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 import webserviceclients.paymentsolve.PaymentSolveBeginRequest
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import pages.vrm_assign.FulfilPage
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding._
 
 final class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
 
-    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
+    "redirect to ConfirmPaymentPage when TransactionId cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           paymentTransNo(),
@@ -39,11 +35,11 @@ final class PaymentUnitSpec extends UnitSpec {
 
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPaymentPage.address))
       }
     }
 
-    "redirect to ConfirmPage when CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
+    "redirect to ConfirmPaymentPage when CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -56,7 +52,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPaymentPage.address))
       }
     }
 
