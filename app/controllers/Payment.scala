@@ -52,7 +52,7 @@ final class Payment @Inject()(
         callBeginWebPaymentService(transactionId, vehicleAndKeeperLookupFormModel.replacementVRN)
       case _ => Future.successful {
         Logger.warn("Payment present failed matching cookies")
-        Redirect(routes.Confirm.present())
+        Redirect(routes.ConfirmPayment.present())
       }
     }
   }
