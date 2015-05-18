@@ -29,7 +29,7 @@
                     <p>@Messages("vrm_assign_confirm.outstandingFees") @confirmViewModel.replacementRegistration@Messages("vrm_assign_confirm.outstandingFees-1")</p>
                     <h3>@Messages("vrm_assign_confirm.outstandingFeesTitle")</h3>
                     @for(payment <- confirmViewModel.outstandingPaymentList) {
-                        @confirmViewModel.replacementRegistration - @payment.split("£")(0)
+                        @payment.split("£")(0)
                         <span class="renewalFee">£ @payment.split("£")(1)</span> <br>
                     }
                     <div class="renewalFeeTotalRow">
@@ -39,8 +39,6 @@
                 }
             </div>
             <div class="first-col">
-@*//                @vehicle_details_playback(vehicleDetails)*@
-
                 <div class="related">
                     <h3>@Messages("vrm_assign_confirm.feesRelatedH3")</h3>
                     <h4>@Messages("vrm_assign_confirm.feesRelatedH4")</h4>
