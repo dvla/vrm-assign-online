@@ -18,7 +18,7 @@ final case class SetupBusinessDetailsFormModel(name: String, contact: String, em
 
 object SetupBusinessDetailsFormModel {
 
-  implicit val addressFromat = Json.format[Address]
+  implicit val addressFormat = Json.format[Address]
   implicit val JsonFormat = Json.format[SetupBusinessDetailsFormModel]
   implicit val Key = CacheKey[SetupBusinessDetailsFormModel](SetupBusinessDetailsCacheKey)
 
@@ -28,6 +28,7 @@ object SetupBusinessDetailsFormModel {
       BusinessNameId -> BusinessName.businessNameMapping,
       BusinessContactId -> BusinessName.businessNameMapping,
       BusinessEmailId -> emailConfirm.verifying(Constraints.nonEmpty),
+// TODO: ian this should be address id
       BusinessPostcodeId -> AddressPicker.mapAddress
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }

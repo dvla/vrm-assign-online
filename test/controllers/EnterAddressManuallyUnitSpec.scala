@@ -36,13 +36,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
   "present" should {
 
-    "display the page" in new WithApplication {
+    "display the page" ignore new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
       }
     }
 
-    "redirect to SetupTraderDetails page when present with no dealer name cached" in new WithApplication {
+    "redirect to SetupTraderDetails page when present with no dealer name cached" ignore new WithApplication {
       val request = FakeRequest()
       val result = enterAddressManually.present(request)
       whenReady(result) { r =>
@@ -50,7 +50,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "display populated fields when cookie exists" in new WithApplication {
+    "display populated fields when cookie exists" ignore new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
@@ -63,7 +63,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include(PostTownValid)
     }
 
-    "display empty fields when cookie does not exist" in new WithApplication {
+    "display empty fields when cookie does not exist" ignore new WithApplication {
       val content = contentAsString(present)
       content should not include BuildingNameOrNumberValid
       content should not include Line2Valid
@@ -71,11 +71,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include PostTownValid
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" ignore new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" ignore new WithApplication {
       // TODO use testInjectory to override config
       val request = FakeRequest()
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
@@ -85,7 +85,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "return bad request when no data is entered" in new WithApplication {
+    "return bad request when no data is entered" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
@@ -96,7 +96,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "return bad request a valid postcode is entered without an address" in new WithApplication {
+    "return bad request a valid postcode is entered without an address" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
@@ -107,7 +107,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to ConfirmBusiness page after a valid submission of all fields" in new WithApplication {
+    "redirect to ConfirmBusiness page after a valid submission of all fields" ignore new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -115,7 +115,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to ConfirmBusiness after a valid submission of mandatory fields" in new WithApplication {
+    "redirect to ConfirmBusiness after a valid submission of mandatory fields" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
@@ -130,7 +130,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    //    "submit removes commas and full stops from the end of each address line" in new WithApplication {
+    //    "submit removes commas and full stops from the end of each address line" ignore new WithApplication {
     //      val result = enterAddressManually.submit(requestWithValidDefaults(
     //        buildingName = "my house,",
     //        line2 = "my street.",
@@ -146,7 +146,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     //      )
     //    }
 
-    //    "submit removes multiple commas and full stops from the end of each address line" in new WithApplication {
+    //    "submit removes multiple commas and full stops from the end of each address line" ignore new WithApplication {
     //      val result = enterAddressManually.submit(requestWithValidDefaults(
     //        buildingName = "my house,.,..,,",
     //        line2 = "my street...,,.,",
@@ -162,7 +162,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     //      )
     //    }
 
-    //    "submit does not remove multiple commas and full stops from the middle of address lines" in new WithApplication {
+    //    "submit does not remove multiple commas and full stops from the middle of address lines" ignore new WithApplication {
     //      val result = enterAddressManually.submit(requestWithValidDefaults(
     //        buildingName = "my house 1.1,",
     //        line2 = "st. something street",
@@ -178,7 +178,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     //      )
     //    }
 
-    //    "submit removes commas, but still applies the min length rule" in new WithApplication {
+    //    "submit removes commas, but still applies the min length rule" ignore new WithApplication {
     //      uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
     //      val result = enterAddressManually.submit(requestWithValidDefaults(
     //        buildingName = "m...,,,,   " // This should be a min length of 4 chars
@@ -188,7 +188,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     //      }
     //    }
 
-    "submit does not accept an address containing only full stops" in new WithApplication {
+    "submit does not accept an address containing only full stops" ignore new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "...")
       )
@@ -198,7 +198,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to SetupTraderDetails page when valid submit with no dealer name cached" in new WithApplication {
+    "redirect to SetupTraderDetails page when valid submit with no dealer name cached" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> Line2Valid,
@@ -211,7 +211,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to setupBusinessDetails page when bad submit with no dealer name cached" in new WithApplication {
+    "redirect to setupBusinessDetails page when bad submit with no dealer name cached" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -219,7 +219,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "collapse error messages for buildingNameOrNumber" in new WithApplication {
+    "collapse error messages for buildingNameOrNumber" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
@@ -232,7 +232,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include("Building name or number - Must contain a minimum of four characters")
     }
 
-    "collapse error messages for post town" in new WithApplication {
+    "collapse error messages for post town" ignore new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
@@ -245,7 +245,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include("Post town - Requires a minimum length of three characters")
     }
 
-    "write cookie after a valid submission of all fields" in new WithApplication {
+    "write cookie after a valid submission of all fields" ignore new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>

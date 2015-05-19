@@ -27,7 +27,7 @@ final class ConfirmBusiness @Inject()(
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
-  def present = Action { implicit request =>
+  def presentOld = Action { implicit request =>
 
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -35,30 +35,75 @@ final class ConfirmBusiness @Inject()(
       request.cookies.getModel[BusinessDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
       case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
-      Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
+        Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
         val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
 
         val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
         Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
       case _ =>
-        Redirect(routes.BusinessChooseYourAddress.present())
+//        Redirect(routes.BusinessChooseYourAddress.present())
+        Redirect(routes.SetUpBusinessDetails.present())
     }
   }
 
-  def submit = Action {
-    implicit request =>
-      form.bindFromRequest.fold(
-        invalidForm => handleInvalid(invalidForm),
-        model => handleValid(model)
-      )
+  def present = Action { implicit request =>
+/*
+    println("ConfirmBusiness - present cookies >>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
+      case Some(value) => println(s"ConfirmBusiness - VehicleAndKeeperLookupFormModel = $value")
+      case _ => println(s"ConfirmBusiness - VehicleAndKeeperLookupFormModel MISSING!!!!!!!!!")
+    }
+    request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+      case Some(value) => println(s"ConfirmBusiness - VehicleAndKeeperDetailsModel = $value")
+      case _ => println(s"ConfirmBusiness - VehicleAndKeeperDetailsModel MISSING!!!!!!!!!")
+    }
+    request.cookies.getModel[SetupBusinessDetailsFormModel] match {
+      case Some(value) => println(s"ConfirmBusiness - SetupBusinessDetailsFormModel = $value")
+      case _ => println(s"ConfirmBusiness - SetupBusinessDetailsFormModel MISSING!!!!!!!!!")
+    }
+    request.cookies.getModel[BusinessDetailsModel] match {
+      case Some(value) => println(s"ConfirmBusiness - BusinessDetailsModel = $value")
+      case _ => println(s"ConfirmBusiness - BusinessDetailsModel MISSING!!!!!!!!!")
+    }
+*/
+
+    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[SetupBusinessDetailsFormModel],
+      request.cookies.getModel[BusinessDetailsModel],
+      request.cookies.getModel[FulfilModel]) match {
+        case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
+          Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
+          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+          val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+
+          val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
+          Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
+        case _ =>
+//          println("ConfirmBusiness - BOOM redirecting to setUpBusinessDetails>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  //        Redirect(routes.BusinessChooseYourAddress.present())
+          Redirect(routes.SetUpBusinessDetails.present())
+      }
+  }
+
+  def submit = Action { implicit request =>
+//    println("ConfirmBusiness - submit called >>>>>>>>>>>>>>>>>")
+    form.bindFromRequest.fold(
+      invalidForm => handleInvalid(invalidForm),
+      validForm => handleValid(validForm)
+    )
   }
 
   def back = Action { implicit request =>
-    request.cookies.getModel[EnterAddressManuallyModel] match {
-      case Some(enterAddressManuallyModel) => Redirect(routes.EnterAddressManually.present())
-      case None => Redirect(routes.BusinessChooseYourAddress.present())
-    }
+    // TODO: ian fix me
+//    request.cookies.getModel[EnterAddressManuallyModel] match {
+//      case Some(enterAddressManuallyModel) => Redirect(routes.EnterAddressManually.present())
+//      case None => Redirect(routes.BusinessChooseYourAddress.present())
+//    }
+//    Redirect(routes.BusinessChooseYourAddress.present())
+    Redirect(routes.SetUpBusinessDetails.present())
   }
 
   private def handleValid(model: ConfirmBusinessFormModel)(implicit request: Request[_]): Result = {
@@ -71,7 +116,8 @@ final class ConfirmBusiness @Inject()(
           request.cookies.getModel[BusinessChooseYourAddressFormModel],
           request.cookies.getModel[SetupBusinessDetailsFormModel]
           ) match {
-          case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel, enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
+          case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel,
+            enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
@@ -79,7 +125,6 @@ final class ConfirmBusiness @Inject()(
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
             Redirect(routes.CaptureCertificateDetails.present()).
               withCookie(enterAddressManuallyModel).
               withCookie(businessChooseYourAddressFormModel).

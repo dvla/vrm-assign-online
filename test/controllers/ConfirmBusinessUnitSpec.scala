@@ -3,21 +3,24 @@ package controllers
 import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
-import helpers.common.CookieHelper._
-import helpers.vrm_assign.CookieFactoryForUnitSpecs._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessChooseYourAddress
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.enterAddressManually
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import org.mockito.Mockito._
-import pages.vrm_assign.BusinessChooseYourAddressPage
-import pages.vrm_assign.EnterAddressManuallyPage
+import org.mockito.Mockito.verify
+import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.LeaveFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
@@ -26,16 +29,15 @@ import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Business
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
-import scala.concurrent.duration.DurationInt
-import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
-
-final class ConfirmBusinessUnitSpec extends UnitSpec {
+class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page when required cookies are cached" in new WithApplication {
       whenReady(present, timeout) { r =>
         r.header.status should equal(OK)
@@ -46,7 +48,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = confirmBusiness.present(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
@@ -60,7 +62,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
       val injector = testInjector()
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
@@ -203,21 +204,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "back" should {
-    "redirect to EnterAddressManually page when EnterAddressManually cookie exists" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          enterAddressManually()
-        )
-      val result = confirmBusiness.back(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address))
-      }
-    }
-
-    "redirect to BusinessChooseYourAddress page when EnterAddressManually cookie does not exist" in new WithApplication {
+    "redirect to SetupBusinessDetails page when navigating back" in new WithApplication {
       val request = buildRequest(storeDetailsConsent = false).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -226,13 +213,12 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.back(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
   }
 
   "exit" should {
-
     "redirect to mock feedback page" in new WithApplication {
       val request = buildRequest(storeDetailsConsent = false).
         withCookies(

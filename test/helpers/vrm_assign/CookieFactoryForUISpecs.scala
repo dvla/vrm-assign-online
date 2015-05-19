@@ -51,7 +51,10 @@ object CookieFactoryForUISpecs {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
-      email = businessEmail, null)
+      email = businessEmail,
+    // TODO: ian fix me
+      address = new uk.gov.dvla.vehicles.presentation.common.model.Address(streetAddress1 = "",
+        streetAddress2 = None, streetAddress3 = None, postTown = "", postCode = businessPostcode, remember = false))
     addCookie(key, value)
     this
   }

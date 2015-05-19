@@ -46,9 +46,9 @@ GET         /business-choose-your-address/exit             @controllers.Business
 
 GET         /uprn-not-found                                @controllers.UprnNotFound.present
 
-GET         /enter-address-manually                        @controllers.EnterAddressManually.present
-POST        /enter-address-manually                        @controllers.EnterAddressManually.submit
-GET         /enter-address-manually/exit                   @controllers.EnterAddressManually.exit
+#GET         /enter-address-manually                        @controllers.EnterAddressManually.present
+#POST        /enter-address-manually                        @controllers.EnterAddressManually.submit
+#GET         /enter-address-manually/exit                   @controllers.EnterAddressManually.exit
 
 GET         /confirm-business                              @controllers.ConfirmBusiness.present
 POST        /confirm-business                              @controllers.ConfirmBusiness.submit

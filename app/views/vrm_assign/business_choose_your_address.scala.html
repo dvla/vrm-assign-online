@@ -6,7 +6,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.BusinessChooseYourAddress
-@import controllers.routes.EnterAddressManually
+@* @import controllers.routes.EnterAddressManually *@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechSelect}
 @import views.html.helper.form
@@ -34,18 +34,21 @@
                         args = Map('_label -> Messages("vrm_assign_businessChooseYourAddress_addressSelect_label"))
                     )
                 }
-
+@*
                 @if(dropDownOptions.nonEmpty) {
                     <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()">
                         @Messages("manual-address-entry")
                     </a>
                 }
+*@
                 <div class="form-steps">
+@*
                     @if(dropDownOptions.isEmpty) {
                         <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button" role="button">
                             @Messages("manual-address-entry-2")
                         </a>
                     }
+*@
                     @if(dropDownOptions.nonEmpty) {
                         <button id="@SelectId" type="submit" name="action" class="button">
                             @Messages("vrm_assign_businessChooseYourAddress.submitbutton")

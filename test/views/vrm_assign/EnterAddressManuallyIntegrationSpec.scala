@@ -19,7 +19,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
+    "display the page" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -28,7 +28,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       currentUrl should equal(EnterAddressManuallyPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
+    "contain the hidden csrfToken field" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -39,7 +39,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "not display certain labels when rendered with base template" taggedAs UiTag in new WebBrowserForSelenium {
+    "not display certain labels when rendered with base template" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -51,7 +51,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
   "next button" should {
 
-    "accept and redirect when all fields are input with valid entry" taggedAs UiTag in new WebBrowserForSelenium {
+    "accept and redirect when all fields are input with valid entry" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -60,7 +60,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       currentUrl should equal(ConfirmBusinessPage.url)
     }
 
-    "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowserForSelenium {
+    "accept when only mandatory fields only are input" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -69,7 +69,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       currentUrl should equal(ConfirmBusinessPage.url)
     }
 
-    "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowserForSelenium {
+    "display validation error messages when no details are entered" taggedAs UiTag ignore new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -80,7 +80,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "back button" should {
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag ignore new WebBrowserForSelenium {
 
       go to BeforeYouStartPage
       cacheSetup()
