@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.mvc.{Action, Controller}
-import models.CacheKeyPrefix
+import models.{VehicleAndKeeperLookupFormModel, CacheKeyPrefix}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -25,9 +25,16 @@ class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSid
     (for {
       _  <- request.cookies.getString(GranteeConsentCacheKey)
     } yield {
+
       val vehicleDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      Ok(views.html.vrm_assign.timeout(vehicleDetails))
+      val vehicleAndKeeperForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      Ok(views.html.vrm_assign.timeout(vehicleDetails, vehicleAndKeeperForm.map(v => v.replacementVRN)))
+
     }) getOrElse Redirect(routes.VehicleLookup.present())
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.LeaveFeedback.present())
   }
 
 }

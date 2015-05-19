@@ -94,6 +94,7 @@ GET         /fulfil-success/next                           @controllers.FulfilSu
 GET         /email-stub                                    @controllers.FulfilSuccess.emailStub
 
 GET         /timeout                                       @controllers.TimeoutController.present
+GET         /timeout/exit                                  @controllers.TimeoutController.exit
 
 GET         /success                                       @controllers.Success.present
 GET         /success/create-pdf                            @controllers.Success.createPdf

@@ -1,9 +1,10 @@
-@(vehicleDetails: Option[uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel])(implicit lang: Lang,
+@(vehicleDetails: Option[uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel],
+        replacementVRN: Option[String])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import views.html.common.vehicle_details_playback
+@import views.vrm_assign.Timeout._
 @import views.html.vrm_assign.main
 
 
@@ -14,28 +15,29 @@
         <div class="second-col inline-form">
             There was an error
             <div class="form-steps">
-                <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
+                <a id="@ExitId" class="exit" href="@controllers.routes.TimeoutController.exit()">@Messages("vrm_assign_exit.button")</a>
             </div>
         </div>
 
         @vehicleDetails.map { details =>
             <div id="vehicle-details" class="first-col trader-details">
-@*//            @vehicle_details_playback(details)*@
                 <dl class="playback">
                     <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@viewModel.registrationNumber</dd>
-                @if(details.make.isDefined) {
+                <dd class="reg-number">@details.registrationNumber</dd>
+                @details.make.map{ make =>
                     <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@viewModel.make.get.take(20)</dd>
+                    <dd>@make.take(20)</dd>
                 }
-                @if(viewModel.model.isDefined) {
+                @details.model.map{ model =>
                     <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@viewModel.model.get.take(20)</dd>
+                    <dd>@model.take(20)</dd>
                 }
 
-                <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                <dd class="reg-number">@vehicleAndKeeperLookupFormModel.replacementVRN</dd>
+                @replacementVRN.map { value =>
+                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+                    <dd class="reg-number">@value</dd>
+                }
 
                 <div class="contact-info-wrapper">
                     <h4>@Messages("assign-application-details-contact-us")</h4>
