@@ -21,9 +21,5 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
           s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or the VSS"
       )
     }
-//    }.recover {
-//      case _: TimeoutException => throw new TimeoutException
-//      case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
-//    }
   }
 }
