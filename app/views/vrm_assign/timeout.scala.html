@@ -9,11 +9,13 @@
 
 
 @main(
-    title = Messages("vrm_assign_capturecertificatedetails.title")
+    title = Messages("vrm_assign_timeout.title")
 ) {
     <div class="two-col">
         <div class="second-col inline-form">
-            There was an error
+            <h2>@Messages("vrm_assign_timeout.title")</h2>
+            <p>@Messages("vrm_assign_timeout.p-1")</p>
+            <p>@Messages("vrm_assign_timeout.p-2")</p>
             <div class="form-steps">
                 <a id="@ExitId" class="exit" href="@controllers.routes.TimeoutController.exit()">@Messages("vrm_assign_exit.button")</a>
             </div>
@@ -22,35 +24,22 @@
         @vehicleDetails.map { details =>
             <div id="vehicle-details" class="first-col trader-details">
                 <dl class="playback">
-                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@details.registrationNumber</dd>
-                @details.make.map{ make =>
-                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
-                    <dd>@make.take(20)</dd>
-                }
-                @details.model.map{ model =>
-                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
-                    <dd>@model.take(20)</dd>
-                }
+                    <h3>@Messages("vrm_assign_timeout.playback-title")</h3>
+                    <dt>@Messages("vrm_assign_timeout.playback-current")</dt>
+                    <dd class="reg-number">@details.registrationNumber</dd>
+                    @details.make.map{ make =>
+                        <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                        <dd>@make.take(20)</dd>
+                    }
+                    @details.model.map{ model =>
+                        <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                        <dd>@model.take(20)</dd>
+                    }
 
-                @replacementVRN.map { value =>
-                    <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@value</dd>
-                }
-
-                <div class="contact-info-wrapper">
-                    <h4>@Messages("assign-application-details-contact-us")</h4>
-                    <p>@Messages("assign-application-details-telephone")</p>
-                    <p><strong>@Messages("assign-application-details-telephone-number")</strong>
-                        <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
-                    </p>
-                    <small>@Messages("assign-application-details-monday-to-friday")</small>
-                    <small>@Messages("assign-application-details-saturday")</small>
-                    <small>@Messages("assign-application-details-sunday")</small>
-                    <p class="text-phone">@Messages("assign-application-details-textphone")</p>
-                    <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
-                </div>
+                    @replacementVRN.map { value =>
+                        <dt>@Messages("vrm_assign_timeout.playback-new")</dt>
+                        <dd class="reg-number">@value</dd>
+                    }
                 </dl>
             </div>
         }
