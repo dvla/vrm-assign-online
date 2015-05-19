@@ -13,11 +13,43 @@
     <div class="two-col">
         <div class="second-col inline-form">
             There was an error
+            <div class="form-steps">
+                <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
+            </div>
         </div>
 
         @vehicleDetails.map { details =>
             <div id="vehicle-details" class="first-col trader-details">
-            @vehicle_details_playback(details)
+@*//            @vehicle_details_playback(details)*@
+                <dl class="playback">
+                    <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
+                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@viewModel.registrationNumber</dd>
+                @if(details.make.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
+                    <dd>@viewModel.make.get.take(20)</dd>
+                }
+                @if(viewModel.model.isDefined) {
+                    <dt>@Messages("vrm_assign_vehicle_callback.modelLabel")</dt>
+                    <dd>@viewModel.model.get.take(20)</dd>
+                }
+
+                <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
+                <dd class="reg-number">@vehicleAndKeeperLookupFormModel.replacementVRN</dd>
+
+                <div class="contact-info-wrapper">
+                    <h4>@Messages("assign-application-details-contact-us")</h4>
+                    <p>@Messages("assign-application-details-telephone")</p>
+                    <p><strong>@Messages("assign-application-details-telephone-number")</strong>
+                        <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
+                    </p>
+                    <small>@Messages("assign-application-details-monday-to-friday")</small>
+                    <small>@Messages("assign-application-details-saturday")</small>
+                    <small>@Messages("assign-application-details-sunday")</small>
+                    <p class="text-phone">@Messages("assign-application-details-textphone")</p>
+                    <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
+                </div>
+                </dl>
             </div>
         }
     </div>
