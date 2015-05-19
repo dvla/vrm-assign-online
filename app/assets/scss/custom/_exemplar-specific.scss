@@ -80,6 +80,15 @@ ul.hint-list {
       }
 
     }
+
+  .alert-complete {
+    h2{
+      &:before {
+        content: "";
+        background: none;
+      }
+    }
+  }
 }
 
 .vrm-assign-online .prototype {
