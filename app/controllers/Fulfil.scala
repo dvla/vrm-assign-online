@@ -1,5 +1,7 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
 import models._
@@ -205,6 +207,10 @@ final class Fulfil @Inject()(
             }
         }
     }.recover {
+      case _: TimeoutException => {
+        val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+        Ok(views.html.vrm_assign.timeout(vehicleAndKeeperDetailsModel))
+      }
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Assign Fulfil web service call failed. Exception " + e.toString)
     }

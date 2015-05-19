@@ -1,0 +1,24 @@
+@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import views.html.helper.form
+@import views.html.common.vehicle_details_playback
+@import views.html.vrm_assign.main
+
+
+@main(
+    title = Messages("vrm_assign_capturecertificatedetails.title")
+) {
+    <div class="two-col">
+        <div class="second-col inline-form">
+            There was an error
+        </div>
+
+        <div id="vehicle-details" class="first-col trader-details">
+            @vehicle_details_playback(vehicleDetails)
+        </div>
+    </div>
+}

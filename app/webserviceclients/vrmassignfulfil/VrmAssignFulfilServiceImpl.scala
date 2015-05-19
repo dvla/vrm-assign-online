@@ -7,6 +7,7 @@ import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import scala.concurrent.TimeoutException
 
 final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
   extends VrmAssignFulfilService {
@@ -19,8 +20,10 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
         s"Vrm Assign Fulfil web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or the VSS"
       )
-    }.recover {
-      case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
     }
+//    }.recover {
+//      case _: TimeoutException => throw new TimeoutException
+//      case NonFatal(e) => throw new RuntimeException("Vrm Assign Fulfil call failed for an unknown reason", e)
+//    }
   }
 }
