@@ -6,10 +6,8 @@ import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
@@ -49,12 +47,20 @@ object CookieFactoryForUISpecs {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
+
+    val searchFields = SearchFields(showSearchFields = true,
+                            showAddressSelect = true,
+                            showAddressFields = true,
+                            postCode = None,
+                            listOption = None,
+                            remember = false)
+
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
       email = businessEmail,
     // TODO: ian fix me
-      address = new uk.gov.dvla.vehicles.presentation.common.model.Address(streetAddress1 = "",
-        streetAddress2 = None, streetAddress3 = None, postTown = "", postCode = businessPostcode, remember = false))
+      address = new uk.gov.dvla.vehicles.presentation.common.model.Address(searchFields = searchFields, streetAddress1 = "",
+        streetAddress2 = None, streetAddress3 = None, postTown = "", postCode = businessPostcode))
     addCookie(key, value)
     this
   }
