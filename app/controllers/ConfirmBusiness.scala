@@ -25,8 +25,6 @@ final class ConfirmBusiness @Inject()(
                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
   extends Controller {
 
-  private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
-
   def presentOld = Action { implicit request =>
 
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -37,10 +35,9 @@ final class ConfirmBusiness @Inject()(
       case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
         Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
 
         val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
-        Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
+        Ok(views.html.vrm_assign.confirm_business(viewModel))
       case _ =>
 //        Redirect(routes.BusinessChooseYourAddress.present())
         Redirect(routes.SetUpBusinessDetails.present())
@@ -76,11 +73,9 @@ final class ConfirmBusiness @Inject()(
       request.cookies.getModel[FulfilModel]) match {
         case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
           Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
-          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-          val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
 
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
-          Ok(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
+          Ok(views.html.vrm_assign.confirm_business(viewModel))
         case _ =>
 //          println("ConfirmBusiness - BOOM redirecting to setUpBusinessDetails>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   //        Redirect(routes.BusinessChooseYourAddress.present())
@@ -90,10 +85,7 @@ final class ConfirmBusiness @Inject()(
 
   def submit = Action { implicit request =>
 //    println("ConfirmBusiness - submit called >>>>>>>>>>>>>>>>>")
-    form.bindFromRequest.fold(
-      invalidForm => handleInvalid(invalidForm),
-      validForm => handleValid(validForm)
-    )
+    handleValid()
   }
 
   def back = Action { implicit request =>
@@ -106,7 +98,7 @@ final class ConfirmBusiness @Inject()(
     Redirect(routes.SetUpBusinessDetails.present())
   }
 
-  private def handleValid(model: ConfirmBusinessFormModel)(implicit request: Request[_]): Result = {
+  private def handleValid()(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map {
       vehicleAndKeeperLookup =>
         (request.cookies.getString(TransactionIdCacheKey),
@@ -129,27 +121,10 @@ final class ConfirmBusiness @Inject()(
               withCookie(enterAddressManuallyModel).
               withCookie(businessChooseYourAddressFormModel).
               withCookie(businessDetailsModel).
-              withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString).
               withCookie(setupBusinessDetailsFormModel)
         }
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
-    happyPath.getOrElse(sadPath)
-  }
-
-  private def handleInvalid(form: Form[ConfirmBusinessFormModel])(implicit request: Request[_]): Result = {
-    val happyPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-    }
-      yield {
-        val businessDetails = request.cookies.getModel[BusinessDetailsModel]
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, businessDetails.filter(details => storeBusinessDetails))
-        val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
-        BadRequest(views.html.vrm_assign.confirm_business(viewModel, form.fill(formModel)))
-      }
-    val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
   }
 

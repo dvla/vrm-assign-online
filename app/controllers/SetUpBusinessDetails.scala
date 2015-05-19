@@ -22,6 +22,7 @@ import views.vrm_assign.SetupBusinessDetails._
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -63,6 +64,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
             businessEmail = validForm.email,
             address = validForm.address)
           )
+         .withCookie(StoreBusinessDetailsCacheKey, validForm.address.searchFields.remember.toString)
     )
   }
 
