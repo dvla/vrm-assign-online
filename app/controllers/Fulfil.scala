@@ -34,8 +34,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class Fulfil @Inject()(
-                              vrmAssignFulfilService: VrmAssignFulfilService,
+final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -207,10 +206,7 @@ final class Fulfil @Inject()(
             }
         }
     }.recover {
-      case _: TimeoutException => {
-        val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        Ok(views.html.vrm_assign.timeout(vehicleAndKeeperDetailsModel))
-      }
+      case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Assign Fulfil web service call failed. Exception " + e.toString)
     }

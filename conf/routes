@@ -93,6 +93,8 @@ GET         /fulfil-success/create-pdf                     @controllers.FulfilSu
 GET         /fulfil-success/next                           @controllers.FulfilSuccess.next
 GET         /email-stub                                    @controllers.FulfilSuccess.emailStub
 
+GET         /timeout                                       @controllers.TimeoutController.present
+
 GET         /success                                       @controllers.Success.present
 GET         /success/create-pdf                            @controllers.Success.createPdf
 GET         /success/finish                                @controllers.Success.finish
