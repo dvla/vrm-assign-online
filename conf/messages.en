@@ -861,3 +861,11 @@ closed.exit_button = Exit
 
 link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778=V750 or V778
+
+# timeout
+vrm_assign_timeout.title = Please wait
+vrm_assign_timeout.p-1 = We are experiencing a delay in processing your application.
+vrm_assign_timeout.p-2 = We will update you via email when your application is processed.
+vrm_assign_timeout.playback-title = Vehicle details
+vrm_assign_timeout.playback-current = Current registration number:
+vrm_assign_timeout.playback-new = The registration number you want to put on:
