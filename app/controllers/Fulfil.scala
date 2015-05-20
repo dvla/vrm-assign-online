@@ -1,5 +1,7 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
 import email.ReceiptEmailMessageBuilder
@@ -37,8 +39,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class Fulfil @Inject()(
-                              vrmAssignFulfilService: VrmAssignFulfilService,
+final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -212,6 +213,7 @@ final class Fulfil @Inject()(
             }
         }
     }.recover {
+      case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Assign Fulfil web service call failed. Exception " + e.toString)
     }

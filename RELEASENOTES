@@ -1,3 +1,11 @@
+======= 1.8.1 ======
+Time of release binaries creation:
+Tue May 19 13:41:20 UTC 2015
+
+Defects:
+DE503 - All Services - VSS record updating -1 day from date entered
+DE508 - Retain - Playback of make/model details on failure screen
+
 ======= 1.8 ======
 Time of release binaries creation:
 Thu May 14 2015 13:31:00 GMT+0000 (GMT)
