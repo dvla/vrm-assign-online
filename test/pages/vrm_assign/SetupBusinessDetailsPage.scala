@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
 import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
 import views.vrm_assign.SetupBusinessDetails.BusinessNameId
-import views.vrm_assign.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.SubmitId
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -33,7 +33,7 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderEmailVerify(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
-  def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
+  def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessAddressId))
 
   def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 

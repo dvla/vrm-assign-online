@@ -95,7 +95,7 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
         BusinessEmailId -> traderBusinessEmail,
         s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
         s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
-        BusinessPostcodeId -> traderPostcode,
+        BusinessAddressId -> traderPostcode,
         // TODO: ian use ids here
         "business-postcode.address-line-1" -> "Test line 1",
         "business-postcode.post-town" -> "Test town",

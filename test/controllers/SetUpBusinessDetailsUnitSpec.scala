@@ -13,7 +13,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_assign.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.BusinessNameId
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
@@ -65,7 +65,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   "submit" should {
     "redirect to VehicleLookup page if required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
-        .withFormUrlEncodedBody(s"$BusinessPostcodeId.${AddressPicker.ShowSearchFields}" -> true.toString)
+        .withFormUrlEncodedBody(s"$BusinessAddressId.${AddressPicker.ShowSearchFields}" -> true.toString)
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) {
         r =>
@@ -175,17 +175,17 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       BusinessContactId -> dealerContact,
       s"$BusinessEmailId.$EmailId" -> dealerEmail,
       s"$BusinessEmailId.$EmailVerifyId" -> dealerEmail,
-      s"$BusinessPostcodeId.${AddressPicker.SearchByPostcodeField}" -> searchPostCode,
-      s"$BusinessPostcodeId.${AddressPicker.AddressListSelect}" -> addressListSelect,
-      s"$BusinessPostcodeId.${AddressPicker.ShowSearchFields}" -> showSearchFields.toString,
-      s"$BusinessPostcodeId.${AddressPicker.ShowAddressSelect}" -> showAddressSelect.toString,
-      s"$BusinessPostcodeId.${AddressPicker.ShowAddressFields}" -> showAddressFields.toString,
-      s"$BusinessPostcodeId.${AddressPicker.AddressLine1Id}" -> addressLine1,
-      s"$BusinessPostcodeId.${AddressPicker.AddressLine2Id}" -> addressLine2,
-      s"$BusinessPostcodeId.${AddressPicker.AddressLine3Id}" -> addressLine3,
-      s"$BusinessPostcodeId.${AddressPicker.PostTownId}" -> postTown,
-      s"$BusinessPostcodeId.${AddressPicker.PostcodeId}" -> dealerPostcode
-    ) ++ (if (saveDetails) Seq(s"$BusinessPostcodeId.${AddressPicker.RememberId}" -> "true")
+      s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}" -> searchPostCode,
+      s"$BusinessAddressId.${AddressPicker.AddressListSelect}" -> addressListSelect,
+      s"$BusinessAddressId.${AddressPicker.ShowSearchFields}" -> showSearchFields.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressSelect}" -> showAddressSelect.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressFields}" -> showAddressFields.toString,
+      s"$BusinessAddressId.${AddressPicker.AddressLine1Id}" -> addressLine1,
+      s"$BusinessAddressId.${AddressPicker.AddressLine2Id}" -> addressLine2,
+      s"$BusinessAddressId.${AddressPicker.AddressLine3Id}" -> addressLine3,
+      s"$BusinessAddressId.${AddressPicker.PostTownId}" -> postTown,
+      s"$BusinessAddressId.${AddressPicker.PostcodeId}" -> dealerPostcode
+    ) ++ (if (saveDetails) Seq(s"$BusinessAddressId.${AddressPicker.RememberId}" -> "true")
     else Seq.empty[(String, String)])
     FakeRequest().withFormUrlEncodedBody(data:_*)
   }

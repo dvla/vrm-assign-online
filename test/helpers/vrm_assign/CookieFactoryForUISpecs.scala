@@ -1,31 +1,40 @@
 package helpers.vrm_assign
 
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
-import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.model.Address
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.SearchFields
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_assign
-import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails._
 import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
 import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
@@ -58,20 +67,27 @@ object CookieFactoryForUISpecs {
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
       email = businessEmail,
-    // TODO: ian fix me
-      address = new uk.gov.dvla.vehicles.presentation.common.model.Address(searchFields = searchFields, streetAddress1 = "",
-        streetAddress2 = None, streetAddress3 = None, postTown = "", postCode = businessPostcode))
+      address = new Address(searchFields = searchFields,
+        streetAddress1 = "",
+        streetAddress2 = None,
+        streetAddress3 = None,
+        postTown = "",
+        postCode = businessPostcode)
+      )
     addCookie(key, value)
     this
   }
 
+  //TODO: ian delete me
+/*
   def businessChooseYourAddress(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
     val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressFormModel(uprnSelected = uprn.toString)
     addCookie(key, value)
     this
   }
-
+*/
+  /*
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
@@ -82,6 +98,7 @@ object CookieFactoryForUISpecs {
     addCookie(key, value)
     this
   }
+*/
 
   def businessDetails(address: AddressModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = BusinessDetailsCacheKey
