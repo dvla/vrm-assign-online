@@ -19,7 +19,8 @@ import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
-
+// TODO: ian delete this class
+  /*
   "go to page" should {
 
     "display the page" taggedAs UiTag ignore new WebBrowserForSelenium {
@@ -128,4 +129,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       vehicleAndKeeperDetailsModel().
       transactionId().
       setupBusinessDetails()
+
+      */
 }

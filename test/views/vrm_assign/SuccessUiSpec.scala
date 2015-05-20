@@ -11,28 +11,23 @@ import pages.vrm_assign.SuccessPage.finish
 import pages.vrm_assign._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-final class SuccessUiSpec extends UiSpec with TestHarness {
+class SuccessUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to SuccessPage
-
       currentUrl should equal(SuccessPage.url)
     }
   }
 
   "finish" should {
-
     "redirect to feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
       click on finish
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
@@ -48,13 +43,10 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   "print button" should {
-
     "have the label 'Print this page'" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to SuccessPage
-
       SuccessPage.print.text should equal("Print this page")
     }
   }
@@ -63,7 +55,6 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       setupBusinessDetails().
-      businessChooseYourAddress().
       vehicleAndKeeperDetailsModel().
       captureCertificateDetailsFormModel().
       captureCertificateDetailsModel().

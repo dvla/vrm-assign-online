@@ -33,7 +33,8 @@ import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import scala.concurrent.Future
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
-
+// TODO: ian delete this class
+/*
   "present" should {
 
     "display the page" ignore new WithApplication {
@@ -331,4 +332,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+
+*/
 }

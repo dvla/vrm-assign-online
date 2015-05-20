@@ -4,7 +4,6 @@ import composition.TestAssignEmailServiceBinding
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import composition.WithApplication
 import helpers.UnitSpec
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessChooseYourAddress
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
@@ -34,14 +33,13 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
-final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
+class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
@@ -64,7 +62,6 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
           captureCertificateDetailsModel(),
@@ -86,7 +83,6 @@ final class SuccessUnitSpec extends UnitSpec with MockitoSugar {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           businessDetailsModel(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),

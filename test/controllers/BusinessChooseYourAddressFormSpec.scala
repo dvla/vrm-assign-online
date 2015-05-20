@@ -7,7 +7,8 @@ import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {
-
+  // TODO: ian delete this class
+  /*
   "form" should {
 
     "accept when all fields contain valid responses" in {
@@ -30,4 +31,5 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
       Map(AddressSelectId -> addressSelected)
     )
   }
+  */
 }

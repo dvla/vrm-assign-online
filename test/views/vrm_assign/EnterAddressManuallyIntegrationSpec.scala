@@ -16,7 +16,8 @@ import pages.vrm_assign.EnterAddressManuallyPage.sadPath
 import pages.vrm_assign._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
-
+// TODO: ian delete this class
+/*
   "go to page" should {
 
     "display the page" taggedAs UiTag ignore new WebBrowserForSelenium {
@@ -97,7 +98,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       setupBusinessDetails().
-      businessChooseYourAddress().
       transactionId().
       vehicleAndKeeperDetailsModel()
+*/
 }

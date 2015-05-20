@@ -4,9 +4,7 @@ import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessChooseYourAddress
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.enterAddressManually
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
@@ -102,7 +100,6 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           transactionId(),
-          businessChooseYourAddress(),
           businessDetailsModel(),
           setupBusinessDetails(),
           storeBusinessDetailsConsent()
@@ -113,11 +110,9 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
-          BusinessChooseYourAddressCacheKey,
           BusinessDetailsCacheKey,
           SetupBusinessDetailsCacheKey
           )
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
@@ -130,8 +125,6 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           transactionId(),
-          enterAddressManually(),
-          businessChooseYourAddress(),
           businessDetailsModel(),
           setupBusinessDetails(),
           storeBusinessDetailsConsent()
@@ -142,13 +135,9 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
-          EnterAddressManuallyCacheKey,
-          BusinessChooseYourAddressCacheKey,
           BusinessDetailsCacheKey,
           SetupBusinessDetailsCacheKey
           )
-        cookies.find(_.name == EnterAddressManuallyCacheKey).get.maxAge.get === expected +- 1
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
@@ -157,8 +146,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "back" should {
     "redirect to SetupBusinessDetails page when navigating back" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
+      val request = buildRequest(storeDetailsConsent = false)
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel()
@@ -172,8 +161,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "exit" should {
     "redirect to mock feedback page" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
+      val request = buildRequest(storeDetailsConsent = false)
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
@@ -200,8 +189,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
         vehicleAndKeeperDetailsModel(),
         businessDetailsModel(),
-        setupBusinessDetails(),
-        businessChooseYourAddress()
+        setupBusinessDetails()
       )
     confirmBusiness.present(request)
   }

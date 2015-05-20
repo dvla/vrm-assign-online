@@ -30,7 +30,8 @@ import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnInvali
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
-
+  // TODO: ian delete this class
+  /*
   "present (use UPRN enabled)" should {
 
     "display the page if dealer details cached" in new WithApplication {
@@ -357,4 +358,5 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     FakeRequest().withFormUrlEncodedBody(
       AddressSelectId -> addressSelected)
   }
+  */
 }

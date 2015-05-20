@@ -11,7 +11,8 @@ import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
-
+  // TODO: ian delete this class
+  /*
   "form" should {
 
     "accept if form is valid with all fields filled in" in {
@@ -135,4 +136,5 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
       )
     )
   }
+  */
 }
