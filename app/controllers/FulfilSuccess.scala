@@ -91,16 +91,6 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
             )
         }
 
-        if( captureCertificateDetailsModel.outstandingFees > 0 ) {
-
-          //send email
-          sendReceipt( if (vehicleAndKeeperLookupForm.userType == UserType_Keeper) None else businessDetailsModel,
-            confirmFormModel, captureCertificateDetailsModel,
-            vehicleAndKeeperLookupForm, transactionId, trackingId)
-
-        }
-
-
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
@@ -180,49 +170,4 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     ))
   }
 
-  /**
-   * Sends a receipt for payment to both keeper and the business if present.
-   */
-  private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
-                          confirmFormModel: Option[ConfirmFormModel],
-                          captureCertificateDetails: CaptureCertificateDetailsModel,
-                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                          transactionId: String,
-                          trackingId: String) = {
-
-    implicit val emailConfiguration = config.emailConfiguration
-    implicit val implicitEmailService = implicitly[EmailService](emailService)
-
-    val businessDetails = businessDetailsModel.map(model =>
-      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
-
-    val paidFee = f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f"
-
-    val template = ReceiptEmailMessageBuilder.buildWith(
-      vehicleAndKeeperLookupForm.replacementVRN,
-      paidFee,
-      transactionId,
-      businessDetails)
-
-//    val title = s"""Payment Receipt for assignment of ${captureCertificateDetails.prVrm}"""
-    val title = s"""Payment Receipt for assignment of ${vehicleAndKeeperLookupForm.replacementVRN}"""
-
-    //send keeper email if present
-    for {
-    model <- confirmFormModel
-      email <- model.keeperEmail
-    } SEND email template withSubject title to email send trackingId
-
-    //send business email if present
-    for {
-      model <- businessDetailsModel
-    } SEND email template withSubject title to model.email send trackingId
-
-  }
-
-}
-
-object FulfilSuccess {
-
-  private val SETTLE_AUTH_CODE = "Settle"
 }

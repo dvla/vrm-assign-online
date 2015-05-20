@@ -55,7 +55,7 @@ class ConfigImpl extends Config {
   //getProperty[("email.whitelist", "").split(",")
   override val emailSenderAddress: String = getProperty[String]("email.senderAddress")
   override val emailConfiguration: EmailConfiguration = EmailConfiguration(
-    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
+    From(getProperty[String]("email.senderAddress"), "DO NOT REPLY"),
     From(getProperty[String]("email.feedbackAddress"), "Feedback"),
     getStringListProperty("email.whitelist")
   )

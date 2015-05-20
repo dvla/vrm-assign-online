@@ -5,6 +5,9 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
+import webserviceclients.emailservice.EmailServiceSendRequest
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   currentVehicleRegistrationMark: String,
@@ -15,9 +18,7 @@ case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   replacementVehicleRegistrationMark: String,
                                   v5DocumentReference: String,
                                   transactionTimestamp: DateTime,
-                                  paymentTransNo: Option[String],
-                                  paymentTrxRef: Option[String],
-                                  isPaymentPrimaryUrl: Option[Boolean])
+                                  paymentSolveUpdateRequest: Option[PaymentSolveUpdateRequest])
 
 object VrmAssignFulfilRequest {
 
@@ -28,6 +29,11 @@ object VrmAssignFulfilRequest {
       JsString(formatter.print(dateTime))
     }
   }
+
+  implicit val JsonFormatFrom = Json.format[From]
+  implicit val JsonFormatAttachment = Json.format[Attachment]
+  implicit val JsonFormatEmailServiceSendRequest = Json.format[EmailServiceSendRequest]
+  implicit val JsonFormatPaymentSolveUpdateRequest = Json.format[PaymentSolveUpdateRequest]
   implicit val JsonFormatVssWebEndUserDto = Json.writes[VssWebEndUserDto]
   implicit val JsonFormatVssWebHeaderDto = Json.writes[VssWebHeaderDto]
   implicit val JsonFormat = Json.format[VrmAssignFulfilRequest]
