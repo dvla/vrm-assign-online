@@ -38,11 +38,9 @@ import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityService
 
-final class CaptureCertificateDetails @Inject()(
-                                                 val bruteForceService: BruteForcePreventionService,
+final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForcePreventionService,
                                                  eligibilityService: VrmAssignEligibilityService,
-                                                 auditService2: audit2.AuditService
-                                                 )
+                                                 auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
                                                 dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -55,17 +53,20 @@ final class CaptureCertificateDetails @Inject()(
 
   def presentOld = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel],
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[SetupBusinessDetailsFormModel],
         request.cookies.getString(StoreBusinessDetailsCacheKey),
         request.cookies.getModel[FulfilModel]) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel),
-        businessChooseYourAddress,
-        Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
+        case (Some(vehicleAndKeeperDetails),
+          Some(vehicleAndKeeperLookupForm),
+          Some(setupBusinessDetailsFormModel),
+          Some(storeBusinessDetails),
+          None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)

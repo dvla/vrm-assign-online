@@ -102,11 +102,12 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
         (request.cookies.getString(TransactionIdCacheKey),
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
           request.cookies.getModel[BusinessDetailsModel],
-          request.cookies.getModel[BusinessChooseYourAddressFormModel],
           request.cookies.getModel[SetupBusinessDetailsFormModel]
           ) match {
-          case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel,
-            businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
+          case (transactionId,
+            vehicleAndKeeperDetailsModel,
+            businessDetailsModel,
+            setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
@@ -115,7 +116,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
             Redirect(routes.CaptureCertificateDetails.present())
-              .withCookie(businessChooseYourAddressFormModel)
               .withCookie(businessDetailsModel)
               .withCookie(setupBusinessDetailsFormModel)
         }
