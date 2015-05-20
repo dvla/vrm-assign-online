@@ -26,7 +26,6 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   private val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
   private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
     beforeYouStart,
@@ -34,7 +33,6 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     vrmLocked,
     captureCertificateDetails,
     setupBusinessDetails,
-    businessChooseYourAddress,
     confirmBusiness
   )(webDriver, timeout)
 
@@ -189,7 +187,8 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   }
 
   //Scenario 8
-  @When("^I enter data in the \"(.*?)\", \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
+//  @When("^I enter data in the \"(.*?)\", \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
+  @When("^I enter data in the \"(.*?)\", \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(replacementVRN: String, vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     // 1st Store the details
     user.

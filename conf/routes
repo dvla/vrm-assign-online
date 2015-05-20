@@ -51,6 +51,11 @@ GET         /confirm                                       @controllers.Confirm.
 POST        /confirm                                       @controllers.Confirm.submit
 GET         /confirm/exit                                  @controllers.Confirm.exit
 
+GET         /confirm-payment                               @controllers.ConfirmPayment.present
+POST        /confirm-payment                               @controllers.ConfirmPayment.submit
+GET         /confirm-payment/exit                          @controllers.ConfirmPayment.exit
+
+
 GET         /capture-certificate-details                   @controllers.CaptureCertificateDetails.present
 POST        /capture-certificate-details                   @controllers.CaptureCertificateDetails.submit
 GET         /capture-certificate-details/exit              @controllers.CaptureCertificateDetails.exit
@@ -79,6 +84,9 @@ GET         /fulfil-success                                @controllers.FulfilSu
 GET         /fulfil-success/create-pdf                     @controllers.FulfilSuccess.createPdf
 GET         /fulfil-success/next                           @controllers.FulfilSuccess.next
 GET         /email-stub                                    @controllers.FulfilSuccess.emailStub
+
+GET         /timeout                                       @controllers.TimeoutController.present
+GET         /timeout/exit                                  @controllers.TimeoutController.exit
 
 GET         /success                                       @controllers.Success.present
 GET         /success/create-pdf                            @controllers.Success.createPdf

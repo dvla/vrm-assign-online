@@ -9,10 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.html.vrm_assign.lookup_failure.cert_number_mismatch
-import views.html.vrm_assign.lookup_failure.direct_to_paper
-import views.html.vrm_assign.lookup_failure.eligibility
-import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
+import views.html.vrm_assign.lookup_failure._
 import views.vrm_assign.VehicleLookup._
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -80,7 +77,13 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
-
+        )
+      case "vrm_assign_eligibility_ninety_day_rule_failure" =>
+        ninety_day_rule_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case _ =>
         vehicle_lookup_failure(
