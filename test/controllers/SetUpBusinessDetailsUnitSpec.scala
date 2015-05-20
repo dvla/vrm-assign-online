@@ -6,17 +6,18 @@ import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
 import models.SetupBusinessDetailsFormModel
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
+import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
+import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
+import views.vrm_assign.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import views.vrm_assign.SetupBusinessDetails.BusinessNameId
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
 import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
-import views.vrm_assign.SetupBusinessDetails.BusinessNameId
-import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
@@ -62,9 +63,9 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    // TODO: ian fix me
-    "redirect to VehicleLookup page if required cookies do not exist" ignore new WithApplication {
+    "redirect to VehicleLookup page if required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
+        .withFormUrlEncodedBody(s"$BusinessPostcodeId.${AddressPicker.ShowSearchFields}" -> true.toString)
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) {
         r =>
@@ -91,8 +92,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    // TODO: ian fix me
-    "return a bad request if no details are entered" ignore new WithApplication {
+    "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "").
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -131,6 +131,16 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         cookies.map(_.name) should contain(SetupBusinessDetailsCacheKey)
       }
     }
+
+    "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new WithApplication {
+      val request =buildCorrectlyPopulatedRequest()
+      val result = setUpBusinessDetails().submit(request)
+
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.filter(_.name == StoreBusinessDetailsCacheKey).map(_.value) should equal(Seq(true.toString))
+      }
+    }
   }
 
   private def setUpBusinessDetails() = testInjector().getInstance(classOf[SetUpBusinessDetails])
@@ -149,15 +159,34 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerContact: String = TraderBusinessContactValid,
                                              dealerEmail: String = TraderBusinessEmailValid,
-                                             dealerPostcode: String = PostcodeValid) = {
-    FakeRequest().withFormUrlEncodedBody(
+                                             searchPostCode: String = "AA11AA",
+                                             addressListSelect: String = "1",
+                                             showSearchFields: Boolean = true,
+                                             showAddressSelect: Boolean = true,
+                                             showAddressFields: Boolean = true,
+                                             addressLine1: String = "543 Great Nortfort St.",
+                                             addressLine2: String = "Flat 12, Forest House,",
+                                             addressLine3: String = "",
+                                             postTown: String = "London",
+                                             dealerPostcode: String = PostcodeValid,
+                                             saveDetails: Boolean = true) = {
+    val data = Seq(
       BusinessNameId -> dealerName,
       BusinessContactId -> dealerContact,
       s"$BusinessEmailId.$EmailId" -> dealerEmail,
       s"$BusinessEmailId.$EmailVerifyId" -> dealerEmail,
-    // TODO: ian use ids here
-      "business-postcode.address-line-1" -> "Test line 1",
-      "business-postcode.post-town" -> "Test town",
-      "business-postcode.post-code" -> dealerPostcode)
+      s"$BusinessPostcodeId.${AddressPicker.SearchByPostcodeField}" -> searchPostCode,
+      s"$BusinessPostcodeId.${AddressPicker.AddressListSelect}" -> addressListSelect,
+      s"$BusinessPostcodeId.${AddressPicker.ShowSearchFields}" -> showSearchFields.toString,
+      s"$BusinessPostcodeId.${AddressPicker.ShowAddressSelect}" -> showAddressSelect.toString,
+      s"$BusinessPostcodeId.${AddressPicker.ShowAddressFields}" -> showAddressFields.toString,
+      s"$BusinessPostcodeId.${AddressPicker.AddressLine1Id}" -> addressLine1,
+      s"$BusinessPostcodeId.${AddressPicker.AddressLine2Id}" -> addressLine2,
+      s"$BusinessPostcodeId.${AddressPicker.AddressLine3Id}" -> addressLine3,
+      s"$BusinessPostcodeId.${AddressPicker.PostTownId}" -> postTown,
+      s"$BusinessPostcodeId.${AddressPicker.PostcodeId}" -> dealerPostcode
+    ) ++ (if (saveDetails) Seq(s"$BusinessPostcodeId.${AddressPicker.RememberId}" -> "true")
+    else Seq.empty[(String, String)])
+    FakeRequest().withFormUrlEncodedBody(data:_*)
   }
 }

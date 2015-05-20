@@ -62,54 +62,6 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val injector = testInjector()
-      val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
-      val dateService = injector.getInstance(classOf[DateService])
-      val data = Seq(("transactionId", "ABC123123123123"),
-        ("timestamp", dateService.dateTimeISOChronology),
-        ("currentVrm", "AB12AWR"),
-        ("make", "Alfa Romeo"),
-        ("model", "Alfasud ti"),
-        ("keeperName", "MR DAVID JONES"),
-        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
-        ("businessName", "example trader contact"),
-        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
-        ("businessEmail", "business.example@test.com"))
-      val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToCaptureCertificateDetails, AuditRequest.AuditServiceType, data)
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          transactionId()
-        )
-
-      val result = confirmBusiness.submit(request)
-
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-      }
-    }
-
-    "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          transactionId()
-        )
-
-      val result = confirmBusiness.submit(request)
-
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-      }
-    }
-
     "call the audit service" in new WithApplication {
       val auditService2 = new AuditServiceDoesNothing
       val injector = testInjector(
