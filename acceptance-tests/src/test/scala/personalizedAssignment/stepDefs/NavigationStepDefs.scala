@@ -26,6 +26,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
   private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()(webDriver, timeout)
   private val confirm = new ConfirmPageSteps()(webDriver, timeout)
+  private val confirmPayment = new ConfirmPaymentPageSteps()(webDriver, timeout)
   private val payment = new PaymentPageSteps()(webDriver, timeout)
   private val paymentPreventBack = new PaymentPreventBackPageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
@@ -70,6 +71,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
         vehicleLookup.`happy path for keeper`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
+        confirmPayment.`happy path`
         payment.`is displayed`
       case "payment (business acting)" =>
         vehicleLookup.`happy path for business`
@@ -77,10 +79,12 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
         confirmBusiness.`happy path`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
+        confirmPayment.`happy path`
         payment.`is displayed`
       case "success" => vehicleLookup.`happy path for keeper`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
+        confirmPayment.`happy path`
         payment.`happy path`
         success.`is displayed`
       case e => throw new RuntimeException(s"unknown 'origin' value: $e")
@@ -116,6 +120,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "capture-certificate-details" => captureCertificateDetails.`is displayed`
       case "confirm-business" => confirmBusiness.`is displayed`
       case "confirm" => confirm.`is displayed`
+      case "confirm-payment" => confirmPayment.`is displayed`
       case "payment" => payment.`is displayed`
       case "payment-prevent-back" => paymentPreventBack.`is displayed`
       case "success" => success.`is displayed`
@@ -142,6 +147,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is filled with the values I previously entered`()
       case "capture-certificate-details" => captureCertificateDetails.`form is filled with the values I previously entered`()
       case "confirm" => confirm.`form is filled with the values I previously entered`()
+      case "confirm-payment" => confirmPayment.`form is filled with the values I previously entered`()
       case "confirm (business acting)" => confirm.`form is filled with the values I previously entered`()
       case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "payment-prevent-back" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")

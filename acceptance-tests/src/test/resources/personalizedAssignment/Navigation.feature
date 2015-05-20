@@ -75,7 +75,7 @@ Feature: Navigation
     | origin                                        | expected                      |
     | "capture-certificate-details (keeper acting)" | "vehicle-lookup"              |
     | "confirm"                                     | "capture-certificate-details" |
-    | "payment (keeper acting)"                     | "confirm"                     |
+    | "payment (keeper acting)"                     | "confirm-payment"             |
 
   Scenario Outline: Entering a url that is after the origin page (business acting)
     Given that I am on the <origin> page

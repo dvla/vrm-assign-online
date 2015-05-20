@@ -80,6 +80,15 @@ ul.hint-list {
       }
 
     }
+
+  .alert-complete {
+    h2{
+      &:before {
+        content: "";
+        background: none;
+      }
+    }
+  }
 }
 
 .vrm-assign-online .prototype {
@@ -343,4 +352,11 @@ summary {
   .js-tooltip-style {
     max-width: 280px;
   }
+}
+
+.renewalFeeTotalRow {
+  margin-top: 10px;
+  border-top: 1px solid $black-3;
+  border-bottom: 1px solid $black-3;
+  padding: 5px 0;
 }

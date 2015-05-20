@@ -16,8 +16,11 @@ require(["jquery", "picturefill", "main"],function(jquery, main) {
             // Tab when the input is a key betweena a - z, A - Z and 0 - 9 and the maxlength is reached.
             // Do not auto tab when we come to the field by tabbing or shift-tabbing, otherwise it is impossible to
             // return to the field.
+
+
+
             var inp = String.fromCharCode(e.keyCode);
-            if (/[a-zA-Z0-9-_ ]/.test(inp) && maxlength) {
+            if ((/^[a-z0-9]+$/i.test(inp) && maxlength) || (e.keyCode >= 96 && e.keyCode <= 105 && maxlength)){
                 $('#' + nextId).focus();
             }
         });

@@ -13,7 +13,8 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperLastName: Option[String],
                                   keeperAddress: Option[AddressModel],
                                   outstandingPaymentList: List[String],
-                                  outstandingPaymentAmount: Double,
+                                  outstandingPaymentAmount: String,
+                                  hasOutstandingPayments: Boolean,
                                   userType: String)
 
 object ConfirmViewModel {
@@ -21,7 +22,7 @@ object ConfirmViewModel {
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
             outstandingPaymentList: List[String],
-            outstandingPaymentAmount: Double,
+            outstandingPaymentAmount: Int,
             userType: String): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
@@ -33,7 +34,8 @@ object ConfirmViewModel {
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
       outstandingPaymentList = outstandingPaymentList,
-      outstandingPaymentAmount = outstandingPaymentAmount,
+      outstandingPaymentAmount = f"${outstandingPaymentAmount / 100.0}%.2f",
+      hasOutstandingPayments = outstandingPaymentAmount > 0,
       userType = userType
     )
 }
