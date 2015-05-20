@@ -29,7 +29,11 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
     traderEmail.value = "business.example@test.com"
     traderEmailVerify.value = "business.example@test.com"
     traderName.value = "TRADER-NAME"
-    traderPostcode.value = "SA11AA"
+    businessAddressWidget.addressLine1.value = "Forester House, Flat 45"
+    businessAddressWidget.addressLine2.value = "Great Hitch Str."
+    businessAddressWidget.town.value = "London"
+    businessAddressWidget.postcode.value = "SA11AA"
+    click on businessAddressWidget.remember.underlying
     click on lookup
     this
   }
@@ -39,7 +43,10 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
     traderEmail.value should equal("business.example@test.com")
     traderEmailVerify.value should equal("business.example@test.com")
     traderName.value should equal("TRADER-NAME")
-    traderPostcode.value should equal("SA11AA")
+    businessAddressWidget.addressLine1.value should equal("Forester House, Flat 45")
+    businessAddressWidget.addressLine2.value should equal("Great Hitch Str.")
+    businessAddressWidget.town.value should equal("London")
+    businessAddressWidget.postcode.value should equal("SA11AA")
     this
   }
 
@@ -48,7 +55,10 @@ final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, 
     traderEmail.value should equal("")
     traderEmailVerify.value should equal("")
     traderName.value should equal("")
-    traderPostcode.value should equal("")
+    businessAddressWidget.addressLine1.value should equal("")
+    businessAddressWidget.addressLine2.value should equal("")
+    businessAddressWidget.town.value should equal("")
+    businessAddressWidget.postcode.value should equal("")
     this
   }
 }

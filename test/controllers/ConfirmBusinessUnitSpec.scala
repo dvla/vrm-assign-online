@@ -24,7 +24,6 @@ import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.ConfirmBusiness._
 import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Business
@@ -187,9 +186,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def buildRequest(storeDetailsConsent: Boolean = false) = {
-    FakeRequest().withFormUrlEncodedBody(
-      StoreDetailsConsentId -> storeDetailsConsent.toString
-    )
+    FakeRequest()
   }
 
   private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])

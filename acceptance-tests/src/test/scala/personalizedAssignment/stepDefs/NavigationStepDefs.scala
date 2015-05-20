@@ -29,10 +29,8 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   private val payment = new PaymentPageSteps()(webDriver, timeout)
   private val paymentPreventBack = new PaymentPreventBackPageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val success = new SuccessPageSteps()(webDriver, timeout)
-  private val enterAddressManually = new EnterAddressManuallyPageSteps()(webDriver, timeout)
 
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {
@@ -46,21 +44,9 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "business-choose-your-address" =>
         vehicleLookup.`happy path for business`
         setupBusinessDetails.`happy path`
-      case "enter-address-manually" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`click manual address entry`
-        enterAddressManually.`is displayed`
       case "confirm-business" =>
         vehicleLookup.`happy path for business`
         setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`choose address from the drop-down`
-        confirmBusiness.`is displayed`
-      case "confirm-business (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`click manual address entry`
-        enterAddressManually.`happy path`
         confirmBusiness.`is displayed`
       case "capture-certificate-details (keeper acting)" =>
         vehicleLookup.`happy path for keeper`
@@ -68,14 +54,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "capture-certificate-details (business acting)" =>
         vehicleLookup.`happy path for business`
         setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`choose address from the drop-down`
-        confirmBusiness.`happy path`
-        captureCertificateDetails.`is displayed`
-      case "capture-certificate-details (business acting) (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`click manual address entry`
-        enterAddressManually.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`is displayed`
       case "confirm" =>
@@ -85,15 +63,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "confirm (business acting)" =>
         vehicleLookup.`happy path for business`
         setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`choose address from the drop-down`
-        confirmBusiness.`happy path`
-        captureCertificateDetails.`happy path`
-        confirm.`is displayed`
-      case "confirm (business acting) (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`click manual address entry`
-        enterAddressManually.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`happy path`
         confirm.`is displayed`
@@ -105,16 +74,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "payment (business acting)" =>
         vehicleLookup.`happy path for business`
         setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`choose address from the drop-down`
-        confirmBusiness.`happy path`
-        captureCertificateDetails.`happy path`
-        confirm.`happy path`
-        payment.`is displayed`
-      case "payment (business acting) (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
-        businessChooseYourAddress.`click manual address entry`
-        enterAddressManually.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
@@ -134,8 +93,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => go to BeforeYouStartPage
       case "vehicle-lookup" => go to VehicleLookupPage
       case "setup-business-details" => go to SetupBusinessDetailsPage
-      case "business-choose-your-address" => go to BusinessChooseYourAddressPage
-      case "enter-address-manually" => go to EnterAddressManuallyPage
       case "confirm-business" => go to ConfirmBusinessPage
       case "capture-certificate-details" => go to CaptureCertificateDetailsPage
       case "confirm" => go to ConfirmPage
@@ -156,8 +113,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => beforeYouStart.`is displayed`
       case "vehicle-lookup" => vehicleLookup.`is displayed`
       case "setup-business-details" => setupBusinessDetails.`is displayed`
-      case "business-choose-your-address" => businessChooseYourAddress.`is displayed`
-      case "enter-address-manually" => enterAddressManually.`is displayed`
       case "capture-certificate-details" => captureCertificateDetails.`is displayed`
       case "confirm-business" => confirmBusiness.`is displayed`
       case "confirm" => confirm.`is displayed`
@@ -183,8 +138,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`()
       case "setup-business-details" => setupBusinessDetails.`form is filled with the values I previously entered`
-      case "business-choose-your-address" => businessChooseYourAddress.`form is filled with the values I previously entered`
-      case "enter-address-manually" => enterAddressManually.`form is filled with the values I previously entered`
       case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
       case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is filled with the values I previously entered`()
       case "capture-certificate-details" => captureCertificateDetails.`form is filled with the values I previously entered`()
@@ -203,8 +156,6 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "vehicle-lookup" => vehicleLookup.`form is not filled`()
       case "setup-business-details" => setupBusinessDetails.`form is not filled`
-      case "business-choose-your-address" => businessChooseYourAddress.`form is not filled`
-      case "enter-address-manually" => enterAddressManually.`form is not filled`
       case "confirm-business" => confirmBusiness.`form is not filled`()
       case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is not filled`()
       case "capture-certificate-details" => captureCertificateDetails.`form is not filled`()

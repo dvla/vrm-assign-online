@@ -58,7 +58,6 @@
 
     @if(config.googleAnalyticsTrackingId.isDefined) {
         <script type="text/javascript">
-            trackChange(['@StoreDetailsConsentId']);
             trackClick(['@ConfirmId', '@ExitId']);
         </script>
     }

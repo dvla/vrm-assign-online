@@ -20,6 +20,4 @@ object ConfirmBusinessPage extends Page {
   def confirm(implicit driver: WebDriver) = find(id(ConfirmId)).get
 
   def exit(implicit driver: WebDriver) = find(id(ExitId)).get
-
-  def rememberDetails(implicit driver: WebDriver) = find(id(StoreDetailsConsentId)).get
 }

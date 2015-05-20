@@ -3,6 +3,8 @@ package controllers
 import helpers.UnitSpec
 import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
+import play.api.test.FakeRequest
+import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
 import views.vrm_assign.SetupBusinessDetails._
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
@@ -87,20 +89,35 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
                                     traderBusinessEmail: String = TraderBusinessEmailValid,
-                                    traderPostcode: String = PostcodeValid) = {
-    Form(SetupBusinessDetailsFormModel.Form.Mapping).bind(
-      Map(
-        BusinessNameId -> traderBusinessName,
-        BusinessContactId -> traderBusinessContact,
-        BusinessEmailId -> traderBusinessEmail,
-        s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
-        s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
-        BusinessPostcodeId -> traderPostcode,
-        // TODO: ian use ids here
-        "business-postcode.address-line-1" -> "Test line 1",
-        "business-postcode.post-town" -> "Test town",
-        "business-postcode.post-code" -> PostcodeValid
-      )
-    )
+                                    traderPostcode: String = PostcodeValid,
+                                    searchPostCode: String = "AA11AA",
+                                    addressListSelect: String = "1",
+                                    showSearchFields: Boolean = true,
+                                    showAddressSelect: Boolean = true,
+                                    showAddressFields: Boolean = true,
+                                    addressLine1: String = "543 Great Nortfort St.",
+                                    addressLine2: String = "Flat 12, Forest House,",
+                                    addressLine3: String = "",
+                                    postTown: String = "London",
+                                    saveDetails: Boolean = true) = {
+    val data = Map(
+      BusinessNameId -> traderBusinessName,
+      BusinessContactId -> traderBusinessContact,
+      s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
+      s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
+      s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}" -> searchPostCode,
+      s"$BusinessAddressId.${AddressPicker.AddressListSelect}" -> addressListSelect,
+      s"$BusinessAddressId.${AddressPicker.ShowSearchFields}" -> showSearchFields.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressSelect}" -> showAddressSelect.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressFields}" -> showAddressFields.toString,
+      s"$BusinessAddressId.${AddressPicker.AddressLine1Id}" -> addressLine1,
+      s"$BusinessAddressId.${AddressPicker.AddressLine2Id}" -> addressLine2,
+      s"$BusinessAddressId.${AddressPicker.AddressLine3Id}" -> addressLine3,
+      s"$BusinessAddressId.${AddressPicker.PostTownId}" -> postTown,
+      s"$BusinessAddressId.${AddressPicker.PostcodeId}" -> traderPostcode
+    ) ++ (if (saveDetails) Map(s"$BusinessAddressId.${AddressPicker.RememberId}" -> "true")
+    else Seq.empty[(String, String)])
+
+    Form(SetupBusinessDetailsFormModel.Form.Mapping).bind(data)
   }
 }
