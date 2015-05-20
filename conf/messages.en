@@ -592,13 +592,6 @@ vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Ple
 vrm_assign_uprnnotfound.manualaddressbutton = Set-up business details
 vrm_assign_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
-# enter address manually
-vrm_assign_enteraddressmanually.title = Enter address
-vrm_assign_enteraddressmanually.submitbutton = Next
-vrm_assign_enteraddressmanually.backbutton = Back
-address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
-addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
-
 #Success payment page
 vrm_assign_success_payment.title = Payment Successful
 vrm_assign_success_payment.p1 = Your replacement registration:

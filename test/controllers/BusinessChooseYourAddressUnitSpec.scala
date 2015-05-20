@@ -23,7 +23,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnInvalid

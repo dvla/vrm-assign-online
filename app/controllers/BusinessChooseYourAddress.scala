@@ -13,6 +13,8 @@ import play.api.i18n.Lang
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSession
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -26,19 +28,14 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import utils.helpers.Config
 import views.html.vrm_assign.business_choose_your_address
 import views.vrm_assign.BusinessChooseYourAddress.AddressSelectId
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
-final class BusinessChooseYourAddress @Inject()(
-                                                 addressLookupService: AddressLookupService,
-                                                 auditService2: audit2.AuditService
-                                                 )
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
+                                                 auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
                                                 dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -180,9 +177,8 @@ final class BusinessChooseYourAddress @Inject()(
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.ConfirmBusiness.present()).
-      discardingCookie(EnterAddressManuallyCacheKey).
-      withCookie(model).
-      withCookie(businessDetailsModel)
+    Redirect(routes.ConfirmBusiness.present())
+      .withCookie(model)
+      .withCookie(businessDetailsModel)
   }
 }

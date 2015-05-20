@@ -14,7 +14,6 @@ import pages.vrm_assign.BusinessChooseYourAddressPage.back
 import pages.vrm_assign.BusinessChooseYourAddressPage.happyPath
 import pages.vrm_assign.BusinessChooseYourAddressPage.sadPath
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 

@@ -17,9 +17,7 @@ import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class ConfirmBusiness @Inject()(
-                                       auditService2: audit2.AuditService
-                                       )
+final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                       config: Config,
                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -104,12 +102,11 @@ final class ConfirmBusiness @Inject()(
         (request.cookies.getString(TransactionIdCacheKey),
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
           request.cookies.getModel[BusinessDetailsModel],
-          request.cookies.getModel[EnterAddressManuallyModel],
           request.cookies.getModel[BusinessChooseYourAddressFormModel],
           request.cookies.getModel[SetupBusinessDetailsFormModel]
           ) match {
           case (transactionId, vehicleAndKeeperDetailsModel, businessDetailsModel,
-            enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
+            businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
@@ -117,11 +114,10 @@ final class ConfirmBusiness @Inject()(
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-            Redirect(routes.CaptureCertificateDetails.present()).
-              withCookie(enterAddressManuallyModel).
-              withCookie(businessChooseYourAddressFormModel).
-              withCookie(businessDetailsModel).
-              withCookie(setupBusinessDetailsFormModel)
+            Redirect(routes.CaptureCertificateDetails.present())
+              .withCookie(businessChooseYourAddressFormModel)
+              .withCookie(businessDetailsModel)
+              .withCookie(setupBusinessDetailsFormModel)
         }
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))

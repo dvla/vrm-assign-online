@@ -20,10 +20,8 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.ConfirmBusiness._
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Business
 import webserviceclients.audit2.AuditRequest
