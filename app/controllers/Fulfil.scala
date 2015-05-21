@@ -1,17 +1,25 @@
 package controllers
 
-import java.util.concurrent.TimeoutException
-
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
 import email.ReceiptEmailMessageBuilder
-import models._
+import java.util.concurrent.TimeoutException
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import play.api.Logger
-import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request, Result}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -24,20 +32,16 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
-import views.vrm_assign.Confirm._
-import views.vrm_assign.Fulfil._
-import views.vrm_assign.VehicleLookup._
-import views.vrm_assign.Payment._
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
+import views.vrm_assign.Fulfil.FulfilResponseCodeCacheKey
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilService
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                               auditService2: audit2.AuditService
@@ -207,7 +211,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             // Happy path when there is no response code therefore no problem.
             response.documentNumber match {
               case Some(documentNumber) =>
-                fulfilSuccess
+                fulfilSuccess()
               case _ =>
                 microServiceErrorResult(message = "Document number not found in response")
             }
