@@ -7,11 +7,19 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.non
 
 object CertificateTime {
 
-  final val MinLength = 6
+  final val MinLength = 1
   final val MaxLength = 6
 
+  /**
+   * adds padding 0 zeros to the certificate time and then uppercase it.
+   * @return
+   */
   def certificateTimeMapping: Mapping[String] =
-    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validCertificateTime
+    nonEmptyTextWithTransform( v => if (v.trim.length == 0) {
+      v.toUpperCase.trim
+    } else {
+      f"$v%6s".replace(" ", "0") .toUpperCase.trim
+    })(MinLength, MaxLength) verifying validCertificateTime
 
   // TODO move to a constraints package
   def validCertificateTime: Constraint[String] = pattern(

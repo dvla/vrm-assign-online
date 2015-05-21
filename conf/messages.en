@@ -499,8 +499,8 @@ capture-certificate-details-you-will-need-retention-document = Retention Documen
 
 error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
-error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
-error.validCertificateTime = Must be 6 digits
+error.summary-validCertificateTime = Cannot be empty. The number in box 3 cannot be empty
+error.validCertificateTime = Cannot be empty.
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper information
