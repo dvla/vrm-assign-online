@@ -40,15 +40,7 @@ GET         /setup-business-details                        @controllers.SetUpBus
 POST        /setup-business-details                        @controllers.SetUpBusinessDetails.submit
 GET         /setup-business-details/exit                   @controllers.SetUpBusinessDetails.exit
 
-GET         /business-choose-your-address                  @controllers.BusinessChooseYourAddress.present
-POST        /business-choose-your-address                  @controllers.BusinessChooseYourAddress.submit
-GET         /business-choose-your-address/exit             @controllers.BusinessChooseYourAddress.exit
-
 GET         /uprn-not-found                                @controllers.UprnNotFound.present
-
-GET         /enter-address-manually                        @controllers.EnterAddressManually.present
-POST        /enter-address-manually                        @controllers.EnterAddressManually.submit
-GET         /enter-address-manually/exit                   @controllers.EnterAddressManually.exit
 
 GET         /confirm-business                              @controllers.ConfirmBusiness.present
 POST        /confirm-business                              @controllers.ConfirmBusiness.submit
@@ -62,7 +54,6 @@ GET         /confirm/exit                                  @controllers.Confirm.
 GET         /confirm-payment                               @controllers.ConfirmPayment.present
 POST        /confirm-payment                               @controllers.ConfirmPayment.submit
 GET         /confirm-payment/exit                          @controllers.ConfirmPayment.exit
-
 
 GET         /capture-certificate-details                   @controllers.CaptureCertificateDetails.present
 POST        /capture-certificate-details                   @controllers.CaptureCertificateDetails.submit
@@ -117,3 +108,5 @@ GET         /closed-stub                                   @controllers.Closed.p
 # feedback
 GET         /feedback                                      @controllers.FeedbackController.present
 POST        /feedback                                      @controllers.FeedbackController.submit
+
+GET         /address-lookup/postcode/:postcode             @uk.gov.dvla.vehicles.presentation.common.controllers.AddressLookup.byPostcode(postcode)

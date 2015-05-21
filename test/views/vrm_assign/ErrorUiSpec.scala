@@ -11,27 +11,22 @@ import pages.vrm_assign.ErrorPage
 import pages.vrm_assign.ErrorPage.startAgain
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-final class ErrorUiSpec extends UiSpec with TestHarness {
+class ErrorUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to ErrorPage
-
       currentUrl should equal(ErrorPage.url)
     }
   }
 
   "startAgain button" should {
-
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in
       new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs){
       def cacheSetup()(implicit webDriver: WebDriver) =
-        CookieFactoryForUISpecs.setupBusinessDetails().
-          businessChooseYourAddress().
-          enterAddressManually().
-          businessDetails().
-          vehicleAndKeeperDetailsModel()
+        CookieFactoryForUISpecs.setupBusinessDetails()
+          .businessDetails()
+          .vehicleAndKeeperDetailsModel()
 
       go to BeforeYouStartPage
       cacheSetup()

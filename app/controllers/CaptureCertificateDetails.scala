@@ -1,9 +1,13 @@
 package controllers
 
-import java.io.Serializable
-
 import com.google.inject.Inject
-import models._
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsViewModel
+import models.FulfilModel
+import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.DateTimeFormat
@@ -11,8 +15,12 @@ import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.libs.json.Writes
-import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request, Result}
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.Failure
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
@@ -21,34 +29,33 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
-import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.CaptureCertificateDetails.CertificateDocumentCountId
+import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
+import views.vrm_assign.CaptureCertificateDetails.CertificateRegistrationMarkId
+import views.vrm_assign.CaptureCertificateDetails.CertificateTimeId
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.UserType_Business
+import views.vrm_assign.VehicleLookup.UserType_Keeper
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityService
 
-import scala.collection.mutable.ListBuffer
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.Failure
-import scala.util.control.NonFatal
-
-final class CaptureCertificateDetails @Inject()(
-                                                 val bruteForceService: BruteForcePreventionService,
+final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForcePreventionService,
                                                  eligibilityService: VrmAssignEligibilityService,
-                                                 auditService2: audit2.AuditService
-                                                 )
+                                                 auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
-                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                                extends Controller {
 
   type Form = CaptureCertificateDetailsFormModel
 
@@ -58,17 +65,17 @@ final class CaptureCertificateDetails @Inject()(
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel],
-        request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey),
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[SetupBusinessDetailsFormModel],
+        request.cookies.getString(StoreBusinessDetailsCacheKey),
         request.cookies.getModel[FulfilModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel),
-        businessChooseYourAddress, enterAddressManually,
-        Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)
+        Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
+          // Happy path for a business user that has all the cookies
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
@@ -163,7 +170,8 @@ final class CaptureCertificateDetails @Inject()(
         vehicleAndKeeperLookupFormModel.replacementVRN,
         Some(certificateExpiryDate),
         outstandingDates.toList,
-        (outstandingDates.size * config.renewalFee.toInt))
+        outstandingDates.size * config.renewalFee.toInt
+      )
 
       val redirectLocation = {
         auditService2.send(AuditRequest.from(
@@ -195,12 +203,17 @@ final class CaptureCertificateDetails @Inject()(
       // may not have an expiry date so check before calling function
       val outstandingDates: ListBuffer[String] = {
         certificateExpiryDate match {
-          case Some(expiryDate) if (responseCode contains ("vrm_assign_eligibility_direct_to_paper")) => calculateYearsOwed(expiryDate)
+          case Some(expiryDate) if responseCode contains "vrm_assign_eligibility_direct_to_paper" => calculateYearsOwed(expiryDate)
           case _ => new ListBuffer[String]
         }
       }
 
-      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(vehicleAndKeeperLookupFormModel.replacementVRN, certificateExpiryDate, outstandingDates.toList, (outstandingDates.size * config.renewalFee.toInt))
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
+        vehicleAndKeeperLookupFormModel.replacementVRN,
+        certificateExpiryDate,
+        outstandingDates.toList,
+        outstandingDates.size * config.renewalFee.toInt
+      )
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,

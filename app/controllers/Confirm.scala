@@ -1,22 +1,31 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.ConfirmFormModel
+import models.ConfirmViewModel
+import models.FulfilModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import views.vrm_assign.Confirm._
+import views.vrm_assign.Confirm.KeeperEmailId
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
+import views.vrm_assign.Confirm.GranteeConsentId
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
