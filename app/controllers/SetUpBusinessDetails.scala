@@ -8,18 +8,18 @@ import models.SetupBusinessDetailsFormModel
 import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.SetupBusinessDetails._
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessEmailId, BusinessNameId}
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
@@ -56,7 +56,6 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
             Redirect(routes.VehicleLookup.present())
         }
       },
-//      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
       validForm =>
         Redirect(routes.ConfirmBusiness.present()).withCookie(validForm)
           .withCookie(createBusinessDetailsModel(businessName = validForm.name,
@@ -72,7 +71,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     implicit request =>
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey)
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)

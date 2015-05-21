@@ -14,7 +14,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
@@ -24,7 +23,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                       config: Config,
                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-  extends Controller {
+                                      extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
