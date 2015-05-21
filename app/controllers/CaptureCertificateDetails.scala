@@ -54,7 +54,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
                                                  auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
-                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                                extends Controller {
 
   type Form = CaptureCertificateDetailsFormModel
 
