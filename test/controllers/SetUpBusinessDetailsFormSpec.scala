@@ -25,12 +25,7 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       model.address.searchFields.postCode should equal(Some(SearchPostcodeValid))
       model.address.streetAddress1 should equal(BusinessAddressLine1Valid)
       model.address.streetAddress2 should equal(Some(BusinessAddressLine2Valid))
-      model.address.streetAddress3 should equal(None
-
-
-
-
-      )
+      model.address.streetAddress3 should equal(None)
       model.address.postTown should equal(PostTownValid)
     }
   }
