@@ -499,8 +499,8 @@ capture-certificate-details-you-will-need-retention-document = Retention Documen
 
 error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
-error.summary-validCertificateTime = Cannot be empty. The number in box 3 cannot be empty
-error.validCertificateTime = Cannot be empty.
+error.summary-validCertificateTime = Cannot be blank or contain invalid characters
+error.validCertificateTime = Cannot be blank or contain invalid characters
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper information
