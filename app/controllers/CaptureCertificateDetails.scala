@@ -1,7 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsViewModel
+import models.FulfilModel
+import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.DateTimeFormat
@@ -9,8 +15,7 @@ import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.libs.json.Writes
-import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request, Result}
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,15 +29,21 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
-import views.vrm_assign.CaptureCertificateDetails._
+import views.vrm_assign.CaptureCertificateDetails.CertificateDocumentCountId
+import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
+import views.vrm_assign.CaptureCertificateDetails.CertificateRegistrationMarkId
+import views.vrm_assign.CaptureCertificateDetails.CertificateTimeId
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.UserType_Business
+import views.vrm_assign.VehicleLookup.UserType_Keeper
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
@@ -50,32 +61,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
   private[controllers] val form = PlayForm(
     CaptureCertificateDetailsFormModel.Form.Mapping
   )
-
-  def presentOld = Action {
-    implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[SetupBusinessDetailsFormModel],
-        request.cookies.getString(StoreBusinessDetailsCacheKey),
-        request.cookies.getModel[FulfilModel]) match {
-        case (Some(vehicleAndKeeperDetails),
-          Some(vehicleAndKeeperLookupForm),
-          Some(setupBusinessDetailsFormModel),
-          Some(storeBusinessDetails),
-          None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)
-          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
-
-          // They are not a business, so we only need the VehicleAndKeeperDetailsModel
-          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
-        case _ =>
-          Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
-          Redirect(routes.ConfirmBusiness.present())
-      }
-  }
 
   def present = Action {
     implicit request =>
@@ -99,7 +84,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           Redirect(routes.ConfirmBusiness.present())
       }
   }
-
 
   def submit = Action.async {
     implicit request =>
