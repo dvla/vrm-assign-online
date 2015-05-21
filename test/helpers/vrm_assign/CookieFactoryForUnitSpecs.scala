@@ -36,10 +36,20 @@ import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.DatesListValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.FeesValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.LastDateValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.AuthCodeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.CardTypeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.MaskedPANValid
@@ -47,7 +57,22 @@ import webserviceclients.fakes.PaymentSolveWebServiceConstants.MerchantIdValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.PaymentTypeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.TotalAmountPaidValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.TransactionReferenceValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperAddressLine1Valid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperAddressLine2Valid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperFirstNameValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperLastNameValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostCodeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostTownValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperTitleValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.PaymentTransNoValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReplacementVRN
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTimestampValid
 
 object CookieFactoryForUnitSpecs extends TestComposition {
@@ -137,37 +162,6 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  //TODO: ian delete me
-/*
-  def businessChooseYourAddressUseUprn(uprnSelected: String = traderUprnValid.toString): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-
-  def businessChooseYourAddress(uprnSelected: String = "0"): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-*/
-  //TODO: ian delete me
-/*
-  def enterAddressManually(): Cookie = {
-    val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(
-      addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
-        addressLinesModel = AddressLinesViewModel(
-          buildingNameOrNumber = BuildingNameOrNumberValid,
-          line2 = Some(Line2Valid),
-          line3 = Some(Line3Valid),
-          postTown = PostTownValid
-        )
-      )
-    )
-    createCookie(key, value)
-  }
-*/
   def bruteForcePreventionViewModel(permitted: Boolean = true,
                                     attempts: Int = 0,
                                     maxAttempts: Int = MaxAttempts,
