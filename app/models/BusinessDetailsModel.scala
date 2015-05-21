@@ -15,14 +15,13 @@ object BusinessDetailsModel {
 
   def from(businessDetailsForm: SetupBusinessDetailsFormModel,
            vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessDetailsModel = {
-//TODO: ian fix this IMPORTANT!!!
-    val formattedPostcode = "QQ9 9QQ" //EnterAddressManuallyViewModel(businessDetailsForm, vehicleAndKeeperDetails).businessPostCode
-    val businessAddress = new AddressModel(address = Seq("aaa", "bbb"))//AddressModel.from(enterAddressManually.addressAndPostcodeViewModel, formattedPostcode)
+    val businessAddress = new AddressModel(address = businessDetailsForm.toViewFormat)
 
     BusinessDetailsModel(
       name = businessDetailsForm.name,
       contact = businessDetailsForm.contact,
       email = businessDetailsForm.email,
-      address = businessAddress)
+      address = businessAddress
+    )
   }
 }
