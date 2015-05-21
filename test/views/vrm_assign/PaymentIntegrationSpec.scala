@@ -13,15 +13,13 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 import views.vrm_assign.RelatedCacheKeys.AssignSet
 import views.vrm_assign.RelatedCacheKeys.BusinessDetailsSet
 
-final class PaymentIntegrationSpec extends UiSpec with TestHarness {
+class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to PaymentPage
-
       currentUrl should equal(PaymentPage.url)
     }
 
@@ -30,15 +28,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
-      csrf.getAttribute("value").size > 0 should equal(true)
+      csrf.getAttribute("value").length > 0 should equal(true)
     }
 
     "redirect to VehicleLookupPage page when fulfil cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().fulfilModel()
-
       go to PaymentPage
-
       currentUrl should equal(VehicleLookupPage.url)
     }
   }
@@ -51,9 +47,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-
       click on PaymentPage.cancel
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
@@ -62,9 +56,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-
       click on PaymentPage.cancel
-
       // Verify the cookies identified by the full set of cache keys have been removed
       AssignSet.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
@@ -74,10 +66,9 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove AssignSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in
       new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
-      cacheSetup().
-        businessChooseYourAddress().
-        setupBusinessDetails().
-        storeBusinessDetailsConsent(consent = "false")
+      cacheSetup()
+        .setupBusinessDetails()
+        .storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
 
       click on PaymentPage.cancel
@@ -95,11 +86,9 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove AssignSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in
       new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
-      cacheSetup().
-        businessChooseYourAddress().
-        setupBusinessDetails().
-        enterAddressManually().
-        storeBusinessDetailsConsent(consent = "true")
+      cacheSetup()
+        .setupBusinessDetails()
+        .storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 
       click on PaymentPage.cancel

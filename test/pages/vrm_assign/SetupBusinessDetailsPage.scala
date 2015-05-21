@@ -5,11 +5,15 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.AddressPickerDriver
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
 import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
 import views.vrm_assign.SetupBusinessDetails.BusinessNameId
-import views.vrm_assign.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.SubmitId
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
@@ -33,18 +37,24 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderEmailVerify(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
-  def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
+  def businessAddressWidget(implicit driver: WebDriver) = new AddressPickerDriver(BusinessAddressId)
 
   def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
   def happyPath(traderBusinessName: String = TraderBusinessNameValid,
                 traderBusinessEmail: String = TraderBusinessEmailValid,
+                traderBusinessAddressLine1: String = BusinessAddressLine1Valid,
+                traderBusinessAddressLine2: String = BusinessAddressLine2Valid,
+                traderBusinessAddressTown: String = BusinessAddressPostTownValid,
                 traderBusinessPostcode: String = PostcodeValid)
                (implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
     traderName.value = traderBusinessName
     traderEmail.value = traderBusinessEmail
-    traderPostcode.value = traderBusinessPostcode
+    businessAddressWidget.addressLine1.value = traderBusinessAddressLine1
+    businessAddressWidget.addressLine2.value = traderBusinessAddressLine2
+    businessAddressWidget.town.value = traderBusinessAddressTown
+    businessAddressWidget.postcode.value = traderBusinessPostcode
     click on lookup
   }
 
@@ -53,7 +63,9 @@ object SetupBusinessDetailsPage extends Page {
     traderName.value = TraderBusinessNameValid
     traderContact.value = TraderBusinessContactValid
     traderEmail.value = TraderBusinessEmailValid
-    traderPostcode.value = PostcodeInvalid
+    businessAddressWidget.addressLine1.value = BusinessAddressLine1Valid
+    businessAddressWidget.addressLine2.value = BusinessAddressLine2Valid
+    businessAddressWidget.postcode.value = PostcodeInvalid
     click on lookup
   }
 }

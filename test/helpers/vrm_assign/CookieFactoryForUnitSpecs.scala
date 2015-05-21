@@ -1,39 +1,55 @@
 package helpers.vrm_assign
 
 import composition.TestComposition
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.SearchFields
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
-import views.vrm_assign.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
 import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
-import views.vrm_assign.Confirm.SupplyEmail_true
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_assign.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentDetailsCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
-import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants._
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants._
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
+import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.DatesListValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.FeesValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.LastDateValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.AuthCodeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.CardTypeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.MaskedPANValid
@@ -41,7 +57,22 @@ import webserviceclients.fakes.PaymentSolveWebServiceConstants.MerchantIdValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.PaymentTypeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.TotalAmountPaidValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.TransactionReferenceValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperAddressLine1Valid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperAddressLine2Valid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperFirstNameValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperLastNameValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostCodeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostTownValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperTitleValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.PaymentTransNoValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReplacementVRN
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTimestampValid
 
 object CookieFactoryForUnitSpecs extends TestComposition {
@@ -54,10 +85,23 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
+
+    val searchFields = SearchFields(showSearchFields = true,
+      showAddressSelect = true,
+      showAddressFields = true,
+      postCode = None,
+      listOption = None,
+      remember = false)
+
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
       email = businessEmail,
-      postcode = businessPostcode)
+      address = new Address(searchFields = searchFields,
+        streetAddress1 = "",
+        streetAddress2 = None,
+        streetAddress3 = None,
+        postTown = "",
+        postCode = businessPostcode))
     createCookie(key, value)
   }
 
@@ -114,33 +158,6 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       registrationNumber = registrationNumber,
       postcode = postcode,
       userType = keeperConsent
-    )
-    createCookie(key, value)
-  }
-
-  def businessChooseYourAddressUseUprn(uprnSelected: String = traderUprnValid.toString): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-
-  def businessChooseYourAddress(uprnSelected: String = "0"): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-
-  def enterAddressManually(): Cookie = {
-    val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(
-      addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
-        addressLinesModel = AddressLinesViewModel(
-          buildingNameOrNumber = BuildingNameOrNumberValid,
-          line2 = Some(Line2Valid),
-          line3 = Some(Line3Valid),
-          postTown = PostTownValid
-        )
-      )
     )
     createCookie(key, value)
   }

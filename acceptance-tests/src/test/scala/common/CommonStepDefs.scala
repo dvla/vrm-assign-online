@@ -18,7 +18,6 @@ final class CommonStepDefs(
                             vrmLocked: VrmLockedPageSteps,
                             captureCertificateDetails: CaptureCertificateDetailsPageSteps,
                             setupBusinessDetails: SetupBusinessDetailsPageSteps,
-                            businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
                             confirmBusiness: ConfirmBusinessPageSteps
                             )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
@@ -65,9 +64,7 @@ final class CommonStepDefs(
     setupBusinessDetails.
       `is displayed`.
       `enter business details`
-    businessChooseYourAddress.`choose address from the drop-down`
     confirmBusiness.`is displayed`
-    click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
     this
   }

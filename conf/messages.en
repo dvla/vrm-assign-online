@@ -226,7 +226,7 @@ addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
-error.address.postTown = Post town - Requires a minimum length of three characters
+error.address.postTown = Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 vehicle-lookup-failure-cert-number-mismatch-title = Certificate Reference Number could not be found
 vehicle-lookup-failure-cert-number-mismatch-p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
@@ -499,8 +499,8 @@ capture-certificate-details-you-will-need-retention-document = Retention Documen
 
 error.validCertificateDocumentCount = Must be 1 letter or digit
 error.validCertificateDate = Must be 5 digits
-error.summary-validCertificateTime = Must be 6 digits. Where the number in box 3 only displays 5 digits on the printed certificate, please add a 0 to the beginning of the number e.g. 54027 would become 054027
-error.validCertificateTime = Must be 6 digits
+error.summary-validCertificateTime = Cannot be blank or contain invalid characters
+error.validCertificateTime = Cannot be blank or contain invalid characters
 
 #Confirm page
 vrm_assign_confirm.title = Confirm keeper information
@@ -577,40 +577,11 @@ vrm_assign_confirm.feesRelatedVehicleModel = Vehicle model:
 vrm_assign_confirm.feesRelatedVehicleRegistration = New registration number:
 vrm_assign_confirm.feesRelatedTotal = Total to pay today
 vrm_assign_confirm.outstandingFeesCta = Pay now
-# choose business address
-vrm_assign_businessChooseYourAddress_title = Select your business address
-vrm_assign_businessChooseYourAddress_legend = Set up business details
-vrm_assign_businessChooseYourAddress_businessName_label = Business name
-vrm_assign_businessChooseYourAddress_businessContact_label =  Contact name
-vrm_assign_businessChooseYourAddress_businessEmail_label = Email address
-vrm_assign_businessChooseYourAddress_businessName = {0}
-vrm_assign_businessChooseYourAddress_businessContact = {0}
-vrm_assign_businessChooseYourAddress_businessEmail = {0}
-vrm_assign_businessChooseYourAddress_postcode_label = Postcode
-vrm_assign_businessChooseYourAddress_businessAddress_label = Business address
-address-select = Choose your address
-vrm_assign_businessChooseYourAddress_addressSelect_label = Choose your address
-vrm_assign_businessChooseYourAddress.backbutton = Back
-vrm_assign_businessChooseYourAddress.submitbutton = Next
-manual-address-entry = My address is not in the list
-manual-address-entry-2 = Enter address
-error.dropDownInvalid = Please select a value from the drop down list.
-vrm_assign_businessChooseYourAddress_noaddressesfound.h2.1 = No addresses found for that postcode.
-vrm_assign_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ''Enter address'' or click ''Back'' to try again.
-vrm_assign_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 #page 3 - uprn not found
 vrm_assign_uprnnotfound.title = Error confirming postcode
-vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
-vrm_assign_uprnnotfound.manualaddressbutton = Set-up business details
-vrm_assign_uprnnotfound.setuptradedetailsbutton = Manually enter address
-
-# enter address manually
-vrm_assign_enteraddressmanually.title = Enter address
-vrm_assign_enteraddressmanually.submitbutton = Next
-vrm_assign_enteraddressmanually.backbutton = Back
-address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
-addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
+vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter your details
+vrm_assign_uprnnotfound.setuptradedetailsbutton = Set-up business details
 
 #Success payment page
 vrm_assign_success_payment.title = Payment Successful
@@ -631,10 +602,8 @@ success-payment-keeper-p2a = Take your existing registration number,
 success-payment-keeper-p2b = , off your vehicle
 success-payment-keeper-p3 = You can use your newly issued V5C to get your replacement registration made up through a registered number plate supplier
 vrm_assign_success_payment.print = Print full summary
-
 vrm_assign_success_payment.p6 = You’ll need this to make up the replacement plates
 vrm_assign_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download and save or print using the link provided.
-
 
 vrm_assign_success_payment.newDocumentsTitle = About your new documents
 vrm_assign_success_payment.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
@@ -863,6 +832,27 @@ closed.exit_button = Exit
 
 link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778=V750 or V778
+
+# Date picker
+address.picker.common.postcode = Postcode
+address.picker.common.findAddress = Find UK address
+address.picker.common.manualAddress = Enter address manually
+address.picker.common.pickAddress = Pick an address
+address.picker.common.pleaseSelect = Please select
+address.picker.common.street = Street
+address.picker.common.streetNameNumber = Street name and number
+address.picker.common.townCity = Town/City
+address.picker.common.townOrCity = Town or City
+address.picker.common.changeDetails = Change my details
+address.picker.common.rememberDetails = Remember these details
+address.picker.common.postCodeNotFound = Postcode not found
+address.picker.common.serverError = Error from the server:
+business-address.address-postcode-lookup = Business Postcode
+business-address.address-line-1 = Business Address line 1
+business-address.post-town = Business Town/City
+business-address.post-code = Business Postcode
+error.address.postCode = This field is mandatory
+error.address.addressLine1 = This field is mandatory
 
 # timeout
 vrm_assign_timeout.title = Please wait

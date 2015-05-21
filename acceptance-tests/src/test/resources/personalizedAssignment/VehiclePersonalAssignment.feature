@@ -78,7 +78,7 @@ Feature: Assignment of Vehicle
 
   @HappyPath
   Scenario Outline: Trader Acting (details stored)
-    When I enter data in the <ReplacementVRN>,<VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old
+    When I enter data in the <ReplacementVRN>, <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old
     Then the confirm business details page is displayed
   Examples:
     | ReplacementVRN | VehicleRegistrationNumber | DocRefID      | Postcode |

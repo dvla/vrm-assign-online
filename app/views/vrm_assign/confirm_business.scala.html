@@ -1,5 +1,4 @@
-@(confirmBusinessViewModel: models.ConfirmBusinessViewModel,
-        confirmBusinessForm: Form[models.ConfirmBusinessFormModel])(implicit lang: Lang,
+@(confirmBusinessViewModel: models.ConfirmBusinessViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -12,7 +11,7 @@
 
 @main(
     title = Messages("vrm_assign_confirm_business.title"),
-    currentForm = Some(confirmBusinessForm),
+    currentForm = None,
     backNavigation = Some(ConfirmBusiness.back())
 ) {
     <div class="two-col">
@@ -47,25 +46,8 @@
 
     @form(action = controllers.routes.ConfirmBusiness.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
-            <div class="second-col">
-
-                @*<div class="form-declaration">*@
-                @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
-                    args = Map(
-                        '_name -> "",
-                        '_showConstraints -> false,
-                        '_label -> Messages("vrm_assign_confirm.storeDetailsConsent")
-                    )
-                )
-                @*</div>*@
-
-            </div>
-        </div>
-
-
         <div class="form-steps">
-            @if(confirmBusinessViewModel.businessName.isDefined && confirmBusinessForm.get.storeBusinessDetails) {
+            @if(confirmBusinessViewModel.businessName.isDefined) {
                 <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()" role="button">@Messages("vrm_assign_changedetails.button")</a>
             }
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
@@ -76,7 +58,6 @@
 
     @if(config.googleAnalyticsTrackingId.isDefined) {
         <script type="text/javascript">
-            trackChange(['@StoreDetailsConsentId']);
             trackClick(['@ConfirmId', '@ExitId']);
         </script>
     }

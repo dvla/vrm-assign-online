@@ -26,7 +26,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   private val payment = new PaymentPageSteps()(webDriver, timeout)
   private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
     beforeYouStart,
@@ -34,7 +33,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     vrmLocked,
     captureCertificateDetails,
     setupBusinessDetails,
-    businessChooseYourAddress,
     confirmBusiness
   )(webDriver, timeout)
   //  private implicit val webDriver: EventFiringWebDriver = {

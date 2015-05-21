@@ -9,27 +9,22 @@ import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.ConfirmFormModel
 import models.FulfilModel
-import models.PaymentModel
-import models.SuccessViewModel
 import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
-import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc.{Action, Controller, Request, Result}
+import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.services.SEND
 import webserviceclients.emailservice.EmailService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.model.AddressModel
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
 import webserviceclients.paymentsolve.PaymentSolveService
-import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
                                     assignEmailService: AssignEmailService,
@@ -37,7 +32,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
                                     emailService: EmailService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
-                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                    dateService: common.services.DateService) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
