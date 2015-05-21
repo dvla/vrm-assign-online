@@ -4,7 +4,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_assign.main
-@import views.vrm_assign.UprnNotFound.{ManualAddressId, SetupBusinessDetailsId}
+@import views.vrm_assign.UprnNotFound.SetupBusinessDetailsId
 
 @main(
     title = Messages("vrm_assign_uprnnotfound.title")
@@ -14,10 +14,6 @@
 
     <div class="form-steps">
         @* Note the reverse routing syntax for the hyperlink *@
-@* TODO: ian fix me *@
-@*        <a class="button" id="@ManualAddressId" href="@controllers.routes.EnterAddressManually.present()" role="button">@Messages("vrm_assign_uprnnotfound.setuptradedetailsbutton")</a>
-*@
-        <br /><br />
-        <a id="@SetupBusinessDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_assign_uprnnotfound.manualaddressbutton")</a>
+        <a id="@SetupBusinessDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_assign_uprnnotfound.setuptradedetailsbutton")</a>
     </div>
 }

@@ -580,9 +580,8 @@ vrm_assign_confirm.outstandingFeesCta = Pay now
 
 #page 3 - uprn not found
 vrm_assign_uprnnotfound.title = Error confirming postcode
-vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
-vrm_assign_uprnnotfound.manualaddressbutton = Set-up business details
-vrm_assign_uprnnotfound.setuptradedetailsbutton = Manually enter address
+vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter your details
+vrm_assign_uprnnotfound.setuptradedetailsbutton = Set-up business details
 
 #Success payment page
 vrm_assign_success_payment.title = Payment Successful

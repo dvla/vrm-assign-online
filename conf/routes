@@ -55,7 +55,6 @@ GET         /confirm-payment                               @controllers.ConfirmP
 POST        /confirm-payment                               @controllers.ConfirmPayment.submit
 GET         /confirm-payment/exit                          @controllers.ConfirmPayment.exit
 
-
 GET         /capture-certificate-details                   @controllers.CaptureCertificateDetails.present
 POST        /capture-certificate-details                   @controllers.CaptureCertificateDetails.submit
 GET         /capture-certificate-details/exit              @controllers.CaptureCertificateDetails.exit
