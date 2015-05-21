@@ -3,7 +3,6 @@ package controllers
 import helpers.UnitSpec
 import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
-import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
 import views.vrm_assign.SetupBusinessDetails._
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -12,21 +11,27 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVe
 class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   "form" should {
-    // TODO: ian fix this class
-    "accept if form is valid with all fields filled in" ignore {
-      val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid,
+    "accept if form is valid with all fields filled in" in {
+      val model = formWithValidDefaults(
+        traderBusinessName = TraderBusinessNameValid,
         traderBusinessContact = TraderBusinessContactValid,
         traderBusinessEmail = TraderBusinessEmailValid,
-        traderPostcode = PostcodeValid).get
+        traderPostcode = PostcodeValid
+      ).get
       model.name should equal(TraderBusinessNameValid.toUpperCase)
       model.contact should equal(TraderBusinessContactValid.toUpperCase)
       model.email should equal(TraderBusinessEmailValid)
-//      model.postcode should equal(PostcodeValid)
+      model.address.postCode should equal(PostcodeValid)
+      model.address.searchFields.postCode should equal(Some(SearchPostcodeValid))
+      model.address.streetAddress1 should equal(BusinessAddressLine1Valid)
+      model.address.streetAddress2 should equal(Some(BusinessAddressLine2Valid))
+      model.address.streetAddress3 should equal(None)
+      model.address.postTown should equal(PostTownValid)
     }
   }
 
   "dealerName" should {
-    "reject if trader business name is blank" ignore {
+    "reject if trader business name is blank" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
@@ -38,66 +43,33 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       errors(2).message should equal("error.validBusinessName")
     }
 
-    "reject if trader business name is less than minimum length" ignore {
+    "reject if trader business name is less than minimum length" in {
       formWithValidDefaults(traderBusinessName = "A").errors should have length 1
     }
 
-    "reject if trader business name is more than the maximum length" ignore {
+    "reject if trader business name is more than the maximum length" in {
       formWithValidDefaults(traderBusinessName = "A" * 101).errors should have length 1
     }
 
-    "accept if trader business name is valid" ignore {
+    "accept if trader business name is valid" in {
       formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).
         get.name should equal(TraderBusinessNameValid.toUpperCase)
     }
-  }
-
-  "postcode" should {
-// TODO: ian add more tests here to exercise the address picker widget
-/*
-    "reject if trader postcode is empty" in {
-      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
-      val errors = formWithValidDefaults(traderPostcode = "").errors
-      errors should have length 3
-      errors.head.key should equal(BusinessPostcodeId)
-      errors.head.message should equal("error.minLength")
-      errors(1).key should equal(BusinessPostcodeId)
-      errors(1).message should equal("error.required")
-      errors(2).key should equal(BusinessPostcodeId)
-      errors(2).message should equal("error.restricted.validPostcode")
-    }
-
-    "reject if trader postcode is less than the minimum length" in {
-      formWithValidDefaults(traderPostcode = "M15A").errors should have length 2
-    }
-
-    "reject if trader postcode is more than the maximum length" in {
-      formWithValidDefaults(traderPostcode = "SA99 1DDD").errors should have length 2
-    }
-
-    "reject if trader postcode contains special characters" in {
-      formWithValidDefaults(traderPostcode = "SA99 1D$").errors should have length 1
-    }
-
-    "reject if trader postcode contains an incorrect format" in {
-      formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
-    }
-*/
   }
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
                                     traderBusinessEmail: String = TraderBusinessEmailValid,
                                     traderPostcode: String = PostcodeValid,
-                                    searchPostCode: String = "AA11AA",
-                                    addressListSelect: String = "1",
+                                    searchPostCode: String = SearchPostcodeValid,
+                                    addressListSelect: String = AddressListSelectValid,
                                     showSearchFields: Boolean = true,
                                     showAddressSelect: Boolean = true,
                                     showAddressFields: Boolean = true,
-                                    addressLine1: String = "543 Great Nortfort St.",
-                                    addressLine2: String = "Flat 12, Forest House,",
-                                    addressLine3: String = "",
-                                    postTown: String = "London",
+                                    addressLine1: String = BusinessAddressLine1Valid,
+                                    addressLine2: String = BusinessAddressLine2Valid,
+                                    addressLine3: String = BusinessAddressLine3Valid,
+                                    postTown: String = PostTownValid,
                                     saveDetails: Boolean = true) = {
     val data = Map(
       BusinessNameId -> traderBusinessName,
