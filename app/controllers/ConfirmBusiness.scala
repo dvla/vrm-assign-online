@@ -26,23 +26,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
   extends Controller {
 
-  def presentOld = Action { implicit request =>
-    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[SetupBusinessDetailsFormModel],
-      request.cookies.getModel[BusinessDetailsModel],
-      request.cookies.getModel[FulfilModel]) match {
-      case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
-        Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-
-        val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
-        Ok(views.html.vrm_assign.confirm_business(viewModel))
-      case _ =>
-        Redirect(routes.SetUpBusinessDetails.present())
-    }
-  }
-
   def present = Action { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -51,7 +34,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
       request.cookies.getModel[FulfilModel]) match {
         case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
           Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
-
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
           Ok(views.html.vrm_assign.confirm_business(viewModel))
         case _ =>

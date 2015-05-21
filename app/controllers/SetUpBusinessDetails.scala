@@ -102,11 +102,12 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
   }
 
   // TODO: consider putting this on the Address object
-  private def convertAddressToSeq(address: Address): Seq[String] =
+  private def convertAddressToSeq(address: Address): Seq[String] = {
     Seq(address.streetAddress1,
       address.streetAddress2.getOrElse(""),
       address.streetAddress3.getOrElse(""),
-      address.postCode,
+      address.postTown,
       address.postCode
     ).filter(_ != "")
+  }
 }
