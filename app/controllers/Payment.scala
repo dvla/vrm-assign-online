@@ -2,7 +2,14 @@ package controllers
 
 import com.google.inject.Inject
 import composition.RefererFromHeader
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -11,6 +18,9 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
 import play.api.mvc.Result
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -18,10 +28,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.Confirm._
-import views.vrm_assign.Payment._
-import views.vrm_assign.RelatedCacheKeys._
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
+import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.paymentsolve.PaymentSolveBeginRequest
@@ -29,12 +39,7 @@ import webserviceclients.paymentsolve.PaymentSolveCancelRequest
 import webserviceclients.paymentsolve.PaymentSolveGetRequest
 import webserviceclients.paymentsolve.PaymentSolveService
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
-
-final class Payment @Inject()(
-                               paymentSolveService: PaymentSolveService,
+final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
                                auditService2: audit2.AuditService
                                )
@@ -186,7 +191,7 @@ final class Payment @Inject()(
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
       if (response.status == Payment.AuthorisedStatus) {
 
-        var paymentModel = request.cookies.getModel[PaymentModel].get
+        val paymentModel = request.cookies.getModel[PaymentModel].get
 
         paymentModel.authCode = response.authcode
         paymentModel.maskedPAN = response.maskedPAN

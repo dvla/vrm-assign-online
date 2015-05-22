@@ -1,13 +1,21 @@
 package controllers
 
-import java.io.ByteArrayInputStream
-
 import com.google.inject.Inject
-import models._
+import java.io.ByteArrayInputStream
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.SuccessViewModel
+import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc._
+import play.api.mvc.{Action, Controller}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -15,14 +23,10 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
 import webserviceclients.paymentsolve.PaymentSolveService
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-
-final class Success @Inject()(
-                               pdfService: PdfService,
+final class Success @Inject()(pdfService: PdfService,
                                paymentSolveService: PaymentSolveService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -107,6 +111,6 @@ final class Success @Inject()(
       transactionTimestamp = "stub-transactionTimestamp",
       paymentMade = true
     )
-    Ok(views.html.vrm_assign.success(successViewModel, true))
+    Ok(views.html.vrm_assign.success(successViewModel, isKeeper = true))
   }
 }

@@ -2,7 +2,6 @@ package controllers
 
 import com.google.inject.Inject
 import models.CacheKeyPrefix
-import models.CaptureCertificateDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VrmLockedViewModel
 import org.joda.time.DateTime
@@ -16,7 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config,
