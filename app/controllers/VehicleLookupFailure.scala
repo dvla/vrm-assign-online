@@ -1,16 +1,24 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.VehicleAndKeeperLookupFormModel
+import models.VehicleLookupFailureViewModel
 import play.api.Logger
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.html.vrm_assign.lookup_failure._
-import views.vrm_assign.VehicleLookup._
+import views.html.vrm_assign.lookup_failure.cert_number_mismatch
+import views.html.vrm_assign.lookup_failure.direct_to_paper
+import views.html.vrm_assign.lookup_failure.eligibility
+import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
+import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,

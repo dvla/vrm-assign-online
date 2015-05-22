@@ -1,16 +1,19 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.VehicleLookupFailureViewModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.Logger
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup._
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
@@ -49,7 +52,6 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
       captureCertificateDetailsFormModel = captureCertificateDetailsFormModel)
-    ).
-      discardingCookies(removeCookiesOnExit)
+    ).discardingCookies(removeCookiesOnExit)
   }
 }
