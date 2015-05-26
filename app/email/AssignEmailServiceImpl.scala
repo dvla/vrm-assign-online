@@ -1,7 +1,12 @@
 package email
 
 import com.google.inject.Inject
-import models._
+import models.BusinessDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
 import play.api.Logger
@@ -9,6 +14,8 @@ import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
@@ -19,10 +26,10 @@ import views.html.vrm_assign.email_without_html
 import webserviceclients.emailservice.EmailService
 import webserviceclients.emailservice.EmailServiceSendRequest
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.control.NonFatal
-
-final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateService: DateService, pdfService: PdfService, config: Config) extends AssignEmailService {
+final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
+                                             dateService: DateService,
+                                             pdfService: PdfService,
+                                             config: Config) extends AssignEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
@@ -41,21 +48,29 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
+    if ((!config.emailWhitelist.isDefined) ||
+      (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
+        inputEmailAddressDomain != "test.com") {
 
-      val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
+      val keeperName = Seq(vehicleAndKeeperDetailsModel.title,
+        vehicleAndKeeperDetailsModel.firstName,
+        vehicleAndKeeperDetailsModel.lastName
+      ).flatten.mkString(" ")
 
       pdfService.create(transactionId,
         keeperName,
         vehicleAndKeeperDetailsModel.address,
         vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
         pdf =>
-
           val plainTextMessage = populateEmailWithoutHtml(
-            vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
-            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
-          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
-            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
+            vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel,
+            vehicleAndKeeperLookupFormModel, fulfilModel, transactionId, confirmFormModel,
+            businessDetailsModel, isKeeper
+          )
+          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
+            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper
+          ).toString()
 //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
           val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
             " " + Messages("email.email_service_impl.subject") +
@@ -64,7 +79,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           val attachment: Option[Attachment] = {
             isKeeper match {
               case false =>
-                Some(new Attachment(Base64.encodeBase64URLSafeString(pdf), "application/pdf", "eV948.pdf", "Replacement registration number letter of authorisation"))
+                Some(new Attachment(Base64.encodeBase64URLSafeString(pdf),
+                  "application/pdf", "eV948.pdf", "Replacement registration number letter of authorisation"))
               case true => None
             }
           } // US1589: Do not send keeper a pdf
@@ -72,15 +88,15 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService, dateSer
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from,
             subject, Option(List(emailAddress)), None)
 
-          Logger.info(s"About to send email to ${emailAddress} - trackingId ${trackingId}")
+          Logger.info(s"About to send email to $emailAddress - trackingId $trackingId")
           if (emailServiceSendRequest.attachment.isDefined) {
             Logger.info("Sending with attachment")
           }
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
-              if (isKeeper) Logger.info(s"Keeper email sent - trackingId ${trackingId}")
-              else Logger.info(s"Non-keeper email sent - trackingId ${trackingId}")
+              if (isKeeper) Logger.info(s"Keeper email sent - trackingId $trackingId")
+              else Logger.info(s"Non-keeper email sent - trackingId $trackingId")
           }.recover {
             case NonFatal(e) =>
               Logger.error(s"Email Service web service call failed. Exception " + e.toString)
