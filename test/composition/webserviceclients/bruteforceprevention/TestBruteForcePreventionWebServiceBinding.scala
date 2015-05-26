@@ -13,9 +13,8 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.FORBIDDEN
 import play.api.http.Status.OK
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
-
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 
 final class TestBruteForcePreventionWebServiceBinding(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
 
@@ -43,5 +42,6 @@ final class TestBruteForcePreventionWebServiceBinding(permitted: Boolean = true)
 
   def configure() = bind[BruteForcePreventionWebService].toInstance(stub)
 
-  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
+  private def responseThrows: Future[WSResponse] =
+    Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
 }
