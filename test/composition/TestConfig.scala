@@ -1,13 +1,12 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
+import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
-
-import scala.concurrent.duration.DurationInt
 
 final class TestConfig(
                         isPrototypeBannerVisible: Boolean = true,

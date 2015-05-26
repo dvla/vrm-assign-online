@@ -35,8 +35,15 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebH
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import views.vrm_assign.Payment._
-import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNForm, _ }
+import views.vrm_assign.Payment.PaymentTransNoCacheKey
+import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_assign.VehicleLookup.KeeperConsentId
+import views.vrm_assign.VehicleLookup.PostcodeId
+import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNForm}
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
@@ -56,7 +63,6 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicle
 class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }

@@ -2,20 +2,27 @@ package controllers
 
 import composition.RefererFromHeaderBinding
 import composition.WithApplication
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding._
-import composition.webserviceclients.paymentsolve._
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
+import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import controllers.Payment.AuthorisedStatus
 import helpers.UnitSpec
-import helpers.vrm_assign.CookieFactoryForUnitSpecs._
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.granteeConsent
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{LOCATION, REFERER}
 
-final class FulfilUnitSpec extends UnitSpec {
+class FulfilUnitSpec extends UnitSpec {
 
   "fulfil" should {
-
     "redirect to ErrorPage when cookies do not exist" in new WithApplication {
       val request = FakeRequest()
 

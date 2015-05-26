@@ -9,7 +9,7 @@ import webserviceclients.fakes.ConfirmFormConstants.GranteeConsentValid
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
-final class ConfirmFormSpec extends UnitSpec {
+class ConfirmFormSpec extends UnitSpec {
 
   "form" should {
 

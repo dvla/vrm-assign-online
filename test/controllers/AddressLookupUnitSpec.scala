@@ -5,7 +5,9 @@ import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import play.api.mvc.Request
 import play.api.test.FakeRequest
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 
 class AddressLookupUnitSpec extends UnitSpec {
