@@ -29,8 +29,13 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
   def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Future[Array[Byte]] = Future {
+    val intermediate = new ByteArrayOutputStream()
+    try v948(transactionId, name, address, prVrm, intermediate)
+    finally intermediate.close()
+    intermediate.toByteArray
+
     val output = new ByteArrayOutputStream()
-    v948(transactionId, name, address, prVrm, output)
+    output.write(new PdfApplyTransactionId()(intermediate.toByteArray, transactionId))
     output.toByteArray
   }
 
@@ -42,12 +47,13 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
-    document.addPage(page1(transactionId, name, address, prVrm, document))
+    document.addPage(page1( name, address, prVrm, document))
     document.addPage(blankPage)
     var documentWatermarked: PDDocument = null
     try {
       documentWatermarked = combineWithOriginal
       // Save the results and ensure that the document is properly closed:
+
       documentWatermarked.save(output)
     } catch {
       case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}")
@@ -57,8 +63,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit transactionId: String,
-                    name: String,
+  private def page1(implicit name: String,
                     address: Option[AddressModel],
                     prVrm: String,
                     document: PDDocument): PDPage = {
@@ -69,7 +74,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 
       writeCustomerNameAndAddress(name, address)
       writeVrn(prVrm)
-      writeTransactionId(transactionId)
+//      writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {
       case e: Exception =>
@@ -147,16 +152,16 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def writeTransactionId(transactionId: String)
-                                (implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
-    contentStream.beginText()
-    val size = 18
-    val font = fontHelveticaBold(size = 18)
-    contentStream.moveTextPositionByAmount(340, 390)
-    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0) // Centre the text.
-    contentStream.drawString(transactionId) // Transaction ID
-    contentStream.endText()
-  }
+//  private def writeTransactionId(transactionId: String)
+//                                (implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
+//    contentStream.beginText()
+//    val size = 18
+//    val font = fontHelveticaBold(size = 18)
+//    contentStream.moveTextPositionByAmount(340, 390)
+//    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0) // Centre the text.
+//    contentStream.drawString(transactionId) // Transaction ID
+//    contentStream.endText()
+//  }
 
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
     val today = DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London")))

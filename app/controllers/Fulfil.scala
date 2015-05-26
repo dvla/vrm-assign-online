@@ -25,6 +25,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
@@ -44,36 +45,60 @@ import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilService
 
 final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
-                              auditService2: audit2.AuditService
-                              )
+                             auditService2: audit2.AuditService)
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config,
-                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                             dateService: DateService) extends Controller {
 
   private val SETTLE_AUTH_CODE = "Settle"
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getString(GranteeConsentCacheKey),
-      request.cookies.getModel[CaptureCertificateDetailsModel],
-      request.cookies.getString(PaymentTransNoCacheKey),
-      request.cookies.getModel[PaymentModel]
-      ) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
-      Some(captureCertificateDetails), Some(paymentTransNo), Some(payment))
-        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees > 0 && payment.paymentStatus == Some(AuthorisedStatus)) =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, captureCertificateDetails,
-          Some(paymentTransNo), Some(payment))
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
-      Some(captureCertificateDetails), _, _)
-        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees == 0) =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, captureCertificateDetails, None, None)
+     request.cookies.getString(TransactionIdCacheKey),
+     request.cookies.getModel[CaptureCertificateDetailsFormModel],
+     request.cookies.getString(GranteeConsentCacheKey),
+     request.cookies.getModel[CaptureCertificateDetailsModel],
+     request.cookies.getString(PaymentTransNoCacheKey),
+     request.cookies.getModel[PaymentModel]) match {
+      case (Some(vehiclesLookupForm),
+            Some(transactionId),
+            Some(captureCertificateDetailsFormModel),
+            Some(granteeConsent),
+            Some(captureCertificateDetails),
+            Some(paymentTransNo),
+            Some(payment)) if granteeConsent == "true" &&
+                              captureCertificateDetails.outstandingFees > 0 &&
+                              payment.paymentStatus == Some(AuthorisedStatus) =>
+        fulfilVrm(
+          vehiclesLookupForm,
+          transactionId,
+          captureCertificateDetailsFormModel,
+          captureCertificateDetails,
+          Some(paymentTransNo),
+          Some(payment)
+        )
+      case (Some(vehiclesLookupForm),
+            Some(transactionId),
+            Some(captureCertificateDetailsFormModel),
+            Some(granteeConsent),
+            Some(captureCertificateDetails),
+            _,
+            _) if granteeConsent == "true" &&
+                  captureCertificateDetails.outstandingFees == 0 =>
+        fulfilVrm(
+          vehiclesLookupForm,
+          transactionId,
+          captureCertificateDetailsFormModel,
+          captureCertificateDetails,
+          None,
+          None
+        )
       case _ =>
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
         Future.successful {
@@ -104,14 +129,17 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
           auditService2.send(AuditRequest.from(
             pageMovement = AuditRequest.PaymentToSuccess,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            transactionId = request.cookies
+              .getString(TransactionIdCacheKey)
+              .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
             captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
             captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
             businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-            paymentModel = paymentModel))
+            paymentModel = paymentModel)
+          )
 
           Redirect(routes.FulfilSuccess.present()).
             withCookie(paymentModel.get).
@@ -148,7 +176,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToPaymentFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -164,7 +194,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       } else {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -291,5 +323,4 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       ccReceivers = None
     )
   }
-
 }

@@ -63,13 +63,26 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
         pdf =>
           val plainTextMessage = populateEmailWithoutHtml(
-            vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel, captureCertificateDetailsModel,
-            vehicleAndKeeperLookupFormModel, fulfilModel, transactionId, confirmFormModel,
-            businessDetailsModel, isKeeper
+            vehicleAndKeeperDetailsModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel,
+            vehicleAndKeeperLookupFormModel,
+            fulfilModel,
+            transactionId,
+            confirmFormModel,
+            businessDetailsModel,
+            isKeeper
           )
-          val message = htmlMessage(vehicleAndKeeperDetailsModel, captureCertificateDetailsFormModel,
-            captureCertificateDetailsModel, vehicleAndKeeperLookupFormModel,
-            fulfilModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper
+          val message = htmlMessage(
+            vehicleAndKeeperDetailsModel,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel,
+            vehicleAndKeeperLookupFormModel,
+            fulfilModel,
+            transactionId,
+            confirmFormModel,
+            businessDetailsModel,
+            isKeeper
           ).toString()
 //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
           val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +

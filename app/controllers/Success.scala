@@ -47,10 +47,16 @@ final class Success @Inject()(pdfService: PdfService,
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-        val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, vehicleAndKeeperLookupForm,
-            keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
-            captureCertificateDetailsModel.outstandingFees)
+        val successViewModel = SuccessViewModel(
+          vehicleAndKeeperDetails,
+          businessDetailsOpt,
+          vehicleAndKeeperLookupForm,
+          keeperEmailOpt,
+          fulfilModel,
+          transactionId,
+          captureCertificateDetailsModel.outstandingDates,
+          captureCertificateDetailsModel.outstandingFees
+        )
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
