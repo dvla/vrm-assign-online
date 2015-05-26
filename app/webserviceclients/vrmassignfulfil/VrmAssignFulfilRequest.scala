@@ -2,7 +2,7 @@ package webserviceclients.vrmassignfulfil
 
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import play.api.libs.json._
+import play.api.libs.json.{Json, JsString, JsValue, Writes}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}

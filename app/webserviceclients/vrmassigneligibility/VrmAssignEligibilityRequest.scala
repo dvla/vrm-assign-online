@@ -1,8 +1,8 @@
-package webserviceclients.vrmretentioneligibility
+package webserviceclients.vrmassigneligibility
 
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import play.api.libs.json._
+import play.api.libs.json.{Json, JsValue, JsString, Writes}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 

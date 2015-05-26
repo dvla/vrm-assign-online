@@ -11,8 +11,8 @@ object KeeperNameOptString {
       vehicleAndKeeperDetailsModel.firstName,
       vehicleAndKeeperDetailsModel.lastName).flatten
 
-    if (keeperNameList.size > 0) {
-      var nameString = keeperNameList(0)
+    if (keeperNameList.nonEmpty) {
+      var nameString = keeperNameList.head
       for (nameItem <- keeperNameList.drop(1)) {
         nameString += (" " + nameItem)
       }

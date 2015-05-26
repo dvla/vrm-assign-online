@@ -3,20 +3,19 @@ package composition.webserviceclients.vrmassigneligibility
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebServiceBinding.createResponse
 import org.mockito.Matchers.any
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import webserviceclients.fakes.FakeResponse
-import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants._
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityResponse
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityWebService
+import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseSuccess
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponse
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebService
 
 import scala.concurrent.Future
 
-final class TestVrmAssignEligibilityWebServiceBinding(
-                                                       statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess
-                                                       ) extends ScalaModule with MockitoSugar {
+final class TestVrmAssignEligibilityWebServiceBinding(statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess)
+  extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService: VrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService]

@@ -1,15 +1,12 @@
 package webserviceclients.paymentsolve
 
 import javax.inject.Inject
-
 import play.api.http.Status
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService)
-  extends PaymentSolveService {
+final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extends PaymentSolveService {
 
   override def invoke(cmd: PaymentSolveBeginRequest,
                       trackingId: String): Future[PaymentSolveBeginResponse] = {
