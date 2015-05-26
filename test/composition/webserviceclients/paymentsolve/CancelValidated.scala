@@ -7,7 +7,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import webserviceclients.fakes.FakeResponse
-import webserviceclients.paymentsolve._
+import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveWebService}
 
 import scala.concurrent.Future
 
