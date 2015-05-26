@@ -1,7 +1,6 @@
 package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class VrmLockedViewModel(vehicleLookupFailureViewModel: VehicleLookupFailureViewModel,
                                     timeString: String,

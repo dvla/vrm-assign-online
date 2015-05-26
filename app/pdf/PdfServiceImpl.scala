@@ -1,10 +1,9 @@
 package pdf
 
+import com.google.inject.Inject
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.OutputStream
-
-import com.google.inject.Inject
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
@@ -20,13 +19,12 @@ import pdf.PdfServiceImpl.blankPage
 import pdf.PdfServiceImpl.fontDefaultSize
 import pdf.PdfServiceImpl.v948Blank
 import play.api.Logger
+import scala.collection.JavaConversions.collectionAsScalaIterable
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-
-import scala.collection.JavaConversions._
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
@@ -36,7 +34,11 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     output.toByteArray
   }
 
-  private def v948(transactionId: String, name: String, address: Option[AddressModel], prVrm: String, output: OutputStream) = {
+  private def v948(transactionId: String,
+                   name: String,
+                   address: Option[AddressModel],
+                   prVrm: String,
+                   output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
@@ -55,7 +57,11 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit transactionId: String, name: String, address: Option[AddressModel], prVrm: String, document: PDDocument): PDPage = {
+  private def page1(implicit transactionId: String,
+                    name: String,
+                    address: Option[AddressModel],
+                    prVrm: String,
+                    document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
@@ -66,7 +72,9 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}")
+      case e: Exception =>
+        val msg = s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}"
+        Logger.error(msg)
     } finally {
       // Make sure that the content stream is closed:
       contentStream.close()
@@ -96,11 +104,12 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   private def wrapText(words: List[String]): List[List[String]] = words match {
     case Nil => Nil
     case _ =>
-      val output = (words.inits.dropWhile { _.mkString(" ").length > 30 }).next
+      val output = words.inits.dropWhile { _.mkString(" ").length > 30 }.next()
       output :: wrapText(words.drop(output.length))
   }
 
-  private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])
+                                         (implicit contentStream: PDPageContentStream): Unit = {
 
     var positionY = 580
 
@@ -115,7 +124,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       }
     }
 
-    address.map { a =>
+    address.foreach { a =>
       for (line <- a.address) {
         contentStream.beginText()
         fontHelvetica(fontDefaultSize)
@@ -127,7 +136,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     }
   }
 
-  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
+  private def writeVrn(registrationNumber: String)
+                      (implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
     val size = 26
     val font = fontHelveticaBold(size = size)
@@ -137,7 +147,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
+  private def writeTransactionId(transactionId: String)
+                                (implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
     val size = 18
     val font = fontHelveticaBold(size = 18)
@@ -225,12 +236,11 @@ object PdfServiceImpl {
       // Get validation result
       val result = document.getResult
 
-
       // display validation result
       if (!result.isValid) {
-        val errors = result.getErrorsList.toList.
-          map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").
-          mkString(", ")
+        val errors = result.getErrorsList.toList
+          .map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}")
+          .mkString(", ")
         Logger.warn(s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors")
       }
     } catch {
@@ -252,7 +262,9 @@ object PdfServiceImpl {
     try {
       contentStream = new PDPageContentStream(document, page)
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}")
+      case e: Exception =>
+        val msg = s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}"
+        Logger.error(msg)
     } finally {
       contentStream.close() // Make sure that the content stream is closed.
     }
