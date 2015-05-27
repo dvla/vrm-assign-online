@@ -1,21 +1,20 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
-import play.api.Logger
-import play.api.mvc.Result
-import play.api.mvc._
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
+import models.VehicleLookupFailureViewModel
+import play.api.mvc.{Action, Controller}
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.VehicleLookup._
-import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.paymentsolve.PaymentSolveService
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -31,17 +30,19 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
       request.cookies.getModel[CaptureCertificateDetailsModel]) match {
 
       case (Some(transactionId), paymentModelOpt, vehicleAndKeeperDetails, Some(vehicleAndKeeperLookupForm),
-        captureCertificateDetailsFormModel, captureCertificateDetailsModel) => {
+        captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
         val viewModel = vehicleAndKeeperDetails match {
           case Some(details) => VehicleLookupFailureViewModel(details)
           case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
         }
-        Future.successful(Ok(views.html.vrm_assign.fulfil_failure(transactionId, paymentModelOpt.isDefined, viewModel,
-          vehicleAndKeeperLookupForm )))
-      }
+        Future.successful(Ok(views.html.vrm_assign.fulfil_failure(transactionId,
+          paymentModelOpt.isDefined,
+          viewModel,
+          vehicleAndKeeperLookupForm))
+        )
       case _ =>
-        Future.successful(Redirect(routes.Error.present("user tried to go to FulfilFailure but the required cookie was not present")))
+        val msg = "user tried to go to FulfilFailure but the required cookie was not present"
+        Future.successful(Redirect(routes.Error.present(msg)))
     }
   }
-
 }

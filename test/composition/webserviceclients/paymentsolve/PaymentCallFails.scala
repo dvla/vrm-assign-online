@@ -4,9 +4,12 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import webserviceclients.paymentsolve._
-
 import scala.concurrent.Future
+import webserviceclients.paymentsolve.PaymentSolveBeginRequest
+import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import webserviceclients.paymentsolve.PaymentSolveGetRequest
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
+import webserviceclients.paymentsolve.PaymentSolveWebService
 
 final class PaymentCallFails extends ScalaModule with MockitoSugar {
 

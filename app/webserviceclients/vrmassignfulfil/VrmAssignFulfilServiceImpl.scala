@@ -1,19 +1,13 @@
 package webserviceclients.vrmassignfulfil
 
 import javax.inject.Inject
-
 import play.api.http.Status
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.control.NonFatal
-import scala.concurrent.TimeoutException
 
-final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService)
-  extends VrmAssignFulfilService {
+final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService) extends VrmAssignFulfilService {
 
-  override def invoke(cmd: VrmAssignFulfilRequest,
-                      trackingId: String): Future[VrmAssignFulfilResponse] = {
+  override def invoke(cmd: VrmAssignFulfilRequest, trackingId: String): Future[VrmAssignFulfilResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VrmAssignFulfilResponse]
       else throw new RuntimeException(

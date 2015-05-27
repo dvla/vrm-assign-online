@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import email.{ReceiptEmailMessageBuilder, AssignEmailService}
+import email.AssignEmailService
 import java.io.ByteArrayInputStream
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
@@ -13,8 +13,6 @@ import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.services.SEND
-import webserviceclients.emailservice.EmailService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
@@ -23,7 +21,8 @@ import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
+import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,

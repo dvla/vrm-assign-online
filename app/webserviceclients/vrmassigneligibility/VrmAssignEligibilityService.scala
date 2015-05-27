@@ -1,4 +1,4 @@
-package webserviceclients.vrmretentioneligibility
+package webserviceclients.vrmassigneligibility
 
 import scala.concurrent.Future
 

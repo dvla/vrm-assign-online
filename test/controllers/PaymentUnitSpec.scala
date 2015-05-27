@@ -2,23 +2,34 @@ package controllers
 
 import composition.RefererFromHeaderBinding
 import composition.WithApplication
-import composition.webserviceclients.paymentsolve._
+import composition.webserviceclients.paymentsolve.CancelValidated
+import composition.webserviceclients.paymentsolve.PaymentCallFails
+import composition.webserviceclients.paymentsolve.ValidatedAuthorised
+import composition.webserviceclients.paymentsolve.ValidatedCardDetails
+import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
+import composition.webserviceclients.paymentsolve.ValidatedNotCardDetails
 import helpers.UnitSpec
-import org.apache.commons.codec.binary.Base64
-import org.mockito.Mockito.verify
-import pages.vrm_assign._
+import pages.vrm_assign.ConfirmPaymentPage
+import pages.vrm_assign.FulfilPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.PaymentFailurePage
+import pages.vrm_assign.PaymentNotAuthorisedPage
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import webserviceclients.paymentsolve.PaymentSolveBeginRequest
-import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import helpers.vrm_assign.CookieFactoryForUnitSpecs._
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding._
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOCATION, OK, SEE_OTHER}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.granteeConsent
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}
 
-final class PaymentUnitSpec extends UnitSpec {
+class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
 

@@ -109,4 +109,4 @@ GET         /closed-stub                                   @controllers.Closed.p
 GET         /feedback                                      @controllers.FeedbackController.present
 POST        /feedback                                      @controllers.FeedbackController.submit
 
-GET         /address-lookup/postcode/:postcode             @uk.gov.dvla.vehicles.presentation.common.controllers.AddressLookup.byPostcode(postcode)
+GET         /address-lookup/postcode/:postcode             @controllers.AddressLookup.byPostcode(postcode)

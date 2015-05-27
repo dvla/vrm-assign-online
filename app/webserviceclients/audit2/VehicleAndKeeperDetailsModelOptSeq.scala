@@ -6,16 +6,15 @@ object VehicleAndKeeperDetailsModelOptSeq {
 
   def from(vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel]) = {
     vehicleAndKeeperDetailsModel match {
-      case Some(vehicleAndKeeperDetailsModel) => {
-        val currentVrmOpt = Some(("currentVrm", vehicleAndKeeperDetailsModel.registrationNumber))
-        val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
-        val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-        val keeperNameOpt = KeeperNameOptString.from(vehicleAndKeeperDetailsModel).map(
+      case Some(model) =>
+        val currentVrmOpt = Some(("currentVrm", model.registrationNumber))
+        val makeOpt = model.make.map(make => ("make", make))
+        val modelOpt = model.model.map(model => ("model", model))
+        val keeperNameOpt = KeeperNameOptString.from(model).map(
           keeperName => ("keeperName", keeperName))
-        val keeperAddressOpt = KeeperAddressOptString.from(vehicleAndKeeperDetailsModel.address).map(
+        val keeperAddressOpt = KeeperAddressOptString.from(model.address).map(
           keeperAddress => ("keeperAddress", keeperAddress))
         Seq(currentVrmOpt, makeOpt, modelOpt, keeperNameOpt, keeperAddressOpt)
-      }
       case _ => Seq.empty
     }
   }

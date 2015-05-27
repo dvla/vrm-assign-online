@@ -8,7 +8,7 @@ object BusinessAddressOptString {
 
     var addressString = businessDetailsModel.name
 
-    if (businessDetailsModel.address.address.size > 0) {
+    if (businessDetailsModel.address.address.nonEmpty) {
       for (addressLine <- businessDetailsModel.address.address) {
         addressString += (", " + addressLine)
       }

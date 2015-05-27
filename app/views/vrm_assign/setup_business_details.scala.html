@@ -11,6 +11,7 @@
 @import views.html.helper.form
 @import views.html.vrm_assign.main
 @import views.vrm_assign.SetupBusinessDetails._
+@import uk.gov.dvla.vehicles.presentation.common.ApplicationContext
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
@@ -25,7 +26,7 @@
 
         <div class="two-col">
 
-            <div class="second-col inline-form">
+            <div class="second-col inline-form business-details-capture">
                 <h2>@Messages("vrm_assign_setupbusinessdetails.title")</h2>
                 <div class="uppercase-input">
                 @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessnamehelper")), args =
@@ -44,7 +45,7 @@
                 '_showConstraints -> false,
                 'maxLength -> BusinessName.MaxLength))
 
-                @addressPicker(setupBusinessDetailsFormModel(BusinessAddressId))
+                @addressPicker(setupBusinessDetailsFormModel(BusinessAddressId), ApplicationContext())
                 </div>
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>

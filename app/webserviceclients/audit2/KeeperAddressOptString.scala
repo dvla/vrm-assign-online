@@ -8,8 +8,8 @@ object KeeperAddressOptString {
 
     addressModel match {
       case Some(address) =>
-        if (address.address.size > 0) {
-          var addressString = address.address(0)
+        if (address.address.nonEmpty) {
+          var addressString = address.address.head
           for (addressLine <- address.address.drop(1)) {
             addressString += (", " + addressLine)
           }

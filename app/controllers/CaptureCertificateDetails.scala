@@ -46,8 +46,8 @@ import views.vrm_assign.VehicleLookup.UserType_Keeper
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityRequest
-import webserviceclients.vrmretentioneligibility.VrmAssignEligibilityService
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityService
 
 final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForcePreventionService,
                                                  eligibilityService: VrmAssignEligibilityService,

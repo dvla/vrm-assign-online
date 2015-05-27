@@ -25,6 +25,12 @@ ul.hint-list {
 
 #{$htmlNamespace} {
 
+  .business-details-capture {
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
     .reg-number {
       font-family: 'mandatoryregular';
     }

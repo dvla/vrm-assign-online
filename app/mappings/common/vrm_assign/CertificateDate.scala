@@ -15,7 +15,7 @@ object CertificateDate {
 
   // TODO move to a constraints package
   def validCertificateDate: Constraint[String] = pattern(
-    regex = """^[0-9][0-9\s\-\'\,]*$""".r,
+    regex = """^[0-9]*$""".r,
     name = "constraint.validCertificateDate",
     error = "error.validCertificateDate")
 }
