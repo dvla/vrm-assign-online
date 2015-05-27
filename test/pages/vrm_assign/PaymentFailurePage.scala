@@ -2,10 +2,10 @@ package pages.vrm_assign
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{find, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.PaymentFailure._
+import views.vrm_assign.PaymentFailure.{ExitId, TryAgainId}
 
 object PaymentFailurePage extends Page {
 
