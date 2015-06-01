@@ -172,7 +172,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value
   Tasks.runVrmAssignEligibility.value
-  Tasks.runVrmAssignFulfil.value
+//  Tasks.runVrmAssignFulfil.value
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value

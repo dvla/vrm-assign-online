@@ -43,46 +43,6 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
       Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
-        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
-          filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-        val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
-        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-        val trackingId = request.cookies.trackingId()
-
-        businessDetailsOpt.foreach { businessDetails =>
-          assignEmailService.sendEmail(
-            businessDetails.email,
-            vehicleAndKeeperDetails,
-            captureCertificateDetailsFormModel,
-            captureCertificateDetailsModel,
-            vehicleAndKeeperLookupForm,
-            fulfilModel.transactionTimestamp,
-            transactionId,
-            confirmFormModel,
-            businessDetailsModel,
-            isKeeper = false, // US1589: Do not send keeper a pdf
-            trackingId = trackingId
-          )
-        }
-
-        keeperEmailOpt.foreach { keeperEmail =>
-          assignEmailService.sendEmail(
-            keeperEmail,
-            vehicleAndKeeperDetails,
-            captureCertificateDetailsFormModel,
-            captureCertificateDetailsModel,
-            vehicleAndKeeperLookupForm,
-            fulfilModel.transactionTimestamp,
-            transactionId,
-            confirmFormModel,
-            businessDetailsModel,
-            isKeeper = true,
-            trackingId = trackingId
-          )
-        }
-
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
