@@ -3,7 +3,7 @@ package pages.vrm_assign
 import helpers.webbrowser.Page
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{find, id, pwdField, textField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.Payment.AcsPassword

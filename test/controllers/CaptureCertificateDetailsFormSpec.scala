@@ -16,7 +16,7 @@ import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
-final class CaptureCertificateDetailsFormSpec extends UnitSpec {
+class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
   "form" should {
 
@@ -39,8 +39,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDocumentCount = ""
       ).errors
       errors should have length 3
-      errors(0).key should equal(CertificateDocumentCountId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateDocumentCountId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(CertificateDocumentCountId)
       errors(1).message should equal("error.required")
       errors(2).key should equal(CertificateDocumentCountId)
@@ -52,8 +52,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDocumentCount = "9" * (CertificateDocumentCount.MaxLength + 1)
       ).errors
       errors should have length 2
-      errors(0).key should equal(CertificateDocumentCountId)
-      errors(0).message should equal("error.maxLength")
+      errors.head.key should equal(CertificateDocumentCountId)
+      errors.head.message should equal("error.maxLength")
       errors(1).key should equal(CertificateDocumentCountId)
       errors(1).message should equal("error.validCertificateDocument")
     }
@@ -63,8 +63,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDocumentCount = "?" * CertificateDocumentCount.MinLength
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateDocumentCountId)
-      errors(0).message should equal("error.validCertificateDocument")
+      errors.head.key should equal(CertificateDocumentCountId)
+      errors.head.message should equal("error.validCertificateDocument")
     }
 
     "reject when certificate-date is blank" in {
@@ -72,8 +72,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDate = ""
       ).errors
       errors should have length 2
-      errors(0).key should equal(CertificateDateId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateDateId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(CertificateDateId)
       errors(1).message should equal("error.required")
     }
@@ -83,8 +83,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDate = "9" * (CertificateDate.MinLength - 1)
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateDateId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateDateId)
+      errors.head.message should equal("error.minLength")
     }
 
     "reject when certificate-date has too many characters" in {
@@ -92,8 +92,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDate = "9" * (CertificateDate.MaxLength + 1)
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateDateId)
-      errors(0).message should equal("error.maxLength")
+      errors.head.key should equal(CertificateDateId)
+      errors.head.message should equal("error.maxLength")
     }
 
     "reject when certificate-date has invalid characters" in {
@@ -101,8 +101,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateDate = "?" * CertificateDate.MinLength
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateDateId)
-      errors(0).message should equal("error.validCertificateDate")
+      errors.head.key should equal(CertificateDateId)
+      errors.head.message should equal("error.validCertificateDate")
     }
 
     "reject when certificate-registration-mark is blank" in {
@@ -110,8 +110,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateRegistrationMark = ""
       ).errors
       errors should have length 3
-      errors(0).key should equal(CertificateRegistrationMarkId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateRegistrationMarkId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(CertificateRegistrationMarkId)
       errors(1).message should equal("error.required")
       errors(2).key should equal(CertificateRegistrationMarkId)
@@ -123,8 +123,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateRegistrationMark = "a"
       ).errors
       errors should have length 2
-      errors(0).key should equal(CertificateRegistrationMarkId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateRegistrationMarkId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(CertificateRegistrationMarkId)
       errors(1).message should equal("error.restricted.validVrnOnly")
     }
@@ -134,8 +134,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateRegistrationMark = "9" * (VehicleRegistrationNumber.MaxLength + 1)
       ).errors
       errors should have length 2
-      errors(0).key should equal(CertificateRegistrationMarkId)
-      errors(0).message should equal("error.maxLength")
+      errors.head.key should equal(CertificateRegistrationMarkId)
+      errors.head.message should equal("error.maxLength")
       errors(1).key should equal(CertificateRegistrationMarkId)
       errors(1).message should equal("error.restricted.validVrnOnly")
     }
@@ -145,8 +145,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateRegistrationMark = "?" * VehicleRegistrationNumber.MinLength
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateRegistrationMarkId)
-      errors(0).message should equal("error.restricted.validVrnOnly")
+      errors.head.key should equal(CertificateRegistrationMarkId)
+      errors.head.message should equal("error.restricted.validVrnOnly")
     }
 
     "reject when certificate-time is blank" in {
@@ -154,8 +154,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateTime = ""
       ).errors
       errors should have length 2
-      errors(0).key should equal(CertificateTimeId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(CertificateTimeId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(CertificateTimeId)
       errors(1).message should equal("error.required")
     }
@@ -171,8 +171,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateTime = "9" * (CertificateTime.MaxLength + 1)
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateTimeId)
-      errors(0).message should equal("error.maxLength")
+      errors.head.key should equal(CertificateTimeId)
+      errors.head.message should equal("error.maxLength")
     }
 
     "reject when certificate-time has invalid characters" in {
@@ -180,8 +180,8 @@ final class CaptureCertificateDetailsFormSpec extends UnitSpec {
         certificateTime = "?" * CertificateTime.MinLength
       ).errors
       errors should have length 1
-      errors(0).key should equal(CertificateTimeId)
-      errors(0).message should equal("error.validCertificateTime")
+      errors.head.key should equal(CertificateTimeId)
+      errors.head.message should equal("error.validCertificateTime")
     }
 
   }
