@@ -18,7 +18,9 @@ case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   replacementVehicleRegistrationMark: String,
                                   v5DocumentReference: String,
                                   transactionTimestamp: DateTime,
-                                  paymentSolveUpdateRequest: Option[PaymentSolveUpdateRequest])
+                                  paymentSolveUpdateRequest: Option[PaymentSolveUpdateRequest],
+                                  traderEmailRequest:Option[EmailServiceSendRequest],
+                                  keeperEmailRequest:Option[EmailServiceSendRequest])
 
 object VrmAssignFulfilRequest {
 

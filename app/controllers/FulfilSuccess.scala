@@ -35,11 +35,11 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getModel[CaptureCertificateDetailsModel],
-      request.cookies.getModel[FulfilModel]) match {
+     request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+     request.cookies.getModel[VehicleAndKeeperDetailsModel],
+     request.cookies.getModel[CaptureCertificateDetailsFormModel],
+     request.cookies.getModel[CaptureCertificateDetailsModel],
+     request.cookies.getModel[FulfilModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
       Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
@@ -51,38 +51,36 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
 
         val trackingId = request.cookies.trackingId()
 
-        businessDetailsOpt.foreach {
-          businessDetails =>
-            assignEmailService.sendEmail(
-              businessDetails.email,
-              vehicleAndKeeperDetails,
-              captureCertificateDetailsFormModel,
-              captureCertificateDetailsModel,
-              vehicleAndKeeperLookupForm,
-              fulfilModel,
-              transactionId,
-              confirmFormModel,
-              businessDetailsModel,
-              isKeeper = false, // US1589: Do not send keeper a pdf
-              trackingId = trackingId
-            )
+        businessDetailsOpt.foreach { businessDetails =>
+          assignEmailService.sendEmail(
+            businessDetails.email,
+            vehicleAndKeeperDetails,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel,
+            vehicleAndKeeperLookupForm,
+            fulfilModel.transactionTimestamp,
+            transactionId,
+            confirmFormModel,
+            businessDetailsModel,
+            isKeeper = false, // US1589: Do not send keeper a pdf
+            trackingId = trackingId
+          )
         }
 
-        keeperEmailOpt.foreach {
-          keeperEmail =>
-            assignEmailService.sendEmail(
-              keeperEmail,
-              vehicleAndKeeperDetails,
-              captureCertificateDetailsFormModel,
-              captureCertificateDetailsModel,
-              vehicleAndKeeperLookupForm,
-              fulfilModel,
-              transactionId,
-              confirmFormModel,
-              businessDetailsModel,
-              isKeeper = true,
-              trackingId = trackingId
-            )
+        keeperEmailOpt.foreach { keeperEmail =>
+          assignEmailService.sendEmail(
+            keeperEmail,
+            vehicleAndKeeperDetails,
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel,
+            vehicleAndKeeperLookupForm,
+            fulfilModel.transactionTimestamp,
+            transactionId,
+            confirmFormModel,
+            businessDetailsModel,
+            isKeeper = true,
+            trackingId = trackingId
+          )
         }
 
         Future.successful(Redirect(routes.Success.present()))
@@ -91,31 +89,32 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
     }
   }
 
-  def createPdf = Action.async {
+  def createPdf = Action {
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[CaptureCertificateDetailsFormModel],
         request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(vehicleDetails), Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
           val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
-          pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
-            vehicleDetails.replacementVRN.replace(" ", "")).map {
-            pdf =>
-              val inputStream = new ByteArrayInputStream(pdf)
-              val dataContent = Enumerator.fromStream(inputStream)
-              // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
-              // and manually test after making any change.
-              val newVRM = vehicleDetails.replacementVRN.replace(" ", "")
-              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
-              Ok.feed(dataContent).
-                withHeaders(
-                  CONTENT_TYPE -> "application/pdf",
-                  CONTENT_DISPOSITION -> contentDisposition
-                )
-          }
-        case _ => Future.successful {
-          BadRequest("You are missing the cookies required to create a pdf")
-        }
+
+          val pdf = pdfService.create(
+            transactionId,
+            keeperName,
+            vehicleAndKeeperDetails.address,
+            vehicleDetails.replacementVRN.replace(" ", "")
+          )
+          val inputStream = new ByteArrayInputStream(pdf)
+          val dataContent = Enumerator.fromStream(inputStream)
+          // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
+          // and manually test after making any change.
+          val newVRM = vehicleDetails.replacementVRN.replace(" ", "")
+          val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+          Ok.feed(dataContent).withHeaders(
+            CONTENT_TYPE -> "application/pdf",
+            CONTENT_DISPOSITION -> contentDisposition
+          )
+
+        case _ => BadRequest("You are missing the cookies required to create a pdf")
       }
   }
 
@@ -146,7 +145,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
         certificateRegistrationMark = "A1"),
       captureCertificateDetailsModel = CaptureCertificateDetailsModel("ABC123", None, List.empty, 0),
       vehicleAndKeeperLookupFormModel = VehicleAndKeeperLookupFormModel("GDS123", "A1", "11111111111", "QQ99QQ", ""),
-      fulfilModel = FulfilModel(transactionTimestamp = "stub-transactionTimestamp"),
+      transactionTimestamp = "stub-transactionTimestamp",
       transactionId = "stub-transactionId",
       confirmFormModel = Some(ConfirmFormModel(
         keeperEmail = Some("stub-keeper-email"),

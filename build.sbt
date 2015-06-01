@@ -167,7 +167,7 @@ SandboxSettings.emailServiceProject := emailServiceProject
 
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
-  Tasks.runEmailService.value
+//  Tasks.runEmailService.value
   Tasks.runOsAddressLookup.value
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value

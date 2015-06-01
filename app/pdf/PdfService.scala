@@ -6,5 +6,5 @@ import scala.concurrent.Future
 
 trait PdfService {
 
-  def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Future[Array[Byte]]
+  def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Array[Byte]
 }

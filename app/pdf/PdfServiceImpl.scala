@@ -27,20 +27,21 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
-
-  def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Future[Array[Byte]] = Future {
+  def create(name: String, address: Option[AddressModel], prVrm: String): Array[Byte] = {
     val intermediate = new ByteArrayOutputStream()
-    try v948(transactionId, name, address, prVrm, intermediate)
+    try v948(name, address, prVrm, intermediate)
     finally intermediate.close()
     intermediate.toByteArray
+  }
 
+  def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Array[Byte] = {
+    val doc = create(name, address, prVrm)
     val output = new ByteArrayOutputStream()
-    output.write(new PdfApplyTransactionId()(intermediate.toByteArray, transactionId))
+    output.write(new PdfApplyTransactionId()(doc, transactionId))
     output.toByteArray
   }
 
-  private def v948(transactionId: String,
-                   name: String,
+  private def v948(name: String,
                    address: Option[AddressModel],
                    prVrm: String,
                    output: OutputStream) = {

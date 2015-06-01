@@ -41,8 +41,12 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getModel[CaptureCertificateDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
 
-      case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
+      case (Some(transactionId),
+            Some(vehicleAndKeeperLookupForm),
+            Some(vehicleAndKeeperDetails),
+            Some(captureCertificateDetailsFormModel),
+            Some(captureCertificateDetailsModel),
+            Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -65,31 +69,33 @@ final class Success @Inject()(pdfService: PdfService,
     }
   }
 
-  def createPdf = Action.async { implicit request =>
+  def createPdf = Action { implicit request =>
     ( request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       //request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(vehicleAndKeeperLookupFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-        val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
-        pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
-          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
-          pdf =>
-            val inputStream = new ByteArrayInputStream(pdf)
-            val dataContent = Enumerator.fromStream(inputStream)
-            // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
-            // and manually test after making any change.
-            val newVRM =  vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
-            val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
-            Ok.feed(dataContent).
-              withHeaders(
-                CONTENT_TYPE -> "application/pdf",
-                CONTENT_DISPOSITION -> contentDisposition
-              )
-        }
-      case _ => Future.successful {
-        BadRequest("You are missing the cookies required to create a pdf")
-      }
+        val pdf =  pdfService.create(
+          transactionId,
+          Seq(
+            vehicleAndKeeperDetails.title,
+            vehicleAndKeeperDetails.firstName,
+            vehicleAndKeeperDetails.lastName
+          ).flatten.mkString(" "),
+          vehicleAndKeeperDetails.address,
+          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+        )
+        val inputStream = new ByteArrayInputStream(pdf)
+        val dataContent = Enumerator.fromStream(inputStream)
+        // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
+        // and manually test after making any change.
+        val newVRM =  vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+        val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
+        Ok.feed(dataContent).withHeaders(
+          CONTENT_TYPE -> "application/pdf",
+          CONTENT_DISPOSITION -> contentDisposition
+        )
+      case _ => BadRequest("You are missing the cookies required to create a pdf")
     }
   }
 
