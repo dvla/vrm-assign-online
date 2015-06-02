@@ -56,16 +56,34 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
-                        (implicit request: Request[_]): Result =
+                        (implicit request: Request[_]): Result = {
+
+    // need to record the current vrm from the form so put this into the
+    // vehicleAndKeeperDetailsModel
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
+      registrationNumber = formatVrm(formModel.registrationNumber),
+      make = None,
+      model = None,
+      title = None,
+      firstName = None,
+      lastName = None,
+      address = None,
+      disposeFlag = None,
+      keeperEndDate = None,
+      keeperChangeDate = None,
+      suppressedV5Flag = None
+    )
+
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-      transactionId = txnId,
+      transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")))
 
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
-
+  }
+  
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
