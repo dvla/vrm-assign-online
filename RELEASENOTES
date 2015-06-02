@@ -1,3 +1,21 @@
+======= 1.9 ======
+Time of release binaries creation:
+Wed May 27 16:20:10 UTC 2015
+
+c12d2a3 DE528 payment receipt emails for keeper only txns should not contain business details
+5b50e7e DE521: remove the ability to add (-,.) in the certificate boxes
+bbd34c7 DE516 use the correct cookie when showing the business details
+9b6bd71 DE514 - bugfix
+fa932e8 US3140: Set default timezone to Europe/London.
+8d4c2bc US3156: Padding out Cert ID box 3
+c178f85 US3157 - [PR] Send Payment Receipt email after successful payment
+2532b53 DE501: add error messages for email
+06e22ce DE500: feedback opens in new page
+c5a26e0 DE499: remove contact center from email
+99add52 DE403 - fixing regex
+fc6636c US2860 remove the remember details from business confirm page
+867d41a US3113: put timeout on its own route
+
 ======= 1.8.1 ======
 Time of release binaries creation:
 Tue May 19 13:41:20 UTC 2015

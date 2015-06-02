@@ -70,8 +70,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.23-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.23-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.24-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.24-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
@@ -137,13 +137,13 @@ resolvers ++= projectResolvers
 webJarCdns := Map()
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.13-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.13-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.16-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.10-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.10-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 21000
 
@@ -167,12 +167,12 @@ SandboxSettings.emailServiceProject := emailServiceProject
 
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
-  Tasks.runEmailService.value
+//  Tasks.runEmailService.value
   Tasks.runOsAddressLookup.value
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value
   Tasks.runVrmAssignEligibility.value
-  Tasks.runVrmAssignFulfil.value
+//  Tasks.runVrmAssignFulfil.value
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
