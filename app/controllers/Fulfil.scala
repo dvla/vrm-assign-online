@@ -215,7 +215,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val trackingId = request.cookies.trackingId()
 
-    def fulfillConfirmEmail(implicit request: Request[_]): (Option[EmailServiceSendRequest], Option[EmailServiceSendRequest]) = {
+    def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
 
         case Some(vehicleAndKeeperDetails) =>
@@ -225,7 +225,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-          (businessDetailsOpt.flatMap { businessDetails =>
+          Seq(businessDetailsOpt.flatMap { businessDetails =>
             assignEmailService.emailRequest(
               businessDetails.email,
               vehicleAndKeeperDetails,
@@ -254,13 +254,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
               isKeeper = true,
               trackingId = trackingId
             )
-          })
-        case _ => (None, None)
+          }).flatten
+        case _ => Seq.empty
       }
     }
 
 
-    val (businessEmailRequest, keeperEmailRequest) = fulfillConfirmEmail
 
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
       buildWebHeader(trackingId),
@@ -278,8 +277,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             SETTLE_AUTH_CODE, payment.isPrimaryUrl, vehicleAndKeeperLookupFormModel, transactionId))
         case _ => None
       },
-      traderEmailRequest = businessEmailRequest,
-      keeperEmailRequest = keeperEmailRequest
+      successEmailRequests = fulfillConfirmEmail
     )
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
