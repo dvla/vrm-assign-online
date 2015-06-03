@@ -1,7 +1,9 @@
 @(transactionId: String,
         viewModel: models.VehicleLookupFailureViewModel,
         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel]
+        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel],
+        responseMessage: Option[String] = None,
+        responseLink: Option[String] = None
         )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -21,6 +23,15 @@
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
 
             <p>@Messages(s"vehicle-lookup-failure-direct_to_paper-p1")</p>
+
+            @if(responseMessage.isDefined) {
+                @if(responseLink.isDefined) {
+                    <p>@Messages(responseMessage.get)
+                        <a href="@{Messages(responseLink.get)}"> @{Messages(responseLink.get)}</a></p>
+                } else {
+                    <p>@Messages(responseMessage.get)</p>
+                }
+            }
 
             <div class="form-steps">
                 @if(captureCertificateDetailsModel.isDefined) {
