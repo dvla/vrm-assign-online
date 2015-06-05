@@ -97,6 +97,7 @@
                 </dl>
             </div>
         </div>
+        @successViewModel.businessAddress.map { businessAddress =>
         <div class="first-col">
             <div class="related">
                 <h2>@Messages("success-application-details-business-details")</h2>
@@ -107,13 +108,14 @@
                     <dd>@successViewModel.businessName</dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
                     <span>
-                    @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
+                    @for(keeperAddressLine <- businessAddress.address) {
                         <strong>@keeperAddressLine</strong> <br/>
                     }
                     </span><br/>
                 </dl>
             </div>
         </div>
+        }
     </div>
 
     @if(config.googleAnalyticsTrackingId.isDefined) {

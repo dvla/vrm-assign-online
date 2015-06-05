@@ -15,7 +15,7 @@ import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -27,11 +27,10 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business,
 import webserviceclients.paymentsolve.PaymentSolveService
 
 final class Success @Inject()(pdfService: PdfService,
-                               paymentSolveService: PaymentSolveService
-                               )
+                              paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
