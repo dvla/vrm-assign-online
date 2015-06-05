@@ -152,7 +152,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel,
           responseMessage = Some("vrm_assign_eligibility_vic_failure"),
-          responseLink = Some("vrm_assing_eligibility_vic_failure_link")
+          responseLink = Some("vrm_assign_eligibility_vic_failure_link")
         )
       case "vrm_assign_eligibility_destroyed_failure" =>
         direct_to_paper(
