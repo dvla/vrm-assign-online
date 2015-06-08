@@ -31,8 +31,11 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
       request.cookies.getModel[SetupBusinessDetailsFormModel],
       request.cookies.getModel[BusinessDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
-        case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper),
-          Some(setupBusinessDetailsFormModel), Some(businessDetailsModel), None) =>
+        case (Some(vehicleAndKeeperLookupForm),
+          Some(vehicleAndKeeper),
+          Some(setupBusinessDetailsFormModel),
+          Some(businessDetailsModel),
+          None) =>
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
           Ok(views.html.vrm_assign.confirm_business(viewModel))
         case _ =>

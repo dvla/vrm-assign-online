@@ -43,23 +43,13 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "back button" should {
-//    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheSetup().
-//        businessChooseYourAddress() // EnterAddressManually cookie does not exist therefore we did not come via the EnterAddressManually Page
-//      go to ConfirmBusinessPage
-//      click on back
-//      currentUrl should equal(BusinessChooseYourAddressPage.url)
-//    }
-
-//    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheSetup().
-//        enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page
-//      go to ConfirmBusinessPage
-//      click on back
-//      currentUrl should equal(EnterAddressManuallyPage.url)
-//    }
+    "redirect to SetupBusinessDetails page when we navigate back" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup().setupBusinessDetails()
+      go to ConfirmBusinessPage
+      click on back
+      currentUrl should equal(SetupBusinessDetailsPage.url)
+    }
 
     "redirect to SetUpBusinessDetails page when we navigate backwards" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
@@ -71,10 +61,10 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      businessDetails().
-      transactionId().
-      setupBusinessDetails()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .transactionId()
+      .setupBusinessDetails()
 }

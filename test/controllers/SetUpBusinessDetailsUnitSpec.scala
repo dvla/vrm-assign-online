@@ -14,10 +14,10 @@ import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaul
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
-import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_assign.SetupBusinessDetails.BusinessNameId
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
 import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
+import views.vrm_assign.SetupBusinessDetails.BusinessNameId
+import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
