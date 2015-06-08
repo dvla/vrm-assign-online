@@ -15,7 +15,7 @@ import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -27,11 +27,10 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business,
 import webserviceclients.paymentsolve.PaymentSolveService
 
 final class Success @Inject()(pdfService: PdfService,
-                               paymentSolveService: PaymentSolveService
-                               )
+                              paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -41,16 +40,26 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getModel[CaptureCertificateDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
 
-      case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
+      case (Some(transactionId),
+            Some(vehicleAndKeeperLookupForm),
+            Some(vehicleAndKeeperDetails),
+            Some(captureCertificateDetailsFormModel),
+            Some(captureCertificateDetailsModel),
+            Some(fulfilModel)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-        val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, businessDetailsOpt, vehicleAndKeeperLookupForm,
-            keeperEmailOpt, fulfilModel, transactionId, captureCertificateDetailsModel.outstandingDates,
-            captureCertificateDetailsModel.outstandingFees)
+        val successViewModel = SuccessViewModel(
+          vehicleAndKeeperDetails,
+          businessDetailsOpt,
+          vehicleAndKeeperLookupForm,
+          keeperEmailOpt,
+          fulfilModel,
+          transactionId,
+          captureCertificateDetailsModel.outstandingDates,
+          captureCertificateDetailsModel.outstandingFees
+        )
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
@@ -59,31 +68,33 @@ final class Success @Inject()(pdfService: PdfService,
     }
   }
 
-  def createPdf = Action.async { implicit request =>
+  def createPdf = Action { implicit request =>
     ( request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       //request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(vehicleAndKeeperLookupFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-        val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
-        pdfService.create(transactionId, keeperName, vehicleAndKeeperDetails.address,
-          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")).map {
-          pdf =>
-            val inputStream = new ByteArrayInputStream(pdf)
-            val dataContent = Enumerator.fromStream(inputStream)
-            // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
-            // and manually test after making any change.
-            val newVRM =  vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
-            val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
-            Ok.feed(dataContent).
-              withHeaders(
-                CONTENT_TYPE -> "application/pdf",
-                CONTENT_DISPOSITION -> contentDisposition
-              )
-        }
-      case _ => Future.successful {
-        BadRequest("You are missing the cookies required to create a pdf")
-      }
+        val pdf =  pdfService.create(
+          transactionId,
+          Seq(
+            vehicleAndKeeperDetails.title,
+            vehicleAndKeeperDetails.firstName,
+            vehicleAndKeeperDetails.lastName
+          ).flatten.mkString(" "),
+          vehicleAndKeeperDetails.address,
+          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+        )
+        val inputStream = new ByteArrayInputStream(pdf)
+        val dataContent = Enumerator.fromStream(inputStream)
+        // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
+        // and manually test after making any change.
+        val newVRM =  vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+        val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
+        Ok.feed(dataContent).withHeaders(
+          CONTENT_TYPE -> "application/pdf",
+          CONTENT_DISPOSITION -> contentDisposition
+        )
+      case _ => BadRequest("You are missing the cookies required to create a pdf")
     }
   }
 

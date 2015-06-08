@@ -252,24 +252,6 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to LeaveFeedback page when payment service call throws an exception" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
-          transactionId(),
-          paymentTransNo(),
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          confirmFormModel(),
-          paymentModel(),
-          captureCertificateDetailsModel()
-        )
-      val cancelThrows = paymentCallFails.cancel(request)
-
-      whenReady(cancelThrows) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
-      }
-    }
-
     "redirect to LeaveFeedback page when required cookies exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
@@ -279,7 +261,8 @@ class PaymentUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           confirmFormModel(),
           paymentModel(),
-          captureCertificateDetailsModel()
+          captureCertificateDetailsModel(),
+          captureCertificateDetailsFormModel()
         )
       val cancel = paymentCancelValidated.cancel(request)
 

@@ -97,6 +97,25 @@
                 </dl>
             </div>
         </div>
+        @successViewModel.businessAddress.map { businessAddress =>
+        <div class="first-col">
+            <div class="related">
+                <h2>@Messages("success-application-details-business-details")</h2>
+                <dl class="playback bg-plain">
+                    <dt>@Messages("success-application-details-business-contact")</dt>
+                    <dd>@successViewModel.businessContact</dd>
+                    <dt>@Messages("success-application-details-business-name")</dt>
+                    <dd>@successViewModel.businessName</dd>
+                    <dt>@Messages("success-application-details-keeper-details-address")</dt>
+                    <span>
+                    @for(keeperAddressLine <- businessAddress.address) {
+                        <strong>@keeperAddressLine</strong> <br/>
+                    }
+                    </span><br/>
+                </dl>
+            </div>
+        </div>
+        }
     </div>
 
     @if(config.googleAnalyticsTrackingId.isDefined) {

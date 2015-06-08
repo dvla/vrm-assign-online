@@ -164,21 +164,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="successBanner"
-                            style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, sans-serif ; text-align : center ; color : #fff ; background : #28A287 ; padding : 0 30px ;"
-                            align="center" bgcolor="#28A287">
-                                <h1 style="color : #fff !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                @Messages("email.line6", replacementVRM)</h1>
+                            <td class="successBanner" style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif; text-align: center; color: #fff; background: #28A287; padding: 30px;" align="center" bgcolor="#28A287">
 
-                                <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                @* @Messages("email.line7")</p> *@
-
-                                @* @if(!isKeeper) {
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8.with-pdf")</p>
-                                } else {
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
-                                }
-                                *@
+                                <span style="display: inline-block; color: #0b0c0c; font-size: 2em; text-align: center; line-height: 1.25; font-weight: bold; padding: 0.4em 0.5em 0.3em 0.5em; margin-bottom: 10px; letter-spacing: 1px; background-color: #ffd307; border: solid 1px #999; border-radius: 5px;">@replacementVRM</span>
+                                <h1 style="color: #fff!important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial,sans,sans-serif;">@Messages("email.line6")</h1>
                             </td>
                         </tr>
                         @*<tr>*@

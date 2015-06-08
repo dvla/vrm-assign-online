@@ -89,17 +89,21 @@ object CookieFactoryForUISpecs {
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
 
-    val searchFields = SearchFields(showSearchFields = true,
-                            showAddressSelect = true,
-                            showAddressFields = true,
-                            postCode = None,
-                            listOption = None,
-                            remember = false)
+    val searchFields = SearchFields(
+      showSearchFields = true,
+      showAddressSelect = true,
+      showAddressFields = true,
+      postCode = None,
+      listOption = None,
+      remember = false
+    )
 
-    val value = SetupBusinessDetailsFormModel(name = businessName,
+    val value = SetupBusinessDetailsFormModel(
+      name = businessName,
       contact = businessContact,
       email = businessEmail,
-      address = new Address(searchFields = searchFields,
+      address = new Address(
+        searchFields = searchFields,
         streetAddress1 = "",
         streetAddress2 = None,
         streetAddress3 = None,
@@ -112,10 +116,12 @@ object CookieFactoryForUISpecs {
 
   def businessDetails(address: AddressModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = BusinessDetailsCacheKey
-    val value = BusinessDetailsModel(name = TraderBusinessNameValid,
+    val value = BusinessDetailsModel(
+      name = TraderBusinessNameValid,
       contact = TraderBusinessContactValid,
       email = TraderBusinessEmailValid,
-      address = address)
+      address = address
+    )
     addCookie(key, value)
     this
   }
@@ -149,8 +155,13 @@ object CookieFactoryForUISpecs {
                                       keeperConsent: String = KeeperConsentValid)
                                      (implicit webDriver: WebDriver) = {
     val key = vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-    val value = VehicleAndKeeperLookupFormModel(replacementVRN = replacementVRN, referenceNumber = referenceNumber,
-      registrationNumber = registrationNumber, postcode = postcode, userType = keeperConsent)
+    val value = VehicleAndKeeperLookupFormModel(
+      replacementVRN = replacementVRN,
+      referenceNumber = referenceNumber,
+      registrationNumber = registrationNumber,
+      postcode = postcode,
+      userType = keeperConsent
+    )
     addCookie(key, value)
     this
   }
@@ -176,7 +187,8 @@ object CookieFactoryForUISpecs {
       )
     )
     val addressViewModel = AddressModel.from(addressAndPostcodeModel, postCode.get)
-    val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
+    val value = VehicleAndKeeperDetailsModel(
+      registrationNumber = registrationNumber,
       make = vehicleMake,
       model = vehicleModel,
       title = title,
@@ -247,7 +259,8 @@ object CookieFactoryForUISpecs {
                    rejectionCode: Option[String] = None,
                    isPrimaryUrl: Boolean = true)(implicit webDriver: WebDriver) = {
     val key = vrm_assign.Payment.PaymentDetailsCacheKey
-    val value = PaymentModel(trxRef = trxRef,
+    val value = PaymentModel(
+      trxRef = trxRef,
       paymentStatus = paymentStatus,
       maskedPAN = maskedPAN,
       authCode = authCode,
@@ -262,8 +275,10 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid, lastDate: Option[DateTime] = LastDateValid,
-                                     datesList: List[String] = DatesListValid, fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
+  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid,
+                                     lastDate: Option[DateTime] = LastDateValid,
+                                     datesList: List[String] = DatesListValid,
+                                     fees: Int = FeesValid)(implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
     addCookie(key, value)
@@ -273,9 +288,15 @@ object CookieFactoryForUISpecs {
   def captureCertificateDetailsFormModel(certificateDocumentCount: String = CertificateDocumentCountValid,
                                          certificateDate: String = CertificateDateValid,
                                          certificateTime: String = CertificateTimeValid,
-                                         certificateRegistrationMark: String = RegistrationNumberValid)(implicit webDriver: WebDriver) = {
+                                         certificateRegistrationMark: String = RegistrationNumberValid)
+                                        (implicit webDriver: WebDriver) = {
     val key = CaptureCertificateDetailsFormModelCacheKey
-    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark)
+    val value = CaptureCertificateDetailsFormModel(
+      certificateDocumentCount,
+      certificateDate,
+      certificateTime,
+      certificateRegistrationMark
+    )
     addCookie(key, value)
     this
   }

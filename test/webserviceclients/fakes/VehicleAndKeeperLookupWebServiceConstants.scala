@@ -48,6 +48,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   def KeeperPostCodeValid = Some("SA11AA")
 
   final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message = "200")
+  final val NoKeeper = VehicleAndKeeperLookupErrorMessage("vrm_assign_eligibility_no_keeper_failure", "200")
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,

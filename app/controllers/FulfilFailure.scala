@@ -21,7 +21,7 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
                                     config: Config,
                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
-  def present = Action.async { implicit request =>
+  def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[PaymentModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -35,14 +35,17 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
           case Some(details) => VehicleLookupFailureViewModel(details)
           case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
         }
-        Future.successful(Ok(views.html.vrm_assign.fulfil_failure(transactionId,
-          paymentModelOpt.isDefined,
-          viewModel,
-          vehicleAndKeeperLookupForm))
+        Ok(
+          views.html.vrm_assign.fulfil_failure(
+            transactionId,
+            paymentModelOpt.isDefined,
+            viewModel,
+            vehicleAndKeeperLookupForm
+          )
         )
       case _ =>
         val msg = "user tried to go to FulfilFailure but the required cookie was not present"
-        Future.successful(Redirect(routes.Error.present(msg)))
+        Redirect(routes.Error.present(msg))
     }
   }
 }

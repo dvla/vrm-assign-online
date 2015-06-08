@@ -2,16 +2,9 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
-import email.ReceiptEmailMessageBuilder
+import email.{AssignEmailService, ReceiptEmailMessageBuilder}
 import java.util.concurrent.TimeoutException
-import models.BusinessDetailsModel
-import models.CacheKeyPrefix
-import models.CaptureCertificateDetailsFormModel
-import models.CaptureCertificateDetailsModel
-import models.ConfirmFormModel
-import models.FulfilModel
-import models.PaymentModel
-import models.VehicleAndKeeperLookupFormModel
+import models._
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -25,6 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
@@ -34,47 +28,73 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.F
 import utils.helpers.Config
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.Fulfil.FulfilResponseCodeCacheKey
-import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
-import views.vrm_assign.VehicleLookup.UserType_Business
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.emailservice.EmailServiceSendRequest
+import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilService
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 
 final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
-                              auditService2: audit2.AuditService
-                              )
+                             auditService2: audit2.AuditService,
+                             assignEmailService: AssignEmailService)
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config,
-                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                             dateService: DateService) extends Controller {
 
   private val SETTLE_AUTH_CODE = "Settle"
 
   def fulfil = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getString(GranteeConsentCacheKey),
-      request.cookies.getModel[CaptureCertificateDetailsModel],
-      request.cookies.getString(PaymentTransNoCacheKey),
-      request.cookies.getModel[PaymentModel]
-      ) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
-      Some(captureCertificateDetails), Some(paymentTransNo), Some(payment))
-        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees > 0 && payment.paymentStatus == Some(AuthorisedStatus)) =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, captureCertificateDetails,
-          Some(paymentTransNo), Some(payment))
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(captureCertificateDetailsFormModel), Some(granteeConsent),
-      Some(captureCertificateDetails), _, _)
-        if granteeConsent == "true" && (captureCertificateDetails.outstandingFees == 0) =>
-        fulfilVrm(vehiclesLookupForm, transactionId, captureCertificateDetailsFormModel, captureCertificateDetails, None, None)
+     request.cookies.getString(TransactionIdCacheKey),
+     request.cookies.getModel[CaptureCertificateDetailsFormModel],
+     request.cookies.getString(GranteeConsentCacheKey),
+     request.cookies.getModel[CaptureCertificateDetailsModel],
+     request.cookies.getString(PaymentTransNoCacheKey),
+     request.cookies.getModel[PaymentModel]) match {
+      case (Some(vehiclesLookupForm),
+            Some(transactionId),
+            Some(captureCertificateDetailsFormModel),
+            Some(granteeConsent),
+            Some(captureCertificateDetails),
+            Some(paymentTransNo),
+            Some(payment)) if granteeConsent == "true" &&
+                              captureCertificateDetails.outstandingFees > 0 &&
+                              payment.paymentStatus == Some(AuthorisedStatus) =>
+        fulfilVrm(
+          request,
+          vehiclesLookupForm,
+          transactionId,
+          captureCertificateDetailsFormModel,
+          captureCertificateDetails,
+          Some(paymentTransNo),
+          Some(payment)
+        )
+      case (Some(vehiclesLookupForm),
+            Some(transactionId),
+            Some(captureCertificateDetailsFormModel),
+            Some(granteeConsent),
+            Some(captureCertificateDetails),
+            _,
+            _) if granteeConsent == "true" &&
+                  captureCertificateDetails.outstandingFees == 0 =>
+        fulfilVrm(
+          request,
+          vehiclesLookupForm,
+          transactionId,
+          captureCertificateDetailsFormModel,
+          captureCertificateDetails,
+          None,
+          None
+        )
       case _ =>
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology
         ))
         Future.successful {
@@ -83,20 +103,22 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
   }
 
-  private def fulfilVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionId: String,
+  private def fulfilVrm(implicit request: Request[_],
+                        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                        transactionId: String,
                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                         captureCertificateDetails: CaptureCertificateDetailsModel,
-                        paymentTransNo: Option[String], paymentModel: Option[PaymentModel])
-                       (implicit request: Request[_]): Future[Result] = {
+                        paymentTransNo: Option[String],
+                        paymentModel: Option[PaymentModel]): Future[Result] = {
+
+    // create the transaction timestamp
+    val transactionTimestamp =
+      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
+    val transactionTimestampWithZone = s"$isoDateTimeString"
 
     def fulfilSuccess() = {
-
-      // create the transaction timestamp
-      val transactionTimestamp =
-        DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
-      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
-      val transactionTimestampWithZone = s"$isoDateTimeString"
 
       // if no payment model then no outstanding fees
       paymentModel match {
@@ -105,14 +127,17 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
           auditService2.send(AuditRequest.from(
             pageMovement = AuditRequest.PaymentToSuccess,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            transactionId = request.cookies
+              .getString(TransactionIdCacheKey)
+              .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
             captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
             captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
             businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-            paymentModel = paymentModel))
+            paymentModel = paymentModel)
+          )
 
           Redirect(routes.FulfilSuccess.present()).
             withCookie(paymentModel.get).
@@ -149,7 +174,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToPaymentFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -165,7 +192,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       } else {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = request.cookies
+            .getString(TransactionIdCacheKey)
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -186,6 +215,52 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val trackingId = request.cookies.trackingId()
 
+    def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
+        request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+
+        case Some(vehicleAndKeeperDetails) =>
+          val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
+            filter(_ => vehicleAndKeeperLookupFormModel.userType == UserType_Business)
+          val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
+          val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+          val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+          Seq(businessDetailsOpt.flatMap { businessDetails =>
+            assignEmailService.emailRequest(
+              businessDetails.email,
+              vehicleAndKeeperDetails,
+              captureCertificateDetailsFormModel,
+              captureCertificateDetails,
+              vehicleAndKeeperLookupFormModel,
+              transactionTimestampWithZone,
+              transactionId,
+              confirmFormModel,
+              businessDetailsModel,
+              isKeeper = false, // US1589: Do not send keeper a pdf
+              trackingId = trackingId
+            )
+          },
+          keeperEmailOpt.flatMap { keeperEmail =>
+            assignEmailService.emailRequest(
+              keeperEmail,
+              vehicleAndKeeperDetails,
+              captureCertificateDetailsFormModel,
+              captureCertificateDetails,
+              vehicleAndKeeperLookupFormModel,
+              transactionTimestampWithZone,
+              transactionId,
+              confirmFormModel,
+              businessDetailsModel,
+              isKeeper = true,
+              trackingId = trackingId
+            )
+          }).flatten
+        case _ => Seq.empty
+      }
+    }
+
+
+
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
       buildWebHeader(trackingId),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
@@ -201,7 +276,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           Some(buildPaymentSolveUpdateRequest(captureCertificateDetails, paymentTransNo.get, payment.trxRef.get,
             SETTLE_AUTH_CODE, payment.isPrimaryUrl, vehicleAndKeeperLookupFormModel, transactionId))
         case _ => None
-      }
+      },
+      successEmailRequests = fulfillConfirmEmail
     )
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
@@ -236,14 +312,24 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
 
+
+
   private def buildPaymentSolveUpdateRequest(captureCertificateDetails: CaptureCertificateDetailsModel,
                                              paymentTransNo: String, paymentTrxRef: String,
                                              authType: String, isPaymentPrimaryUrl: Boolean,
                                              vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                              transactionId: String)(implicit request: Request[_]):
   PaymentSolveUpdateRequest = {
-    PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
-      buildBusinessReceiptEmailRequests(captureCertificateDetails, vehicleAndKeeperLookupFormModel, transactionId)
+    PaymentSolveUpdateRequest(
+      paymentTransNo,
+      paymentTrxRef,
+      authType,
+      isPaymentPrimaryUrl,
+      buildBusinessReceiptEmailRequests(
+        captureCertificateDetails,
+        vehicleAndKeeperLookupFormModel,
+        transactionId
+      )
     )
   }
 
@@ -297,5 +383,4 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       ccReceivers = None
     )
   }
-
 }

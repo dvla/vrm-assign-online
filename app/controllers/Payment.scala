@@ -91,7 +91,24 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
       case (Some(transactionId), Some(paymentModel)) =>
-        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get, isPrimaryUrl = paymentModel.isPrimaryUrl)
+
+        val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
+        val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+
+        auditService2.send(AuditRequest.from(
+          pageMovement = AuditRequest.PaymentToExit,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
+        Future.successful {
+          redirectToLeaveFeedback
+        }
+
       case (transactionId, paymentModel) => Future.successful {
         paymentFailure(s"Payment cancel missing either TransactionIdCacheKey: $transactionId or paymentModel $paymentModel cookie")
       }

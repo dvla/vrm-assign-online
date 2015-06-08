@@ -21,7 +21,7 @@ import models.CaptureCertificateDetailsModel
 import models.ConfirmFormModel
 import models.FulfilModel
 import models.VehicleAndKeeperLookupFormModel
-import org.mockito.Matchers
+import org.mockito.{Mockito, Matchers}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.never
 import org.mockito.Mockito.times
@@ -100,19 +100,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, times(1)).sendEmail(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[CaptureCertificateDetailsFormModel],
-          any[CaptureCertificateDetailsModel],
-          any[VehicleAndKeeperLookupFormModel],
-          any[FulfilModel],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[String]
-        )
+        // verify no email was sent in present
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -132,19 +121,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, times(1)).sendEmail(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[CaptureCertificateDetailsFormModel],
-          any[CaptureCertificateDetailsModel],
-          any[VehicleAndKeeperLookupFormModel],
-          any[FulfilModel],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[String]
-        )
+        // verify no email was sent in present
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -164,19 +142,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, never).sendEmail(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[CaptureCertificateDetailsFormModel],
-          any[CaptureCertificateDetailsModel],
-          any[VehicleAndKeeperLookupFormModel],
-          any[FulfilModel],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[String]
-        )
+        // verify no email was sent in present
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -196,19 +163,20 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, never).sendEmail(
+        verify(emailService, never).emailRequest(
           any[String],
           any[VehicleAndKeeperDetailsModel],
           any[CaptureCertificateDetailsFormModel],
           any[CaptureCertificateDetailsModel],
           any[VehicleAndKeeperLookupFormModel],
-          any[FulfilModel],
+          any[String],
           any[String],
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
           Matchers.eq(isKeeper),
           any[String]
         )
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
   }

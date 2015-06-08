@@ -84,6 +84,103 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_failure")
+        )
+      case "vrm_assign_eligibility_cert_begin_failure" =>
+        cert_number_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+        )
+      case "vrm_assign_eligibility_q_plate_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_q_plate_failure")
+        )
+      case "vrm_assign_eligibility_v778_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_v778_failure")
+        )
+      case "vrm_assign_eligibility_vrm_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_vrm_failure")
+        )
+      case "vrm_assign_eligibility_no_keeper_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          responseMessage = Some("vrm_assign_eligibility_no_keeper_failure"),
+          responseLink = Some("vrm_assign_eligibility_no_keeper_failure_link")
+        )
+      case "vrm_assign_eligibility_exported_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_exported_failure")
+        )
+      case "vrm_assign_eligibility_scrapped_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_scrapped_failure")
+        )
+      case "vrm_assign_eligibility_damaged_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          responseMessage = Some("vrm_assign_eligibility_damaged_failure")
+        )
+      case "vrm_assign_eligibility_vic_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          responseMessage = Some("vrm_assign_eligibility_vic_failure"),
+          responseLink = Some("vrm_assign_eligibility_vic_failure_link")
+        )
+      case "vrm_assign_eligibility_destroyed_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          responseMessage = Some("vrm_assign_eligibility_destroyed_failure")
+        )
+      case "vrm_assign_eligibility_not_mot_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_not_mot_failure"),
+          responseLink = Some("vrm_assign_eligibility_not_mot_failure_link")
+        )
+      case "vrm_assign_eligibility_too_young_failure" =>
+        eligibility(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
+          responseMessage = Some("vrm_assign_eligibility_too_young_failure")
+        )
+      case "vrm_assign_eligibility_v778_ref_failure" =>
+        cert_number_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_ninety_day_rule_failure" =>
