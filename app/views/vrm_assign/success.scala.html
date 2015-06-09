@@ -86,12 +86,11 @@
                     <dt>@Messages("success-application-details-keeper-details-name")</dt>
                     <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
-                    <span>
+                    <dd>
                     @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
                         <strong>@keeperAddressLine</strong> <br/>
                     }
-                    </span><br/>
-
+                    </dd>
                     <dt>@Messages("success-application-details-previous")</dt>
                     <dd><span class="reg-number">@successViewModel.registrationNumber</span></dd>
                 </dl>
@@ -107,11 +106,11 @@
                     <dt>@Messages("success-application-details-business-name")</dt>
                     <dd>@successViewModel.businessName</dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
-                    <span>
+                    <dd>
                     @for(keeperAddressLine <- businessAddress.address) {
                         <strong>@keeperAddressLine</strong> <br/>
                     }
-                    </span><br/>
+                    </dd><br/>
                 </dl>
             </div>
         </div>
