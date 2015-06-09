@@ -1,8 +1,8 @@
 package views.vrm_assign
 
-import models.CacheKeyPrefix
+import models.PrScopedCacheKeyPrefix
 
 object BusinessDetails {
 
-  final val BusinessDetailsCacheKey = s"${CacheKeyPrefix}business-details"
+  final val BusinessDetailsCacheKey = s"${PrScopedCacheKeyPrefix}business-details"
 }
