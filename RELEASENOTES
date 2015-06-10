@@ -1,3 +1,19 @@
+======= 1.10  ======
+Time of release binaries creation:
+Wed Jun 10 16:20:10 UTC 2015
+
+US3007	Display meaningful error messages in certain circumstances
+US3158	Send the Transaction email after successful fulfilment
+DE497	Selecting address from drop down menu
+US3179	Play back Business Details on Summary Page
+US3185	Duplicate the look and feel of the Success banner in the trader and keeper success emails
+US3187	Implement Business Address Capture in Retain
+US3206	Move the Remember these details check box
+DE530	Print of Application Successful page
+DE534	Certificate Details page cannot be submitted if there were errors in the html5 validation
+DE537	Vehicle Lookup to VRM Locked does not generate an Audit message
+DE541	Cancel should not send a cancel payment msg, just redirect to leave feedback page
+
 ======= 1.9 ======
 Time of release binaries creation:
 Wed May 27 16:20:10 UTC 2015
