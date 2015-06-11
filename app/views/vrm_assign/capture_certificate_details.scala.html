@@ -35,18 +35,34 @@
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
                     </div>
 
-                    <span class="js-has-tooltip" data-tooltip="v750">@Messages("vrm_assign_capturecertificatedetails.hintCertificate")</span><br/>
-                    <div class="js-tooltip" data-tooltip="v750">
-                        <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
-                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
-                    </div>
-
-                    <span class="js-has-tooltip" data-tooltip="v778">@Messages("vrm_assign_capturecertificatedetails.hintDocumentReference")</span>
-                    <div class="js-tooltip" data-tooltip="v778">
-                        <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
-                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
-                    </div>
-
+                    <ul>
+                        <li>
+                            <span class="js-has-tooltip" data-tooltip="online-retention">@Messages("vrm_assign_capturecertificatedetails.onlineRetention")</span><br/>
+                            <div class="js-tooltip online-retention-tooltip" data-tooltip="online-retention">
+                                <h3>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionTooltip-1")</h3>
+                                <span class="reg-number">@vehicleDetails.registrationNumber</span>
+                                <p>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionTooltip-2")<br/>
+                                    @*todo Replace the below with real value*@
+                                    <strong>0 15123 022855 A22</strong>
+                                    @*todo remove todo*@
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="js-has-tooltip" data-tooltip="v750">@Messages("vrm_assign_capturecertificatedetails.hintCertificate")</span> @Messages("vrm_assign_capturecertificatedetails.hintCertificate-1")<br/>
+                            <div class="js-tooltip" data-tooltip="v750">
+                                <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
+                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                            </div>
+                        </li>
+                        <li>
+                            <span class="js-has-tooltip" data-tooltip="v778">@Messages("vrm_assign_capturecertificatedetails.hintDocumentReference")</span>
+                            <div class="js-tooltip" data-tooltip="v778">
+                                <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
+                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                            </div>
+                        </li>
+                    </ul>
 
                     <div class="uppercase-input certificate-id-input">
                         @valtechInputText(captureCertificateDetailsFormModel(CertificateDocumentCountId),
@@ -78,6 +94,13 @@
                     <div id="@{s"""$CertificateDocumentCountId-hint"""}" class="form-hint">
                         <p>@Messages("capture-certificate-details-reference-number-helper-1")</p>
                     </div>
+
+                    <h4>@Messages("capture-certificate-details-reference-number-helper-2")</h4>
+
+                    <div class="form-hint">
+                        <p>@Messages("capture-certificate-details-reference-number-helper-3")</p>
+                    </div>
+
                 </div>
                 <br />
                 <div class="form-steps">
