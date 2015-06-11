@@ -38,14 +38,9 @@
                     <ul>
                         <li>
                             <span class="js-has-tooltip" data-tooltip="online-retention">@Messages("vrm_assign_capturecertificatedetails.onlineRetention")</span><br/>
-                            <div class="js-tooltip online-retention-tooltip" data-tooltip="online-retention">
-                                <h3>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionTooltip-1")</h3>
-                                <span class="reg-number">@vehicleDetails.registrationNumber</span>
-                                <p>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionTooltip-2")<br/>
-                                    @*todo Replace the below with real value*@
-                                    <strong>0 15123 022855 A22</strong>
-                                    @*todo remove todo*@
-                                </p>
+                            <div class="js-tooltip" data-tooltip="online-retention">
+                                <p>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")</p>
+                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/retention-service-online-480px.jpg")" alt="@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")" />
                             </div>
                         </li>
                         <li>
