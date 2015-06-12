@@ -19,7 +19,8 @@ case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,
                                   v5DocumentReference: String,
                                   transactionTimestamp: DateTime,
                                   paymentSolveUpdateRequest: Option[PaymentSolveUpdateRequest],
-                                  successEmailRequests:Seq[EmailServiceSendRequest])
+                                  successEmailRequests:Seq[EmailServiceSendRequest],
+                                  failureEmailRequests:Seq[EmailServiceSendRequest])
 
 object VrmAssignFulfilRequest {
 

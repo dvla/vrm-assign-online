@@ -2,13 +2,14 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
-import email.{AssignEmailService, ReceiptEmailMessageBuilder}
+import email.{FailureEmailMessageBuilder, AssignEmailService, ReceiptEmailMessageBuilder}
 import java.util.concurrent.TimeoutException
 import models._
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import play.api.Logger
+import play.api.i18n.Messages
 import play.api.mvc.{Action, Controller, Request, Result}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -216,7 +217,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     val trackingId = request.cookies.trackingId()
 
     def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
-        request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
 
         case Some(vehicleAndKeeperDetails) =>
           val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
@@ -277,7 +278,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             SETTLE_AUTH_CODE, payment.isPrimaryUrl, vehicleAndKeeperLookupFormModel, transactionId))
         case _ => None
       },
-      successEmailRequests = fulfillConfirmEmail
+      successEmailRequests = fulfillConfirmEmail,
+      failureEmailRequests = buildFailureReceiptEmailRequests
     )
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
@@ -333,6 +335,31 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     )
   }
 
+  private def buildFailureReceiptEmailRequests(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+
+    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+    val template = FailureEmailMessageBuilder.buildWith
+
+    val title = Messages("email.failure.title")
+
+    val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
+
+    // send keeper email if present
+    val keeperEmail = for {
+      model <- confirmFormModel
+      email <- model.keeperEmail
+    } yield buildEmailServiceSendRequest(template, from, title, email)
+
+    // send business email if present
+    val businessEmail = for {
+      model <- businessDetailsModel
+    } yield buildEmailServiceSendRequest(template, from, title, model.email)
+
+    Seq(keeperEmail, businessEmail).flatten.toList
+  }
+
   private def buildBusinessReceiptEmailRequests(captureCertificateDetails: CaptureCertificateDetailsModel,
                                                 vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                                 transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
@@ -354,7 +381,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       transactionId,
       businessDetails)
 
-    val title = s"""Payment Receipt for assignment of ${vehicleAndKeeperLookupFormModel.replacementVRN}"""
+    val title = s""""Payment Receipt for assignment of ${vehicleAndKeeperLookupFormModel.replacementVRN}"""
 
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
