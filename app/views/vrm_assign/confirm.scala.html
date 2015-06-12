@@ -24,13 +24,9 @@
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
+        <div class="two-col confirm-details">
             <div class="second-col">
                 <h2>@Messages("vrm_assign_confirm.title")</h2>
-                <div class="confirm-registration-number">
-                    <h3>@Messages("vrm_assign_confirm.toAssign")</h3>
-                    <span class="reg-number">@confirmViewModel.replacementRegistration</span>
-                </div>
                 <dl>
                     <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
                     <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
@@ -41,7 +37,6 @@
                     @*<dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>*@
                     @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
                 </dl>
-
 
                 <div class="summary-wrapper confirmation-block">
                     <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span> <br/>
@@ -55,6 +50,11 @@
                         </div>
                     </div>
                 </div>
+
+                <p class="reg-number-confirmation">@Messages("vrm_assign_confirm.toAssign") <br/>
+                    <span class="reg-number">@confirmViewModel.replacementRegistration</span>
+                </p>
+
 
                 <div class="confirmation-block">
                     <h3>@Messages("vrm_assign_confirm.consent")</h3>
