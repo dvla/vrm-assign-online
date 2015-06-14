@@ -381,7 +381,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       transactionId,
       businessDetails)
 
-    val title = s""""Payment Receipt for assignment of ${vehicleAndKeeperLookupFormModel.replacementVRN}"""
+    val title = s"""Payment Receipt for assignment of ${vehicleAndKeeperLookupFormModel.replacementVRN}"""
 
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
