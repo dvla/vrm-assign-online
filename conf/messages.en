@@ -781,7 +781,7 @@ vrm_assign_leave_feedback.p1=Please help us to improve this service by
 
 # feedback
 common_feedback.title = Give Feedback
-common_feedback.message = Please don''t include any personal or financial information - for example your National Insurance number.
+common_feedback.message = Please don''t include any personal or financial information.
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
 common_feedback.charactersRemaining = characters remaining
 common_feedback.placeholder = (Limit is 500 characters)
