@@ -6,6 +6,7 @@
         keeperAddress: String,
         amount: String,
         replacementVRM: String,
+        outstandingFees: Int,
         outstandingDates: List[String],
         keeperEmail: Option[String],
         businessDetailsModel: Option[BusinessDetailsModel],
@@ -51,6 +52,8 @@
         @payment.split("£")(0)
         £@payment.split("£")(1)
     }
+    @outstandingFees
+
     @Messages("email.line21")
     @Messages("email.line22")
     @Messages("email.line23")
