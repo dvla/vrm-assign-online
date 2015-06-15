@@ -166,11 +166,13 @@ SandboxSettings.legacyStubsProject := legacyStubsProject
 SandboxSettings.emailServiceProject := emailServiceProject
 
 SandboxSettings.runAllMicroservices := {
+  Tasks.runLegacyStubs.value
   Tasks.runEmailService.value
   Tasks.runOsAddressLookup.value
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value
   Tasks.runVrmAssignEligibility.value
+  Tasks.runVrmAssignFulfil.value
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
