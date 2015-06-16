@@ -754,6 +754,7 @@ email.line26 = If the keeper has not received a new V5C within 2-3 weeks please 
 email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
 email.line29 = Outstanding Renewal Fees Paid
 email.line30 = Having identified outstanding renewal fees for the registration number you assigned, you agreed to pay those fees a summary of which is below:
+email.line31 = Total:
 
 
 email.openGovernmentLicence.alt = Open government licence
