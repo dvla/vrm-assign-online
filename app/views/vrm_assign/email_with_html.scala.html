@@ -232,25 +232,42 @@
 
                                 @if(!outstandingDates.isEmpty) {
 
-                                    <div class="twoThirds" style="width : 66% ; float : left ;">
-                                        <div style="padding : 5px ;">
-                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                                <strong>@Messages("email.line29")</strong></p>
-                                            <p>@Messages("email.line30")</p>
+                                    <div style="float: left; width: 100%">
+                                        <table style="border-collapse: collapse;" cellpadding="0" cellspacing="0" border="0" >
+                                            <tr>
+                                                <td>
+                                                    <p style="margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif ;">
+                                                        <strong>@Messages("email.line29")</strong>
+                                                    </p>
 
-                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                            @for(payment <- outstandingDates) {
-                                                @payment.split("£")(0)
-                                                <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+                                                    <p>@Messages("email.line30")</p>
+                                                </td>
+
+                                                <td>
+                                        <tr>
+                                            <table style="border-collapse: collapse;" cellpadding="0" cellspacing="0" border="0" >
+                                                <tr>
+                                                    <td height="10px"></td>
+                                                </tr>
+                                                @for(payment <- outstandingDates) {
+                                                    <tr>
+                                                        <td>@payment.split("£")(0)</td>
+                                                        <td style="text-align: right;">&pound;@payment.split("£")(1)</td>
+                                                    </tr>
                                                 }
-                                            </p>
-
-                                            <p><hr /></p>
-                                            <p style="line-height : 110% ; margin : 1em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                                <span>@Messages("email.line31")</span><span>@{outstandingFees}</span>
-                                            </p>
-
-                                        </div>
+                                                <tr>
+                                                    <td height="20px" style="border-top: 1px solid #000000;"></td>
+                                                    <td height="20px" style="border-top: 1px solid #000000;"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td style="text-align: right;"><span>@Messages("email.line31")</span> &pound;@{outstandingFees}</td>
+                                                </tr>
+                                            </table>
+                                        </tr>
+                                            </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 }
 
