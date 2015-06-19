@@ -756,6 +756,8 @@ email.line29 = Outstanding Renewal Fees Paid
 email.line30 = Having identified outstanding renewal fees for the registration number you assigned, you agreed to pay those fees a summary of which is below:
 email.line31 = Total:
 
+# failure email
+email.failure.title = Put a registration number on a vehicle
 
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
