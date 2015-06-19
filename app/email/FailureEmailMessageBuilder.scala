@@ -1,8 +1,5 @@
 package email
 
-import java.text.SimpleDateFormat
-
-import org.joda.time.{DateTimeZone, Instant}
 import play.api.i18n.Messages
 
 /**
@@ -11,60 +8,16 @@ import play.api.i18n.Messages
  *
  */
 
-// TODO : build the failure message, instead of the receipt as is does at the moment
-// Works as a placeholder while we bolt everything together
-// If this is exactly the same as the email for retain, we should move it  into common somewhere...
-
 object FailureEmailMessageBuilder {
   import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 
   def buildWith: Contents = {
-
-    val now = Instant.now.toDateTime(DateTimeZone.forID("Europe/London"))
-    val dateStr = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(now.toDate)
 
     Contents(
       buildHtml,
       buildText
     )
   }
-
-//  private def buildHtml: String =
-//    s"""
-//       |<html>
-//       |<head>
-//       |</head>
-//       |<style>
-//       |p {
-//       |  line-height: 200%;
-//       |}
-//       |ul { list-style: none; padding: 0; margin:0 0 32px 0;}
-//       |li { margin-bottom: 8px}
-//       |li > ul {
-//       |	margin: 16px 0 0 16px;
-//       |}
-//       |</style>
-//       |</head>
-//       |<body>
-//       |
-//       |<p>
-//       |	<strong>THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.</strong>
-//       |</p>
-//       |
-//       |<p>Payment received.</p>
-//       |
-//        |<p><i>DVLA, Swansea, SA6 7JL</i></p>
-//      """.stripMargin
-//
-//  private def buildText: String =
-//    s"""
-//       |THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.
-//       |
-//       |
-//        |
-//        |DVLA, Swansea, SA6 7JL
-//        |
-//      """.stripMargin
 
   private def buildHtml: String =
     s"""
@@ -86,25 +39,29 @@ object FailureEmailMessageBuilder {
        |
        |<p>
        |	<strong>
-       |  ${Messages("email.failure.line1")}
-        |  ${Messages("email.failure.line2")}
+       |    <ul>
+       |      <li>${Messages("email.failure.line1")}</li>
+        |     <li>${Messages("email.failure.line2")}</li>
+        |   </ul>
         | </strong>
         |</p>
         |
         |<p>
-        |  ${Messages("email.failure.line3")}
-        |  ${Messages("email.failure.line4")}
-        |  ${Messages("email.failure.line5")}
-        |  ${Messages("email.failure.line6")}
-        |  ${Messages("email.failure.line7")}
-        |  ${Messages("email.failure.line8")}
-        |  ${Messages("email.failure.line9")}
-        |  ${Messages("email.failure.line10")}
-        |  ${Messages("email.failure.line11")}
-        |  ${Messages("email.failure.line12")}
-        |  ${Messages("email.failure.line14")}
-        |  ${Messages("email.failure.line15")}
-        |  ${Messages("email.failure.line16")}
+        |<ul>
+        |  <li>${Messages("email.failure.line3")}</li>
+        |  <li>${Messages("email.failure.line4")}</li>
+        |  <li>${Messages("email.failure.line5")}</li>
+        |  <li>${Messages("email.failure.line6")}</li>
+        |  <li>${Messages("email.failure.line7")}</li>
+        |  <li>${Messages("email.failure.line8")}</li>
+        |  <li>${Messages("email.failure.line9")}</li>
+        |  <li>${Messages("email.failure.line10")}</li>
+        |  <li>${Messages("email.failure.line11")}</li>
+        |  <li>${Messages("email.failure.line12")}</li>
+        |  <li>${Messages("email.failure.line14")}</li>
+        |  <li>${Messages("email.failure.line15")}</li>
+        |  <li>${Messages("email.failure.line16")}</li>
+        |</ul>
         |</p>
         """.stripMargin
 
