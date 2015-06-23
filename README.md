@@ -63,6 +63,14 @@ Development environment
 
     *where `XYZ` is an offline secret key obtained through a trusted team member*
 
+8.  Install Chrome Driver:
+    - Mac : `brew install chrome driver`
+    - Windows :
+        First Install Chocolatey Package manager:
+        `@powershell -NoProfile -ExecutionPolicy unrestricted -Command “iex ((new-object net.webclient).DownloadString(‘http://chocolatey.org/install.ps1&#8242;))” && SET PATH=%PATH%;%systemdrive%\chocolatey\bin`
+        Run Choclatey command:
+        `choco install googlechrome`
+
 Running the application
 -----------------------
 
@@ -95,13 +103,21 @@ To emulate production-level logging:
 
 ### Testing the application
 
-Unit and Selenium tests written using Scalatest can be run using `sbt test`
+- Unit and Selenium tests written using Scalatest can be run using `sbt test`
 
-Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
+- Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
 
-Acceptance tests feature can also be run on Firefox as`sbt acceptance-tests/test-only -Dbrowser.type=firefox`
+- Execute Acceptance Tests on different environments/Urls
+  `sbt`
+  `eval System.setProperty("test.url","http://localhost:9000/")`
+  `acceptance-tests/test-only`
 
-Acceptance tests Reporting
+- Execute Tests on different browsers, Tests can be run on `chrome` & `firefox`
+  `sbt`
+  `eval System.setProperty("browser.type","chrome")`
+  `acceptance-tests/test-only`
+
+- Acceptance tests Reporting
 
 
 Session encryption
