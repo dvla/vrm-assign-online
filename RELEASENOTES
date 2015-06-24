@@ -1,3 +1,17 @@
+======= 1.11  ======
+Time of release binaries creation:
+Wed Jun 24 FILL-ME-IN UTC 2015
+
+US3112 Send email after failed timed out fulfilment
+US3172 Amendments to the help images on the cert id page
+US3184 New Error Codes from VSS
+US3240 Remove copy from User Feedback page
+US3352 Amendments to the confirm page
+US3254 Amendments to the Application successful page
+US3255 Amendments to the Vehicle details page
+DE542  Fees paid (grantee/purchaser email)
+DE564  Failed email message blocks email queue
+
 ======= 1.10  ======
 Time of release binaries creation:
 Wed Jun 10 13:59:48 UTC 2015
