@@ -52,7 +52,7 @@ libraryDependencies ++= {
     cache,
     filters,
     // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
-    "org.seleniumhq.selenium" % "selenium-java" % "2.46.0" % "test",
+    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
 //    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),

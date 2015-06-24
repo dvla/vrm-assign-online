@@ -28,7 +28,6 @@ components within the presentation layer.
 
 Development environment
 -----------------------
-
 1.  Each project must be checked-out to the same directory using the following names:
 
     -   `vrm-assign-online`
@@ -103,21 +102,21 @@ To emulate production-level logging:
 
 ### Testing the application
 
-- Unit and Selenium tests written using Scalatest can be run using `sbt test`
+1. Unit and Selenium tests written using Scalatest can be run using `sbt test`
 
-- Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
+2. Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
 
-- Execute Acceptance Tests on different environments/Urls
+3. Execute Acceptance Tests on different environments/Urls
   `sbt`
   `eval System.setProperty("test.url","http://localhost:9000/")`
   `acceptance-tests/test-only`
 
-- Execute Tests on different browsers, Tests can be run on `chrome` & `firefox`
+4. Execute Tests on different browsers, Tests can be run on `chrome` & `firefox`(Tests are unable to run firefox due to old selenium versions)
   `sbt`
   `eval System.setProperty("browser.type","chrome")`
   `acceptance-tests/test-only`
 
-- Acceptance tests Reporting
+5. Acceptance tests Reporting
 
 
 Session encryption
