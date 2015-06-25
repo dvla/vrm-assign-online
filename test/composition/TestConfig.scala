@@ -47,8 +47,7 @@ final class TestConfig(
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
 
-    when(config.prototypeSurveyUrl).thenReturn(notFound)
-    when(config.prototypeSurveyPrepositionInterval).thenReturn(7.days.toMillis)
+    when(config.surveyUrl).thenReturn(Some("test/survey/url"))
 
     when(config.isProgressBarEnabled).thenReturn(true)
 
