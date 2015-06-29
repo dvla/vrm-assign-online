@@ -26,16 +26,7 @@
                 <p>@Messages("vrm_assign_success.noticePayment.p1")</p>
             }
 
-            @if(isKeeper) {
 
-                <h3>@Messages("vrm_assign_success.h2a")</h3>
-
-                <p>@Messages("vrm_assign_success.p4")</p>
-
-                <ul>
-                    <li>@Messages("vrm_assign_success.p5") <b>@successViewModel.prVrm</b></li>
-                </ul>
-            }
 
             <h2>@Messages("vrm_assign_success.h3a")</h2>
 
@@ -48,12 +39,14 @@
             </ul>
 
             @if(isKeeper) {
-                <ul>
-                    <li>@Messages("vrm_assign_success.p1a")</li>
-                    <li>@Messages("vrm_assign_success.p1aa") <a href="http://www.gov.uk/number-plate-supplier" target="_blank">@Messages("vrm_assign_success.plateSupplier")</a></li>
-                </ul>
 
-            } else {
+                <h2>@Messages("vrm_assign_success.h2a")</h2>
+
+                <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5")</p>
+
+            }
+
+            @if(!isKeeper) {
                 <div class="info-highlight two-col">
                     <div class="second-col">
                         <h3>@Messages("vrm_assign_success_payment.p6")</h3>
