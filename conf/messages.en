@@ -678,7 +678,7 @@ vrm_assign_success_payment.what-next-3 = at your nearest, DVLA approved number p
 vrm_assign_success_payment.what-next-4 = Advice your insurance company about your change of registration number.
 
 vrm_assign_success.h2a = What happens next?
-vrm_assign_success.p4 = DVLA will send a new registration certificate (V5C) for the registration number
+vrm_assign_success.p4 = DVLA will send a new registration certificate (V5C) with for the registration number
 vrm_assign_success.p5 = to the keeper at their registered address. This will arrive within 3 to 5 days. Please destroy your old V5C once you have received it.
 vrm_assign_success.p6 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_assign_success.h3a = What to do next
