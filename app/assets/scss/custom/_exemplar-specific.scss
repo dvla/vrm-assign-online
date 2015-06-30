@@ -94,20 +94,13 @@ ul.hint-list {
     h2{
       &:before {
         content: "";
+        width: 0;
         background: none;
       }
     }
   }
 
-  .reg-number-confirmation {
-    .reg-number {
-      margin-top: 10px;
-      font-size: 30px;
-      padding: 4px 10px 0px;
-      min-width: 180px;
-      text-align: center;
-    }
-  }
+
 }
 
 .vrm-assign-online .prototype {
@@ -122,16 +115,9 @@ ul.hint-list {
     .reg-number {
       margin-top: 10px;
       font-family: 'mandatoryregular';
-      font-size: 30px;
-      padding: 4px 10px 0px;
-      min-width: 180px;
-      text-align: center;
     }
     .reg-number-zoomed {
       @extend .reg-number;
-      font-size: 36px;
-      width:170px;
-      padding-bottom:0px;
     }
   .contact-info-wrapper {
     margin-top: 20px;
@@ -233,12 +219,6 @@ summary {
     line-height: 1.1;
     float: left;
   }
-  .reg-number {
-    min-width: 180px;
-    text-align: center;
-    font-size: 27px;
-    display: inline-block;
-  }
 }
 .confirmation-block {
   margin-bottom: 30px;
@@ -330,14 +310,6 @@ summary {
       font-size: 1.6rem;
     }
   }
-}
-
-.vrm-assign-online .alert-complete {
-    .reg-number {
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 27px;
-    }
 }
 
 .help-thumbs {
