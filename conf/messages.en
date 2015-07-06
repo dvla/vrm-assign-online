@@ -431,7 +431,7 @@ vrm_assign_eligibility_vic_failure_link = https://www.gov.uk/vehicle-identity-ch
 vrm_assign_eligibility_destroyed_failure = Our records show this vehicle has been destroyed.  Your application requires further assessment, please complete a V317 application and send to DVLA.
 vrm_assign_eligibility_not_mot_failure = Our records show this vehicle is not MOT testable by its construction or use. You cannot put your registration number on to this vehicle. More information can be found at
 vrm_assign_eligibility_not_mot_failure_link = https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency
-vrm_assign_eligibility_too_young_failure = You cannot put your registration number on this vehicle your number plate to this vehicle.  You cannot make your vehicle appear younger than it is.
+vrm_assign_eligibility_too_young_failure = You cannot put your registration number on this vehicle as it would make your vehicle appear younger than it is.
 vrm_assign_eligibility_v778_ref_failure = The V778 document reference number does not match our records, please check the number and try again.
 vrm_assign_eligibility_ninety_day_rule_failure = 90 day error message
 
