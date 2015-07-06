@@ -84,8 +84,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
-          responseMessage = Some("vrm_assign_eligibility_failure")
+          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_cert_begin_failure" =>
         cert_number_mismatch(
