@@ -1,3 +1,16 @@
+======= 1.12  ======
+Time of release binaries creation:
+Wed Jul 08 13:03:05 UTC 2015
+
+DE531	typo in eV948 pdf document.	
+US3416	Retain]Standardise the skeuomorphic number plate to match that in the right hand column	
+DE561	EE36 test data returns ""Not MOT testable"" message instead of ""Direct to paper"" message	
+DE565	Emails are being entered with spaces	
+DE569	Text with hint should be removed on the certificate page.	
+DE570	Text needs to reword on the confirm page	
+DE581	Script being shown on error page	
+DE587	Application Successful Page	
+
 ======= 1.11  ======
 Time of release binaries creation:
 Wed Jun 24 10:36:48 UTC 2015
