@@ -17,7 +17,7 @@
                 <dl class="playback">
                     <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                    <dd><span class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</span></dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
                         <dt>@Messages("vrm_assign_vehicle_callback.makeLabel")</dt>
                         <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
@@ -27,13 +27,15 @@
                         <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
                     }
                     <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-                    <dd class="reg-number">@data.replacementVRN</dd>
+                    <dd><span class="reg-number">@data.replacementVRN</span></dd>
 
                     <br/>
                     <p>@Messages("assign-application-details-contact-us")</p>
                     <p>@Messages("assign-application-details-telephone")</p>
-                    <p><strong>@Messages("assign-application-details-telephone-number")</strong> <br/>
-                        <small>@Messages("assign-application-details-telephone-number-extension")</small></p>
+                    <p>
+                        <strong>@Messages("assign-application-details-telephone-number")</strong>
+                        <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
+                    </p>
                     <p><strong>@Messages("assign-application-details-monday-to-friday")</strong></p>
                     <p><strong>@Messages("assign-application-details-saturday")</strong></p>
                     <p><strong>@Messages("assign-application-details-sunday")</strong></p>

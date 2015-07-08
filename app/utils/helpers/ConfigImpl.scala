@@ -1,7 +1,6 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getDurationProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getStringListProperty
@@ -36,9 +35,8 @@ class ConfigImpl extends Config {
   // Prototype message in html
   override val isPrototypeBannerVisible: Boolean = getProperty[Boolean]("prototype.disclaimer")
 
-  // Prototype survey URL
-  override val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")
-  override val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval")
+  // Survey URL
+  override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
 
   // Google analytics
   override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.assign")

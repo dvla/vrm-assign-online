@@ -32,9 +32,8 @@ trait Config extends VehicleLookupConfig {
   // Prototype message in html
   val isPrototypeBannerVisible: Boolean
 
-  // Prototype survey URL
-  val prototypeSurveyUrl: String
-  val prototypeSurveyPrepositionInterval: Long
+  // Survey URL
+  val surveyUrl: Option[String]
 
   // Google analytics
   val googleAnalyticsTrackingId: Option[String]
