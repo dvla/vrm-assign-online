@@ -1,3 +1,20 @@
+======= 1.13  ======
+Time of release binaries creation:
+Wed Jul 22 09:57:06 UTC 2015
+
+DE327	Crown image is not displayed in the Email confirmation.,Accepted,Personalised Registration
+US3120	Make Nginx error pages unique to each service and apply Google Analytics tracking,Accepted,Common
+DE470	Invaild payment fulfil scenario, landing on the wrong page.",Accepted,Personalised Registration
+DE521	Box 2 & 3 on certificate accepts dash(-), full stop(.) & single quote (').",Accepted,Personalised Registration
+US3208	RabbitMQ Cluster Fix,Accepted,Personalised Registration
+DE531	Typo in eV948 pdf document.,Accepted,Common
+DE582	Not receiving email confirmations,Accepted,Common
+US3491	Change CEG access code,Accepted,Personalised Registration
+US3512	Ensure there are 3 alphas in first line of address,Accepted,Vehicles Management
+DE624	Error page wording,Accepted,Personalised Registration
+DE626	Seriously damaged vehicle wording error page,Accepted,Personalised Registration
+DE631	Bad email messages (space in domain name) are not getting moved to """"hq-email-dlq"""" queue",Accepted,
+
 ======= 1.12  ======
 Time of release binaries creation:
 Wed Jul 08 13:03:05 UTC 2015
