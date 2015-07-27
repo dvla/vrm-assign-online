@@ -15,7 +15,6 @@ import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import views.vrm_assign.VehicleLookup.ReplacementVRN
 
-
 /**
  * A form model for the vehicle lookup page
  * @param replacementVRN the new VRN to be assigned to the vehicle.
@@ -28,7 +27,11 @@ final case class VehicleAndKeeperLookupFormModel(replacementVRN: String,
                                                  referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
-                                                 userType: String) extends VehicleLookupFormModelBase
+                                                 userType: String) extends VehicleLookupFormModelBase {
+
+  def isBusinessUserType = userType == views.vrm_assign.VehicleLookup.UserType_Business
+  def isKeeperUserType = userType == views.vrm_assign.VehicleLookup.UserType_Keeper
+}
 
 object VehicleAndKeeperLookupFormModel {
 
@@ -45,5 +48,4 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
-
 }

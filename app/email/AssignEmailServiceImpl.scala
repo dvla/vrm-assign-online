@@ -5,7 +5,6 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.ConfirmFormModel
-import models.FulfilModel
 import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
@@ -46,6 +45,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                    businessDetailsModel: Option[BusinessDetailsModel],
                    isKeeper: Boolean,
                    trackingId: String): Option[EmailServiceSendRequest] = {
+
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if ((!config.emailWhitelist.isDefined) ||
@@ -114,7 +114,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         None
       ))
     } else {
-      Logger.error("Email not sent as not in whitelist")
+      Logger.error(s"Email not sent as email address $emailAddress is not in white list")
       None
     }
   }
