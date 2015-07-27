@@ -68,6 +68,16 @@
 
             }
 
+            @if(successViewModel.paymentMade) {
+                @if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
+                    <p>@Messages("vrm_assign_success_payment.what-next-5a")</p>
+                }
+            } else {
+                @if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
+                    <p>@Messages("vrm_assign_success_payment.what-next-5b")</p>
+                }
+            }
+
             <div class="form-steps">
                 <div class="step">
                     <button id="@PrintId" type="button" name="action" value="Print this page" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>

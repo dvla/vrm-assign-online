@@ -10,6 +10,7 @@
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.VehicleLookupFailure.ExitId
+@import views.vrm_assign.VehicleLookupFailure.VehicleLookupId
 
 @main(
     title = Messages(s"vehicle-lookup-failure-eligibility-title")
@@ -32,6 +33,8 @@
             }
 
             <div class="form-steps">
+                <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vehicle-lookup-failure-cert-number-try-again")</a>
+                <br/>
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
             </div>
         </div>

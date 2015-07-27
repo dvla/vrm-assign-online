@@ -273,7 +273,8 @@ onHandlerNotFound.body=We are unable to find the page you have requested, this e
 onHandlerNotFound.noJavascript=If you wish to try again select the back button on your browser, if not select "Exit" to leave the service.
 onHandlerNotFound.start.button=Start
 
-error.title=An unrecoverable error has occurred
+error.title=We are sorry
+error.text=An error has occurred, please start again.
 error.button=Start again
 
 language.cy.button = Cymraeg
@@ -676,6 +677,8 @@ vrm_assign_success_payment.what-next-1 = If you have the number plates already, 
 vrm_assign_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C or using your V750/V778 certificate
 vrm_assign_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
 vrm_assign_success_payment.what-next-4 = Advise your insurance company about your change of registration number.
+vrm_assign_success_payment.what-next-5a = You will receive an email confirmation of your assignment and a payment receipt.
+vrm_assign_success_payment.what-next-5b = You will receive an email confirmation of your assignment.
 
 vrm_assign_success.h2a = What happens next?
 vrm_assign_success.p4 = DVLA will send a new registration certificate (V5C) with for the registration number
