@@ -102,7 +102,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = request.cookies
             .getString(TransactionIdCacheKey)
-            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
           timestamp = dateService.dateTimeISOChronology
         ))
         Future.successful {
@@ -137,7 +137,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             pageMovement = AuditRequest.PaymentToSuccess,
             transactionId = request.cookies
               .getString(TransactionIdCacheKey)
-              .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -153,7 +153,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         case _ =>
           auditService2.send(AuditRequest.from(
             pageMovement = AuditRequest.ConfirmToSuccess,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -184,7 +184,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           pageMovement = AuditRequest.PaymentToPaymentFailure,
           transactionId = request.cookies
             .getString(TransactionIdCacheKey)
-            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -202,7 +202,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
           transactionId = request.cookies
             .getString(TransactionIdCacheKey)
-            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),

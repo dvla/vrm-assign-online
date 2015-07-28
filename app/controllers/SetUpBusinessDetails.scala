@@ -72,7 +72,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
-          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)

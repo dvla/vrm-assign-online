@@ -85,7 +85,7 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
     auditService2.send(AuditRequest.from(
       pageMovement = pageMovement,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],

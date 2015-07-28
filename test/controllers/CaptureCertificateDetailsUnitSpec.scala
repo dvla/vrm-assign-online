@@ -161,7 +161,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         name = AuditRequest.CaptureCertificateDetailsToExit,
         serviceType = "PR Assign",
         data = Seq(
-          ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+          ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId.value),
           ("timestamp", dateService.dateTimeISOChronology),
           ("currentVrm", RegistrationNumberValid),
           ("make", VehicleMakeValid.get),

@@ -120,7 +120,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 //         TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
+        val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
         checkVrmEligibility(form, vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId)
       }
       else Future.successful {
@@ -333,7 +333,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     implicit request =>
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)

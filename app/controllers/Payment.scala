@@ -123,7 +123,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.PaymentToPaymentFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -183,7 +183,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -253,7 +253,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
