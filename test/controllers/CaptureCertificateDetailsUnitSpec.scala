@@ -1,5 +1,7 @@
 package controllers
 
+import java.text.SimpleDateFormat
+
 import composition.WithApplication
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
@@ -10,6 +12,8 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import org.joda.time.DateTime
+import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
 import org.mockito.Mockito._
 import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.ConfirmPage
@@ -105,7 +109,7 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-              model.outstandingDates.size should equal(1)
+              model.outstandingDates.size should equal(2)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -218,6 +222,77 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       whenReady(back(BusinessConsentValid)) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
+    }
+  }
+
+  "calculateYearsOwed" should {
+    "return no charge for an expiry date after the abolition date" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = build()
+
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+      val expiryDate = formatter.parseDateTime("10/03/2015")
+      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
+    }
+
+    "return no charge for an expiry date on the abolition date" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = build()
+
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+      val expiryDate = formatter.parseDateTime("09/03/2015")
+      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
+    }
+
+    "return 1 charge for an expiry date on the day before abolition date" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = build()
+
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+      val expiryDate = formatter.parseDateTime("08/03/2015")
+      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(1)
+    }
+
+    "return 4 charges for an expiry date of 08/03/2012" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = build()
+
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+      val expiryDate = formatter.parseDateTime("08/03/2012")
+      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(4)
+    }
+
+    "return 3 charges for an expiry date of 11/11/2012" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = build()
+
+      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
+      val expiryDate = formatter.parseDateTime("11/11/2012")
+      val result = captureCertificateDetails.calculateYearsOwed(expiryDate)
+      result.size should equal(3)
+      result.head should include ("11/11/2013")
+      result.tail.head should include ("11/11/2014")
+      result.tail.tail.head should include ("11/11/2015")
     }
   }
 

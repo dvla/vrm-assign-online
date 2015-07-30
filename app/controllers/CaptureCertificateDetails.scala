@@ -229,22 +229,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         withCookie(captureCertificateDetailsModel)
     }
 
-    def calculateYearsOwed(certificateExpiryDate: DateTime): ListBuffer[String] = {
-      // calculate number of years owed
-      var outstandingDates = new ListBuffer[String]
-      var yearsOwedCount = 0
-      var nextRenewalDate = certificateExpiryDate.plus(Period.years(1))
-      val fmt = DateTimeFormat.forPattern("dd/MM/YYYY")
-      val abolitionDate = fmt.parseDateTime(config.renewalFeeAbolitionDate)
-      while (nextRenewalDate.isBefore(abolitionDate)) {
-        yearsOwedCount += 1
-        outstandingDates += (fmt.print(nextRenewalDate.minus(Period.years(1)).plus(Period.days(1))) + "  -  "
-          + fmt.print(nextRenewalDate) + "   £" + (config.renewalFee.toInt / 100.0) + "0")
-        nextRenewalDate = nextRenewalDate.plus(Period.years(1))
-      }
-      outstandingDates
-    }
-
     val trackingId = request.cookies.trackingId()
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
@@ -338,4 +322,25 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
+
+  private val certFmt = DateTimeFormat.forPattern("dd/MM/YYYY")
+
+  def calculateYearsOwed(certExpiryDate: DateTime): ListBuffer[String] = {
+    val renewalDate = certExpiryDate.plus(Period.years(1))
+    val renewalFeeAbolitionDate = certFmt.parseDateTime(config.renewalFeeAbolitionDate)
+
+    if (certExpiryDate.isBefore(renewalFeeAbolitionDate)) {
+      yearOwedOutputLine(renewalDate) ++ calculateYearsOwed(renewalDate)
+    } else {
+      ListBuffer.empty
+    }
+  }
+
+  def yearOwedOutputLine(renewalDate: DateTime): ListBuffer[String] = {
+    new ListBuffer[String] += 
+      certFmt.print(renewalDate.minus(Period.years(1)).plus(Period.days(1))) + 
+      "  -  "  + certFmt.print(renewalDate) + 
+      "   £" + (config.renewalFee.toInt / 100.0) + "0"
+  }
+
 }
