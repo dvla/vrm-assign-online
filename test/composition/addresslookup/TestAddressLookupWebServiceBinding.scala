@@ -8,6 +8,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 
 final class TestAddressLookupWebServiceBinding extends ScalaModule with MockitoSugar {
@@ -15,18 +16,18 @@ final class TestAddressLookupWebServiceBinding extends ScalaModule with MockitoS
   val stub = {
     val webService = mock[AddressLookupWebService]
     when(webService.callPostcodeWebService(postcode = any[String],
-      trackingId = any[String],
+      trackingId = any[TrackingId],
       showBusinessName = any[Option[Boolean]])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseValidForPostcodeToAddress)
     when(webService.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),
-      any[String],
+      any[TrackingId],
       showBusinessName = any[Option[Boolean]])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseWhenPostcodeInvalid)
     when(webService.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnValid.toString),
-      trackingId = any[String])(any[Lang]))
+      trackingId = any[TrackingId])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddress)
     when(webService.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnInvalid.toString),
-      trackingId = any[String])(any[Lang]))
+      trackingId = any[TrackingId])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddressNotFound)
     webService
   }

@@ -5,6 +5,7 @@ import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBind
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
 import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.emailservice.EmailServiceSendResponse
@@ -17,7 +18,7 @@ final class TestEmailServiceWebServiceBinding(emailServiceWebService: EmailServi
                                                ) extends ScalaModule with MockitoSugar {
 
   val stub = {
-    when(emailServiceWebService.invoke(any[EmailServiceSendRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
+    when(emailServiceWebService.invoke(any[EmailServiceSendRequest], any[TrackingId])).thenReturn(Future.successful(createResponse(statusAndResponse)))
     emailServiceWebService
   }
 

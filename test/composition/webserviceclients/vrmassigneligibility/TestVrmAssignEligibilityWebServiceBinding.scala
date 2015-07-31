@@ -6,6 +6,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseSuccess
@@ -19,7 +20,7 @@ final class TestVrmAssignEligibilityWebServiceBinding(statusAndResponse: (Int, O
   val stub = {
     val webService: VrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService]
     when(webService.invoke(any[VrmAssignEligibilityRequest],
-      any[String]))
+      any[TrackingId]))
       .thenReturn(Future.successful(createResponse(statusAndResponse)))
     webService
   }

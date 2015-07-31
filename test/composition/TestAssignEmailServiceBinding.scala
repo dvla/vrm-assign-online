@@ -6,6 +6,7 @@ import models._
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito.when
 import org.mockito.Matchers.any
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 final class TestAssignEmailServiceBinding extends ScalaModule with MockitoSugar {
@@ -22,7 +23,7 @@ final class TestAssignEmailServiceBinding extends ScalaModule with MockitoSugar 
     any[Option[ConfirmFormModel]],
     any[Option[BusinessDetailsModel]],
     any[Boolean],
-    any[String]
+    any[TrackingId]
   )).thenReturn(None)
 
   def configure() = {

@@ -22,9 +22,7 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, CacheKey, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -277,8 +275,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
   }
 
-  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
-    VssWebHeaderDto(transactionId = trackingId,
+  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,

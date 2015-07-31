@@ -6,6 +6,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.vrmAssignFulfilResponseSuccess
@@ -17,7 +18,7 @@ final class TestVrmAssignFulfilWebServiceBinding extends ScalaModule with Mockit
 
   val stub = {
     val webService = mock[VrmAssignFulfilWebService]
-    when(webService.invoke(any[VrmAssignFulfilRequest], any[String])).
+    when(webService.invoke(any[VrmAssignFulfilRequest], any[TrackingId])).
       thenReturn(Future.successful(createResponse(vrmAssignFulfilResponseSuccess)))
     webService
   }

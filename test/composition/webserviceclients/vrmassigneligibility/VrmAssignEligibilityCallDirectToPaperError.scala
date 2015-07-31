@@ -5,6 +5,7 @@ import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibili
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseDirectToPaperError
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
@@ -14,7 +15,7 @@ final class VrmAssignEligibilityCallDirectToPaperError extends ScalaModule with 
 
   val stub = {
     val webService = mock[VrmAssignEligibilityWebService]
-    when(webService.invoke(any[VrmAssignEligibilityRequest], any[String])).
+    when(webService.invoke(any[VrmAssignEligibilityRequest], any[TrackingId])).
       thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseDirectToPaperError)))
     webService
   }

@@ -8,6 +8,7 @@ import helpers.UnitSpec
 import helpers.WireMockFixture
 import org.joda.time.DateTime
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
@@ -24,7 +25,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicleandkeeper/lookup/v1")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)))
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)))
       }
     }
   }
@@ -35,7 +36,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
     }
   )
 
-  private final val trackingId = "track-id-test"
+  private final val trackingId = TrackingId("track-id-test")
 
   private def dateTime = new DateTime(
     YearValid.toInt,
@@ -51,10 +52,10 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
     transactionTimestamp = dateTime
   )
 
-  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
+  private def buildHeader(trackingId: TrackingId): DmsWebHeaderDto = {
     val alwaysLog = true
     val englishLanguage = "EN"
-    DmsWebHeaderDto(conversationId = trackingId,
+    DmsWebHeaderDto(conversationId = trackingId.value,
       originDateTime = dateTime,
       applicationCode = "test-applicationCode",
       channelCode = "test-channelCode",

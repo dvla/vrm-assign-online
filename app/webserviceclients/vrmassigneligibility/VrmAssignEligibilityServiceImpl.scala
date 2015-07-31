@@ -2,6 +2,7 @@ package webserviceclients.vrmassigneligibility
 
 import javax.inject.Inject
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -10,7 +11,7 @@ final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWe
   extends VrmAssignEligibilityService {
 
   override def invoke(cmd: VrmAssignEligibilityRequest,
-                      trackingId: String): Future[VrmAssignEligibilityResponse] =
+                      trackingId: TrackingId): Future[VrmAssignEligibilityResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VrmAssignEligibilityResponse]
       else throw new RuntimeException(

@@ -6,6 +6,7 @@ import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -15,12 +16,12 @@ final class VrmAssignEligibilityWebServiceImpl @Inject()(config: Config) extends
 
   private val endPoint = s"${config.vrmAssignEligibilityMicroServiceUrlBase}/vrm/assign/eligibility"
 
-  override def invoke(request: VrmAssignEligibilityRequest, trackingId: String): Future[WSResponse] = {
+  override def invoke(request: VrmAssignEligibilityRequest, trackingId: TrackingId): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
     Logger.debug(s"Calling vrm assign eligibility micro-service with request $vrm and tracking id: $trackingId")
     WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(config.vrmAssignEligibilityRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }

@@ -2,6 +2,7 @@ package webserviceclients.paymentsolve
 
 import javax.inject.Inject
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -9,7 +10,7 @@ import scala.util.control.NonFatal
 final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extends PaymentSolveService {
 
   override def invoke(cmd: PaymentSolveBeginRequest,
-                      trackingId: String): Future[PaymentSolveBeginResponse] = {
+                      trackingId: TrackingId): Future[PaymentSolveBeginResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveBeginResponse]
       else throw new RuntimeException(
@@ -22,7 +23,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveGetRequest,
-                      trackingId: String): Future[PaymentSolveGetResponse] = {
+                      trackingId: TrackingId): Future[PaymentSolveGetResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveGetResponse]
       else throw new RuntimeException(
@@ -35,7 +36,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveCancelRequest,
-                      trackingId: String): Future[PaymentSolveCancelResponse] = {
+                      trackingId: TrackingId): Future[PaymentSolveCancelResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveCancelResponse]
       else throw new RuntimeException(
@@ -48,7 +49,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveUpdateRequest,
-                      trackingId: String): Future[PaymentSolveUpdateResponse] = {
+                      trackingId: TrackingId): Future[PaymentSolveUpdateResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveUpdateResponse]
       else throw new RuntimeException(

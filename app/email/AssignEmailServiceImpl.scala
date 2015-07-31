@@ -13,6 +13,7 @@ import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -25,6 +26,7 @@ import views.html.vrm_assign.email_with_html
 import views.html.vrm_assign.email_without_html
 import webserviceclients.emailservice.EmailService
 import webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common.LogFormats._
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                                              dateService: DateService,
@@ -44,7 +46,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
                    isKeeper: Boolean,
-                   trackingId: String): Option[EmailServiceSendRequest] = {
+                   trackingId: TrackingId): Option[EmailServiceSendRequest] = {
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
@@ -114,7 +116,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         None
       ))
     } else {
-      Logger.error(s"Email not sent as email address $emailAddress is not in white list")
+      Logger.error(logMessage(s"Email not sent as email address $emailAddress is not in white list",trackingId))
       None
     }
   }
@@ -129,7 +131,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
                          isKeeper: Boolean,
-                         trackingId: String) {
+                         trackingId: TrackingId) {
     Future {
       emailRequest(
         emailAddress,
@@ -144,18 +146,18 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         isKeeper,
         trackingId
       ).map { emailServiceSendRequest =>
-        Logger.info(s"About to send email to $emailAddress - trackingId $trackingId")
+        Logger.info(logMessage(s"About to send email to $emailAddress",trackingId))
         if (emailServiceSendRequest.attachment.isDefined) {
           Logger.info("Sending with attachment")
         }
 
         emailService.invoke(emailServiceSendRequest, trackingId).map {
           response =>
-            if (isKeeper) Logger.info(s"Keeper email sent - trackingId $trackingId")
-            else Logger.info(s"Non-keeper email sent - trackingId $trackingId")
+            if (isKeeper) Logger.info(logMessage(s"Keeper email sent",trackingId))
+            else Logger.info(logMessage(s"Non-keeper email sent",trackingId))
         }.recover {
           case NonFatal(e) =>
-            Logger.error(s"Email Service web service call failed. Exception " + e.toString)
+            Logger.error(logMessage(s"Email Service web service call failed. Exception " + e.toString,trackingId))
         }
       }
     }
