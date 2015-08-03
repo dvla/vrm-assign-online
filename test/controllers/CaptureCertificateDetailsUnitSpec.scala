@@ -43,10 +43,9 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Transac
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 
-final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
+class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val request = FakeRequest().
         withCookies(
@@ -54,7 +53,6 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
-
       var result = captureCertificateDetails.present(request)
 
       whenReady(result, timeout) { result =>
@@ -64,7 +62,6 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect back to Error page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val (captureCertificateDetails, dateService, auditService) = build()
@@ -152,14 +149,12 @@ final class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-
     "redirect to LeaveFeedback" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           vehicleAndKeeperDetailsModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
-
       val result = captureCertificateDetails.exit(request)
 
       whenReady(result, timeout) { r =>

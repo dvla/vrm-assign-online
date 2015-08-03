@@ -19,12 +19,10 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.ConfirmFormModel
-import models.FulfilModel
 import models.VehicleAndKeeperLookupFormModel
 import org.mockito.{Mockito, Matchers}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.never
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.scalatest.mock.MockitoSugar
 import pages.vrm_assign.SuccessPage

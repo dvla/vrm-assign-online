@@ -19,7 +19,6 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 class CaptureCertificateDetailsFormSpec extends UnitSpec {
 
   "form" should {
-
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.certificateDate should equal(CertificateDateValid)
     }

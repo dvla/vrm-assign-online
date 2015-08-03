@@ -32,7 +32,6 @@ import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{
 class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
-
     "redirect to ConfirmPaymentPage when TransactionId cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
@@ -146,7 +145,6 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "getWebPayment" should {
-
     "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
@@ -228,7 +226,6 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "cancel" should {
-
     "redirect to LeaveFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
       val result = paymentCancelValidated.cancel(requestWithValidDefaults())
       whenReady(result) { r =>

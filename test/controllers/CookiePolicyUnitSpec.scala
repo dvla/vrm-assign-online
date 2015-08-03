@@ -12,7 +12,6 @@ import play.api.test.Helpers.status
 class CookiePolicyUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val result = cookiePolicy.present(FakeRequest())
       status(result) should equal(OK)
