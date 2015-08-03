@@ -1,9 +1,6 @@
 package controllers
 
-import java.text.SimpleDateFormat
-
 import composition.WithApplication
-import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
@@ -12,8 +9,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs._
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
-import org.joda.time.DateTime
-import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import org.joda.time.format.DateTimeFormat
 import org.mockito.Mockito._
 import pages.vrm_assign.ConfirmBusinessPage
 import pages.vrm_assign.ConfirmPage
