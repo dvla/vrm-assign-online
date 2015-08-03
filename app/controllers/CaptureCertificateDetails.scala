@@ -29,6 +29,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
@@ -54,7 +55,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
                                                  auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
-                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                                dateService: DateService)
                                                 extends Controller {
 
   type Form = CaptureCertificateDetailsFormModel
@@ -99,7 +100,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
               }
             case _ =>
               Future.successful {
-                Redirect(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"))
+                val msg = "user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"
+                Redirect(routes.Error.present(msg))
               }
           }
         },
@@ -337,5 +339,25 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
+  }
+
+  private val certFmt = DateTimeFormat.forPattern("dd/MM/YYYY")
+
+  def calculateYearsOwed(certExpiryDate: DateTime): ListBuffer[String] = {
+    val renewalDate = certExpiryDate.plus(Period.years(1))
+    val renewalFeeAbolitionDate = certFmt.parseDateTime(config.renewalFeeAbolitionDate)
+
+    if (certExpiryDate.isBefore(renewalFeeAbolitionDate)) {
+      yearOwedOutputLine(renewalDate) ++ calculateYearsOwed(renewalDate)
+    } else {
+      ListBuffer.empty
+    }
+  }
+
+  def yearOwedOutputLine(renewalDate: DateTime): ListBuffer[String] = {
+    new ListBuffer[String] += 
+      certFmt.print(renewalDate.minus(Period.years(1)).plus(Period.days(1))) + 
+      "  -  "  + certFmt.print(renewalDate) + 
+      "   £" + (config.renewalFeeInPence.toInt / 100.0) + "0"
   }
 }
