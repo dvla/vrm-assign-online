@@ -26,16 +26,16 @@ object ReceiptEmailMessageBuilder {
     )
   }
 
-   private def buildBusinessHtml(business: BusinessDetails): String =
-   s"""
+  private def buildBusinessHtml(business: BusinessDetails): String =
+  s"""
       |<ul>
       |<li>Business Name: <strong>${business.name}</strong></li>
       |<li>Business Contact: <strong>${business.contact}</strong></li>
       |<li>Business Address: ${ (for {
            addr <- business.address
          } yield s"<li>$addr</li>").mkString("<ul>", "", "</ul>")  }</li>
-       |</ul>
-     """.stripMargin
+      |</ul>
+  """.stripMargin
 
   private def buildBusinessPlain(business: BusinessDetails): String =
   s"""
@@ -43,7 +43,7 @@ object ReceiptEmailMessageBuilder {
    }: ${business.name}
      |Business Contact: ${business.contact}
      |Business Address: ${business.address}
-   """.stripMargin
+  """.stripMargin
 
   private def buildHtml(assignVrn: String,
                         amountCharged: String,

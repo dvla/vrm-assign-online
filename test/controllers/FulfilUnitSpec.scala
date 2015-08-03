@@ -1,11 +1,15 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import composition.RefererFromHeaderBinding
 import composition.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
+import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
 import controllers.Payment.AuthorisedStatus
+import email.{AssignEmailServiceImpl, AssignEmailService}
 import helpers.UnitSpec
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
@@ -15,12 +19,26 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import org.mockito.ArgumentCaptor
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{verify, when}
+import pdf.PdfService
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import utils.helpers.Config
+import webserviceclients.emailservice.EmailService
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
+import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
+import webserviceclients.vrmassignfulfil.VrmAssignFulfilWebService
 
 class FulfilUnitSpec extends UnitSpec {
+
+  val keeperEmail = "keeper.example@test.com"
+  val businessEmail = "business.example@test.com"
 
   "fulfil" should {
     "redirect to ErrorPage when cookies do not exist" in new WithApplication {
@@ -52,6 +70,83 @@ class FulfilUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some("/error/user%20went%20to%20fulfil%20mark%20without%20correct%20cookies"))
       }
     }
+
+    "send a payment email to the registered keeper only and not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+      val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
+
+      // user type: keeper
+      // businessDetailsModel is populated
+      // confirmModel created with the keeper email supplied
+      val result = fulfilController.fulfil(requestWithFeesDue())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+
+        verify(wsMock).invoke(
+          assignFulfilRequestArg.capture(), any[String])
+
+        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        paymentSuccessReceiptEmails.size should equal(1) // Based on user type = keeper
+        paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(keeperEmail)))
+
+        val assignSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
+        // Email for the keeper because the keeper email is specified in confirmModel. No business email because the user type is keeper
+        assignSuccessEmailRequests.size should equal(1)
+        assignSuccessEmailRequests.head.toReceivers should equal(Some(List(keeperEmail)))
+      }
+    }
+
+    "send a payment email to the business acting on behalf of the keeper and not to the keeper when business is chosen and send retention success emails to both business and keeper when keeper email is supplied" in new WithApplication {
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+      val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
+
+      // user type: business
+      // businessDetailsModel is populated
+      // confirmModel created with the keeper email supplied
+      val result = fulfilController.fulfil(requestWithFeesDue(keeperConsent = BusinessConsentValid))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+
+        verify(wsMock).invoke(
+          assignFulfilRequestArg.capture(), any[String])
+
+        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        paymentSuccessReceiptEmails.size should equal(1) // Based on user type = business
+        paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(businessEmail)))
+
+        val retentionSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
+        // 1 for business because user type = business and
+        // 1 for keeper because the keeper email is supplied in the confirmModel
+        retentionSuccessEmailRequests.size should equal(2)
+        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
+        retentionSuccessEmailRequests(1).toReceivers should equal(Some(List(keeperEmail)))
+      }
+    }
+
+    "send a payment email and a retention success email to the business acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+      val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
+
+      // user type: business
+      // businessDetailsModel is populated
+      // confirmModel created with no keeper email supplied
+      val result = fulfilController.fulfil(requestWithFeesDue(keeperConsent = BusinessConsentValid, keeperEmail = None))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+
+        verify(wsMock).invoke(
+          assignFulfilRequestArg.capture(), any[String])
+
+        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        paymentSuccessReceiptEmails.size should equal(1)
+        paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(businessEmail)))
+
+        val retentionSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
+        // Email for the business because the user type is business. No keeper email because no keeper email supplied in ConfirmModel
+        retentionSuccessEmailRequests.size should equal(1)
+        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
+      }
+    }
   }
 
   private def requestWithFeesNotDue(referer: String = loadBalancerUrl): FakeRequest[AnyContentAsEmpty.type] = {
@@ -69,12 +164,17 @@ class FulfilUnitSpec extends UnitSpec {
       )
   }
 
-  private def requestWithFeesDue(referer: String = loadBalancerUrl, paymentStatus: Option[String] = Some(AuthorisedStatus)): FakeRequest[AnyContentAsEmpty.type] = {
+  private def requestWithFeesDue(referer: String = loadBalancerUrl,
+                                 paymentStatus: Option[String] = Some(AuthorisedStatus),
+                                 keeperConsent: String = KeeperConsentValid,
+                                 keeperEmail: Option[String] = KeeperEmailValid
+                                ): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
     FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
       withCookies(
-        vehicleAndKeeperLookupFormModel(registrationNumber = "DD22"),
+        vehicleAndKeeperLookupFormModel(registrationNumber = "DD22", keeperConsent = keeperConsent),
+        businessDetailsModel(),
         transactionId(),
         captureCertificateDetailsFormModel(),
         granteeConsent(),
@@ -82,7 +182,7 @@ class FulfilUnitSpec extends UnitSpec {
         paymentModel(paymentStatus = paymentStatus),
         paymentTransNo(),
         vehicleAndKeeperDetailsModel(registrationNumber = "DD22"),
-        confirmFormModel()
+        confirmFormModel(keeperEmail = keeperEmail)
       )
   }
 
@@ -90,4 +190,40 @@ class FulfilUnitSpec extends UnitSpec {
     new ValidatedCardDetails(),
     new RefererFromHeaderBinding
   ).getInstance(classOf[Fulfil])
+
+  private def fulfilControllerAndWebServiceMock: (Fulfil, VrmAssignFulfilWebService) = {
+    val webServiceMock = new TestVrmAssignFulfilWebServiceBinding
+    val mock = webServiceMock.stub
+
+    val fulfil = testInjector(
+      new ValidatedCardDetails(),
+      new RefererFromHeaderBinding,
+      // Bind the mock to the trait. We have a reference to the mock which we can pass out of this method
+      // so client code can perform expectations on it
+      new ScalaModule() {
+        override def configure(): Unit = bind[VrmAssignFulfilWebService].toInstance(mock)
+      },
+      // By default the testInjector mocks the RetainEmailService. However, we want a real instance of the
+      // RetainEmailService because it contains logic that needs to be tested. So we bind a real instance
+      // that has mocks for all it dependencies
+      new ScalaModule() {
+        override def configure(): Unit = bind[AssignEmailService].toInstance(assignEmailServiceInstance)
+      }
+    ).getInstance(classOf[Fulfil])
+    (fulfil, mock)
+  }
+
+  private def assignEmailServiceInstance: AssignEmailService = {
+    val emailServiceMock = mock[EmailService]
+
+    val pdfServiceMock = mock[PdfService]
+    when(pdfServiceMock.create(any[String], any[String], any[Option[AddressModel]], any[String]))
+      .thenReturn(Array.ofDim[Byte](0))
+
+    val configMock = mock[Config]
+    when(configMock.emailWhitelist).thenReturn(Some(List("@test.com")))
+    when(configMock.renewalFeeInPence).thenReturn("2500")
+
+    new AssignEmailServiceImpl(emailServiceMock, pdfServiceMock, configMock)
+  }
 }

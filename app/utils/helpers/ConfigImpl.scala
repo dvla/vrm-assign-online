@@ -45,7 +45,7 @@ class ConfigImpl extends Config {
   override val isProgressBarEnabled: Boolean = getProperty[Boolean]("progressBar.enabled")
 
   // Payment Service
-  override val renewalFee: String = getProperty[String]("assign.renewalFee.price")
+  override val renewalFeeInPence: String = getProperty[String]("assign.renewalFee.price")
   override val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
 
   // Email Service

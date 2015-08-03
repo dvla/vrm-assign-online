@@ -17,7 +17,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
@@ -27,7 +26,6 @@ import webserviceclients.emailservice.EmailService
 import webserviceclients.emailservice.EmailServiceSendRequest
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
-                                             dateService: DateService,
                                              pdfService: PdfService,
                                              config: Config) extends AssignEmailService {
 
@@ -49,8 +47,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if ((!config.emailWhitelist.isDefined) ||
-      (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
-        inputEmailAddressDomain != "test.com") {
+      (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
 
       val keeperName = Seq(vehicleAndKeeperDetailsModel.title,
         vehicleAndKeeperDetailsModel.firstName,
@@ -63,6 +60,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         vehicleAndKeeperDetailsModel.address,
         vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
       )
+
       val plainTextMessage = populateEmailWithoutHtml(
         vehicleAndKeeperDetailsModel,
         captureCertificateDetailsFormModel,
@@ -74,6 +72,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       )
+
       val message = htmlMessage(
         vehicleAndKeeperDetailsModel,
         captureCertificateDetailsFormModel,
@@ -85,6 +84,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       ).toString()
+
       //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
       val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
@@ -114,7 +114,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         None
       ))
     } else {
-      Logger.error(s"Email not sent as email address $emailAddress is not in white list")
+      Logger.error(s"EmailServiceSendRequest not created as email address domain not in white list - trackingId $trackingId")
       None
     }
   }
@@ -193,7 +193,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFee.toDouble / 100.0).toString,
+      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
@@ -224,7 +224,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFee.toDouble / 100.0).toString,
+      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
 //      replacementVRM = captureCertificateDetailsFormModel.prVrm,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,

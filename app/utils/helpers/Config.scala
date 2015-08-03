@@ -42,7 +42,7 @@ trait Config extends VehicleLookupConfig {
   val isProgressBarEnabled: Boolean
 
   // Payment Service
-  val renewalFee: String
+  val renewalFeeInPence: String
   val renewalFeeAbolitionDate: String
 
   // Email Service

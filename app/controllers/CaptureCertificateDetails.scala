@@ -170,7 +170,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperLookupFormModel.replacementVRN,
         Some(certificateExpiryDate),
         outstandingDates.toList,
-        outstandingDates.size * config.renewalFee.toInt
+        outstandingDates.size * config.renewalFeeInPence.toInt
       )
 
       val redirectLocation = {
@@ -212,7 +212,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperLookupFormModel.replacementVRN,
         certificateExpiryDate,
         outstandingDates.toList,
-        outstandingDates.size * config.renewalFee.toInt
+        outstandingDates.size * config.renewalFeeInPence.toInt
       )
 
       auditService2.send(AuditRequest.from(
@@ -239,7 +239,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       while (nextRenewalDate.isBefore(abolitionDate)) {
         yearsOwedCount += 1
         outstandingDates += (fmt.print(nextRenewalDate.minus(Period.years(1)).plus(Period.days(1))) + "  -  "
-          + fmt.print(nextRenewalDate) + "   £" + (config.renewalFee.toInt / 100.0) + "0")
+          + fmt.print(nextRenewalDate) + "   £" + (config.renewalFeeInPence.toInt / 100.0) + "0")
         nextRenewalDate = nextRenewalDate.plus(Period.years(1))
       }
       outstandingDates
