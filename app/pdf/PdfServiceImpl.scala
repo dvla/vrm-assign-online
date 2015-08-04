@@ -46,7 +46,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       // Save the results and ensure that the document is properly closed:
       documentWatermarked.save(output)
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}")
+      case e: Exception => //logMessage( request.cookies.trackingId, Error, s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}")
     } finally {
       documentWatermarked.close()
     }

@@ -4,8 +4,20 @@ import helpers.UnitSpec
 import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
-import views.vrm_assign.SetupBusinessDetails._
-import webserviceclients.fakes.AddressLookupServiceConstants._
+import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
+import views.vrm_assign.SetupBusinessDetails.BusinessContactId
+import views.vrm_assign.SetupBusinessDetails.BusinessEmailId
+import views.vrm_assign.SetupBusinessDetails.BusinessNameId
+import webserviceclients.fakes.AddressLookupServiceConstants.AddressListSelectValid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine3Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
+import webserviceclients.fakes.AddressLookupServiceConstants.SearchPostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 class SetUpBusinessDetailsFormSpec extends UnitSpec {

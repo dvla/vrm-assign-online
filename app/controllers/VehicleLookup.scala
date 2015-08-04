@@ -11,8 +11,7 @@ import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -180,7 +179,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     val txnId = transactionId(formModel)
 
-    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
+    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)(request.cookies.trackingId())) {
 
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
       auditService2.send(AuditRequest.from(
@@ -268,10 +267,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     .withCookie(TransactionIdCacheKey, transactionId)
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 
-  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
+  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])(trackingId: TrackingId) = {
     dtoPostcode match {
       case Some(postcode) =>
-        Logger.info("formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
+        logMessage( trackingId, Info,"formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
@@ -301,7 +300,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
           formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
       case None =>
-        Logger.info("formModelPostcode = " + formModelPostcode)
+        logMessage( trackingId, Info, s"formModelPostcode = $formModelPostcode")
         formModelPostcode.isEmpty
     }
   }

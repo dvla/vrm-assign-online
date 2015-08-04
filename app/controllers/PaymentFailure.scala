@@ -7,6 +7,7 @@ import models.VehicleLookupFailureViewModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -17,7 +18,8 @@ import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                      extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -27,7 +29,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayPaymentFailure(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, captureCertificateDetailsFormModel)
       case _ =>
-        Logger.warn("*** PaymentFailure present cookie missing go to BeforeYouStart")
+        logMessage( request.cookies.trackingId, Warn, "PaymentFailure present cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }

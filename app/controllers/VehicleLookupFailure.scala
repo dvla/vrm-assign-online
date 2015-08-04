@@ -8,6 +8,7 @@ import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
@@ -22,7 +23,8 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLo
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
-                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                            extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -37,7 +39,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse,
           vehicleAndKeeperDetails, vehicleLookupResponseCode, captureCertificateDetailsFormModel, captureCertificateDetailsModel)
       case _ =>
-        Logger.warn("*** VehicleLookupFailure present cookie missing go to BeforeYouStart")
+        logMessage( request.cookies.trackingId(), Warn, "VehicleLookupFailure present cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }

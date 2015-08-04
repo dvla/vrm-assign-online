@@ -18,7 +18,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
@@ -29,9 +28,8 @@ import webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.LogFormats._
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
-                                             dateService: DateService,
                                              pdfService: PdfService,
-                                             config: Config) extends AssignEmailService {
+                                             config: Config) extends AssignEmailService with DVLALogger {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
@@ -51,8 +49,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if ((!config.emailWhitelist.isDefined) ||
-      (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
-        inputEmailAddressDomain != "test.com") {
+      (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
 
       val keeperName = Seq(vehicleAndKeeperDetailsModel.title,
         vehicleAndKeeperDetailsModel.firstName,
@@ -65,6 +62,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         vehicleAndKeeperDetailsModel.address,
         vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
       )
+
       val plainTextMessage = populateEmailWithoutHtml(
         vehicleAndKeeperDetailsModel,
         captureCertificateDetailsFormModel,
@@ -76,6 +74,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       )
+
       val message = htmlMessage(
         vehicleAndKeeperDetailsModel,
         captureCertificateDetailsFormModel,
@@ -87,6 +86,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       ).toString()
+
       //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
       val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
@@ -116,7 +116,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         None
       ))
     } else {
-      Logger.error(logMessage(s"Email not sent as email address $emailAddress is not in white list",trackingId))
+      logMessage( trackingId, Error, s"Email not sent as email address $emailAddress is not in white list")
       None
     }
   }
@@ -146,18 +146,18 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         isKeeper,
         trackingId
       ).map { emailServiceSendRequest =>
-        Logger.info(logMessage(s"About to send email to $emailAddress",trackingId))
+        logMessage( trackingId, Info, s"About to send email to $emailAddress")
         if (emailServiceSendRequest.attachment.isDefined) {
-          Logger.info("Sending with attachment")
+          logMessage( trackingId, Info, "Sending with attachment")
         }
 
         emailService.invoke(emailServiceSendRequest, trackingId).map {
           response =>
-            if (isKeeper) Logger.info(logMessage(s"Keeper email sent",trackingId))
-            else Logger.info(logMessage(s"Non-keeper email sent",trackingId))
+            if (isKeeper) logMessage( trackingId, Info, s"Keeper email sent")
+            else logMessage( trackingId, Info, s"Non-keeper email sent")
         }.recover {
           case NonFatal(e) =>
-            Logger.error(logMessage(s"Email Service web service call failed. Exception " + e.toString,trackingId))
+            logMessage( trackingId, Error, s"Email Service web service call failed. Exception ${e.getMessage}")
         }
       }
     }
@@ -195,7 +195,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFee.toDouble / 100.0).toString,
+      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,
@@ -226,7 +226,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFee.toDouble / 100.0).toString,
+      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
 //      replacementVRM = captureCertificateDetailsFormModel.prVrm,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,

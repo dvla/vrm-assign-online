@@ -12,7 +12,6 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVe
 class ConfirmFormSpec extends UnitSpec {
 
   "form" should {
-
     "accept when the keeper wants an email and does provide an email address" in {
       val model = buildForm().get
 

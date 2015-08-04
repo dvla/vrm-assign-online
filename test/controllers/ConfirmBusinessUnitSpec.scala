@@ -86,7 +86,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
-        verify(auditService2.stub).send(auditRequest)
+        verify(auditService2.stub).send(auditRequest)(request)
       }
     }
 

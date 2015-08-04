@@ -1,10 +1,9 @@
 package pdf
 
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
-import scala.concurrent.Future
-
-trait PdfService {
+trait PdfService extends DVLALogger {
 
   def create(transactionId: String, name: String, address: Option[AddressModel], prVrm: String): Array[Byte]
 }

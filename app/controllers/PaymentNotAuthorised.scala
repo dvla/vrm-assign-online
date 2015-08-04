@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import models.{CacheKeyPrefix, CaptureCertificateDetailsFormModel, VehicleLookupFailureViewModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -12,7 +13,8 @@ import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
-                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                            extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -22,7 +24,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayPaymentNotAuthorised(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, captureCertificateDetailsFormModel)
       case _ =>
-        Logger.warn("*** PaymentNotAuthorised present cookie missing go to BeforeYouStart")
+        logMessage( request.cookies.trackingId(), Warn, "PaymentNotAuthorised present cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -32,7 +34,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
       case (Some(vehicleAndKeeperLookupFormModel)) =>
         Redirect(routes.VehicleLookup.present())
       case _ =>
-        Logger.warn("*** PaymentNotAuthorised submit cookie missing go to BeforeYouStart")
+        logMessage( request.cookies.trackingId(), Warn, "PaymentNotAuthorised submit cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }

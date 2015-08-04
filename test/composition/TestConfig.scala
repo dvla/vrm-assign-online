@@ -51,7 +51,7 @@ final class TestConfig(
 
     when(config.isProgressBarEnabled).thenReturn(true)
 
-    when(config.renewalFee).thenReturn("8000")
+    when(config.renewalFeeInPence).thenReturn("8000")
     when(config.renewalFeeAbolitionDate).thenReturn("09/03/2015")
 
     when(config.emailWhitelist).thenReturn(None)

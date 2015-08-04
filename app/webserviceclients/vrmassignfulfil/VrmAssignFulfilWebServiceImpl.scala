@@ -19,7 +19,7 @@ final class VrmAssignFulfilWebServiceImpl @Inject()(config: Config) extends VrmA
   override def invoke(request: VrmAssignFulfilRequest, trackingId: TrackingId): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
-    Logger.debug(s"Calling vrm assign fulfil micro-service with request $vrm and tracking id: $trackingId")
+    logMessage(trackingId, Debug, s"Calling vrm assign fulfil micro-service with request $vrm ")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(config.vrmAssignFulfilRequestTimeout). // Timeout is in milliseconds

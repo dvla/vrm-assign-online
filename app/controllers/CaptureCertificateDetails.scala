@@ -16,6 +16,7 @@ import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.libs.json.Writes
 import play.api.mvc.{Action, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,6 +28,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
@@ -52,8 +54,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
                                                  auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
-                                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-                                                extends Controller {
+                                                dateService: DateService)
+                                                extends Controller with DVLALogger {
 
   type Form = CaptureCertificateDetailsFormModel
 
@@ -79,7 +81,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case _ =>
-          Logger.warn("*** CaptureCertificateDetails present is missing cookies for either keeper or business")
+          logMessage(request.cookies.trackingId(), Warn, "CaptureCertificateDetails present is missing cookies for either keeper or business")
           Redirect(routes.ConfirmBusiness.present())
       }
   }
@@ -97,7 +99,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
               }
             case _ =>
               Future.successful {
-                Redirect(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"))
+                val msg = "user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie"
+                Redirect(routes.Error.present(msg))
               }
           }
         },
@@ -123,7 +126,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       }
       else Future.successful {
         val anonRegistrationNumber = LogFormats.anonymize(prVrm)
-        Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber")
+        logMessage(request.cookies.trackingId(), Warn, s"BruteForceService locked out vrm: $anonRegistrationNumber")
         Redirect(routes.VrmLocked.present())
       }
       resultFuture.map { result =>
@@ -131,9 +134,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       }
     } recover {
       case exception: Throwable =>
-        Logger.error(
-          s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception ${exception.getStackTraceString}"
+        logMessage(request.cookies.trackingId(), Error,
+          s"Exception thrown by BruteForceService so for safety we won't let anyone through. ${exception.getMessage}"
         )
         Redirect(routes.MicroServiceError.present())
     } map { result =>
@@ -149,8 +151,10 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
                                   transactionId: String)
                                  (implicit request: Request[_]): Future[Result] = {
 
+    val trackingId = request.cookies.trackingId()
+
     def microServiceErrorResult(message: String) = {
-      Logger.error(message)
+      logMessage( request.cookies.trackingId, Error, message)
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureCertificateDetailsToMicroServiceError,
         transactionId = transactionId,
@@ -168,7 +172,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperLookupFormModel.replacementVRN,
         Some(certificateExpiryDate),
         outstandingDates.toList,
-        outstandingDates.size * config.renewalFee.toInt
+        outstandingDates.size * config.renewalFeeInPence.toInt
       )
 
       val redirectLocation = {
@@ -183,8 +187,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       }
 
       bruteForceService.reset(vehicleAndKeeperLookupFormModel.replacementVRN).onComplete {
-        case scala.util.Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
-        case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
+        case scala.util.Success(httpCode) => logMessage(trackingId, Debug, s"Brute force reset was called - it returned httpCode: $httpCode")
+        case Failure(ex) => logMessage(trackingId, Error, s"Brute force reset failed: ${ex.getMessage}")
       }
 
       Redirect(redirectLocation)
@@ -193,7 +197,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
 
     def eligibilityFailure(responseCode: String, certificateExpiryDate: Option[DateTime]) = {
-      Logger.debug(s"VrmAssignEligibility encountered a problem with request" +
+      logMessage(trackingId, Debug, s"VrmAssignEligibility encountered a problem with request" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
@@ -210,7 +214,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperLookupFormModel.replacementVRN,
         certificateExpiryDate,
         outstandingDates.toList,
-        outstandingDates.size * config.renewalFee.toInt
+        outstandingDates.size * config.renewalFeeInPence.toInt
       )
 
       auditService2.send(AuditRequest.from(
@@ -226,24 +230,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1)).
         withCookie(captureCertificateDetailsModel)
     }
-
-    def calculateYearsOwed(certificateExpiryDate: DateTime): ListBuffer[String] = {
-      // calculate number of years owed
-      var outstandingDates = new ListBuffer[String]
-      var yearsOwedCount = 0
-      var nextRenewalDate = certificateExpiryDate.plus(Period.years(1))
-      val fmt = DateTimeFormat.forPattern("dd/MM/YYYY")
-      val abolitionDate = fmt.parseDateTime(config.renewalFeeAbolitionDate)
-      while (nextRenewalDate.isBefore(abolitionDate)) {
-        yearsOwedCount += 1
-        outstandingDates += (fmt.print(nextRenewalDate.minus(Period.years(1)).plus(Period.days(1))) + "  -  "
-          + fmt.print(nextRenewalDate) + "   £" + (config.renewalFee.toInt / 100.0) + "0")
-        nextRenewalDate = nextRenewalDate.plus(Period.years(1))
-      }
-      outstandingDates
-    }
-
-    val trackingId = request.cookies.trackingId()
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
       buildWebHeader(trackingId),
@@ -335,5 +321,25 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
       Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
+  }
+
+  private val certFmt = DateTimeFormat.forPattern("dd/MM/YYYY")
+
+  def calculateYearsOwed(certExpiryDate: DateTime): ListBuffer[String] = {
+    val renewalDate = certExpiryDate.plus(Period.years(1))
+    val renewalFeeAbolitionDate = certFmt.parseDateTime(config.renewalFeeAbolitionDate)
+
+    if (certExpiryDate.isBefore(renewalFeeAbolitionDate)) {
+      yearOwedOutputLine(renewalDate) ++ calculateYearsOwed(renewalDate)
+    } else {
+      ListBuffer.empty
+    }
+  }
+
+  def yearOwedOutputLine(renewalDate: DateTime): ListBuffer[String] = {
+    new ListBuffer[String] += 
+      certFmt.print(renewalDate.minus(Period.years(1)).plus(Period.days(1))) + 
+      "  -  "  + certFmt.print(renewalDate) + 
+      "   £" + (config.renewalFeeInPence.toInt / 100.0) + "0"
   }
 }

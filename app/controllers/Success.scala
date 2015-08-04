@@ -14,6 +14,7 @@ import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -30,7 +31,7 @@ final class Success @Inject()(pdfService: PdfService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: DateService) extends Controller {
+                              dateService: DateService) extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -63,7 +64,7 @@ final class Success @Inject()(pdfService: PdfService,
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
-        Logger.warn("Success present user arrived without all of the required cookies")
+        logMessage( request.cookies.trackingId(), Warn, "Success present user arrived without all of the required cookies")
         Redirect(routes.Confirm.present())
     }
   }

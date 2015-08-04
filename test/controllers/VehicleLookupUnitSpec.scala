@@ -384,7 +384,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "back" should {
-
     "redirect to Before You Start page when back button is pressed" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupStubs().back(request)

@@ -19,7 +19,7 @@ final class VrmAssignEligibilityWebServiceImpl @Inject()(config: Config) extends
   override def invoke(request: VrmAssignEligibilityRequest, trackingId: TrackingId): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
-    Logger.debug(s"Calling vrm assign eligibility micro-service with request $vrm and tracking id: $trackingId")
+    logMessage(trackingId, Debug, s"Calling vrm assign eligibility micro-service with request $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(config.vrmAssignEligibilityRequestTimeout). // Timeout is in milliseconds

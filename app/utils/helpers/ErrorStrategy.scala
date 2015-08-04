@@ -7,13 +7,14 @@ import play.api.LoggerLike
 import play.api.mvc.RequestHeader
 import play.api.mvc.Results.Redirect
 import uk.gov.dvla.vehicles.presentation.common.ErrorStrategyBase
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike,
-                              dateService: DateService )
+                              dateService: DateService )(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends ErrorStrategyBase(clfEntryBuilder, clfEntry => accessLogger.info(clfEntry), dateService) {
 
   protected override def sessionExceptionResult(request: RequestHeader) =

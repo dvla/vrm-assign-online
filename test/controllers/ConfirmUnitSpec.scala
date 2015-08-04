@@ -17,10 +17,9 @@ import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
-final class ConfirmUnitSpec extends UnitSpec {
+class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -29,7 +28,6 @@ final class ConfirmUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect to next page when the form is completed successfully" in new WithApplication {
       whenReady(submit) { r =>
         r.header.headers.get(LOCATION) should equal(Some(FulfilPage.address))
