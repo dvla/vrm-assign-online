@@ -82,7 +82,7 @@ final class Success @Inject()(pdfService: PdfService,
             vehicleAndKeeperDetails.lastName
           ).flatten.mkString(" "),
           vehicleAndKeeperDetails.address,
-          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+          vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", ""), request.cookies.trackingId()
         )
         val inputStream = new ByteArrayInputStream(pdf)
         val dataContent = Enumerator.fromStream(inputStream)

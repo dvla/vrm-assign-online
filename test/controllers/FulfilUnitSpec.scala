@@ -218,7 +218,7 @@ class FulfilUnitSpec extends UnitSpec {
     val emailServiceMock = mock[EmailService]
 
     val pdfServiceMock = mock[PdfService]
-    when(pdfServiceMock.create(any[String], any[String], any[Option[AddressModel]], any[String]))
+    when(pdfServiceMock.create(any[String], any[String], any[Option[AddressModel]], any[String], any[TrackingId]))
       .thenReturn(Array.ofDim[Byte](0))
 
     val configMock = mock[Config]

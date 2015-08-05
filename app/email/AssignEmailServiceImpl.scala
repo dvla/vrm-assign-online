@@ -59,7 +59,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         transactionId,
         keeperName,
         vehicleAndKeeperDetailsModel.address,
-        vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "")
+        vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", ""), trackingId
       )
 
       val plainTextMessage = populateEmailWithoutHtml(

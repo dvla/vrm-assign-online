@@ -61,7 +61,7 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
             transactionId,
             keeperName,
             vehicleAndKeeperDetails.address,
-            vehicleDetails.replacementVRN.replace(" ", "")
+            vehicleDetails.replacementVRN.replace(" ", ""), request.cookies.trackingId()
           )
           val inputStream = new ByteArrayInputStream(pdf)
           val dataContent = Enumerator.fromStream(inputStream)
