@@ -5,7 +5,6 @@ import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.VehicleLookupFailureViewModel
 import models.VehicleAndKeeperLookupFormModel
-import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

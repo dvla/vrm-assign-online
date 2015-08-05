@@ -11,7 +11,6 @@ import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.format.DateTimeFormat
-import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.libs.json.Writes

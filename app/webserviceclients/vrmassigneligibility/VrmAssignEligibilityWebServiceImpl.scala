@@ -1,7 +1,6 @@
 package webserviceclients.vrmassigneligibility
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.libs.ws.WS

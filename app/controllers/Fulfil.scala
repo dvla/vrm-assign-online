@@ -15,7 +15,6 @@ import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger

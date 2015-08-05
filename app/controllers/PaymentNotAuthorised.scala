@@ -2,7 +2,6 @@ package controllers
 
 import com.google.inject.Inject
 import models.{CacheKeyPrefix, CaptureCertificateDetailsFormModel, VehicleLookupFailureViewModel, VehicleAndKeeperLookupFormModel}
-import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

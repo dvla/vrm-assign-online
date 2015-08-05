@@ -6,7 +6,6 @@ import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
-import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

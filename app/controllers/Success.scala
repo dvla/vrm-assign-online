@@ -11,7 +11,6 @@ import models.FulfilModel
 import models.SuccessViewModel
 import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
-import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger

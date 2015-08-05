@@ -6,7 +6,6 @@ import models.{BusinessDetailsModel, CacheKeyPrefix, FulfilModel, VehicleAndKeep
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
-import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}

@@ -13,7 +13,6 @@ import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import play.api.Logger
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request

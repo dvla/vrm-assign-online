@@ -8,7 +8,6 @@ import models.ConfirmFormModel
 import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
-import play.api.Logger
 import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages

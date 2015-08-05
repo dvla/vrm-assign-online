@@ -1,7 +1,6 @@
 package webserviceclients.audit2
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.http.Status
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
