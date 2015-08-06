@@ -62,5 +62,7 @@ trait Config extends VehicleLookupConfig {
 
   val opening: Int
   val closing: Int
+  val openingTimeMinOfDay: Int
+  val closingTimeMinOfDay: Int
   val closingWarnPeriodMins: Int
 }
