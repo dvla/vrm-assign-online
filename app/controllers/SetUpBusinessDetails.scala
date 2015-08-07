@@ -83,7 +83,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
       (BusinessEmailId, "error.validEmail"),
-      (BusinessAddressId, "error.restricted.validPostcode"))) { (form, error) =>
+      (BusinessAddressId + ".address-postcode-lookup", "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,

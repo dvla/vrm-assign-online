@@ -1,6 +1,7 @@
 @(progress: Option[String] = None,
     title: String,
     currentForm: Option[Form[_]] = None,
+    showLanguageSwitch: Boolean = true,
     backNavigation: Option[Call] = None
     )(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config,
@@ -11,7 +12,7 @@
 @import views.html.common.{govMainDefault, progressBar, protoType}
 @import views.vrm_assign.Main.BackId
 
-@govMainDefault(title) {
+@govMainDefault(title, showLanguageSwitch) {
     <div class="app vrm-assign-online">
 
         @protoType(config.closing, config.closingWarnPeriodMins, dateService)

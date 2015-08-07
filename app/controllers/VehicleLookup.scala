@@ -38,6 +38,7 @@ import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
+import views.vrm_assign.VehicleLookup.ReplacementVRN
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
@@ -244,6 +245,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   private def formWithReplacedErrors(form: PlayForm[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
     (form /: List(
+      (ReplacementVRN, "error.restricted.validVrnOnly"),
       (VehicleRegistrationNumberId, "error.restricted.validVrnOnly"),
       (DocumentReferenceNumberId, "error.validDocumentReferenceNumber"),
       (PostcodeId, "error.restricted.validV5CPostcode"))) { (form, error) =>

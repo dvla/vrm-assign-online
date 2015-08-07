@@ -5,7 +5,7 @@
 @import views.html.common.{govMainDefault, protoType}
 @import views.vrm_assign.OnHandlerNotFound.ExitId
 
-@govMainDefault(Messages("onHandlerNotFound.title")) {
+@govMainDefault(Messages("onHandlerNotFound.title"), true) {
     <div class="app vrm-assign-online">
 
         @protoType(config.closing, config.closingWarnPeriodMins, dateService)
