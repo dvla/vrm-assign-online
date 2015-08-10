@@ -115,7 +115,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
 
   def bruteForceAndLookup(prVrm: String, form: Form)
                          (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
-    bruteForceService.isVrmLookupPermitted(prVrm).flatMap { bruteForcePreventionModel =>
+    bruteForceService.isVrmLookupPermitted(prVrm, request.cookies.trackingId()).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
 //         TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
@@ -185,7 +185,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         routes.Confirm.present()
       }
 
-      bruteForceService.reset(vehicleAndKeeperLookupFormModel.replacementVRN).onComplete {
+      bruteForceService.reset(vehicleAndKeeperLookupFormModel.replacementVRN, trackingId).onComplete {
         case scala.util.Success(httpCode) => logMessage(trackingId, Debug, s"Brute force reset was called - it returned httpCode: $httpCode")
         case Failure(ex) => logMessage(trackingId, Error, s"Brute force reset failed: ${ex.getMessage}")
       }

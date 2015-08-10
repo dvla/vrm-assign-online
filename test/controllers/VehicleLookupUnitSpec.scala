@@ -283,7 +283,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
-      val trackingId = TrackingId("x" * 20)
+      val trackingId = TrackingId("default_test_tracking_id")
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
