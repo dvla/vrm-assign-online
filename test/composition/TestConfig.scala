@@ -79,7 +79,7 @@ final class TestConfig(
 
     // Closing
     when(config.openingTimeMinOfDay).thenReturn(0)
-    when(config.closingTimeMinOfDay).thenReturn(1440)
+    when(config.closingTimeMinOfDay).thenReturn(1439)
       when(config.emailConfiguration).thenReturn(EmailConfiguration(
       from = From("", "DO-NOT-REPLY"),
       feedbackEmail = From("", "Feedback"),
