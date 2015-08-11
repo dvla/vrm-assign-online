@@ -78,11 +78,9 @@ final class TestConfig(
     when(config.contactId).thenReturn(42)
 
     // Closing
-    when(config.opening).thenReturn(0)
-    when(config.closing).thenReturn(23)
     when(config.openingTimeMinOfDay).thenReturn(0)
     when(config.closingTimeMinOfDay).thenReturn(1440)
-    when(config.emailConfiguration).thenReturn(EmailConfiguration(
+      when(config.emailConfiguration).thenReturn(EmailConfiguration(
       from = From("", "DO-NOT-REPLY"),
       feedbackEmail = From("", "Feedback"),
       whiteList = None

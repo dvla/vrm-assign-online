@@ -8,7 +8,7 @@
 @govMainDefault(Messages("onHandlerNotFound.title"), true) {
     <div class="app vrm-assign-online">
 
-        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
+        @protoType(config.closingTimeMinOfDay, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
             <h2>@Messages("onHandlerNotFound.header")</h2>
