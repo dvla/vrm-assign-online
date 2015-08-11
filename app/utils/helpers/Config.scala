@@ -60,7 +60,7 @@ trait Config extends VehicleLookupConfig {
   val auditMicroServiceUrlBase: String
   val auditMsRequestTimeout: Int
 
-  val opening: Int
-  val closing: Int
+  val openingTimeMinOfDay: Int
+  val closingTimeMinOfDay: Int
   val closingWarnPeriodMins: Int
 }

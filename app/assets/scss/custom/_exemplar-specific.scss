@@ -334,6 +334,12 @@ summary {
     margin-bottom: 10px;
   }
   .js-has-tooltip {
+    border: 2px solid #005ea5;
+    font-size: 22px;
+    width: 30px;
+    height: 30px;
+  }
+  .js-has-long-tooltip {
     width: auto;
     text-align: left;
     border: none;
@@ -341,6 +347,9 @@ summary {
   }
   .js-tooltip-style {
     max-width: 210px;
+  }
+  .js-tooltip-long {
+      max-width: 880px;
   }
 }
 

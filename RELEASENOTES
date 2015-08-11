@@ -1,3 +1,15 @@
+======= 1.14  ======
+Time of release binaries creation:
+Wed Aug 05 09:40:16 UTC 2015
+
+DE630 General code tidy up in the unit tests
+DE630 Removed method that got accidentally added back in after merge and also did a code tidy up of imports in the test
+DE630 Removed unused imports
+DE630 Added unit tests for email functionality
+DE653: Include years overlapping the abolition date in the charge calculation.
+DE630 fix for assign incorrectly sending emails to the business address when the user type is keeper
+US3451: add messages on success page
+
 ======= 1.13  ======
 Time of release binaries creation:
 Wed Jul 22 09:57:06 UTC 2015

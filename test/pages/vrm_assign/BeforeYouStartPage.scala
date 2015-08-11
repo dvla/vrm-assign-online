@@ -1,6 +1,7 @@
 package pages.vrm_assign
 
 import helpers.webbrowser.Page
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, id}
 import pages.ApplicationContext.applicationContext
@@ -13,7 +14,13 @@ object BeforeYouStartPage extends Page {
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Put a registration number on a vehicle"
-  final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
+  final val titleCy: String = "Rhoi rhif cofrestru ar gerbyd"
 
   def startNow(implicit driver: WebDriver) = find(id(NextId)).get
+
+  def footer(implicit driver: WebDriver) = driver.findElement(By.id("footer"))
+
+  def footerMetaInner(implicit driver: WebDriver) = footer.findElement(By.className("footer-meta-inner"))
+
+  def footerItem(index: Int)(implicit driver: WebDriver) = footerMetaInner.findElements(By.tagName    ("li")).get(index)
 }
