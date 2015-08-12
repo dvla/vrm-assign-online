@@ -22,6 +22,10 @@ separate projects:
 
 -   `os-address-lookup`
 -   `vehicle-and-keeper-lookup`
+-   `vrm-assign-eligibility`
+-   `vrm-assign-fulfil`
+-   `email-service`
+-   `payment-solve`
 
 These services are mocked for automated testing, but must be running locally for manual testing/development of dependant
 components within the presentation layer.
@@ -34,6 +38,9 @@ Development environment
     -   `vehicle-and-keeper-lookup`
     -   `<the appropriate secrets repo>'
     -   `os-address-lookup`
+    -   `email-service`
+    -   `vrm-assign-eligibility`
+    -   `vrm-assign-fulfil`
 
 2.  JDK 1.7 must be installed
 
@@ -76,13 +83,11 @@ Running the application
 1.  Run the `vrm-assign-online` application:
 
         cd vrm-assign-online
-        sbt run
+        sbt sandbox
 
 2.  Open in Web browser:
 
         http://localhost:9000/
-
-3.  Repeat *step 1* for each required microservice (if any).
 
 ### Running with production logging
 
@@ -104,19 +109,21 @@ To emulate production-level logging:
 
 1. Unit and Selenium tests written using Scalatest can be run using `sbt test`
 
-2. Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
+2. Gatling and acceptance tests can be run using `sbt accept`
 
-3. Execute Acceptance Tests on different environments/Urls
+3. Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/test-only`
+
+4. Execute Acceptance Tests on different environments/Urls
   `sbt`
   `eval System.setProperty("test.url","http://localhost:9000/")`
   `acceptance-tests/test-only`
 
-4. Execute Tests on different browsers, Tests can be run on `chrome` & `firefox`(Tests are unable to run firefox due to old selenium versions)
+5. Execute Tests on different browsers, Tests can be run on `chrome` & `firefox`(Tests are unable to run firefox due to old selenium versions)
   `sbt`
   `eval System.setProperty("browser.type","chrome")`
   `acceptance-tests/test-only`
 
-5. Acceptance tests Reporting
+6. Acceptance tests Reporting
 
 
 Session encryption
