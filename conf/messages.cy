@@ -14,9 +14,9 @@ error.email.confirm.required = Cadarnhewch y cyfeiriad e-bost
 error.email.not.match = Nid oedd y cyfeiriadau e-bost yn cyfateb
 email.verify.label = Cadarnhau cyfeiriad e-bost
 
-global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0}:00 to {1}:00, rhaid i chi
+global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} to {1}, rhaid i chi
 global.serviceCloseWarning.p2 = gwblhau’r gwasanaeth hwn.
-global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0}:00 to {1}:00
+global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0} to {1}
 
 global-please-wait-header = Arhoswch os gwelwch yn dda
 global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac mae ein gwasanaeth yn arafach na’r arfer yn sgil hynny.
