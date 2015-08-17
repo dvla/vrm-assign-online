@@ -1,7 +1,7 @@
 @(progress: Option[String] = None,
     title: String,
     currentForm: Option[Form[_]] = None,
-    showLanguageSwitch: Boolean = true,
+    showLanguageSwitch: Boolean = false,
     backNavigation: Option[Call] = None
     )(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config,
