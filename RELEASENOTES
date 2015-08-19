@@ -1,3 +1,16 @@
+======= 1.15  ======
+Time of release binaries creation:
+Wed Aug 19 11:00:43 UTC 2015
+
+US3665 Welsh Language Support
+DE653  Renewal Fee Calculation
+US3663 Extend service hours for trial run
+US3560 Address sorting
+US3558 Insert i link on cert id capture page
+US3494 Track users who retain then assign via GA
+US3238 Add GA Events
+US3709 Change sandbox to read unencrypted secrets
+
 ======= 1.14  ======
 Time of release binaries creation:
 Wed Aug 05 09:40:16 UTC 2015
