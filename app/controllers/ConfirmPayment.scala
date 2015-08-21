@@ -33,8 +33,8 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
                                dateService: DateService) extends Controller {
 
   /**
-   * In case we have a fulfil model present then, we landed on this page by mistake so redirect on error page. Otherwise,
-   * proceed by checking that all the necessary models are present.
+   * In case we have a fulfil model present then, we landed on this page by mistake so redirect on error page.
+   * Otherwise, proceed by checking that all the necessary models are present.
    * For ConfirmFormModel, we only require that it exists.
    * @return either the form or an error redirect
    */
@@ -49,8 +49,12 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
         captureCertDetails          <- request.cookies.getModel[CaptureCertificateDetailsModel]
         _                           <- request.cookies.getModel[ConfirmFormModel]
       } yield {
-          val viewModel = ConfirmViewModel(vehicleDetails, vehicleAndKeeperLookupForm,
-            captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
+          val viewModel = ConfirmViewModel(vehicleDetails,
+            vehicleAndKeeperLookupForm,
+            captureCertDetails.outstandingDates,
+            captureCertDetails.outstandingFees,
+            vehicleAndKeeperLookupForm.userType
+          )
           Ok(views.html.vrm_assign.confirm_payment(viewModel, vehicleDetails))
 
         }) getOrElse redirectOnError
@@ -85,7 +89,8 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
     auditService2.send(AuditRequest.from(
       pageMovement = pageMovement,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      transactionId = request.cookies.getString(TransactionIdCacheKey).
+        getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],

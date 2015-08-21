@@ -21,7 +21,7 @@ import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
 
@@ -45,17 +45,29 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       Some(captureCertificateDetailsFormModel), Some(captureCertificateDetailsModel), Some(fulfilModel)) =>
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
-        Future.successful(Redirect(routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")))
+        Future.successful(
+          Redirect(
+            routes.Error.present("user tried to go to FulfilSuccess present without a required cookie")
+          )
+        )
     }
   }
 
   def createPdf = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[CaptureCertificateDetailsFormModel],
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[CaptureCertificateDetailsFormModel],
         request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-        case (Some(vehicleDetails), Some(captureCertificateDetailsFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
+        case (Some(vehicleDetails),
+              Some(captureCertificateDetailsFormModel),
+              Some(transactionId),
+              Some(vehicleAndKeeperDetails)
+          ) =>
+          val keeperName = Seq(vehicleAndKeeperDetails.title,
+            vehicleAndKeeperDetails.firstName,
+            vehicleAndKeeperDetails.lastName
+          ).flatten.mkString(" ")
 
           val pdf = pdfService.create(
             transactionId,

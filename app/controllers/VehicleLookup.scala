@@ -10,10 +10,11 @@ import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -54,7 +55,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   )
   override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
-  override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
+  override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel,
+                         formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result = {
 
     // need to record the current vrm from the form so put this into the
@@ -101,7 +103,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   }
 
   // TODO need to combine vehicleLookupFailure and vehicleFoundResult as they are very similar after recent changes
-  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: VehicleAndKeeperLookupFormModel)
+  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage,
+                                    formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
     // need to record the current vrm from the form so put this into the
@@ -182,18 +185,22 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)(request.cookies.trackingId())) {
 
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-        transactionId = txnId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+      auditService2.send(
+        AuditRequest.from(
+          pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
+          transactionId = txnId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+          rejectionCode = Some(
+            ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+          )
+        )
+      )
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
         withCookie(responseCodeCacheKey, "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       if (formModel.userType == UserType_Keeper) {
@@ -271,7 +278,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])(trackingId: TrackingId) = {
     dtoPostcode match {
       case Some(postcode) =>
-        logMessage( trackingId, Info,"formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
+        logMessage(trackingId, Info, "formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
@@ -301,7 +308,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
           formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
       case None =>
-        logMessage( trackingId, Info, s"formModelPostcode = $formModelPostcode")
+        logMessage(trackingId, Info, s"formModelPostcode = $formModelPostcode")
         formModelPostcode.isEmpty
     }
   }

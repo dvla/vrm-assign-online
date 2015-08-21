@@ -6,6 +6,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 final class AddressLookupServiceBinding extends ScalaModule {
 
   def configure() = {
-    bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
+    bind[AddressLookupService].
+      to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
   }
 }

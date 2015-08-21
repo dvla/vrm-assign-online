@@ -1,8 +1,6 @@
 package webserviceclients.audit2
 
 import play.api.mvc.Request
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-
 import scala.concurrent.Future
 
 trait AuditService {

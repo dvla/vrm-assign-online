@@ -3,11 +3,11 @@ package controllers
 import helpers.UnitSpec
 import models.ConfirmFormModel
 import play.api.data.Form
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import views.vrm_assign.Confirm.{GranteeConsentId, KeeperEmailId, SupplyEmailId}
 import webserviceclients.fakes.ConfirmFormConstants.GranteeConsentValid
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 class ConfirmFormSpec extends UnitSpec {
 
@@ -38,7 +38,8 @@ class ConfirmFormSpec extends UnitSpec {
                         granteeConsent: String = GranteeConsentValid.toString) = {
     Form(ConfirmFormModel.Form.Mapping).bind(
       Map(
-      ) ++ keeperEmail.fold(Map(SupplyEmailId -> OptionalToggle.Invisible, GranteeConsentId -> granteeConsent)) { email =>
+      ) ++ keeperEmail.fold(Map(SupplyEmailId -> OptionalToggle.Invisible, GranteeConsentId -> granteeConsent)) {
+        email =>
         Map(
           SupplyEmailId -> OptionalToggle.Visible,
           s"$KeeperEmailId.$EmailId" -> email,

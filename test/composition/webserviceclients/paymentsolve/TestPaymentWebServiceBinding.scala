@@ -10,11 +10,10 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve._
-
-import scala.concurrent.Future
 
 final class TestPaymentWebServiceBinding extends ScalaModule with MockitoSugar {
 

@@ -3,7 +3,7 @@ package views.vrm_assign
 import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.vrm_assign.CookiePolicyPage
 
 final class CookiePolicyUiSpec extends UiSpec with TestHarness {

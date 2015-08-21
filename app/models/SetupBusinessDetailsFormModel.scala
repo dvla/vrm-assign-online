@@ -41,5 +41,4 @@ object SetupBusinessDetailsFormModel {
       BusinessAddressId -> AddressPicker.mapAddress
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }
-
 }

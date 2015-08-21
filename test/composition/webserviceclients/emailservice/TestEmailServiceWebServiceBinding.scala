@@ -5,8 +5,8 @@ import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBind
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.emailservice.EmailServiceSendResponse
 import webserviceclients.emailservice.EmailServiceWebService

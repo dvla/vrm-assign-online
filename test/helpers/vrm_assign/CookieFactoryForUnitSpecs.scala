@@ -78,7 +78,8 @@ import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTim
 object CookieFactoryForUnitSpecs extends TestComposition {
 
   private final val TrackingIdValue = TrackingId("trackingId")
-  private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
+  private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory])
+    .getSession(Array.empty[Cookie])
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
@@ -218,8 +219,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, consent)
   }
 
-  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid, lastDate: Option[DateTime] = LastDateValid,
-                                     datesList: List[String] = DatesListValid, fees: Int = FeesValid): Cookie = {
+  def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid,
+                                     lastDate: Option[DateTime] = LastDateValid,
+                                     datesList: List[String] = DatesListValid,
+                                     fees: Int = FeesValid): Cookie = {
     val key = CaptureCertificateDetailsCacheKey
     val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
     createCookie(key, value)
@@ -230,7 +233,11 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                          certificateTime: String = CertificateTimeValid,
                                          certificateRegistrationMark: String = RegistrationNumberValid): Cookie = {
     val key = CaptureCertificateDetailsFormModelCacheKey
-    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount, certificateDate, certificateTime, certificateRegistrationMark)
+    val value = CaptureCertificateDetailsFormModel(certificateDocumentCount,
+      certificateDate,
+      certificateTime,
+      certificateRegistrationMark
+    )
     createCookie(key, value)
   }
 

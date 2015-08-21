@@ -17,18 +17,21 @@ final class AssignCookieFlagsSpec extends UnitSpec {
       originalCookie.secure should equal(false)
       originalCookie.maxAge should equal(None)
 
-      val modifiedCookie = cookieFlags.applyToCookie(originalCookie) // This will load values from the fake config we are passing into this test's WithApplication.
+      // This will load values from the fake config we are passing into this test's WithApplication.
+      val modifiedCookie = cookieFlags.applyToCookie(originalCookie)
       modifiedCookie.secure should equal(false)
       modifiedCookie.maxAge should equal(Some(30.minutes.toSeconds.toInt))
     }
 
-    "return cookie with max age, secure flag and domain when key is for a BusinessDetails cookie" in new WithApplication {
+    "return cookie with max age, secure flag and domain when key " +
+      "is for a BusinessDetails cookie" in new WithApplication {
       val originalCookie = Cookie(name = StoreBusinessDetailsCacheKey, value = "testCookieValue")
 
       originalCookie.secure should equal(false)
       originalCookie.maxAge should equal(None)
 
-      val modifiedCookie = cookieFlags.applyToCookie(originalCookie, StoreBusinessDetailsCacheKey) // This will load values from the fake config we are passing into this test's WithApplication.
+      // This will load values from the fake config we are passing into this test's WithApplication.
+      val modifiedCookie = cookieFlags.applyToCookie(originalCookie, StoreBusinessDetailsCacheKey)
       modifiedCookie.secure should equal(false)
       modifiedCookie.maxAge should equal(Some(7.days.toSeconds.toInt))
     }

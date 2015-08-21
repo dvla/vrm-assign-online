@@ -31,9 +31,12 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to ConfirmPage
-      val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(
+        By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      )
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should
+        equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
@@ -47,61 +50,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       pageSource shouldNot contain("Outstanding Renewal Fees")
       currentUrl should equal(ConfirmPage.url)
     }
-
-    // [SW] tests commented out as we need Ops to add a line to the build scripts to install phantom-js
-    //    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //
-    //      cacheSetup()
-    //
-    //      go to ConfirmPage
-    //
-    //      eventually {
-    //        isKeeperEmailHidden should equal(true)
-    //      }
-    //    }
-    //
-    //    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //
-    //      cacheSetup()
-    //
-    //      go to ConfirmPage
-    //
-    //      click on `don't supply keeper email`
-    //
-    //      eventually {
-    //        isKeeperEmailHidden should equal(true)
-    //      }
-    //    }
-    //
-    //    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //
-    //      cacheSetup()
-    //
-    //      go to ConfirmPage
-    //
-    //      click on `supply keeper email`
-    //
-    //      eventually {
-    //        isKeeperEmailHidden should equal(false)
-    //      }
-    //    }
   }
-
-  //  "confirm button" should {
-  //
-  //    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
-  //      go to BeforeYouStartPage
-  //
-  //      cacheSetup()
-  //
-  //      happyPath
-  //
-  //  currentUrl should equal(SuccessPage.url)
-  //    }
-  //  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {

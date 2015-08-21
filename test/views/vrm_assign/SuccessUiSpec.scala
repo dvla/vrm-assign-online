@@ -5,10 +5,10 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.SuccessPage.finish
-import pages.vrm_assign._
+import pages.vrm_assign.{BeforeYouStartPage, SuccessPage}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 class SuccessUiSpec extends UiSpec with TestHarness {
@@ -31,7 +31,8 @@ class SuccessUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage

@@ -4,8 +4,8 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.PaymentModel
-import play.api.libs.json.Json._
 import play.api.libs.json._
+import play.api.libs.json.Json._
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 case class AuditRequest(name: String, serviceType: String, data: Seq[(String, Any)])
@@ -32,7 +32,8 @@ object AuditRequest {
   final val CaptureCertificateDetailsToConfirm = "CaptureCertificateDetailsToConfirm"
   final val CaptureCertificateDetailsToMicroServiceError = "CaptureCertificateDetailsToMicroServiceError"
   final val CaptureCertificateDetailsToExit = "CaptureCertificateDetailsToExit"
-  final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure = "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
+  final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure =
+    "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
 
   //final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToSuccess = "ConfirmToSuccess"
@@ -61,7 +62,7 @@ object AuditRequest {
             case _ => throw new RuntimeException("no match, you need to tell it how to cast this type to json")
           }
           ret
-      }.toSeq: _*
+      }: _*
     )
   }
 
@@ -81,7 +82,8 @@ object AuditRequest {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
-      val captureCertificateDetailsFormModelOpt = CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormModel)
+      val captureCertificateDetailsFormModelOpt =
+        CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormModel)
       val captureCertificateDetailsModelOpt = CaptureCertificateDetailsModelOptSeq.from(captureCertificateDetailsModel)
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))

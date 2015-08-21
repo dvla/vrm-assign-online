@@ -25,7 +25,8 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
       checkExpectedReferer(referer)
     }
 
-    "return expected value when request contains referer with hyphens, full stops and port number" in new WithApplication {
+    "return expected value when request contains referer with hyphens, " +
+      "full stops and port number" in new WithApplication {
       val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}"
       checkExpectedReferer(referer)
     }
@@ -48,7 +49,8 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
         tokenBase64URLSafe = tokenBase64URLSafe) should equal(s"$loadBalancer.co.uk/payment/callback/01234")
     }
 
-    "return expected value when request contains referer with hyphens, full stops and port number" in new WithApplication {
+    "return expected value when request contains referer with hyphens, " +
+      "full stops and port number" in new WithApplication {
       val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}.co.uk"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl

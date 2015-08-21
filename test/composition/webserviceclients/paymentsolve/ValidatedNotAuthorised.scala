@@ -7,8 +7,8 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveWebService}
 
@@ -16,8 +16,12 @@ final class ValidatedNotAuthorised extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults(status = invalidStatus))))
+    when(webService.invoke(request = any[PaymentSolveGetRequest],
+      tracking = any[TrackingId])).thenReturn(
+        Future.successful(
+          new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults(status = invalidStatus))
+        )
+      )
     webService
   }
 

@@ -5,7 +5,7 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VehicleLookupFailurePage

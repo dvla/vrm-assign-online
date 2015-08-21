@@ -17,7 +17,8 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
+    "display the payment not authorised page for a " +
+      "not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheNotAuthorisedSetup()

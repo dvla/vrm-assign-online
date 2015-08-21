@@ -69,7 +69,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) match {
-            case Some(url) => url should include(routes.Error.present("user went to CaptureCertificateDetails submit without the VehicleAndKeeperDetailsModel cookie").url)
+            case Some(url) => url should include(routes.Error.present("user went to CaptureCertificateDetails " +
+              "submit without the VehicleAndKeeperDetailsModel cookie").url)
             case _ => fail("did not redirect to the error page")
           }
       }
@@ -101,7 +102,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a direct to paper code" in new WithApplication {
+    "redirect to vehicles failure page when the form is completed successfully " +
+      "but fails eligibility with a direct to paper code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -124,7 +126,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to vehicles failure page when the form is completed successfully but fails eligibility with a not eligible code" in new WithApplication {
+    "redirect to vehicles failure page when the form is completed successfully " +
+      "but fails eligibility with a not eligible code" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -315,21 +318,30 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   private def build() = {
     val ioc = testInjector()
-    (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+      ioc.getInstance(classOf[DateService]),
+      ioc.getInstance(classOf[AuditService])
+      )
   }
 
   private def buildWithDirectToPaper() = {
     val ioc = testInjector(
       new VrmAssignEligibilityCallDirectToPaperError
     )
-    (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+      ioc.getInstance(classOf[DateService]),
+      ioc.getInstance(classOf[AuditService])
+      )
   }
 
   private def buildWithNotEligible() = {
     val ioc = testInjector(
       new VrmAssignEligibilityCallNotEligibleError
     )
-    (ioc.getInstance(classOf[CaptureCertificateDetails]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
+    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+      ioc.getInstance(classOf[DateService]),
+      ioc.getInstance(classOf[AuditService])
+      )
   }
 
   private def buildCorrectlyPopulatedRequest(certificateDate: String = CertificateDateValid,

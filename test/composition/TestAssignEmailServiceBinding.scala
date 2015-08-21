@@ -2,7 +2,11 @@ package composition
 
 import com.tzavellas.sse.guice.ScalaModule
 import email.AssignEmailService
-import models._
+import models.BusinessDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.VehicleAndKeeperLookupFormModel
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito.when
 import org.mockito.Matchers.any
