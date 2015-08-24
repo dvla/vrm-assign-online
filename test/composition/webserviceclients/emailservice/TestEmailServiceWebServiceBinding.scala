@@ -7,9 +7,9 @@ import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import webserviceclients.emailservice.EmailServiceSendRequest
-import webserviceclients.emailservice.EmailServiceSendResponse
-import webserviceclients.emailservice.EmailServiceWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceWebService
 import webserviceclients.fakes.EmailServiceWebServiceConstants.emailServiceSendResponseSuccess
 import webserviceclients.fakes.FakeResponse
 

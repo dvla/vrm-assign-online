@@ -19,12 +19,12 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.html.vrm_assign.email_with_html
 import views.html.vrm_assign.email_without_html
-import webserviceclients.emailservice.EmailService
-import webserviceclients.emailservice.EmailServiceSendRequest
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                                              pdfService: PdfService,

@@ -33,6 +33,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
@@ -41,7 +42,6 @@ import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilService

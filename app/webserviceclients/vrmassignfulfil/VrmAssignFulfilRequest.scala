@@ -5,8 +5,9 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{Json, JsString, JsValue, Writes}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
-import webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 case class VrmAssignFulfilRequest(webHeader: VssWebHeaderDto,

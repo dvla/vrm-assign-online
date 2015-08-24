@@ -1,7 +1,7 @@
 package webserviceclients.fakes
 
 import play.api.http.Status.OK
-import webserviceclients.emailservice.EmailServiceSendResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendResponse
 
 object EmailServiceWebServiceConstants {
 

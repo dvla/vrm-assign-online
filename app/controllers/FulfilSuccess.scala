@@ -20,9 +20,9 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
+import common.webserviceclients.emailservice.EmailService
 import utils.helpers.Config
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
-import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
 
 final class FulfilSuccess @Inject()(pdfService: PdfService,
@@ -134,5 +134,4 @@ final class FulfilSuccess @Inject()(pdfService: PdfService,
       isKeeper = true
     ))
   }
-
 }
