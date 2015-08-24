@@ -4,8 +4,15 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.PaymentModel
-import play.api.libs.json._
-import play.api.libs.json.Json._
+import play.api.libs.json.JsBoolean
+import play.api.libs.json.JsNull
+import play.api.libs.json.JsNumber
+import play.api.libs.json.Json
+import play.api.libs.json.JsString
+import play.api.libs.json.JsValue
+import play.api.libs.json.Json.obj
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 case class AuditRequest(name: String, serviceType: String, data: Seq[(String, Any)])

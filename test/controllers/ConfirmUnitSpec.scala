@@ -13,7 +13,12 @@ import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
-import views.vrm_assign.Confirm._
+import views.vrm_assign.Confirm.ConfirmCacheKey
+import views.vrm_assign.Confirm.GranteeConsentId
+import views.vrm_assign.Confirm.KeeperEmailId
+import views.vrm_assign.Confirm.SupplyEmail_true
+import views.vrm_assign.Confirm.SupplyEmailId
+
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 

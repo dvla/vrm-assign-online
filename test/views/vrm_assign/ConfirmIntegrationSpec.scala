@@ -9,9 +9,15 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.click
+import org.scalatest.selenium.WebBrowser.currentUrl
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.pageSource
 import pages.common.MainPanel.back
-import pages.vrm_assign._
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.CaptureCertificateDetailsPage
+import pages.vrm_assign.ConfirmPage
+import pages.vrm_assign.LeaveFeedbackPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.Confirm.ConfirmCacheKey
 
@@ -37,7 +43,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should
         equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
-      csrf.getAttribute("value").size > 0 should equal(true)
+      csrf.getAttribute("value").nonEmpty should equal(true)
     }
 
     "not display outstanding fees on page when no fees are due" taggedAs UiTag in new WebBrowserForSelenium {
@@ -63,7 +69,8 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "delete the Confirm cookie" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to BeforeYouStartPage
       cacheSetup().confirmFormModel()
       go to ConfirmPage

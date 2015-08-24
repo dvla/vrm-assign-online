@@ -8,7 +8,7 @@ import play.api.test.TestServer
 
 final class TestServerHooks {
 
-  import helpers.steps.hooks.TestServerHooks._
+  import helpers.steps.hooks.TestServerHooks.{fakeAppWithTestGlobal, port}
 
   private val testServer: TestServer = TestServer(port = port, application = fakeAppWithTestGlobal)
 
