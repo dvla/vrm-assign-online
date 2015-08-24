@@ -22,7 +22,9 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -475,12 +477,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       for {
         model <- businessDetailsModel
       } yield {
-        logMessage(trackingId, Debug, s"We are going to create a payment success email for the business user type")
+        logMessage(trackingId, Debug, "We are going to create a payment success email for the business user type")
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      logMessage(trackingId, Debug, s"We are not going to create a payment success email for the business user type " +
-        s"because we are not dealing with the business user type")
+      logMessage(trackingId, Debug, "We are not going to create a payment success email for the business user type " +
+        "because we are not dealing with the business user type")
       None
     }
 

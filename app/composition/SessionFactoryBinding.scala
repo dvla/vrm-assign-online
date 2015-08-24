@@ -1,8 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.AesEncryption
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory

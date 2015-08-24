@@ -5,8 +5,7 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import org.scalatest.selenium.WebBrowser.singleSel
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_assign.PaymentPage
 import pages.vrm_assign.PaymentPage.expiryMonth
 import pages.vrm_assign.PaymentPage.expiryYear
@@ -14,7 +13,8 @@ import pages.vrm_assign.PaymentPage.payNow
 import pages.vrm_assign.PaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.

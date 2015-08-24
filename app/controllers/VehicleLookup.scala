@@ -278,7 +278,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])(trackingId: TrackingId) = {
     dtoPostcode match {
       case Some(postcode) =>
-        logMessage(trackingId, Info, "formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
+        logMessage(trackingId, Info, s"formModelPostcode = $formModelPostcode, dtoPostcode $postcode")
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
