@@ -4,6 +4,7 @@ import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
@@ -143,6 +144,7 @@ lazy val paymentSolveProject = paymentSolve("0.17-SNAPSHOT").disablePlugins(Play
 lazy val vrmAssignEligibilityProject = vrmAssignEligibility("0.13-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmAssignFulfilProject = vrmAssignFulfil("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val emailServiceProject = emailService("0.12-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val auditProject = audit("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 21000
@@ -165,6 +167,8 @@ SandboxSettings.legacyStubsProject := legacyStubsProject
 
 SandboxSettings.emailServiceProject := emailServiceProject
 
+SandboxSettings.auditProject := auditProject
+
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
   Tasks.runEmailService.value
@@ -173,6 +177,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runPaymentSolve.value
   Tasks.runVrmAssignEligibility.value
   Tasks.runVrmAssignFulfil.value
+  Tasks.runAudit.value
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
