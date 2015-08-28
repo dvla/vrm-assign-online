@@ -10,6 +10,7 @@ import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.common.ErrorPanel
 import pages.vrm_assign.VehicleLookupPage.fillWith
 import pages.vrm_assign.{BeforeYouStartPage, VehicleLookupPage}
+import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
@@ -37,8 +38,9 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
     "display the v5c image on the page with Javascript disabled" taggedAs UiTag in new WebBrowserForSelenium {
       go to VehicleLookupPage
-      new WebDriverWait(webDriver, 3).until(ExpectedConditions.visibilityOfElementLocated(
-        By.xpath("//div[@data-tooltip='tooltip_document-reference-number']"))
+      Wait.until(ExpectedConditions.visibilityOfElementLocated(
+        By.xpath("//div[@data-tooltip='tooltip_document-reference-number']")),
+        5
       )
     }
 
@@ -46,9 +48,8 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       new WebBrowserForSeleniumWithPhantomJsLocal {
       go to VehicleLookupPage
       val v5c = By.xpath("//div[@data-tooltip='tooltip_document-reference-number']")
-      val waiting = new WebDriverWait(webDriver, 3)
-      waiting.until(ExpectedConditions.presenceOfElementLocated(v5c))
-      waiting.until(ExpectedConditions.invisibilityOfElementLocated(v5c))
+      Wait.until(ExpectedConditions.presenceOfElementLocated(v5c), 5)
+      Wait.until(ExpectedConditions.invisibilityOfElementLocated(v5c), 5)
     }
   }
 
