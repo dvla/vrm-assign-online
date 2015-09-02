@@ -35,9 +35,11 @@ object VehicleLookupPage extends Page {
 
   def keeperPostcode(implicit driver: WebDriver) = textField(id(PostcodeId))
 
-  def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_" + UserType_Keeper))
+  def currentKeeperYes(implicit driver: WebDriver): RadioButton =
+    radioButton(id(KeeperConsentId + "_" + UserType_Keeper))
 
-  def currentKeeperNo(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_" + UserType_Business))
+  def currentKeeperNo(implicit driver: WebDriver): RadioButton =
+    radioButton(id(KeeperConsentId + "_" + UserType_Business))
 
   def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 

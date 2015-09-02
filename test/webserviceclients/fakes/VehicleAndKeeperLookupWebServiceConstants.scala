@@ -47,7 +47,10 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   def KeeperPostCodeValid = Some("SA11AA")
 
-  final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message = "200")
+  final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(
+    code = "vehicle_and_keeper_lookup_document_record_mismatch",
+    message = "200"
+  )
   final val NoKeeper = VehicleAndKeeperLookupErrorMessage("vrm_assign_eligibility_no_keeper_failure", "200")
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
@@ -69,11 +72,21 @@ object VehicleAndKeeperLookupWebServiceConstants {
   )
 
   def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperLookupResponse]) = {
-    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
+    (OK, Some(
+      VehicleAndKeeperLookupResponse(
+        responseCode = None,
+        vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails)
+      )
+    ))
   }
 
   def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperLookupResponse]) = {
-    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message = "200")), vehicleAndKeeperDetailsDto = None)))
+    (OK, Some(
+      VehicleAndKeeperLookupResponse(
+        responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message = "200")),
+        vehicleAndKeeperDetailsDto = None
+      )
+    ))
   }
 
   def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponse]) = {

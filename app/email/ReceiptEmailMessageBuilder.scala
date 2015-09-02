@@ -1,7 +1,6 @@
 package email
 
 import java.text.SimpleDateFormat
-
 import org.joda.time.{DateTimeZone, Instant}
 
 /**

@@ -1,7 +1,7 @@
 package views.vrm_assign
 
 import models.CacheKeyPrefix
-import play.api.data.Forms._
+import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
 
 object Confirm {

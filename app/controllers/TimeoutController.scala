@@ -7,14 +7,15 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_assign.Confirm._
+import views.vrm_assign.Confirm.GranteeConsentCacheKey
 
 /**
  * Shows a timeout page to inform the end user when the fulfil service timeouts.
  */
 class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                           config: Config,
-                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  extends Controller {
 
   /**
    * presents the end use with the timeout page.
@@ -36,5 +37,4 @@ class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSid
   def exit = Action { implicit request =>
     Redirect(routes.LeaveFeedback.present())
   }
-
 }

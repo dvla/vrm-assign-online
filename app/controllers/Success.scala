@@ -13,14 +13,14 @@ import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
@@ -63,7 +63,8 @@ final class Success @Inject()(pdfService: PdfService,
 
         Ok(views.html.vrm_assign.success(successViewModel, vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
-        logMessage( request.cookies.trackingId(), Warn, "Success present user arrived without all of the required cookies")
+        logMessage(request.cookies.trackingId(), Warn,
+          "Success present user arrived without all of the required cookies")
         Redirect(routes.Confirm.present())
     }
   }

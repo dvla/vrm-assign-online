@@ -7,9 +7,9 @@ import models.CaptureCertificateDetailsModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
@@ -35,10 +35,17 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm),
       Some(vehicleLookupResponseCode), captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse,
-          vehicleAndKeeperDetails, vehicleLookupResponseCode, captureCertificateDetailsFormModel, captureCertificateDetailsModel)
+        displayVehicleLookupFailure(transactionId,
+          vehicleAndKeeperLookupForm,
+          bruteForcePreventionResponse,
+          vehicleAndKeeperDetails,
+          vehicleLookupResponseCode,
+          captureCertificateDetailsFormModel,
+          captureCertificateDetailsModel
+        )
       case _ =>
-        logMessage( request.cookies.trackingId(), Warn, "VehicleLookupFailure present cookie missing go to BeforeYouStart")
+        logMessage(request.cookies.trackingId(), Warn,
+          "VehicleLookupFailure present cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -61,7 +68,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           vehicleAndKeeperLookupResponseCode: String,
                                           captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
-                                          captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])(implicit request: Request[AnyContent]) = {
+                                          captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])
+                                         (implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)

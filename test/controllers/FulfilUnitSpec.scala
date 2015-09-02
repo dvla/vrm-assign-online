@@ -29,8 +29,8 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
 import utils.helpers.Config
-import webserviceclients.emailservice.EmailService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
@@ -47,7 +47,8 @@ class FulfilUnitSpec extends UnitSpec {
 
       val result = fulfil.fulfil(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/error/user%20went%20to%20fulfil%20mark%20without%20correct%20cookies"))
+        r.header.headers.get(LOCATION) should
+          equal(Some("/error/user%20went%20to%20fulfil%20mark%20without%20correct%20cookies"))
       }
     }
 
@@ -68,7 +69,8 @@ class FulfilUnitSpec extends UnitSpec {
     "redirect to ErrorPage when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
       val result = fulfil.fulfil(requestWithFeesDue(paymentStatus = None))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/error/user%20went%20to%20fulfil%20mark%20without%20correct%20cookies"))
+        r.header.headers.get(LOCATION) should
+          equal(Some("/error/user%20went%20to%20fulfil%20mark%20without%20correct%20cookies"))
       }
     }
 
@@ -86,18 +88,22 @@ class FulfilUnitSpec extends UnitSpec {
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])
 
-        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        val paymentSuccessReceiptEmails =
+          assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1) // Based on user type = keeper
         paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(keeperEmail)))
 
         val assignSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
-        // Email for the keeper because the keeper email is specified in confirmModel. No business email because the user type is keeper
+        // Email for the keeper because the keeper email is specified in confirmModel.
+        // No business email because the user type is keeper
         assignSuccessEmailRequests.size should equal(1)
         assignSuccessEmailRequests.head.toReceivers should equal(Some(List(keeperEmail)))
       }
     }
 
-    "send a payment email to the business acting on behalf of the keeper and not to the keeper when business is chosen and send retention success emails to both business and keeper when keeper email is supplied" in new WithApplication {
+    "send a payment email to the business acting on behalf of the keeper and " +
+      "not to the keeper when business is chosen and send retention success emails " +
+      "to both business and keeper when keeper email is supplied" in new WithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
@@ -111,7 +117,8 @@ class FulfilUnitSpec extends UnitSpec {
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])
 
-        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        val paymentSuccessReceiptEmails =
+          assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1) // Based on user type = business
         paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(businessEmail)))
 
@@ -124,7 +131,8 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "send a payment email and a retention success email to the business acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
+    "send a payment email and a retention success email to the business " +
+      "acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
@@ -138,12 +146,14 @@ class FulfilUnitSpec extends UnitSpec {
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])
 
-        val paymentSuccessReceiptEmails = assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        val paymentSuccessReceiptEmails =
+          assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1)
         paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(businessEmail)))
 
         val retentionSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
-        // Email for the business because the user type is business. No keeper email because no keeper email supplied in ConfirmModel
+        // Email for the business because the user type is business.
+        // No keeper email because no keeper email supplied in ConfirmModel
         retentionSuccessEmailRequests.size should equal(1)
         retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
       }

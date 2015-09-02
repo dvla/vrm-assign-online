@@ -17,8 +17,10 @@ class ConfigImpl extends Config {
   override val isCsrfPreventionEnabled = getProperty[Boolean]("csrf.prevention")
 
   // Micro-service config
-  override val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase")
-  override val vrmAssignEligibilityMicroServiceUrlBase: String = getProperty[String]("vrmAssignEligibilityMicroServiceUrlBase")
+  override val vehicleAndKeeperLookupMicroServiceBaseUrl: String =
+    getProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase")
+  override val vrmAssignEligibilityMicroServiceUrlBase: String =
+    getProperty[String]("vrmAssignEligibilityMicroServiceUrlBase")
   override val vrmAssignFulfilMicroServiceUrlBase: String = getProperty[String]("vrmAssignFulfilMicroServiceUrlBase")
   override val paymentSolveMicroServiceUrlBase: String = getProperty[String]("paymentSolveMicroServiceUrlBase")
   override val paymentSolveMsRequestTimeout: Int = getProperty[Int]("paymentSolve.ms.requesttimeout")

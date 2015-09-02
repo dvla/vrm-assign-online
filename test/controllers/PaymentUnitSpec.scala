@@ -4,6 +4,7 @@ import composition.RefererFromHeaderBinding
 import composition.WithApplication
 import composition.webserviceclients.paymentsolve.CancelValidated
 import composition.webserviceclients.paymentsolve.PaymentCallFails
+import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
@@ -27,7 +28,6 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}
 
 class PaymentUnitSpec extends UnitSpec {
 
@@ -49,7 +49,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to ConfirmPaymentPage when CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
+    "redirect to ConfirmPaymentPage when " +
+      "CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -85,7 +86,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
+    "redirect to PaymentFailure page when required cookies " +
+      "and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
       val payment = testInjector(
         new ValidatedNotCardDetails
       ).getInstance(classOf[Payment])
@@ -102,7 +104,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+    "display the Payment page when required cookies and referer exist " +
+      "and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.status should equal(OK)
@@ -115,33 +118,6 @@ class PaymentUnitSpec extends UnitSpec {
       content should include("<iframe")
       content should include( s"""src="$beginWebPaymentUrl"""")
     }
-
-//    "call the web service with a base64 url safe callback" in new WithApplication {
-//      val paymentSolveWebService = new ValidatedCardDetails
-//      val payment = testInjector(
-//        paymentSolveWebService,
-//        new RefererFromHeaderBinding
-//      ).getInstance(classOf[Payment])
-//
-//      val result = payment.begin(requestWithValidDefaults())
-//
-//      val content = contentAsString(result)
-//      // The CSRF token is randomly generated, so extract this instance of the token from the hidden field in the html.
-//      val patternHiddenField = """.*<input type="hidden" name="csrf_prevention_token" value="(.*)"/>.*""".r
-//      val token: String = patternHiddenField findFirstIn content match {
-//        case Some(patternHiddenField(tokenInHtml)) => tokenInHtml
-//        case _ => "NOT FOUND"
-//      }
-//      val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
-//      val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
-//        transactionId = CookieFactoryForUnitSpecs.transactionId().value,
-//        transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
-//        vrm = RegistrationNumberValid,
-//        purchaseAmount = 42,
-//        paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
-//      )
-//      verify(paymentSolveWebService.stub).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
-//    }
   }
 
   "getWebPayment" should {

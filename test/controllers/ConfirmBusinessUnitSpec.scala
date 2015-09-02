@@ -74,9 +74,13 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
         ("keeperName", "MR DAVID JONES"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
-        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
+        ("businessAddress", "example trader name, " +
+          "business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToCaptureCertificateDetails, AuditRequest.AuditServiceType, data)
+      val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
+        AuditRequest.AuditServiceType,
+        data
+      )
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -90,7 +94,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       }
     }
 
-    "refresh all of the business details cookies to have a maxAge that is 7 days in the future if user is a business" in new WithApplication {
+    "refresh all of the business details cookies to have a maxAge that is " +
+      "7 days in the future if user is a business" in new WithApplication {
       val expected = 7.days.toSeconds.toInt
       val request = FakeRequest()
         .withCookies(
@@ -115,7 +120,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       }
     }
 
-    "refresh all of the business details cookies to have a maxAge that is 7 days in the future if user is a business and entered address manually" in new WithApplication {
+    "refresh all of the business details cookies to have a maxAge that is " +
+      "7 days in the future if user is a business and entered address manually" in new WithApplication {
       val expected = 7.days.toSeconds.toInt
       val request = FakeRequest()
         .withCookies(

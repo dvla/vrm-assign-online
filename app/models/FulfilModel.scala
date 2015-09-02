@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.vrm_assign.Fulfil._
+import views.vrm_assign.Fulfil.FulfilCacheKey
 
 final case class FulfilModel(transactionTimestamp: String)
 

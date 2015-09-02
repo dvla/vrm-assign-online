@@ -5,11 +5,18 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.SetupBusinessDetailsPage._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl}
+import pages.vrm_assign.SetupBusinessDetailsPage.businessAddressWidget
+import pages.vrm_assign.SetupBusinessDetailsPage.lookup
+import pages.vrm_assign.SetupBusinessDetailsPage.traderContact
+import pages.vrm_assign.SetupBusinessDetailsPage.traderEmail
+import pages.vrm_assign.SetupBusinessDetailsPage.traderEmailVerify
+import pages.vrm_assign.SetupBusinessDetailsPage.traderName
+import pages.vrm_assign.SetupBusinessDetailsPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.

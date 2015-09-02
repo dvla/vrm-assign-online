@@ -8,9 +8,25 @@ import cucumber.api.scala.EN
 import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
-import org.scalatest.selenium.WebBrowser._
-import pages._
-import pages.vrm_assign._
+import org.scalatest.selenium.WebBrowser.{go, goBack}
+import pages.BeforeYouStartPageSteps
+import pages.CaptureCertificateDetailsPageSteps
+import pages.ConfirmBusinessPageSteps
+import pages.ConfirmPageSteps
+import pages.ConfirmPaymentPageSteps
+import pages.PaymentPageSteps
+import pages.PaymentPreventBackPageSteps
+import pages.SetupBusinessDetailsPageSteps
+import pages.SuccessPageSteps
+import pages.VehicleLookupPageSteps
+import pages.vrm_assign.BeforeYouStartPage
+import pages.vrm_assign.CaptureCertificateDetailsPage
+import pages.vrm_assign.ConfirmBusinessPage
+import pages.vrm_assign.ConfirmPage
+import pages.vrm_assign.PaymentPage
+import pages.vrm_assign.SetupBusinessDetailsPage
+import pages.vrm_assign.SuccessPage
+import pages.vrm_assign.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentDetailsCacheKey
@@ -144,8 +160,10 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`()
       case "setup-business-details" => setupBusinessDetails.`form is filled with the values I previously entered`
       case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
-      case "capture-certificate-details (business acting)" => captureCertificateDetails.`form is filled with the values I previously entered`()
-      case "capture-certificate-details" => captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "capture-certificate-details (business acting)" =>
+        captureCertificateDetails.`form is filled with the values I previously entered`()
+      case "capture-certificate-details" =>
+        captureCertificateDetails.`form is filled with the values I previously entered`()
       case "confirm" => confirm.`form is filled with the values I previously entered`()
       case "confirm-payment" => confirmPayment.`form is filled with the values I previously entered`()
       case "confirm (business acting)" => confirm.`form is filled with the values I previously entered`()

@@ -2,10 +2,10 @@ package pages.vrm_assign
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, find, go, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_assign.Confirm._
+import views.vrm_assign.Confirm.{ConfirmId,ExitId,GranteeConsentId}
 
 object ConfirmPaymentPage extends Page {
 
@@ -25,5 +25,4 @@ object ConfirmPaymentPage extends Page {
     go to ConfirmPaymentPage
     click on confirm
   }
-
 }

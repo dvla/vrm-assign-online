@@ -2,10 +2,10 @@ package webserviceclients.vrmassigneligibility
 
 import javax.inject.Inject
 import play.api.http.Status
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWebService)
   extends VrmAssignEligibilityService {

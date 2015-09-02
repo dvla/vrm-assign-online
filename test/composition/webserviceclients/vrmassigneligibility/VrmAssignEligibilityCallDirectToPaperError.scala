@@ -5,8 +5,8 @@ import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibili
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseDirectToPaperError
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebService

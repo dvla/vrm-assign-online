@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.vrm_assign.Payment._
+import views.vrm_assign.Payment.PaymentDetailsCacheKey
 
 final case class PaymentModel(trxRef: Option[String] = None, var paymentStatus: Option[String] = None,
                               var maskedPAN: Option[String] = None, var authCode: Option[String] = None,

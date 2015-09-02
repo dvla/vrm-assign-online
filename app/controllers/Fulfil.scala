@@ -12,37 +12,39 @@ import models.ConfirmFormModel
 import models.FulfilModel
 import models.PaymentModel
 import models.VehicleAndKeeperLookupFormModel
-import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
 import play.api.i18n.Messages
 import play.api.mvc.{Action, Controller, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.Fulfil.FulfilResponseCodeCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilService
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 
 final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                              auditService2: audit2.AuditService,
@@ -80,13 +82,13 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           Some(payment)
         )
       case (Some(vehiclesLookupForm),
-            Some(transactionId),
-            Some(captureCertificateDetailsFormModel),
-            Some(granteeConsent),
-            Some(captureCertificateDetails),
-            _,
-            _) if granteeConsent == "true" &&
-                  captureCertificateDetails.outstandingFees == 0 =>
+      Some(transactionId),
+      Some(captureCertificateDetailsFormModel),
+      Some(granteeConsent),
+      Some(captureCertificateDetails),
+      _,
+      _) if granteeConsent == "true" &&
+        captureCertificateDetails.outstandingFees == 0 =>
         fulfilVrm(
           request,
           vehiclesLookupForm,
@@ -152,7 +154,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         case _ =>
           auditService2.send(AuditRequest.from(
             pageMovement = AuditRequest.ConfirmToSuccess,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+            transactionId = request.cookies.getString(TransactionIdCacheKey).
+              getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
@@ -166,10 +169,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     def fulfilFailure(responseCode: String) = {
-      logMessage( request.cookies.trackingId, Debug, s"VRMRetentionFulfil encountered a problem with request" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-        s" redirect to VehicleLookupFailure")
+      logMessage(request.cookies.trackingId, Debug, "VRMRetentionFulfil encountered a problem with request: " +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) + ", "  +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
+        ", redirect to VehicleLookupFailure")
 
       // TODO need to tidy this up!!
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
@@ -216,7 +219,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     def microServiceErrorResult(message: String) = {
-      logMessage( request.cookies.trackingId, Error, message)
+      logMessage(request.cookies.trackingId, Error, message)
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -232,12 +235,18 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-          businessDetailsOpt.fold {logMessage( request.cookies.trackingId, Debug,"No business details cookie found or user type not business so will " +
-            "not create a fulfil confirm email for the business")}
-          {keeperEmail => logMessage( request.cookies.trackingId, Debug,"Business details cookie found and user type is business so will " +
+          businessDetailsOpt.fold {logMessage(request.cookies.trackingId, Debug,
+            "No business details cookie found or user type not business so will " +
+            "not create a fulfil confirm email for the business")
+          }
+          {keeperEmail => logMessage(request.cookies.trackingId, Debug,
+            "Business details cookie found and user type is business so will " +
             "create a fulfil confirm email for the business")}
-          keeperEmailOpt.fold {logMessage( request.cookies.trackingId, Debug, "No keeper email supplied so will not create a fulfil confirm email for the keeper")}
-          {keeperEmail => logMessage( request.cookies.trackingId, Debug,"Keeper email supplied so will create a fulfil confirm email for the keeper")}
+          keeperEmailOpt.fold {logMessage(request.cookies.trackingId, Debug,
+            "No keeper email supplied so will not create a fulfil confirm email for the keeper")
+          }
+          {keeperEmail => logMessage(request.cookies.trackingId, Debug,
+            "Keeper email supplied so will create a fulfil confirm email for the keeper")}
 
           Seq(businessDetailsOpt.flatMap { businessDetails =>
             assignEmailService.emailRequest(
@@ -296,7 +305,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>
         response.responseCode match {
-          case Some(responseCode) => fulfilFailure(responseCode) // There is only a response code when there is a problem.
+          case Some(responseCode) => fulfilFailure(responseCode) // Response code  only a when there is a problem.
           case None =>
             // Happy path when there is no response code therefore no problem.
             response.documentNumber match {
@@ -360,7 +369,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
-    logMessage( trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
+    logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
 
     // send keeper email if present
     val keeperEmail: Option[EmailServiceSendRequest] = if (isKeeperUserType) {
@@ -368,35 +377,38 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         model <- confirmFormModel
         email <- model.keeperEmail
       } yield {
-        logMessage( trackingId, Debug, s"We are going to create a payment failure email for the keeper user type")
+        logMessage(trackingId, Debug, "We are going to create a payment failure email for the keeper user type")
         buildEmailServiceSendRequest(template, from, title, email)
       }
     } else {
-      logMessage( trackingId, Debug, s"We are not going to create a payment failure email for the keeper user type " +
-        s"because we are not dealing with the keeper user type")
+      logMessage(trackingId, Debug, "We are not going to create a payment failure email for the keeper user type " +
+        "because we are not dealing with the keeper user type")
       None
     }
 
-    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
-      logMessage( trackingId, Debug, s"We are not going to create a payment failure email for the keeper user type " +
-        s"because no email was supplied")
+    if (keeperEmail.isEmpty &&
+      isKeeperUserType && confirmFormModel.nonEmpty &&
+      confirmFormModel.get.keeperEmail.isEmpty
+    ) {
+      logMessage(trackingId, Debug, "We are not going to create a payment failure email for the keeper user type " +
+        "because no email was supplied")
     }
 
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
     val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
-    logMessage( trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
+    logMessage(trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
 
     // send business email if present
     val businessEmail: Option[EmailServiceSendRequest] = if (isBusinessUserType) {
       for {
         model <- businessDetailsModel
       } yield {
-        logMessage( trackingId, Debug, s"We are going to create a payment failure email for the business user type")
+        logMessage(trackingId, Debug, "We are going to create a payment failure email for the business user type")
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      logMessage( trackingId, Debug, s"We are not going to create a payment failure email for the business user type " +
-        s"because we are not dealing with the business user type")
+      logMessage(trackingId, Debug, "We are not going to create a payment failure email for the business user type " +
+        "because we are not dealing with the business user type")
       None
     }
 
@@ -404,10 +416,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
   }
 
   private def buildPaymentSuccessEmailRequests(captureCertificateDetails: CaptureCertificateDetailsModel,
-                                                vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                                transactionId: String,
-                                                trackingId: TrackingId)
-                                               (implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                                               vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                                               transactionId: String,
+                                               trackingId: TrackingId)
+                                              (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
@@ -429,7 +441,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
-    logMessage( trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
+    logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
 
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
 
@@ -439,34 +451,38 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         model <- confirmFormModel
         email <- model.keeperEmail
       } yield {
-        logMessage( trackingId, Debug, s"We are going to create a payment success email for the keeper user type")
+        logMessage(trackingId, Debug, "We are going to create a payment success email for the keeper user type")
         buildEmailServiceSendRequest(template, from, title, email)
       }
     } else {
-      logMessage( trackingId, Debug, s"We are not going to create a payment success email for the keeper user type " +
-        s"because we are not dealing with the keeper user type")
+      logMessage(trackingId, Debug, "We are not going to create a payment success email for the keeper user type " +
+        "because we are not dealing with the keeper user type")
       None
     }
 
-    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
-      logMessage( trackingId, Debug, s"We are not going to create a payment success email for the keeper user type " +
-        s"because no email was supplied")
+    if (keeperEmail.isEmpty &&
+      isKeeperUserType &&
+      confirmFormModel.nonEmpty &&
+      confirmFormModel.get.keeperEmail.isEmpty
+    ) {
+      logMessage(trackingId, Debug, "We are not going to create a payment success email for the keeper user type " +
+        "because no email was supplied")
     }
 
     val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
-    logMessage( trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
+    logMessage(trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
 
     // send business email if present
     val businessEmail: Option[EmailServiceSendRequest] = if (isBusinessUserType) {
       for {
         model <- businessDetailsModel
       } yield {
-        logMessage( trackingId, Debug, s"We are going to create a payment success email for the business user type")
+        logMessage(trackingId, Debug, "We are going to create a payment success email for the business user type")
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      logMessage( trackingId, Debug, s"We are not going to create a payment success email for the business user type " +
-        s"because we are not dealing with the business user type")
+      logMessage(trackingId, Debug, "We are not going to create a payment success email for the business user type " +
+        "because we are not dealing with the business user type")
       None
     }
 

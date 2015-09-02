@@ -10,10 +10,16 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages._
+import org.scalatest.selenium.WebBrowser.{pageSource, pageTitle}
+import pages.BeforeYouStartPageSteps
+import pages.CaptureCertificateDetailsPageSteps
+import pages.ConfirmBusinessPageSteps
+import pages.ConfirmPageSteps
+import pages.PaymentPageSteps
+import pages.SetupBusinessDetailsPageSteps
+import pages.VehicleLookupPageSteps
+import pages.VrmLockedPageSteps
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
-
 import scala.concurrent.duration.DurationInt
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
@@ -35,14 +41,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     setupBusinessDetails,
     confirmBusiness
   )(webDriver, timeout)
-  //  private implicit val webDriver: EventFiringWebDriver = {
-  //    import com.typesafe.config.ConfigFactory
-  //    val conf = ConfigFactory.load()
-  //    conf.getString("browser.type") match {
-  //      case "firefox" => new WebBrowserFirefoxDriver
-  //      case _ => new WebBrowserDriver
-  //    }
-  //  }
 
   @Given("^that I have started the PR Assign Service for payment$")
   def `that I have started the PR Assign Service for payment`() {
@@ -57,7 +55,9 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   }
 
   @When("^I enter payment details as \"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
-  def `i enter payment details as <CardName>,<CardNumber> and <SecurityCode>`(cardName: String, cardNumber: String, cardExpiry: String) = {
+  def `i enter payment details as <CardName>,<CardNumber> and <SecurityCode>`(cardName: String,
+                                                                              cardNumber: String,
+                                                                              cardExpiry: String) = {
     payment
       .`is displayed`
       .enter(cardName, cardNumber, cardExpiry)

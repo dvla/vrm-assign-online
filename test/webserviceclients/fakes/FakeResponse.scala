@@ -3,7 +3,6 @@ package webserviceclients.fakes
 import play.api.libs.json.JsValue
 import play.api.libs.ws.WSCookie
 import play.api.libs.ws.WSResponse
-
 import scala.xml.Elem
 
 final class FakeResponse(override val status: Int,
@@ -25,7 +24,8 @@ final class FakeResponse(override val status: Int,
 
   override lazy val body: String = fakeBody.getOrElse("")
   override lazy val xml: Elem = fakeXml.get
-  override lazy val json: JsValue = fakeJson.get // Beware that if you constructed with the default then calling this will throw an exception.
+  // Beware that if you constructed with the default then calling this will throw an exception.
+  override lazy val json: JsValue = fakeJson.get
 }
 
 object FakeResponse {

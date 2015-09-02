@@ -1,9 +1,9 @@
 package pages.common
 
+import org.openqa.selenium.WebDriver
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import helpers.webbrowser.{Element, WebBrowserDSL}
-import org.openqa.selenium.WebDriver
 
 object AlternateLanguages extends WebBrowserDSL {
   def cymraeg(implicit driver: WebDriver): Element = find(id(CyId)).get

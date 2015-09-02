@@ -1,14 +1,13 @@
 package controllers
 
-import models.CacheKeyPrefix
 import com.google.inject.Inject
+import models.CacheKeyPrefix
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.webserviceclients.addresslookup.AddressLookupService
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.VehicleAndKeeperDetailsModel
-
 
 class AddressLookup @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               addressLookup: AddressLookupService) extends common.controllers.AddressLookup {

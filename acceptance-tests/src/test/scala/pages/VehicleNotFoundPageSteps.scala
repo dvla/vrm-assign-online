@@ -9,7 +9,8 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.VehicleLookupFailurePage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {
@@ -20,7 +21,8 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeo
 
   def `has 'not found' message` = {
     pageSource should include("Unable to find vehicle record")
-    pageSource should include("The V5C document reference number and/or the vehicle registration number entered is either not valid or does not come from the most recent V5C issued for this vehicle.")
+    pageSource should include("The V5C document reference number and/or the vehicle registration number entered is " +
+      "either not valid or does not come from the most recent V5C issued for this vehicle.")
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "Download V317"
     this
@@ -28,7 +30,8 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeo
 
   def `has 'doc ref mismatch' message` = {
     pageSource should include("Unable to find vehicle record")
-    pageSource should include("The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.")
+    pageSource should include("The V5C document reference number entered is either not valid or " +
+      "does not come from the most recent V5C issued for this vehicle.")
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "Download V317"
     this

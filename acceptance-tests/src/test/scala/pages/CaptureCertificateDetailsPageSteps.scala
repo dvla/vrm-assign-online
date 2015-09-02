@@ -5,20 +5,24 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.CaptureCertificateDetailsPage._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl}
+import pages.vrm_assign.CaptureCertificateDetailsPage.{documentCount, date, lookup, registrationMark, time, url}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
-final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
-      `enter certificate details`(box1 = CertificateDocumentCountValid, box2 = CertificateDateValid, box3 = CertificateTimeValid, box4 = RegistrationNumberValid).
-      `submit details`
+      `enter certificate details`(box1 = CertificateDocumentCountValid,
+        box2 = CertificateDateValid,
+        box3 = CertificateTimeValid,
+        box4 = RegistrationNumberValid
+      ).`submit details`
     this
   }
 

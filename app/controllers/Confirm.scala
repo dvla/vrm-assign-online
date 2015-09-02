@@ -32,7 +32,8 @@ import webserviceclients.audit2.AuditRequest
 final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -141,7 +142,8 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
     auditService2.send(AuditRequest.from(
       pageMovement = pageMovement,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      transactionId = request.cookies.getString(TransactionIdCacheKey).
+        getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = model.flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],

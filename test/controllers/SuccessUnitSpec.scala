@@ -104,7 +104,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       }
     }
 
-    "call the email service when keeper selected to supply an email address and did supply an email" in new WithApplication {
+    "call the email service when keeper selected to supply an " +
+      "email address and did supply an email" in new WithApplication {
       val isKeeper = true
       val request = FakeRequest().
         withCookies(

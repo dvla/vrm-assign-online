@@ -5,7 +5,6 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Request
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, TrackingId}
 import scala.concurrent.Future
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.audit2.AuditService

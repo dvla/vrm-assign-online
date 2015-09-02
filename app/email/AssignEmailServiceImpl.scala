@@ -12,19 +12,19 @@ import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.html.vrm_assign.email_with_html
 import views.html.vrm_assign.email_without_html
-import webserviceclients.emailservice.EmailService
-import webserviceclients.emailservice.EmailServiceSendRequest
-import uk.gov.dvla.vehicles.presentation.common.LogFormats._
 
 final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                                              pdfService: PdfService,
@@ -47,7 +47,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config.emailWhitelist.isDefined) ||
+    if (config.emailWhitelist.isEmpty ||
       (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
 
       val keeperName = Seq(vehicleAndKeeperDetailsModel.title,
@@ -115,7 +115,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         None
       ))
     } else {
-      logMessage( trackingId, Error, s"Email not sent as email address $emailAddress is not in white list")
+      logMessage(trackingId, Error, s"Email not sent as email address $emailAddress is not in white list")
       None
     }
   }
@@ -145,18 +145,18 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         isKeeper,
         trackingId
       ).map { emailServiceSendRequest =>
-        logMessage( trackingId, Info, s"About to send email to $emailAddress")
+        logMessage(trackingId, Info, s"About to send email to $emailAddress")
         if (emailServiceSendRequest.attachment.isDefined) {
-          logMessage( trackingId, Info, "Sending with attachment")
+          logMessage(trackingId, Info, "Sending with attachment")
         }
 
         emailService.invoke(emailServiceSendRequest, trackingId).map {
           response =>
-            if (isKeeper) logMessage( trackingId, Info, s"Keeper email sent")
-            else logMessage( trackingId, Info, s"Non-keeper email sent")
+            if (isKeeper) logMessage(trackingId, Info, "Keeper email sent")
+            else logMessage(trackingId, Info, "Non-keeper email sent")
         }.recover {
           case NonFatal(e) =>
-            logMessage( trackingId, Error, s"Email Service web service call failed. Exception ${e.getMessage}")
+            logMessage(trackingId, Error, s"Email Service web service call failed. Exception ${e.getMessage}")
         }
       }
     }
@@ -238,9 +238,10 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
   }
 
   private def formatName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-    Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
-      flatten.
-      mkString(" ")
+    Seq(vehicleAndKeeperDetailsModel.title,
+      vehicleAndKeeperDetailsModel.firstName,
+      vehicleAndKeeperDetailsModel.lastName
+    ).flatten.mkString(" ")
   }
 
   private def formatAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {

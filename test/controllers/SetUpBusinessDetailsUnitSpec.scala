@@ -12,6 +12,7 @@ import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId
@@ -22,7 +23,6 @@ import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
@@ -101,7 +101,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
+    "replace max length error message for traderBusinessName " +
+      "with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1)).
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -112,7 +113,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       // the page and once above the field.
     }
 
-    "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
+    "replace required and min length error messages for traderBusinessName " +
+      "with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "").
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)

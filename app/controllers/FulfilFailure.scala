@@ -19,7 +19,8 @@ import webserviceclients.paymentsolve.PaymentSolveService
 final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
-                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

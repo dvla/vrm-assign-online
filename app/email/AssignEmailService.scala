@@ -1,12 +1,14 @@
 package email
 
-import models._
+import models.BusinessDetailsModel
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.ConfirmFormModel
+import models.VehicleAndKeeperLookupFormModel
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import webserviceclients.emailservice.EmailServiceSendRequest
-
-import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 
 trait AssignEmailService {
 

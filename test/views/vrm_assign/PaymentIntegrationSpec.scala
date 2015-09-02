@@ -7,8 +7,8 @@ import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
+import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.RelatedCacheKeys.AssignSet
 import views.vrm_assign.RelatedCacheKeys.BusinessDetailsSet
@@ -25,13 +25,18 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VehicleLookupPage
-      val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(
+        By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      )
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(
+        uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName
+      )
       csrf.getAttribute("value").length > 0 should equal(true)
     }
 
-    "redirect to VehicleLookupPage page when fulfil cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to VehicleLookupPage page when fulfil cookie is present " +
+      "(the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().fulfilModel()
       go to PaymentPage
