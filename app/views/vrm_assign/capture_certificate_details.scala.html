@@ -30,26 +30,6 @@
                 <div class="certificate-details">
                     <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
                     <h3>
-                        <span class="js-has-tooltip" data-tooltip="certificates-hint">i</span>
-                        <div class="js-tooltip js-tooltip-long" data-tooltip="certificates-hint" style="display:none;">
-                            <table cellpadding="10">
-                                <tr>
-                                    <td>
-                                        <p>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")</p>
-                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/retention-service-online-480px.jpg")" alt="@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")" />
-                                    </td>
-                                    <td>
-                                        <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
-                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
-                                    </td>
-                                    <td>
-                                        <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
-                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-
                         @Messages("vrm_assign_capturecertificatedetails.title-2")
                     </h3>
 
@@ -57,26 +37,52 @@
                         @Messages("vrm_assign_capturecertificatedetails.referencenumberhelper")
                     </div>
 
-                    <ul>
+                    <ul class="help-list">
                         <li>
-                            <span class="js-has-tooltip js-has-long-tooltip" data-tooltip="online-retention" style="display: inline-block;">@Messages("vrm_assign_capturecertificatedetails.onlineRetention")</span><br/>
-                            <div class="js-tooltip" data-tooltip="online-retention">
-                                <p>@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")</p>
-                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/retention-service-online-480px.jpg")" alt="@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")" />
+                            @Messages("vrm_assign_capturecertificatedetails.onlineRetention")
+                            <a href="?#online-retention" class="field-help js-only" data-tooltip="help_online-retention" aria-hidden="true">
+                                <span class="field-help-icon">i</span>
+                                <span class="field-help-close" >Close</span>
+                            </a>
+
+                            <div class="field-help-content no-js-only" data-tooltip="help_online-retention">
+                                <div class="panel-indent-wrapper">
+                                    <div class="panel-indent" style="margin-top: 10px;">
+                                        <p class="js-only">@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")</p>
+                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/retention-service-online-480px.jpg")" alt="@Messages("vrm_assign_capturecertificatedetails.onlineRetentionHint")" />
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li>
-                            <span class="js-has-tooltip js-has-long-tooltip" data-tooltip="v750" style="display: inline-block;">@Messages("vrm_assign_capturecertificatedetails.hintCertificate")</span> @Messages("vrm_assign_capturecertificatedetails.hintCertificate-1")<br/>
-                            <div class="js-tooltip" data-tooltip="v750">
-                                <p>@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
-                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                            @Messages("vrm_assign_capturecertificatedetails.hintCertificate")
+                            @Messages("vrm_assign_capturecertificatedetails.hintCertificate-1")
+                            <a href="?#online-retention" class="field-help js-only" data-tooltip="help_v750" aria-hidden="true">
+                                <span class="field-help-icon">i</span>
+                                <span class="field-help-close" >Close</span>
+                            </a>
+                            <div class="field-help-content no-js-only" data-tooltip="help_v750">
+                                <div class="panel-indent-wrapper">
+                                    <div class="panel-indent" style="margin-top: 10px;">
+                                        <p class="js-only">@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")</p>
+                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v750-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li>
-                            <span class="js-has-tooltip js-has-long-tooltip" data-tooltip="v778" style="display: inline-block;">@Messages("vrm_assign_capturecertificatedetails.hintDocumentReference")</span>
-                            <div class="js-tooltip" data-tooltip="v778">
-                                <p>@Messages("capture-certificate-details-you-will-need-retention-document")</p>
-                                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                            @Messages("vrm_assign_capturecertificatedetails.hintDocumentReference")
+                            <a href="?#online-retention" class="field-help js-only" data-tooltip="help_v778" aria-hidden="true">
+                                <span class="field-help-icon">i</span>
+                                <span class="field-help-close" >Close</span>
+                            </a>
+                            <div class="field-help-content no-js-only" data-tooltip="help_v778">
+                                <div class="panel-indent-wrapper">
+                                    <div class="panel-indent" style="margin-top: 10px;">
+                                        <p class="js-only">@Messages("capture-certificate-details-you-will-need-retention-document")</p>
+                                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/v778-viewfinder-1-480px.jpg")" alt="@Messages("capture-certificate-details-you-will-need-certificate-of-entitlement")" />
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     </ul>
