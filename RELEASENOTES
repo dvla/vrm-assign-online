@@ -1,3 +1,14 @@
+======= 1.16 ========
+Time of release binaries creation:
+Wed Sep 02 15:12:52 UTC 2015
+
+US3717  [Assign] Updated Error message for failure screens
+US3731  Remove openingTime, closingTime properties from all exemplars
+US3736  Audit service build-details-generator enable
+US3740  Code review and clean up on vrm-assign-online e.g. logMessage, wildcard on imports, line length
+US3742  Timeout is too short for unit test VehicleLookupIntegrationSpec
+US3758  Code review and clean up on vehicles-presentation-common e.g. logMessage, wildcard on imports, line length
+
 ======= 1.15  ======
 Time of release binaries creation:
 Wed Aug 19 11:00:43 UTC 2015
