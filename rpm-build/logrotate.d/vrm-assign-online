@@ -1,0 +1,10 @@
+/opt/vrm-assign-online/logs/*.log {
+        missingok
+        copytruncate
+        notifempty
+        dateext
+        daily
+        create 644 vrm-assign-online vrm-assign-online
+        compress
+        rotate 35
+}
