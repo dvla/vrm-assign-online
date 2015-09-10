@@ -13,9 +13,9 @@ final class LeaveFeedback @Inject()()(implicit clientSideSessionFactory: ClientS
                                       surveyUrl: SurveyUrl) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_assign.leave_feedback(surveyUrl())).
-      withNewSession.
-      discardingCookies(RelatedCacheKeys.AssignSet)
+    Ok(views.html.vrm_assign.leave_feedback(surveyUrl()))
+      .withNewSession
+      .discardingCookies(RelatedCacheKeys.AssignSet)
   }
 }
 

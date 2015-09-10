@@ -5,7 +5,6 @@ import models.BusinessDetailsModel
 object BusinessAddressOptString {
 
   def from(businessDetailsModel: BusinessDetailsModel) = {
-
     var addressString = businessDetailsModel.name
 
     if (businessDetailsModel.address.address.nonEmpty) {

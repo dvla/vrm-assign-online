@@ -6,6 +6,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.BAD_REQUEST
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.audit2.AuditMicroService
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.FakeResponse
@@ -14,8 +15,8 @@ final class AuditMicroServiceCallNotOk extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[AuditMicroService]
-    when(webService.invoke(request = any[AuditRequest])).
-      thenReturn(Future.successful(new FakeResponse(status = BAD_REQUEST)))
+    when(webService.invoke(request = any[AuditRequest], trackingId = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = BAD_REQUEST)))
     webService
   }
 

@@ -12,7 +12,7 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService) 
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VrmAssignFulfilResponse]
       else throw new RuntimeException(
-        s"Vrm Assign Fulfil web service call http status not OK, it " +
+        "Vrm Assign Fulfil web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or the VSS"
       )
     }

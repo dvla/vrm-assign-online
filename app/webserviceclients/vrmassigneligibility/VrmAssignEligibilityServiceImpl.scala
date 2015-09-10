@@ -15,7 +15,7 @@ final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWe
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VrmAssignEligibilityResponse]
       else throw new RuntimeException(
-        s"Vrm Assign Eligibility web service call http status not OK, it " +
+        "Vrm Assign Eligibility web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-assign-eligibility micro-service or the VSS"
       )
     }.recover {

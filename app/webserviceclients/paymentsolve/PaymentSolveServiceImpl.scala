@@ -14,7 +14,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveBeginResponse]
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -27,7 +27,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveGetResponse]
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -40,7 +40,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveCancelResponse]
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -53,7 +53,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[PaymentSolveUpdateResponse]
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {

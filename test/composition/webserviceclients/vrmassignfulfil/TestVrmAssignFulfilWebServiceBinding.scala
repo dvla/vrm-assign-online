@@ -18,8 +18,8 @@ final class TestVrmAssignFulfilWebServiceBinding extends ScalaModule with Mockit
 
   val stub = {
     val webService = mock[VrmAssignFulfilWebService]
-    when(webService.invoke(any[VrmAssignFulfilRequest], any[TrackingId])).
-      thenReturn(Future.successful(createResponse(vrmAssignFulfilResponseSuccess)))
+    when(webService.invoke(any[VrmAssignFulfilRequest], any[TrackingId]))
+      .thenReturn(Future.successful(createResponse(vrmAssignFulfilResponseSuccess)))
     webService
   }
 

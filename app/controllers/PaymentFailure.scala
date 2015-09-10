@@ -17,8 +17,8 @@ import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-                                      extends Controller with DVLALogger {
+                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                      ) extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

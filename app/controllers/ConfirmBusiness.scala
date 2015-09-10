@@ -22,8 +22,8 @@ import webserviceclients.audit2.AuditRequest
 final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                       config: Config,
-                                      dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-                                      extends Controller {
+                                      dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                     ) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -64,13 +64,15 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
             businessDetailsModel,
             setupBusinessDetailsFormModel) =>
 
+            val trackingId = request.cookies.trackingId()
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.ConfirmBusinessToCaptureCertificateDetails,
               transactionId = request.cookies.getString(TransactionIdCacheKey)
                 .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+            )
             Redirect(routes.CaptureCertificateDetails.present())
               .withCookie(businessDetailsModel)
               .withCookie(setupBusinessDetailsFormModel)
@@ -82,13 +84,15 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
   }
 
   def exit = Action { implicit request =>
+    val trackingId = request.cookies.trackingId()
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+    )
 
     Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)

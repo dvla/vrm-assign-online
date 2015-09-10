@@ -13,9 +13,9 @@ import views.vrm_assign.Confirm.GranteeConsentCacheKey
  * Shows a timeout page to inform the end user when the fulfil service timeouts.
  */
 class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                          config: Config,
-                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-  extends Controller {
+                                    config: Config,
+                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                    ) extends Controller {
 
   /**
    * presents the end use with the timeout page.

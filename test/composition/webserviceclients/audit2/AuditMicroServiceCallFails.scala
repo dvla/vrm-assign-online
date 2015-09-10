@@ -5,6 +5,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.audit2.AuditMicroService
 import webserviceclients.audit2.AuditRequest
 
@@ -12,7 +13,7 @@ final class AuditMicroServiceCallFails extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[AuditMicroService]
-    when(webService.invoke(request = any[AuditRequest])).thenReturn(fail)
+    when(webService.invoke(request = any[AuditRequest], trackingId = any[TrackingId])).thenReturn(fail)
     webService
   }
 

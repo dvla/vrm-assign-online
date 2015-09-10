@@ -5,7 +5,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 object KeeperNameOptString {
 
   def from(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel) = {
-
     // flatten and then iterate
     val keeperNameList = List(vehicleAndKeeperDetailsModel.title,
       vehicleAndKeeperDetailsModel.firstName,

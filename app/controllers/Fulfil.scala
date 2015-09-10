@@ -99,13 +99,14 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           None
         )
       case _ =>
+        val trackingId = request.cookies.trackingId()
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = request.cookies
             .getString(TransactionIdCacheKey)
             .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
           timestamp = dateService.dateTimeISOChronology
-        ))
+        ), trackingId)
         Future.successful {
           Redirect(routes.Error.present("user went to fulfil mark without correct cookies"))
         }
@@ -129,6 +130,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     def fulfilSuccess() = {
 
+      val trackingId = request.cookies.trackingId()
       // if no payment model then no outstanding fees
       paymentModel match {
         case Some(payment) =>
@@ -145,7 +147,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
             captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
             businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-            paymentModel = paymentModel)
+            paymentModel = paymentModel), trackingId
           )
 
           Redirect(routes.FulfilSuccess.present()).
@@ -161,10 +163,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
             captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
             captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
-            businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+            businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+          )
 
-          Redirect(routes.FulfilSuccess.present()).
-            withCookie(FulfilModel.from(transactionTimestampWithZone))
+          Redirect(routes.FulfilSuccess.present()).withCookie(FulfilModel.from(transactionTimestampWithZone))
       }
     }
 
@@ -177,9 +179,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       // TODO need to tidy this up!!
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+      val trackingId = request.cookies.trackingId()
 
       if (paymentModel.isDefined) {
-
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
 
         auditService2.send(AuditRequest.from(
@@ -194,11 +196,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           paymentModel = paymentModel,
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
           captureCertificateDetailsModel = Some(captureCertificateDetails),
-          rejectionCode = Some(responseCode)))
+          rejectionCode = Some(responseCode)), trackingId
+        )
 
-        Redirect(routes.FulfilFailure.present()).
-          withCookie(paymentModel.get).
-          withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+        Redirect(routes.FulfilFailure.present())
+          .withCookie(paymentModel.get)
+          .withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       } else {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
@@ -211,10 +214,11 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
           captureCertificateDetailsModel = Some(captureCertificateDetails),
-          rejectionCode = Some(responseCode)))
+          rejectionCode = Some(responseCode)), trackingId
+        )
 
-        Redirect(routes.FulfilFailure.present()).
-          withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+        Redirect(routes.FulfilFailure.present())
+          .withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
       }
     }
 
@@ -223,9 +227,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       Redirect(routes.MicroServiceError.present())
     }
 
-    val trackingId = request.cookies.trackingId()
-
     def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
+      val trackingId = request.cookies.trackingId()
       request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
 
         case Some(vehicleAndKeeperDetails) =>
@@ -282,6 +285,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       }
     }
 
+    val trackingId = request.cookies.trackingId()
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
       buildWebHeader(trackingId),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,

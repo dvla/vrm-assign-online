@@ -5,7 +5,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 object KeeperAddressOptString {
 
   def from(addressModel: Option[AddressModel]) = {
-
     addressModel match {
       case Some(address) =>
         if (address.address.nonEmpty) {

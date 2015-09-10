@@ -169,7 +169,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         pageMovement = AuditRequest.CaptureCertificateDetailsToMicroServiceError,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology
-      ))
+      ), trackingId)
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -192,7 +192,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-          captureCertificateDetailsModel = Some(captureCertificateDetailsModel)))
+          captureCertificateDetailsModel = Some(captureCertificateDetailsModel)), trackingId
+        )
         routes.Confirm.present()
       }
 
@@ -237,11 +238,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
-        rejectionCode = Some(responseCode)))
+        rejectionCode = Some(responseCode)), trackingId
+      )
 
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1)).
-        withCookie(captureCertificateDetailsModel)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+        .withCookie(captureCertificateDetailsModel)
     }
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
@@ -304,12 +306,11 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           message = error._2,
           args = Seq.empty
         ))
-    }.
-      replaceError(
+    }
+      .replaceError(
         CertificateTimeId,
         certificateTimeWithSummary
-      ).
-      distinctErrors
+      ).distinctErrors
 
     replacedErrors
   }
@@ -327,15 +328,16 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     businessPath.getOrElse(keeperPath)
   }
 
-  def exit = Action {
-    implicit request =>
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditRequest.CaptureCertificateDetailsToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).
-          getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
-      Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
+  def exit = Action { implicit request =>
+    val trackingId = request.cookies.trackingId()
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditRequest.CaptureCertificateDetailsToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).
+        getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]), trackingId
+    )
+    Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
   private val certFmt = DateTimeFormat.forPattern("dd/MM/YYYY")

@@ -19,7 +19,6 @@ import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearV
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
-
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
       whenReady(resultFuture, timeout) { result =>

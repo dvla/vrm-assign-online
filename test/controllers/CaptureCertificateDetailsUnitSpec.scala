@@ -8,6 +8,7 @@ import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
@@ -23,7 +24,7 @@ import pages.vrm_assign.VehicleLookupPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
@@ -153,8 +154,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "exit" should {
     "redirect to LeaveFeedback" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperDetailsModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
@@ -166,9 +167,10 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
 
     "call audit service once with 'default_test_tracking_id' when the required cookies exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
-          vehicleAndKeeperDetailsModel()
+      val request = FakeRequest()
+        .withCookies(
+          vehicleAndKeeperDetailsModel(),
+          trackingIdModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditRequest(
@@ -188,15 +190,16 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       val result = captureCertificateDetails.exit(request)
 
       whenReady(result, timeout) { r =>
-        verify(auditService, times(1)).send(expected)(request)
+        verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }
 
     "call audit service once with expected values when the required cookies exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperDetailsModel(),
-          transactionId()
+          transactionId(),
+          trackingIdModel()
         )
       val (captureCertificateDetails, dateService, auditService) = build()
       val expected = new AuditRequest(
@@ -216,7 +219,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       val result = captureCertificateDetails.exit(request)
 
       whenReady(result, timeout) { r =>
-        verify(auditService, times(1)).send(expected)(request)
+        verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }
   }
@@ -307,8 +310,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   private def back(keeperConsent: String) = {
-    val request = FakeRequest().
-      withCookies(
+    val request = FakeRequest()
+      .withCookies(
         vehicleAndKeeperLookupFormModel(keeperConsent = keeperConsent),
         vehicleAndKeeperDetailsModel()
       )

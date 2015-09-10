@@ -19,9 +19,9 @@ final class VrmAssignEligibilityWebServiceImpl @Inject()(config: Config) extends
     val vrm = LogFormats.anonymize(request.currentVehicleRegistrationMark)
 
     logMessage(trackingId, Debug, s"Calling vrm assign eligibility micro-service with request $vrm")
-    WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(config.vrmAssignEligibilityRequestTimeout). // Timeout is in milliseconds
-      post(Json.toJson(request))
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId.value)
+      .withRequestTimeout(config.vrmAssignEligibilityRequestTimeout) // Timeout is in milliseconds
+      .post(Json.toJson(request))
   }
 }

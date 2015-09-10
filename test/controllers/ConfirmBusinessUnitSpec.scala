@@ -7,6 +7,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
@@ -18,6 +19,7 @@ import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
@@ -86,11 +88,12 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          transactionId()
+          transactionId(),
+          trackingIdModel()
         )
       val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
-        verify(auditService2.stub).send(auditRequest)(request)
+        verify(auditService2.stub).send(auditRequest, TrackingId("trackingId"))
       }
     }
 
@@ -164,8 +167,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "exit" should {
     "redirect to mock feedback page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
@@ -181,8 +184,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
 
   private def present = {
-    val request = FakeRequest().
-      withCookies(
+    val request = FakeRequest()
+      .withCookies(
         vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
         vehicleAndKeeperDetailsModel(),
         businessDetailsModel(),

@@ -8,7 +8,6 @@ import models.PaymentModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, Controller}
-import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel

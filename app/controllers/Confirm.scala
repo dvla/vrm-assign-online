@@ -32,8 +32,8 @@ import webserviceclients.audit2.AuditRequest
 final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-  extends Controller {
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                             ) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -65,21 +65,21 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
   }
 
   private def formWithReplacedErrors(form: Form[ConfirmFormModel], id: String, msgId: String) =
-    form.
-      replaceError(
+    form
+      .replaceError(
         KeeperEmailId,
         FormError(
           key = id,
           message = msgId,
           args = Seq.empty
         )
-      ).
-      replaceError(
+      )
+      .replaceError(
         GranteeConsentId,
         "error.required",
         FormError(key = GranteeConsentId, message = "vrm_assign_confirm.grantee_consent.notgiven", args = Seq.empty)
-      ).
-      replaceError(
+      )
+      .replaceError(
         key = "",
         message = "email-not-supplied",
         FormError(
@@ -127,8 +127,8 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
 
   def exit = Action { implicit request =>
     audit(AuditRequest.ConfirmToExit, request.cookies.getModel[ConfirmFormModel])
-    Redirect(routes.LeaveFeedback.present()).
-      discardingCookies(removeCookiesOnExit)
+    Redirect(routes.LeaveFeedback.present())
+      .discardingCookies(removeCookiesOnExit)
   }
 
   /**
@@ -139,15 +139,17 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
    * @return unit.
    */
   def audit(pageMovement: String, model: Option[ConfirmFormModel])(implicit request: Request[_]): Unit = {
+    val trackingId = request.cookies.trackingId()
     auditService2.send(AuditRequest.from(
       pageMovement = pageMovement,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).
-        getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = model.flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],
       captureCertificateDetailsModel = request.cookies.getModel[CaptureCertificateDetailsModel],
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+    )
   }
 }

@@ -97,6 +97,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
         val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+        val trackingId = request.cookies.trackingId()
 
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToExit,
@@ -106,7 +107,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
           captureCertificateDetailsModel = Some(captureCertificateDetails),
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+        )
 
         Future.successful {
           redirectToLeaveFeedback
@@ -125,6 +127,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel]
     val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel]
+    val trackingId = request.cookies.trackingId()
 
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.PaymentToPaymentFailure,
@@ -137,7 +140,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       paymentModel = request.cookies.getModel[PaymentModel],
       captureCertificateDetailFormModel = captureCertificateDetailsFormModel,
       captureCertificateDetailsModel = captureCertificateDetails,
-      rejectionCode = Some(message)))
+      rejectionCode = Some(message)), trackingId
+    )
 
     Redirect(routes.PaymentFailure.present())
   }
@@ -192,6 +196,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       val paymentModel = request.cookies.getModel[PaymentModel].get
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
+      val trackingId = request.cookies.trackingId()
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
@@ -203,7 +208,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         captureCertificateDetailsModel = Some(captureCertificateDetails),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel)))
+        paymentModel = Some(paymentModel)), trackingId
+      )
 
       Redirect(routes.PaymentNotAuthorised.present())
         .withCookie(paymentModel)
@@ -258,7 +264,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map { response =>
       if (response.response == Payment.CancelledStatus) {
-        logMessage( trackingId, Error, "The get web request to Solve was not validated.")
+        logMessage(trackingId, Error, "The get web request to Solve was not validated.")
       }
 
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
@@ -273,7 +279,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         captureCertificateDetailsModel = Some(captureCertificateDetails),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+      )
 
       redirectToLeaveFeedback
     }.recover {

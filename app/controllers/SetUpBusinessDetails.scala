@@ -67,15 +67,16 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     )
   }
 
-  def exit = Action {
-    implicit request =>
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditRequest.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey)
-          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]))
-      Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
+  def exit = Action { implicit request =>
+    val trackingId = request.cookies.trackingId()
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditRequest.CaptureActorToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]), trackingId
+    )
+    Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =
