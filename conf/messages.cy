@@ -389,7 +389,8 @@ vrm_assign_success_payment.what-next-5b = You will receive an email confirmation
 
 vrm_assign_success.h2a = Beth fydd yn digwydd nesaf?
 vrm_assign_success.p4 = Bydd y DVLA yn anfon tystysgrif gofrestru newydd (V5C) ar gyfer y rhif cofrestru
-vrm_assign_success.p5 = at y ceidwad i’w gyfeiriad cofrestredig. Bydd hon yn cyrraedd cyn pen 3 i 5 diwrnod. Dinistriwch yr hen V5C wedi i chi gael yr un newydd.
+vrm_assign_success.p5 = at y ceidwad i’w gyfeiriad cofrestredig. Bydd hon yn cyrraedd cyn pen 3 i 5 diwrnod.
+vrm_assign_success.p6 = Dinistriwch yr hen V5C wedi i chi gael yr un newydd.
 vrm_assign_success.h3a = Beth i’w wneud nesaf
 
 success-application-details-keeper-details = Manylion y ceidwad
