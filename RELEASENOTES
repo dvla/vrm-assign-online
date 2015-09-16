@@ -1,3 +1,14 @@
+======= 1.17 ========
+Time of release binaries creation:
+Wed FILL-ME-IN
+
+US3800	Better Emphasize 'Destroy V5C' on all VM & PR Services
+US2870	Speed up the build and the running of acceptance tests
+US3798	When calling the audit service add the tracking id header to the request
+DE693	Payment receipt email character error
+US3789	Tidy up the upstart scripts for all microservices and apps
+DE691	Code showing on error page
+
 ======= 1.16 ========
 Time of release binaries creation:
 Wed Sep 02 15:12:52 UTC 2015
