@@ -4,9 +4,9 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Success.{FinishId, CreatePdfId, PrintId}
-
 
 @main(
     title = Messages("vrm_assign_success.title")
@@ -19,14 +19,12 @@
                 <h2>@Messages("vrm_assign_success.subtitle")</h2>
             </div>
 
-            <div class="alert-warning"><h3>@Messages("success-cert-warning-1")</h3></div>
+            @alertWarning() { <h3>@Messages("success-cert-warning-1")</h3> }
 
             @if(successViewModel.paymentMade) {
                 <h3>@Messages("vrm_assign_success.noticePayment.h3")</h3>
                 <p>@Messages("vrm_assign_success.noticePayment.p1")</p>
             }
-
-
 
             <h2>@Messages("vrm_assign_success.h3a")</h2>
 
@@ -45,7 +43,7 @@
                 <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5")</p>
 
 
-                <div class="alert-warning"><h3>@Messages("vrm_assign_success.p6")</h3></div>
+                @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
 
             }
 
@@ -69,7 +67,7 @@
                 <h2>@Messages("vrm_assign_success.h2a")</h2>
                 <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5") </p>
 
-                <div class="alert-warning"><h3>@Messages("vrm_assign_success.p6")</h3></div>
+                @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
 
             }
 
