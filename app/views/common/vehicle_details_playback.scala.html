@@ -1,5 +1,7 @@
 @(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang)
 
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+
 <dl class="playback">
 
     <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
@@ -19,6 +21,6 @@
 
     <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
 
-    <dd><span class="reg-number">@vehicleDetails.registrationNumber</span></dd>
+    <dd>@registrationNumber() { @vehicleDetails.registrationNumber }</dd>
 
 </dl>
