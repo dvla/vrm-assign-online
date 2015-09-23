@@ -171,6 +171,9 @@ vrm_assign_vehiclelookup.refnumHint = Y rhif 11 digid a gafwyd ar y dystysgrif g
 vrm_assign_vehiclelookup.vrninputlabel = Rhowch y rhif cofrestru yn y blwch isod
 vrm_assign_vehiclelookup.vrnHint = Dyma’r rhif cofrestru y dymunwch ei ychwanegu e.e. ABC 123
 vrm_assign_vehiclelookup.button = Nesaf
+vrm_assign_setupbusinessdetails.addresswarning =
+vrm_assign_setupbusinessdetails.addresswarninglinktext =
+
 vrm_assign_vehiclelookup.postcodelabel = Cod Post y ceidwad
 vrm_assign_vehiclelookup.postcodeHint = Cod post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen V5C (llyfr log)
 vrm_assign_vehiclelookup.granteeOrPurchaser = Ai chi yw grantai neu brynwr y rhif cofrestru?

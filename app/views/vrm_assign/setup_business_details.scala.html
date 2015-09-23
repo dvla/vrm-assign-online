@@ -15,6 +15,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
 
 @main(
     title = Messages("vrm_assign_setupbusinessdetails.title"),
@@ -54,11 +55,20 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                    <dl class="playback">
+                <dl class="playback">
                 <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
                         <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                         <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
-                    </dl>
+                </dl>
+                @if(Messages("vrm_assign_setupbusinessdetails.addresswarning")) {
+                    @alertWarning() {
+                    <p>@Messages("vrm_assign_setupbusinessdetails.addresswarning")
+                        <a href="http://www3.royalmail.com/find-a-postcode/nojs/enquiry" target="_blank">
+                        @Messages("vrm_assign_setupbusinessdetails.addresswarninglinktext")</a>
+                    </p>
+                    }
+                }
+
             </div>
 
         </div>
