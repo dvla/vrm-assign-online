@@ -92,6 +92,7 @@
                                             hintText = if(isKeeper) Some(Messages("vrm_assign_confirm.emailKeeper"))
                                                         else Some(Messages("vrm_assign_confirm.emailTrade")),
                                             args = Map('maxLength -> KeeperEmailMaxLength,
+                                                'validityMessage -> Messages("error.email"),
                                                 '_showConstraints -> false,
                                                 'NO_OPTIONAL_LABEL -> false
                                             )
