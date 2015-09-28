@@ -3,11 +3,13 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import controllers.routes.ConfirmBusiness
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechOptionalDeclareCheck
 @import views.html.helper.form
 @import views.html.vrm_assign.main
 @import views.vrm_assign.ConfirmBusiness._
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck}
-@import controllers.routes.ConfirmBusiness
 
 @main(
     title = Messages("vrm_assign_confirm_business.title"),
@@ -39,7 +41,7 @@
             <dl class="playback">
                 <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd><span class="reg-number">@confirmBusinessViewModel.registrationNumber</span></dd>
+                <dd>@registrationNumber() { @confirmBusinessViewModel.registrationNumber }</dd>
             </dl>
         </div>
     </div>

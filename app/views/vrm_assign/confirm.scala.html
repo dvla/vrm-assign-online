@@ -8,6 +8,7 @@
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechDeclareCheck
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
 @import views.html.common.vehicle_details_playback
@@ -52,7 +53,7 @@
                 </div>
 
                 <p class="reg-number-confirmation">@Messages("vrm_assign_confirm.toAssign") <br/>
-                    <span class="reg-number">@confirmViewModel.replacementRegistration</span>
+                    @registrationNumber() { @confirmViewModel.replacementRegistration }
                 </p>
 
 
@@ -91,6 +92,7 @@
                                             hintText = if(isKeeper) Some(Messages("vrm_assign_confirm.emailKeeper"))
                                                         else Some(Messages("vrm_assign_confirm.emailTrade")),
                                             args = Map('maxLength -> KeeperEmailMaxLength,
+                                                'validityMessage -> Messages("error.email"),
                                                 '_showConstraints -> false,
                                                 'NO_OPTIONAL_LABEL -> false
                                             )
