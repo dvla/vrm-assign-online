@@ -61,6 +61,15 @@
                         <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
                         <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
                     </dl>
+                @if(Messages("vrm_assign_setupbusinessdetails.addresswarning")) {
+                    @alertWarning() {
+                    <p>@Messages("vrm_assign_setupbusinessdetails.addresswarning")
+                        <a href="http://www3.royalmail.com/find-a-postcode/nojs/enquiry" target="_blank">
+                        @Messages("vrm_assign_setupbusinessdetails.addresswarninglinktext")</a>
+                    </p>
+                    }
+                }
+
             </div>
 
         </div>
