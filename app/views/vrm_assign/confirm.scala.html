@@ -15,7 +15,8 @@
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Confirm._
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
-    @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.summaryWrapper
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 
 @main(
     title = Messages("vrm_assign_confirm.title"),
@@ -39,18 +40,13 @@
                     @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
                 </dl>
 
-                <div class="summary-wrapper confirmation-block">
-                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_assign_confirm.emailWarn")</strong></span> <br/>
-                    <div class="details">
-                        <div class="panel-indent">
-                            <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
-                            <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
-                            <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
-                            <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
-                            <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
-                        </div>
-                    </div>
-                </div>
+                @summaryWrapper(Messages("vrm_assign_confirm.emailWarn")) {
+                    <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp2")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp3")</p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_assign_confirm.emailWarnp4link")</a></p>
+                    <p>@Messages("vrm_assign_confirm.emailWarnp5") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_assign_confirm.emailWarnp5link")</a></p>
+                }
 
                 <p class="reg-number-confirmation">@Messages("vrm_assign_confirm.toAssign") <br/>
                     @registrationNumber() { @confirmViewModel.replacementRegistration }
@@ -106,12 +102,12 @@
                 @vehicle_details_playback(vehicleDetails)
             </div>
 
-        </div>
+            <div class="form-steps">
+                <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
+            </div>
 
-        <div class="form-steps">
-            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
-            <br/>
-            <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
         </div>
     }
 

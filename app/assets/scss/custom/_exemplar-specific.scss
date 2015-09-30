@@ -183,34 +183,6 @@ summary::-webkit-details-marker {
     margin-left: 1em;
 }
 
-summary {
-    &:focus {
-        border: none;
-        outline: 0;
-    }
-}
-
-.summary-wrapper {
-  .summary {
-    color:#005EA5;
-    margin-bottom:15px;
-    cursor: pointer;
-    strong {
-      text-decoration:underline;
-    }
-    &::before {
-      content: "\25BA";
-      margin-right: 8px;
-    }
-    &.active {
-      &::before {
-        content: "\25BC";
-      }
-    }
-  }
-}
-
-
 .confirm-registration-number {
   width: 100%;
   display: inline-block;
