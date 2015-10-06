@@ -19,6 +19,6 @@ final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWe
           s"was: ${resp.status}. Problem may come from either vrm-assign-eligibility micro-service or the VSS"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Vrm Assign Eligibility call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
 }

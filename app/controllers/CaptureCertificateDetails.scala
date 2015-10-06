@@ -272,7 +272,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception " + e.toString)
+        microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception: " + e.toString)
     }
   }
 
