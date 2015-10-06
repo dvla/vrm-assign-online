@@ -15,18 +15,10 @@ final class TestAddressLookupWebServiceBinding extends ScalaModule with MockitoS
 
   val stub = {
     val webService = mock[AddressLookupWebService]
-    when(webService.callPostcodeWebService(postcode = any[String],
-      trackingId = any[TrackingId],
-      showBusinessName = any[Option[Boolean]])(any[Lang]))
-      .thenReturn(AddressLookupWebServiceConstants.responseValidForPostcodeToAddress)
-    when(webService.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),
-      any[TrackingId],
-      showBusinessName = any[Option[Boolean]])(any[Lang]))
-      .thenReturn(AddressLookupWebServiceConstants.responseWhenPostcodeInvalid)
-    when(webService.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnValid.toString),
+    when(webService.callPostcodeWebService(matches(AddressLookupWebServiceConstants.traderUprnValid.toString),
       trackingId = any[TrackingId])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddress)
-    when(webService.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnInvalid.toString),
+    when(webService.callPostcodeWebService(matches(AddressLookupWebServiceConstants.traderUprnInvalid.toString),
       trackingId = any[TrackingId])(any[Lang]))
       .thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddressNotFound)
     webService

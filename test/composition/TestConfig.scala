@@ -10,7 +10,6 @@ import utils.helpers.Config
 
 final class TestConfig(
                         isPrototypeBannerVisible: Boolean = true,
-                        ordnanceSurveyUseUprn: Boolean = false,
                         auditServiceUseRabbit: Boolean = false,
                         rabbitmqHost: String = "NOT FOUND",
                         rabbitmqPort: Int = 0,
@@ -39,7 +38,6 @@ final class TestConfig(
 
     when(config.ordnanceSurveyMicroServiceUrl).thenReturn(notFound)
     when(config.ordnanceSurveyRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
-    when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
     when(config.vrmAssignEligibilityRequestTimeout).thenReturn(30.seconds.toMillis.toInt)

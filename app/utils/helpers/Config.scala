@@ -23,7 +23,6 @@ trait Config extends VehicleLookupConfig {
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String
   val ordnanceSurveyRequestTimeout: Int
-  val ordnanceSurveyUseUprn: Boolean
 
   val vehicleAndKeeperLookupRequestTimeout: Int
   val vrmAssignEligibilityRequestTimeout: Int
