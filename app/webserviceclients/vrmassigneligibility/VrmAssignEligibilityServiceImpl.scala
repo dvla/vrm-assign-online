@@ -11,9 +11,13 @@ final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWe
   extends VrmAssignEligibilityService {
 
   override def invoke(cmd: VrmAssignEligibilityRequest,
-                      trackingId: TrackingId): Future[VrmAssignEligibilityResponse] =
+                      trackingId: TrackingId)
+                    : Future[(Int, VrmAssignEligibilityResponseDto)] =
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[VrmAssignEligibilityResponse]
+      if (resp.status == Status.OK)
+        (resp.status, resp.json.as[VrmAssignEligibilityResponseDto])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR)
+        (resp.status, resp.json.as[VrmAssignEligibilityResponseDto])
       else throw new RuntimeException(
         "Vrm Assign Eligibility web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-assign-eligibility micro-service or the VSS"

@@ -33,9 +33,11 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
+import vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
+import vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
+import vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_assign.VehicleLookup.KeeperConsentId
@@ -346,7 +348,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse:
-                                 (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                 (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
+                                   VehicleAndKeeperLookupSuccessResponse]]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse)
     ).getInstance(classOf[VehicleLookup])

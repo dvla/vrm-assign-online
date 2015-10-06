@@ -11,7 +11,7 @@ import scala.concurrent.Future
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.vrmAssignFulfilResponseSuccess
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
-import webserviceclients.vrmassignfulfil.VrmAssignFulfilResponse
+import webserviceclients.vrmassignfulfil.VrmAssignFulfilResponseDto
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilWebService
 
 final class TestVrmAssignFulfilWebServiceBinding extends ScalaModule with MockitoSugar {
@@ -28,7 +28,7 @@ final class TestVrmAssignFulfilWebServiceBinding extends ScalaModule with Mockit
 
 object TestVrmAssignEligibilityWebServiceBinding {
 
-  def createResponse(response: (Int, Option[VrmAssignFulfilResponse])) = {
+  def createResponse(response: (Int, VrmAssignFulfilResponseDto)) = {
     val (status, dto) = response
     val asJson = Json.toJson(dto)
     new FakeResponse(status = status, fakeJson = Some(asJson))

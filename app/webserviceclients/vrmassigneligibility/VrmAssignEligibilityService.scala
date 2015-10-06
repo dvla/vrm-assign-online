@@ -6,5 +6,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 trait VrmAssignEligibilityService {
 
   def invoke(cmd: VrmAssignEligibilityRequest,
-             trackingId: TrackingId): Future[VrmAssignEligibilityResponse]
+             trackingId: TrackingId)
+            : Future[(Int, VrmAssignEligibilityResponseDto)]
 }

@@ -11,10 +11,11 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseSuccess
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
-import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponse
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponseDto
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebService
 
-final class TestVrmAssignEligibilityWebServiceBinding(statusAndResponse: (Int, Option[VrmAssignEligibilityResponse]) = vrmAssignEligibilityResponseSuccess)
+final class TestVrmAssignEligibilityWebServiceBinding(
+            statusAndResponse: (Int, VrmAssignEligibilityResponseDto) = vrmAssignEligibilityResponseSuccess)
   extends ScalaModule with MockitoSugar {
 
   val stub = {
@@ -30,7 +31,8 @@ final class TestVrmAssignEligibilityWebServiceBinding(statusAndResponse: (Int, O
 
 object TestVrmAssignEligibilityWebServiceBinding {
 
-  def createResponse(response: (Int, Option[VrmAssignEligibilityResponse])) = {
+  def createResponse(
+                 response: (Int, VrmAssignEligibilityResponseDto)) = {
     val (status, dto) = response
     val asJson = Json.toJson(dto)
     new FakeResponse(status = status, fakeJson = Some(asJson))

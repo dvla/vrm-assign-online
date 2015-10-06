@@ -31,6 +31,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
@@ -170,7 +171,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       }
     }
 
-    def fulfilFailure(responseCode: String) = {
+    def fulfilFailure(response: MicroserviceResponse) = {
+      val responseCode = s"${response.code} - ${response.message}"
+
       logMessage(request.cookies.trackingId, Debug, "VRMRetentionFulfil encountered a problem with request: " +
         LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) + ", "  +
         LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
@@ -201,7 +204,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         Redirect(routes.FulfilFailure.present())
           .withCookie(paymentModel.get)
-          .withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+          .withCookie(key = FulfilResponseCodeCacheKey, value = response.message)
       } else {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
@@ -218,7 +221,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         )
 
         Redirect(routes.FulfilFailure.present())
-          .withCookie(key = FulfilResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+          .withCookie(key = FulfilResponseCodeCacheKey, value = response.message)
       }
     }
 
@@ -308,11 +311,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>
-        response.responseCode match {
-          case Some(responseCode) => fulfilFailure(responseCode) // Response code  only a when there is a problem.
-          case None =>
-            // Happy path when there is no response code therefore no problem.
-            response.documentNumber match {
+        response match {
+          case (INTERNAL_SERVER_ERROR, failure) => fulfilFailure(failure.response.get)
+          case (OK, success) =>
+            success.vrmAssignFulfilResponse.documentNumber match {
               case Some(documentNumber) =>
                 fulfilSuccess()
               case _ =>

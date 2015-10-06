@@ -25,7 +25,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
@@ -105,9 +105,11 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   }
 
   // TODO need to combine vehicleLookupFailure and vehicleFoundResult as they are very similar after recent changes
-  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage,
+  override def vehicleLookupFailure(failure: VehicleAndKeeperLookupFailureResponse,
                                     formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
+
+    val responseCode = failure.response
 
     // need to record the current vrm from the form so put this into the
     // vehicleAndKeeperDetailsModel

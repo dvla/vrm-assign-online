@@ -30,6 +30,7 @@ dist
 *.classpath
 cache/
 .sbt.ivy.lock
+application.log.lck
 
 
 

@@ -167,16 +167,16 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         )
         val trackingId = request.cookies.trackingId()
 
-        paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
-          if (response.status == Payment.CardDetailsStatus) {
-            Ok(views.html.vrm_assign.payment(paymentRedirectUrl = response.redirectUrl.get))
-              .withCookie(PaymentModel.from(response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
+        paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
+          case (OK, response) if response.beginResponse.status == Payment.CardDetailsStatus =>
+            Ok(views.html.vrm_assign.payment (paymentRedirectUrl = response.redirectUrl.get) )
+              .withCookie (PaymentModel.from (response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl) )
               // The POST from payment service will not contain a REFERER in the header, so use a cookie.
               .withCookie(REFERER, routes.Payment.begin().url)
-          } else {
-            paymentFailure(s"The begin web request to Solve was not validated. Payment Solve " +
-              s"encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
-          }
+          case (_, response) =>
+            paymentFailure(s"The begin web request to Solve encountered a problem with request " +
+              s"${LogFormats.anonymize(vrm)}, response: ${response.beginResponse.response}, " +
+              s"status: ${response.beginResponse.status}, redirect to PaymentFailure")
         }.recover {
           case NonFatal(e) =>
             paymentFailure(message = "Payment Solve web service call with paymentSolveBeginRequest failed.  " +
@@ -224,9 +224,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     )
     val trackingId = request.cookies.trackingId()
 
-    paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
-      if (response.status == Payment.AuthorisedStatus) {
-
+    paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
+      case (OK, response) if response.getResponse.status == Payment.AuthorisedStatus =>
         val paymentModel = request.cookies.getModel[PaymentModel].get
 
         paymentModel.authCode = response.authcode
@@ -240,10 +239,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         Redirect(routes.Fulfil.fulfil())
           .discardingCookie(REFERER) // Not used again.
           .withCookie(paymentModel)
-      } else {
-        logMessage(request.cookies.trackingId(), Debug, "The payment was not authorised.")
+      case (_, response) =>
+        logMessage(request.cookies.trackingId(), Error,
+          "The payment was not authorised, " +
+          s"response: ${response.getResponse.response}, status: ${response.getResponse.status}.")
         paymentNotAuthorised
-      }
     }.recover {
       case NonFatal(e) =>
         paymentFailure(message = "Payment Solve web service call with paymentSolveGetRequest failed: " + e.toString)
@@ -263,23 +263,29 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map { response =>
-      if (response.response == Payment.CancelledStatus) {
-        logMessage(trackingId, Error, "The get web request to Solve was not validated.")
+      if (response._2.status == Payment.CancelledStatus) {
+        logMessage(trackingId, Info, "The web request to Solve was cancelled.")
+      } else {
+        logMessage(trackingId, Error, "The cancel was not successful, " +
+          s"response: ${response._2.response}, status: ${response._2.status}.")
       }
 
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
 
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditRequest.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).
-          getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-        captureCertificateDetailsModel = Some(captureCertificateDetails),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+      auditService2.send(
+        AuditRequest.from(
+          pageMovement = AuditRequest.PaymentToExit,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).
+            getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+          captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+          captureCertificateDetailsModel = Some(captureCertificateDetails),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+        ),
+        trackingId
       )
 
       redirectToLeaveFeedback
