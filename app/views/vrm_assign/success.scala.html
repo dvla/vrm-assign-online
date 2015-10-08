@@ -5,6 +5,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertSuccess
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Success.{FinishId, CreatePdfId, PrintId}
@@ -15,10 +16,11 @@
     <h2>@Messages("vrm_assign_success.title")</h2>
     <div class="two-col assign-success">
         <div class="second-col">
-            <div class="alert-complete">
-                @registrationNumber() { @successViewModel.prVrm }
+
+            @alertSuccess(){
+                @registrationNumber() {@successViewModel.prVrm}
                 <h2>@Messages("vrm_assign_success.subtitle")</h2>
-            </div>
+            }
 
             @alertWarning() { <h3>@Messages("success-cert-warning-1")</h3> }
 
