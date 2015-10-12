@@ -7,16 +7,18 @@
 
 @import controllers.routes.CaptureCertificateDetails
 @import mappings.common.vrm_assign._
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.mappings.VehicleRegistrationNumber
+@import common.mappings.VehicleRegistrationNumber
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@import common.views.html.widgets.registrationNumber
+@import common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import common.views.html.widgets.playbackList
 @import views.html.helper.form
-@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.CaptureCertificateDetails._
-@import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
-@import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
 
 @main(
     title = Messages("vrm_assign_capturecertificatedetails.title"),
@@ -130,14 +132,16 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                    <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                    <dd>@registrationNumber() { @vehicleDetails.registrationNumber }</dd>
-                </dl>
+                @playbackList(
+                    Messages("vrm_assign_vehicle_callback.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
+                    }
+                )()
             </div>
         </div>
     }
-
     <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/capture-certificate-details-page.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
