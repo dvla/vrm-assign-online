@@ -67,14 +67,6 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
   private def formWithReplacedErrors(form: Form[ConfirmFormModel], id: String, msgId: String) =
     form
       .replaceError(
-        KeeperEmailId,
-        FormError(
-          key = id,
-          message = msgId,
-          args = Seq.empty
-        )
-      )
-      .replaceError(
         GranteeConsentId,
         "error.required",
         FormError(key = GranteeConsentId, message = "vrm_assign_confirm.grantee_consent.notgiven", args = Seq.empty)
