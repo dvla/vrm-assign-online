@@ -212,41 +212,39 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     def eligibilityFailure(failure: VrmAssignEligibilityResponseDto) = {
       val response = failure.response.get
 
-      failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
-        case Some(expiryDate) =>
-          logMessage(trackingId, Debug, "VrmAssignEligibility encountered a problem with request" +
-          LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) +
-          LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
-          ", redirect to VehicleLookupFailure")
+      logMessage(trackingId, Debug, "VrmAssignEligibility encountered a problem with request" +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
+        ", redirect to VehicleLookupFailure")
 
-          // calculate number of years owed if any
-          val outstandingDates =
-            if (response.message == "vrm_assign_eligibility_direct_to_paper") calculateYearsOwed(expiryDate)
-            else new ListBuffer[String]
-
-          val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
-            vehicleAndKeeperLookupFormModel.replacementVRN,
-            failure.vrmAssignEligibilityResponse.certificateExpiryDate,
-            outstandingDates.toList,
-            outstandingDates.size * config.renewalFeeInPence.toInt
-          )
-
-          auditService2.send(AuditRequest.from(
-            pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
-            transactionId = transactionId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-            captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
-            rejectionCode = Some(s"${response.code} - ${response.message}")),
-            trackingId = trackingId
-          )
-
-          Redirect(routes.VehicleLookupFailure.present()).
-            withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
-            .withCookie(captureCertificateDetailsModel)
-        case None => microServiceErrorResult(message = "No expiryDate found")
+      // calculate number of years owed if any
+      val outstandingDates: ListBuffer[String] = failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
+        case Some(expiryDate)
+          if (response.message == "vrm_assign_eligibility_direct_to_paper") => calculateYearsOwed(expiryDate)
+        case _ => new ListBuffer[String]
       }
+
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
+        vehicleAndKeeperLookupFormModel.replacementVRN,
+        failure.vrmAssignEligibilityResponse.certificateExpiryDate,
+        outstandingDates.toList,
+        outstandingDates.size * config.renewalFeeInPence.toInt
+      )
+
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
+        rejectionCode = Some(s"${response.code} - ${response.message}")),
+        trackingId = trackingId
+      )
+
+      Redirect(routes.VehicleLookupFailure.present()).
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+        .withCookie(captureCertificateDetailsModel)
     }
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
