@@ -3,18 +3,23 @@
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.playbackList
 
 <div id="vehicle-details" class="first-col trader-details">
-    <dl class="playback">
-        <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
+    @playbackList(
+        Messages("vrm_assign_vehicle_callback.title"),
+        {
+            val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+            val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+            playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
 
-        <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-        <dd>@registrationNumber() { @viewModel.registrationNumber }</dd>
-
-        <dt>@Messages("vrm_assign_confirm.toAssign")</dt>
-        <dd>@registrationNumber() { @vehicleAndKeeperLookupFormModel.replacementVRN }</dd>
-
+            val flaggedRegNumberLabelToAssign: String = "REG_" + Messages("vrm_assign_confirm.toAssign")
+            playbackItems += (flaggedRegNumberLabelToAssign -> vehicleAndKeeperLookupFormModel.replacementVRN)
+        }
+    ){
         <div class="contact-info-wrapper">
             <h4>@Messages("assign-application-details-contact-us")</h4>
             <p>@Messages("assign-application-details-telephone")</p>
@@ -27,5 +32,5 @@
             <p class="text-phone">@Messages("assign-application-details-textphone")</p>
             <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
         </div>
-    </dl>
+    }
 </div>

@@ -4,9 +4,11 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.ConfirmBusiness
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechOptionalDeclareCheck
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.helper.form
 @import views.html.vrm_assign.main
 @import views.vrm_assign.ConfirmBusiness._
@@ -38,11 +40,15 @@
             </dl>
         </div>
         <div class="first-col">
-            <dl class="playback">
-                <dt><h3>@Messages("vrm_assign_vehicle_callback.title")</h3></dt>
-                <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                <dd>@registrationNumber() { @confirmBusinessViewModel.registrationNumber }</dd>
-            </dl>
+            @playbackList(
+                Messages("vrm_assign_vehicle_callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                    playbackItems += (flaggedRegNumberLabel -> confirmBusinessViewModel.registrationNumber)
+                }
+            )()
+
         </div>
     </div>
 

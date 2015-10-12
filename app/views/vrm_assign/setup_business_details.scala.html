@@ -5,6 +5,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.SetUpBusinessDetails
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
@@ -16,7 +17,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 
 @main(
     title = Messages("vrm_assign_setupbusinessdetails.title"),
@@ -56,11 +57,15 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                    <dl class="playback">
-                <h3>@Messages("vrm_assign_vehicle_callback.title")</h3>
-                        <dt>@Messages("vrm_assign_vehicle_callback.regNumLabel")</dt>
-                        <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
-                    </dl>
+                @playbackList(
+                    Messages("vrm_assign_vehicle_callback.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                        playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
+                    }
+                )()
+
                 @if(Messages("vrm_assign_setupbusinessdetails.addresswarning")) {
                     @alertWarning() {
                     <p>@Messages("vrm_assign_setupbusinessdetails.addresswarning")
