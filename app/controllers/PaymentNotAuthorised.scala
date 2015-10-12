@@ -57,6 +57,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
+    logMessage(request.cookies.trackingId(), Info, s"Presenting payment not authorised view")
     Ok(views.html.vrm_assign.payment_not_authorised(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,

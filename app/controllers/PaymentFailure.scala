@@ -38,8 +38,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def submit = Action { implicit request =>
-    Redirect(routes.VehicleLookup.present()).
-      discardingCookies(removeCookiesOnExit)
+    Redirect(routes.VehicleLookup.present())
+      .discardingCookies(removeCookiesOnExit)
   }
 
   private def displayPaymentFailure(transactionId: String,
@@ -52,11 +52,14 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
+    val trackingId = request.cookies.trackingId()
+    logMessage(trackingId, Info, s"Presenting payment failure view")
     Ok(views.html.vrm_assign.payment_failure(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
-      captureCertificateDetailsFormModel = captureCertificateDetailsFormModel)
+      captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
+      trackingId)
     ).discardingCookies(removeCookiesOnExit)
   }
 }

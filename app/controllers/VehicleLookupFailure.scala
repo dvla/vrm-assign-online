@@ -45,7 +45,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         )
       case _ =>
         logMessage(request.cookies.trackingId(), Warn,
-          "VehicleLookupFailure present cookie missing go to BeforeYouStart")
+          "VehicleLookupFailure present cookie missing, redirecting to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -77,6 +77,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
 
     val failurePage = vehicleAndKeeperLookupResponseCode match {
       case "vrm_assign_eligibility_direct_to_paper" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -84,24 +85,28 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case "vrm_assign_eligibility_cert_number_mismatch" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
           viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_cert_begin_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
           viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_q_plate_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -109,6 +114,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_q_plate_failure")
         )
       case "vrm_assign_eligibility_v778_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -116,6 +122,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_v778_failure")
         )
       case "vrm_assign_eligibility_vrm_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -123,6 +130,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_vrm_failure")
         )
       case "vrm_assign_eligibility_no_keeper_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -132,6 +140,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseLink = Some("vrm_assign_eligibility_no_keeper_failure_link")
         )
       case "vrm_assign_eligibility_exported_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -139,6 +148,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_exported_failure")
         )
       case "vrm_assign_eligibility_scrapped_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -146,6 +156,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_scrapped_failure")
         )
       case "vrm_assign_eligibility_damaged_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -154,6 +165,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_damaged_failure")
         )
       case "vrm_assign_eligibility_vic_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -163,6 +175,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseLink = Some("vrm_assign_eligibility_vic_failure_link")
         )
       case "vrm_assign_eligibility_destroyed_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -171,6 +184,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_destroyed_failure")
         )
       case "vrm_assign_eligibility_not_mot_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -179,6 +193,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseLink = Some("vrm_assign_eligibility_not_mot_failure_link")
         )
       case "vrm_assign_eligibility_too_young_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -186,12 +201,14 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseMessage = Some("vrm_assign_eligibility_too_young_failure")
         )
       case "vrm_assign_eligibility_v778_ref_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
           viewModel = viewModel,
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
       case "vrm_assign_eligibility_ninety_day_rule_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting ninety day rule failure view")
         ninety_day_rule_failure(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -199,6 +216,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case _ =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup failure view")
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -206,7 +224,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
         )
     }
-
     Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
 }

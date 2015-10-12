@@ -77,16 +77,18 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
           // Happy path for a business user that has all the cookies
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+          logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None)
           if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+          logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case _ =>
           logMessage(request.cookies.trackingId(), Warn,
-            "CaptureCertificateDetails present is missing cookies for either keeper or business")
+            "CaptureCertificateDetails present is missing cookies, now redirecting")
           Redirect(routes.ConfirmBusiness.present())
       }
   }
@@ -275,17 +277,15 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
   }
 
-  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto =
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
-  }
 
-  private def buildEndUser(): VssWebEndUserDto = {
+  private def buildEndUser(): VssWebEndUserDto =
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
-  }
 
   private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])
                                     (implicit request: Request[_]) = {

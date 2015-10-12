@@ -13,6 +13,7 @@ import play.api.mvc.{Request, Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -30,7 +31,7 @@ import webserviceclients.audit2.AuditRequest
 class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
                               (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                config: Config,
-                               dateService: DateService) extends Controller {
+                               dateService: DateService) extends Controller with DVLALogger {
 
   /**
    * In case we have a fulfil model present then, we landed on this page by mistake so redirect on error page.
@@ -55,11 +56,10 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
             captureCertDetails.outstandingFees,
             vehicleAndKeeperLookupForm.userType
           )
+          logMessage(request.cookies.trackingId(), Info, s"Presenting confirm payment view")
           Ok(views.html.vrm_assign.confirm_payment(viewModel, vehicleDetails))
-
         }) getOrElse redirectOnError
     }
-
   }
 
   def exit = Action { implicit request =>
@@ -67,7 +67,6 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
   }
 
   def submit = Action { implicit request =>
-
     (for {
       model <- request.cookies.getModel[ConfirmFormModel]
       granteeConsent = Some(CookieKeyValue(GranteeConsentCacheKey, model.granteeConsent))
@@ -76,7 +75,6 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
         audit(AuditRequest.FeesDueToPay)
         Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*).withCookie(model)
       }).getOrElse(Redirect(routes.Confirm.present()))
-
   }
 
   /**
@@ -99,5 +97,4 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
     )
   }
-
 }
