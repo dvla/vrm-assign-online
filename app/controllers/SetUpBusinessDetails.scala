@@ -14,6 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
@@ -28,7 +29,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
                                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                          ) extends Controller {
+                                          ) extends Controller with DVLALogger {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -39,6 +40,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       request.cookies.getModel[FulfilModel]) match {
       case (Some(vehicleAndKeeperDetails), None) =>
         val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
+        logMessage(request.cookies.trackingId(), Info, s"Presenting setup business details view")
         Ok(views.html.vrm_assign.setup_business_details(form.fill(), viewModel))
       case _ => Redirect(routes.VehicleLookup.present())
     }
@@ -83,7 +85,6 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
-      (BusinessEmailId, "error.validEmail"),
       (BusinessAddressId + ".address-postcode-lookup", "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,

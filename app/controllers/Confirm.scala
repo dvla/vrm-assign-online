@@ -18,6 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
@@ -33,7 +34,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                             ) extends Controller {
+                             ) extends Controller with DVLALogger {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -49,11 +50,12 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
         val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
           captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
         val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
-      // with the situation where payment fails and they come back to this page via either back button or coming
-      // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
-      // customer gives up and then a new customer starts the journey in the same session and the email field is
-      // pre-populated with the previous customer's address.
-      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+        // with the situation where payment fails and they come back to this page via either back button or coming
+        // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
+        // customer gives up and then a new customer starts the journey in the same session and the email field is
+        // pre-populated with the previous customer's address.
+        val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+        logMessage(request.cookies.trackingId(), Info, s"Presenting confirm view")
         Ok(views.html.vrm_assign.confirm(viewModel, emptyForm, vehicleAndKeeper, isKeeper))
       case _ =>
         Redirect(routes.CaptureCertificateDetails.present())
@@ -66,14 +68,6 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
 
   private def formWithReplacedErrors(form: Form[ConfirmFormModel], id: String, msgId: String) =
     form
-      .replaceError(
-        KeeperEmailId,
-        FormError(
-          key = id,
-          message = msgId,
-          args = Seq.empty
-        )
-      )
       .replaceError(
         GranteeConsentId,
         "error.required",

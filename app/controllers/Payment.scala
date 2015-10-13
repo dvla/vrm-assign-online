@@ -47,7 +47,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-                            extends Controller with DVLALogger {
+                             extends Controller with DVLALogger {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -169,6 +169,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           case (OK, response) if response.beginResponse.status == Payment.CardDetailsStatus =>
+            logMessage(request.cookies.trackingId(), Info, s"Presenting payment view")
             Ok(views.html.vrm_assign.payment (paymentRedirectUrl = response.redirectUrl.get) )
               .withCookie (PaymentModel.from (response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl) )
               // The POST from payment service will not contain a REFERER in the header, so use a cookie.

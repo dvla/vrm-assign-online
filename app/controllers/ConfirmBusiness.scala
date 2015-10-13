@@ -8,6 +8,7 @@ import models.FulfilModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.mvc.{Action, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -23,7 +24,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                       config: Config,
                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                     ) extends Controller {
+                                     ) extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -37,6 +38,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
           Some(businessDetailsModel),
           None) =>
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, Some(businessDetailsModel))
+          logMessage(request.cookies.trackingId(), Info, s"Presenting confirm business view")
           Ok(views.html.vrm_assign.confirm_business(viewModel))
         case _ =>
           Redirect(routes.SetUpBusinessDetails.present())

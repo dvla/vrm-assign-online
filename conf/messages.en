@@ -258,7 +258,7 @@ vrm_assign_vehicle_callback.regNumLabel = The current registration being replace
 paymentFailureErrorMessage.title = Payment Failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
-paymentFailureErrorMessage.p3 =
+paymentFailureErrorMessage.p3 = If you need to contact support please quote reference {0}
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment Cancelled or Not Authorised
@@ -410,7 +410,8 @@ success-application-details-business-name = Business name:
 vrm_assign_success.buttonnavprint = Print this page
 
 micro_service_error.title=We are sorry
-micro_service_error.text=The service is temporarily unavailable. Please try again later.
+micro_service_error.text1=The service is temporarily unavailable. Please try again later.
+micro_service_error.text2=If you need to contact support please quote reference {0}
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 

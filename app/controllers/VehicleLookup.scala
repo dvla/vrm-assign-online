@@ -91,13 +91,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
-  override def presentResult(implicit request: Request[_]) =
+  override def presentResult(implicit request: Request[_]) = {
+    logMessage(request.cookies.trackingId(), Info, "Presenting vehicle lookup view")
     request.cookies.getModel[FulfilModel] match {
       case Some(fulfilModel) =>
         Ok(views.html.vrm_assign.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
       case None =>
         Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))
     }
+  }
 
   override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
                                 (implicit request: Request[_]): Future[Result] = Future.successful {

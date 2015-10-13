@@ -77,16 +77,18 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
           // Happy path for a business user that has all the cookies
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+          logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None)
           if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
           val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
+          logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
           Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
         case _ =>
           logMessage(request.cookies.trackingId(), Warn,
-            "CaptureCertificateDetails present is missing cookies for either keeper or business")
+            "CaptureCertificateDetails present is missing cookies, now redirecting")
           Redirect(routes.ConfirmBusiness.present())
       }
   }
@@ -212,41 +214,39 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     def eligibilityFailure(failure: VrmAssignEligibilityResponseDto) = {
       val response = failure.response.get
 
-      failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
-        case Some(expiryDate) =>
-          logMessage(trackingId, Debug, "VrmAssignEligibility encountered a problem with request" +
-          LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) +
-          LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
-          ", redirect to VehicleLookupFailure")
+      logMessage(trackingId, Debug, "VrmAssignEligibility encountered a problem with request" +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) +
+        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
+        ", redirect to VehicleLookupFailure")
 
-          // calculate number of years owed if any
-          val outstandingDates =
-            if (response.message == "vrm_assign_eligibility_direct_to_paper") calculateYearsOwed(expiryDate)
-            else new ListBuffer[String]
-
-          val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
-            vehicleAndKeeperLookupFormModel.replacementVRN,
-            failure.vrmAssignEligibilityResponse.certificateExpiryDate,
-            outstandingDates.toList,
-            outstandingDates.size * config.renewalFeeInPence.toInt
-          )
-
-          auditService2.send(AuditRequest.from(
-            pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
-            transactionId = transactionId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-            captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
-            captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
-            rejectionCode = Some(s"${response.code} - ${response.message}")),
-            trackingId = trackingId
-          )
-
-          Redirect(routes.VehicleLookupFailure.present()).
-            withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
-            .withCookie(captureCertificateDetailsModel)
-        case None => microServiceErrorResult(message = "No expiryDate found")
+      // calculate number of years owed if any
+      val outstandingDates: ListBuffer[String] = failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
+        case Some(expiryDate)
+          if (response.message == "vrm_assign_eligibility_direct_to_paper") => calculateYearsOwed(expiryDate)
+        case _ => new ListBuffer[String]
       }
+
+      val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
+        vehicleAndKeeperLookupFormModel.replacementVRN,
+        failure.vrmAssignEligibilityResponse.certificateExpiryDate,
+        outstandingDates.toList,
+        outstandingDates.size * config.renewalFeeInPence.toInt
+      )
+
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
+        captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
+        rejectionCode = Some(s"${response.code} - ${response.message}")),
+        trackingId = trackingId
+      )
+
+      Redirect(routes.VehicleLookupFailure.present()).
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+        .withCookie(captureCertificateDetailsModel)
     }
 
     val eligibilityRequest = VrmAssignEligibilityRequest(
@@ -275,17 +275,15 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
   }
 
-  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto =
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
-  }
 
-  private def buildEndUser(): VssWebEndUserDto = {
+  private def buildEndUser(): VssWebEndUserDto =
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
-  }
 
   private def formWithReplacedErrors(form: PlayForm[CaptureCertificateDetailsFormModel])
                                     (implicit request: Request[_]) = {
