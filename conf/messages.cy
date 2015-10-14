@@ -256,7 +256,7 @@ vrm_assign_vehicle_callback.regNumLabel = Y rhif cofrestru presennol sy’n cael
 paymentFailureErrorMessage.title = Methiant wrth Dalu
 paymentFailureErrorMessage.p1 = Ni chymerwyd unrhyw daliad.
 paymentFailureErrorMessage.p2 = Un ai rhowch gynnig arall arni neu gadewch y gwasanaeth.
-paymentFailureErrorMessage.p3 = Os bydd angen i chi gysylltu â cefnogaeth dyfynnwch cyfeirnod {0}
+paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Taliad wedi ei Ganslo neu Heb ei Awdurdodi
@@ -408,7 +408,7 @@ vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 
 micro_service_error.title=Ymddiheurwn
 micro_service_error.text1=Nid yw’r gwasanaeth ar gael ar hyn o bryd. Rhowch gynnig arall arni yn nes ymlaen.
-micro_service_error.text2=Os bydd angen i chi gysylltu â cefnogaeth dyfynnwch cyfeirnod {0}
+micro_service_error.text2=
 micro_service_error.back.button=Rhowch gynnig arall arni
 micro_service_error.exit.button=Gadael
 

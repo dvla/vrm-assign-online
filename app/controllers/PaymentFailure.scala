@@ -59,7 +59,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
       captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
-      trackingId)
+      trackingId = trackingId)
     ).discardingCookies(removeCookiesOnExit)
   }
 }
