@@ -1,3 +1,20 @@
+======= 1.19 ========
+Time of release binaries creation:
+
+DE746 service closed page
+DE751 Confirm Keeper Information page
+DE770 Android - Print, Notify Another Sale and Finish wording position
+DE779 Email address mismatch is playing back wrong error and problem with capital letters
+US3792 Fix the error handling in some microservices (vehicles-and-keeper)
+US3814 Create and impliment Alert-Complete as a common widget in vehicles-presentation-common
+US3817 Create and impliment Summary-wrapper as a common widget in vehicles-presentation-common
+US3819 Create and implement playback and playback-list as common widgets in vehicles-presentation-common
+US3861 Message on Feedback Screen to Tell Customers that we wont reply to their questions
+US3866 Revisit os-address-lookup to improve the microservice return response
+US3890 Add transaction completed logging in each exemplar
+US3891 Review the logging in the vrm-assign-eligibility micro service
+US3904 Audit the logging
+
 ======= 1.18 ========
 Time of release binaries creation:
 Wed Sep 30 10:17:52 UTC 2015
