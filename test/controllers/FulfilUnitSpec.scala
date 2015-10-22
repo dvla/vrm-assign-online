@@ -2,7 +2,7 @@ package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
 import composition.RefererFromHeaderBinding
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding

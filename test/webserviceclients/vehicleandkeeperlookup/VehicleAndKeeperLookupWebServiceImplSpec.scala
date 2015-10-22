@@ -3,7 +3,7 @@ package webserviceclients.vehicleandkeeperlookup
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
 import org.joda.time.DateTime

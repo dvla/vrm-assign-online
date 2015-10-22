@@ -1,7 +1,7 @@
 package controllers
 
 import composition.RefererFromHeaderBinding
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.CancelValidated
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}

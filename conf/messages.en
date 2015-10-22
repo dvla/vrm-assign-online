@@ -67,6 +67,7 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Town or city
+error.address.characterInvalid = Must contain valid characters from the following A-Z, 0-9, hyphen, apostrophe, full stop and space.
 error.postTown.characterInvalid = Post town contains invalid characters
 
 vehicle-registration-number = Vehicle registration number
@@ -406,6 +407,8 @@ success-application-details-previous = Registration number replaced:
 success-application-details-business-details = Business details
 success-application-details-business-contact = Contact name:
 success-application-details-business-name = Business name:
+success-application-details-email = Email:
+success-application-details-email-not-entered = Not entered
 
 vrm_assign_success.buttonnavprint = Print this page
 

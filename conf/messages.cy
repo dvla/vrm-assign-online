@@ -67,6 +67,7 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
+error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
 error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 vehicle-registration-number = Rhif Cofrestru Cerbyd
@@ -403,6 +404,8 @@ success-application-details-previous = Rhif cofrestru a newidwyd:
 success-application-details-business-details = Manylion busnes
 success-application-details-business-contact = Enw cyswllt:
 success-application-details-business-name = Enw busnes:
+success-application-details-email = E-bost:
+success-application-details-email-not-entered = HEB EI ROI
 
 vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 

@@ -1,6 +1,6 @@
 package controllers
 
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
