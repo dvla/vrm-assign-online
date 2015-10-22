@@ -90,6 +90,14 @@
                 <dl class="playback bg-plain">
                     <dt>@Messages("success-application-details-keeper-details-name")</dt>
                     <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+                    <dt>@Messages("success-application-details-email")</dt>
+                    <dd>
+                    @if(successViewModel.keeperEmail.isEmpty) {
+                      @Messages("success-application-details-email-not-entered")
+                    } else {
+                      <span class="lowercase-text">@successViewModel.keeperEmail.get</span>
+                    }
+                    </dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
                     <dd>
                     @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
@@ -110,12 +118,14 @@
                     <dd>@successViewModel.businessContact</dd>
                     <dt>@Messages("success-application-details-business-name")</dt>
                     <dd>@successViewModel.businessName</dd>
+                    <dt>@Messages("success-application-details-email")</dt>
+                    <dd><span class="lowercase-text">@successViewModel.businessEmail.get</span></dd>
                     <dt>@Messages("success-application-details-keeper-details-address")</dt>
                     <dd>
                     @for(keeperAddressLine <- businessAddress.address) {
                         <strong>@keeperAddressLine</strong> <br/>
                     }
-                    </dd><br/>
+                    </dd>
                 </dl>
             </div>
         </div>

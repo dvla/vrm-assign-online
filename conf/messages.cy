@@ -404,6 +404,8 @@ success-application-details-previous = Rhif cofrestru a newidwyd:
 success-application-details-business-details = Manylion busnes
 success-application-details-business-contact = Enw cyswllt:
 success-application-details-business-name = Enw busnes:
+success-application-details-email = E-bost:
+success-application-details-email-not-entered = HEB EI ROI
 
 vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 

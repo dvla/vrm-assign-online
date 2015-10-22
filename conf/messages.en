@@ -407,6 +407,8 @@ success-application-details-previous = Registration number replaced:
 success-application-details-business-details = Business details
 success-application-details-business-contact = Contact name:
 success-application-details-business-name = Business name:
+success-application-details-email = Email:
+success-application-details-email-not-entered = Not entered
 
 vrm_assign_success.buttonnavprint = Print this page
 
