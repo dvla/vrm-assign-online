@@ -1,10 +1,9 @@
 package pages.vrm_assign
 
-import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, RadioButton, textField}
 import pages.ApplicationContext.applicationContext
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNID}
 import views.vrm_assign.VehicleLookup.KeeperConsentId

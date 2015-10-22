@@ -1,7 +1,7 @@
 package controllers
 
 import composition.TestConfig
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallDocRefNumberNotLatest

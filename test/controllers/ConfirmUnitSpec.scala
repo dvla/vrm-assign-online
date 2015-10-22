@@ -1,6 +1,6 @@
 package controllers
 
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel

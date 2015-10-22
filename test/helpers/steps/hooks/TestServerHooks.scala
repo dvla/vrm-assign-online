@@ -5,6 +5,7 @@ import cucumber.api.java.After
 import cucumber.api.java.Before
 import play.api.test.FakeApplication
 import play.api.test.TestServer
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 
 final class TestServerHooks {
 
@@ -26,5 +27,5 @@ final class TestServerHooks {
 object TestServerHooks {
 
   private final val port: Int = 9005
-  private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(TestGlobal))
+  private lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global = TestGlobal)
 }

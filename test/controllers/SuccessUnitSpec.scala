@@ -2,7 +2,7 @@ package controllers
 
 import composition.TestAssignEmailServiceBinding
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
@@ -55,8 +55,6 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           paymentModel())
       val (successPayment, _) = build
       val result = successPayment.present(request)
-      println(contentAsString(result))
-
       whenReady(result, timeout) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
