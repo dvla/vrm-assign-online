@@ -1,12 +1,12 @@
 package controllers
 
-import helpers.WithApplication
-import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import pages.vrm_assign.FulfilPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
@@ -18,7 +18,6 @@ import views.vrm_assign.Confirm.GranteeConsentId
 import views.vrm_assign.Confirm.KeeperEmailId
 import views.vrm_assign.Confirm.SupplyEmail_true
 import views.vrm_assign.Confirm.SupplyEmailId
-
 import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 
@@ -47,8 +46,8 @@ class ConfirmUnitSpec extends UnitSpec {
     }
 
     "return a bad request when the supply email field has nothing selected" in new WithApplication {
-      val request = buildRequest(supplyEmail = supplyEmailEmpty).
-        withCookies(
+      val request = buildRequest(supplyEmail = supplyEmailEmpty)
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -63,8 +62,8 @@ class ConfirmUnitSpec extends UnitSpec {
 
     "return a bad request when the keeper wants to supply an email " +
       "and does not provide an email address" in new WithApplication {
-      val request = buildRequest(keeperEmail = keeperEmailEmpty).
-        withCookies(
+      val request = buildRequest(keeperEmail = keeperEmailEmpty)
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -81,20 +80,20 @@ class ConfirmUnitSpec extends UnitSpec {
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
   private def present = {
-    val request = FakeRequest().
-      withCookies(vehicleAndKeeperDetailsModel()).
-      withCookies(vehicleAndKeeperLookupFormModel()).
-      withCookies(captureCertificateDetailsFormModel()).
-      withCookies(captureCertificateDetailsModel())
+    val request = FakeRequest()
+      .withCookies(vehicleAndKeeperDetailsModel())
+      .withCookies(vehicleAndKeeperLookupFormModel())
+      .withCookies(captureCertificateDetailsFormModel())
+      .withCookies(captureCertificateDetailsModel())
     confirm.present(request)
   }
 
   private def submit = {
-    val request = buildRequest().
-      withCookies(vehicleAndKeeperDetailsModel()).
-      withCookies(vehicleAndKeeperLookupFormModel()).
-      withCookies(captureCertificateDetailsFormModel()).
-      withCookies(captureCertificateDetailsModel())
+    val request = buildRequest()
+      .withCookies(vehicleAndKeeperDetailsModel())
+      .withCookies(vehicleAndKeeperLookupFormModel())
+      .withCookies(captureCertificateDetailsFormModel())
+      .withCookies(captureCertificateDetailsModel())
     confirm.submit(request)
   }
 

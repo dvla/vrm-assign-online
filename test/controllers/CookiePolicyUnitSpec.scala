@@ -1,7 +1,7 @@
 package controllers
 
-import helpers.WithApplication
 import helpers.UnitSpec
+import helpers.WithApplication
 import pages.vrm_assign.CookiePolicyPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.OK

@@ -1,13 +1,13 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.bruteForcePreventionViewModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import pages.vrm_assign.LeaveFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
@@ -52,11 +52,11 @@ class VrmLockedUnitSpec extends UnitSpec {
 
   private def present = {
     val dateService = testInjector().getInstance(classOf[DateService])
-    val request = FakeRequest().
-      withCookies(transactionId()).
-      withCookies(bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology)).
-      withCookies(vehicleAndKeeperLookupFormModel()).
-      withCookies(vehicleAndKeeperDetailsModel())
+    val request = FakeRequest()
+      .withCookies(transactionId())
+      .withCookies(bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology))
+      .withCookies(vehicleAndKeeperLookupFormModel())
+      .withCookies(vehicleAndKeeperDetailsModel())
     vrmLocked.present(request)
   }
 

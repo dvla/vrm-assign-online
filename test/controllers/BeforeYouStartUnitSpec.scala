@@ -1,9 +1,9 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
+import helpers.WithApplication
 import pages.vrm_assign.BeforeYouStartPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.OK

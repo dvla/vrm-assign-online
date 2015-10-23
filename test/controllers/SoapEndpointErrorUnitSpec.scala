@@ -1,9 +1,9 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
+import helpers.WithApplication
 import play.api.test.FakeRequest
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
@@ -38,7 +38,7 @@ class SoapEndpointErrorUnitSpec extends UnitSpec {
   private def soapEndpointError = testInjector().getInstance(classOf[SoapEndpointError])
 
   private def soapEndpointErrorPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[SoapEndpointError])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false))
+      .getInstance(classOf[SoapEndpointError])
   }
 }

@@ -2,7 +2,6 @@ package controllers
 
 import composition.TestAssignEmailServiceBinding
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
-import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
@@ -15,6 +14,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
@@ -41,8 +41,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(vehicleAndKeeperLookupFormModel(),
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -55,14 +55,16 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           paymentModel())
       val (successPayment, _) = build
       val result = successPayment.present(request)
+      println(contentAsString(result))
+
       whenReady(result, timeout) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(vehicleAndKeeperLookupFormModel(),
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -81,8 +83,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
     "call the email service when businessDetails cookie exists" in new WithApplication {
       val isKeeper = false
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           setupBusinessDetails(),
           businessDetailsModel(),
@@ -105,8 +107,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
     "call the email service when keeper selected to supply an " +
       "email address and did supply an email" in new WithApplication {
       val isKeeper = true
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -126,8 +128,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
     "not call the email service when businessDetails does not cookie" in new WithApplication {
       val isKeeper = false
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -147,8 +149,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
     "not call the email service when keeper did not select to supply an email address" in new WithApplication {
       val isKeeper = true
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           captureCertificateDetailsFormModel(),
@@ -181,16 +183,14 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "create pdf" should {
     "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(transactionId())
+      val request = FakeRequest().withCookies(transactionId())
       val (successPayment, _) = build
       val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
     "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(fulfilModel())
+      val request = FakeRequest().withCookies(fulfilModel())
       val (successPayment, _) = build
       val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)

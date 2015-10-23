@@ -1,8 +1,8 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.WithApplication
 import helpers.UnitSpec
+import helpers.WithApplication
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}

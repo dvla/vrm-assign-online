@@ -2,7 +2,6 @@ package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
 import composition.RefererFromHeaderBinding
-import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
@@ -19,6 +18,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
@@ -163,8 +163,8 @@ class FulfilUnitSpec extends UnitSpec {
   private def requestWithFeesNotDue(referer: String = loadBalancerUrl): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
-    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
-      withCookies(
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty)
+      .withCookies(
         vehicleAndKeeperLookupFormModel(),
         transactionId(),
         captureCertificateDetailsFormModel(),
@@ -182,8 +182,8 @@ class FulfilUnitSpec extends UnitSpec {
                                 ): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
-    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
-      withCookies(
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty)
+      .withCookies(
         vehicleAndKeeperLookupFormModel(registrationNumber = "DD22", keeperConsent = keeperConsent),
         businessDetailsModel(),
         transactionId(),

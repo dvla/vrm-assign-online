@@ -1,9 +1,8 @@
 package controllers
 
-import helpers.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
@@ -11,6 +10,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import org.mockito.Mockito.verify
 import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.LeaveFeedbackPage
@@ -19,8 +19,8 @@ import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey

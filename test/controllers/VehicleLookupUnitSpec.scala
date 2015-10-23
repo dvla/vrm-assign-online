@@ -1,7 +1,6 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallDocRefNumberNotLatest
@@ -10,10 +9,11 @@ import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDeta
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallNoResponse
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallFails
 import controllers.Common.PrototypeHtml
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
+import helpers.WithApplication
 import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito.verify
@@ -176,11 +176,11 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1))
       val result = vehicleLookupStubs().submit(request)
       // check the validation summary text
-      "Document reference number - Document reference number must be an 11-digit number".
-        r.findAllIn(contentAsString(result)).length should equal(1)
+      "Document reference number - Document reference number must be an 11-digit number"
+        .r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
-      "\"error\">Document reference number must be an 11-digit number".
-        r.findAllIn(contentAsString(result)).length should equal(1)
+      "\"error\">Document reference number must be an 11-digit number"
+        .r.findAllIn(contentAsString(result)).length should equal(1)
     }
 
     "replace required and min length error messages for document reference number with " +
@@ -188,11 +188,11 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "")
       val result = vehicleLookupStubs().submit(request)
       // check the validation summary text
-      "Document reference number - Document reference number must be an 11-digit number".
-        r.findAllIn(contentAsString(result)).length should equal(1)
+      "Document reference number - Document reference number must be an 11-digit number"
+        .r.findAllIn(contentAsString(result)).length should equal(1)
       // check the form item validation
-      "\"error\">Document reference number must be an 11-digit number".
-        r.findAllIn(contentAsString(result)).length should equal(1)
+      "\"error\">Document reference number must be an 11-digit number"
+        .r.findAllIn(contentAsString(result)).length should equal(1)
     }
 
     "replace max length error message for vehicle registration mark with " +
@@ -313,8 +313,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
       val trackingId = TrackingId("default_test_tracking_id")
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
-        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+        .withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
       val (vehicleLookup, dateService) = vehicleLookupStubs(
         vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService
       )

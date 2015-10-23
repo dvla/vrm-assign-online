@@ -1,7 +1,6 @@
 package controllers
 
 import composition.RefererFromHeaderBinding
-import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.CancelValidated
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}
@@ -10,15 +9,6 @@ import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
 import composition.webserviceclients.paymentsolve.ValidatedNotCardDetails
 import helpers.UnitSpec
-import pages.vrm_assign.ConfirmPaymentPage
-import pages.vrm_assign.FulfilPage
-import pages.vrm_assign.LeaveFeedbackPage
-import pages.vrm_assign.PaymentFailurePage
-import pages.vrm_assign.PaymentNotAuthorisedPage
-import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeHeaders
-import play.api.test.FakeRequest
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOCATION, OK, SEE_OTHER}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
@@ -28,13 +18,23 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
+import pages.vrm_assign.ConfirmPaymentPage
+import pages.vrm_assign.FulfilPage
+import pages.vrm_assign.LeaveFeedbackPage
+import pages.vrm_assign.PaymentFailurePage
+import pages.vrm_assign.PaymentNotAuthorisedPage
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeHeaders
+import play.api.test.FakeRequest
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOCATION, OK, SEE_OTHER}
 
 class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
     "redirect to ConfirmPaymentPage when TransactionId cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
@@ -51,8 +51,8 @@ class PaymentUnitSpec extends UnitSpec {
 
     "redirect to ConfirmPaymentPage when " +
       "CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperDetailsModel(),
@@ -68,8 +68,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailurePage when no referer in request" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -122,8 +122,8 @@ class PaymentUnitSpec extends UnitSpec {
 
   "getWebPayment" should {
     "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
@@ -138,8 +138,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -154,8 +154,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -184,8 +184,8 @@ class PaymentUnitSpec extends UnitSpec {
       val payment = testInjector(
         new ValidatedAuthorised
       ).getInstance(classOf[Payment])
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -210,8 +210,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailurePage when paymentModel cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -226,8 +226,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to LeaveFeedback page when required cookies exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -259,8 +259,8 @@ class PaymentUnitSpec extends UnitSpec {
   private def requestWithValidDefaults(referer: String = loadBalancerUrl): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
-    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
-      withCookies(
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty)
+      .withCookies(
         transactionId(),
         paymentTransNo(),
         vehicleAndKeeperLookupFormModel(registrationNumber = "DD22"),

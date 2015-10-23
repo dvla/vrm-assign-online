@@ -1,17 +1,17 @@
 package controllers
 
-import helpers.WithApplication
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.WithApplication
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import org.joda.time.format.DateTimeFormat
@@ -48,8 +48,8 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperDetailsModel(),
           vehicleAndKeeperLookupFormModel()
         )

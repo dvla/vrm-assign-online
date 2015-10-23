@@ -1,8 +1,8 @@
 package controllers
 
-import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
+import helpers.WithApplication
 import play.api.mvc.Request
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory

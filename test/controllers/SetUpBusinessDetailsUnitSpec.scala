@@ -1,12 +1,12 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
 import controllers.Common.PrototypeHtml
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
+import helpers.WithApplication
 import models.SetupBusinessDetailsFormModel
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
@@ -34,8 +34,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel()
         )
@@ -93,8 +93,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "return a bad request if no details are entered" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "").
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -103,24 +103,24 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "replace max length error message for traderBusinessName " +
       "with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1)).
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1))
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
-      val count = "Must be between two and 58 characters and only contain valid characters".
-        r.findAllIn(content).length
+      val count = "Must be between two and 58 characters and only contain valid characters"
+        .r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
 
     "replace required and min length error messages for traderBusinessName " +
       "with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "").
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "")
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
-      val count = "Must be between two and 58 characters and only contain valid characters".
-        r.findAllIn(content).length
+      val count = "Must be between two and 58 characters and only contain valid characters"
+        .r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
     }
@@ -148,14 +148,13 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private def setUpBusinessDetails() = testInjector().getInstance(classOf[SetUpBusinessDetails])
 
   private def present = {
-    val request = FakeRequest().
-      withCookies(vehicleAndKeeperDetailsModel())
+    val request = FakeRequest().withCookies(vehicleAndKeeperDetailsModel())
     setUpBusinessDetails().present(request)
   }
 
   private def setUpBusinessDetailsPrototypeNotVisible() = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[SetUpBusinessDetails])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false))
+      .getInstance(classOf[SetUpBusinessDetails])
   }
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,

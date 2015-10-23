@@ -1,8 +1,8 @@
 package controllers
 
-import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
+import helpers.WithApplication
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.VehicleLookupPage
 import play.api.test.FakeRequest
@@ -28,10 +28,10 @@ class PaymentFailureUnitSpec extends UnitSpec {
     }
 
     "display page when required cookies are present" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel())
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.transactionId())
+        .withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel())
+        .withCookies(CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel())
       val result = paymentFailure.present(request)
       whenReady(result) { r =>
         r.header.status should equal(OK)
