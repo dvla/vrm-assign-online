@@ -24,7 +24,8 @@
             <div class="second-col uppercase-input">
                 <h2>@Messages("vrm_assign_vehiclelookup.title")</h2>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(ReplacementVRN), hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
+                @valtechInputText(vehicleAndKeeperLookupForm(ReplacementVRN),
+                    hintText = Some(Messages("vrm_assign_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_assign_vehiclelookup.vrninputlabel"),
                         'hint -> Messages("vrm_assign_vehiclelookup.vrnHint"),
