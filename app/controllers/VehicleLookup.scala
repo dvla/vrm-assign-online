@@ -106,7 +106,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     BadRequest(views.html.vrm_assign.vehicle_lookup(formWithReplacedErrors(invalidForm)))
   }
 
-  // TODO need to combine vehicleLookupFailure and vehicleFoundResult as they are very similar after recent changes
   override def vehicleLookupFailure(failure: VehicleAndKeeperLookupFailureResponse,
                                     formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {

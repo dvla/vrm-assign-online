@@ -130,7 +130,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
                            ): Future[Result] =
     bruteForceService.isVrmLookupPermitted(prVrm, request.cookies.trackingId()).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted) {
-//         TODO use a for-comprehension instead of having to use .get
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).

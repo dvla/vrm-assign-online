@@ -102,7 +102,6 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       address = new AddressModel(address = convertAddressToSeq(address)).formatPostcode)
   }
 
-  // TODO: consider putting this on the Address object
   private def convertAddressToSeq(address: Address): Seq[String] = {
     Seq(address.streetAddress1,
       address.streetAddress2.getOrElse(""),

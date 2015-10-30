@@ -9,7 +9,7 @@ trait Config extends VehicleLookupConfig {
 
   val isCsrfPreventionEnabled: Boolean
 
-  // Micro-service config // TODO take defaults off the timeouts
+  // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String
   val vrmAssignEligibilityMicroServiceUrlBase: String
   val vrmAssignFulfilMicroServiceUrlBase: String

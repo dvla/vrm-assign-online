@@ -179,7 +179,6 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
         ", redirect to VehicleLookupFailure")
 
-      // TODO need to tidy this up!!
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
       val trackingId = request.cookies.trackingId()

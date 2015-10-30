@@ -13,7 +13,6 @@ object ReferenceNumber {
   def referenceNumberMapping: Mapping[String] =
     nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validReferenceNumber
 
-  // TODO move to a constriants package
   def validReferenceNumber: Constraint[String] = pattern(
     regex = """^[a-zA-Z0-9][a-zA-Z0-9\s\-\'\,]*$""".r,
     name = "constraint.validReferenceNumber",

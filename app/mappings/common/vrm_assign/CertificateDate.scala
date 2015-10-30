@@ -13,7 +13,6 @@ object CertificateDate {
   def certificateDateMapping: Mapping[String] =
     nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validCertificateDate
 
-  // TODO move to a constraints package
   def validCertificateDate: Constraint[String] = pattern(
     regex = """^[0-9]*$""".r,
     name = "constraint.validCertificateDate",

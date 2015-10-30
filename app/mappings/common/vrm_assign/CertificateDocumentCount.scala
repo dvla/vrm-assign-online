@@ -13,7 +13,6 @@ object CertificateDocumentCount {
   def certificateDocumentCountMapping: Mapping[String] =
     nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validCertificateDocument
 
-  // TODO move to a constriants package
   def validCertificateDocument: Constraint[String] = pattern(
     regex = """^[A-Z0-9]$""".r,
     name = "constraint.validCertificateDocument",

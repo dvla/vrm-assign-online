@@ -21,7 +21,6 @@ object CertificateTime {
       f"$v%6s".replace(" ", "0") .toUpperCase.trim
     })(MinLength, MaxLength) verifying validCertificateTime
 
-  // TODO move to a constraints package
   def validCertificateTime: Constraint[String] = pattern(
     regex = """^[0-9]*$""".r,
     name = "constraint.validCertificateTime",
