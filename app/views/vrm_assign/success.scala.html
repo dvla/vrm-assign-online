@@ -4,9 +4,12 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertSuccess
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.alertSuccess
+@import common.views.html.widgets.alertWarning
+@import common.views.html.widgets.playbackList
+@import common.views.html.widgets.registrationNumber
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Success.{FinishId, CreatePdfId, PrintId}
 
@@ -16,7 +19,6 @@
     <h2>@Messages("vrm_assign_success.title")</h2>
     <div class="two-col assign-success">
         <div class="second-col">
-
             @alertSuccess(){
                 @registrationNumber() {@successViewModel.prVrm}
                 <h2>@Messages("vrm_assign_success.subtitle")</h2>
@@ -30,24 +32,17 @@
             }
 
             <h2>@Messages("vrm_assign_success.h3a")</h2>
-
             <ul>
                 <li>@Messages("vrm_assign_success_payment.what-next-1")</li>
                 <li>@Messages("vrm_assign_success_payment.what-next-2")
                     <a href="https://www.gov.uk/number-plate-supplier" target="_blank"> @Messages("vrm_assign_success_payment.what-next-3")</a></li>
                 <li>@Messages("vrm_assign_success_payment.what-next-4")</li>
-
             </ul>
 
             @if(isKeeper) {
-
                 <h2>@Messages("vrm_assign_success.h2a")</h2>
-
                 <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5")</p>
-
-
                 @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
-
             }
 
             @if(!isKeeper) {
@@ -66,12 +61,9 @@
             }
 
             @if(!isKeeper) {
-
                 <h2>@Messages("vrm_assign_success.h2a")</h2>
                 <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5") </p>
-
                 @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
-
             }
 
             @if(successViewModel.paymentMade) {
@@ -85,51 +77,79 @@
             }
         </div>
         <div class="first-col">
-            <div class="related">
-                <h2>@Messages("success-application-details-keeper-details")</h2>
-                <dl class="playback bg-plain">
-                    <dt>@Messages("success-application-details-keeper-details-name")</dt>
-                    <dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-                    <dt>@Messages("success-application-details-email")</dt>
-                    <dd>
-                    @if(successViewModel.keeperEmail.isEmpty) {
-                      @Messages("success-application-details-email-not-entered")
-                    } else {
-                      <span class="lowercase-text">@successViewModel.keeperEmail.get</span>
+            @playbackList(
+                Messages("vrm_assign_vehicle_callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    successViewModel.vehicleMake match {
+                        case Some(vehicleMake) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> vehicleMake)
+                        case None => playbackItems
                     }
-                    </dd>
-                    <dt>@Messages("success-application-details-keeper-details-address")</dt>
-                    <dd>
-                    @for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
-                        <strong>@keeperAddressLine</strong> <br/>
+                    successViewModel.vehicleModel match {
+                        case Some(vehicleModel) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> vehicleModel)
+                        case None => playbackItems
                     }
-                    </dd>
-                    <dt>@Messages("success-application-details-previous")</dt>
-                    <dd>@registrationNumber() { @successViewModel.registrationNumber }</dd>
-                </dl>
-            </div>
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("success-application-details-previous")
+                    playbackItems += (flaggedRegNumberLabel -> successViewModel.registrationNumber)
+                },
+                List("related")
+            )()
+
+            @playbackList(
+                Messages("success-application-details-keeper-details"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    playbackItems += (
+                        Messages("success-application-details-keeper-details-name") ->
+                        (successViewModel.keeperTitle.get + " " + successViewModel.keeperFirstName.get + " " + successViewModel.keeperLastName.get)
+                    )
+                    playbackItems += (
+                        Messages("success-application-details-email") ->
+                        (successViewModel.keeperEmail match {
+                            case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
+                            case None => Messages("success-application-details-email-not-entered")
+                        })
+                    )
+                    playbackItems += (
+                        Messages("success-application-details-keeper-details-address") ->
+                        successViewModel.keeperAddress.get.address.mkString("<br/>")
+                    )
+                },
+                List("related bg-plain")
+            )()
         </div>
+
         @successViewModel.businessAddress.map { businessAddress =>
-        <div class="first-col">
-            <div class="related">
-                <h2>@Messages("success-application-details-business-details")</h2>
-                <dl class="playback bg-plain">
-                    <dt>@Messages("success-application-details-business-contact")</dt>
-                    <dd>@successViewModel.businessContact</dd>
-                    <dt>@Messages("success-application-details-business-name")</dt>
-                    <dd>@successViewModel.businessName</dd>
-                    <dt>@Messages("success-application-details-email")</dt>
-                    <dd><span class="lowercase-text">@successViewModel.businessEmail.get</span></dd>
-                    <dt>@Messages("success-application-details-keeper-details-address")</dt>
-                    <dd>
-                    @for(keeperAddressLine <- businessAddress.address) {
-                        <strong>@keeperAddressLine</strong> <br/>
-                    }
-                    </dd>
-                </dl>
+            <div class="first-col">
+                @playbackList(
+                    Messages("success-application-details-business-details"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        playbackItems += (
+                            Messages("success-application-details-business-contact") ->
+                            successViewModel.businessContact.get
+                        )
+                        playbackItems += (
+                            Messages("success-application-details-business-name") ->
+                            successViewModel.businessName.get
+                        )
+                        playbackItems += (
+                            Messages("success-application-details-email") ->
+                            (successViewModel.businessEmail match {
+                                case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
+                                case None => Messages("success-application-details-email-not-entered")
+                            })
+                        )
+                        playbackItems += (
+                            Messages("success-application-details-keeper-details-address") ->
+                            businessAddress.address.mkString("<br/>")
+                        )
+                    },
+                    List("related bg-plain")
+                )()
             </div>
-        </div>
         }
+
         <div class="form-steps">
             <div class="step">
                 <button id="@PrintId" type="button" name="action" value="Print this page" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>

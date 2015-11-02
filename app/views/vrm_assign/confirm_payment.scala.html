@@ -4,12 +4,13 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechDeclareCheck
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
-@import views.html.common.vehicle_details_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.Confirm._
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
@@ -40,25 +41,29 @@
                 }
             </div>
             <div class="first-col">
-                <div class="related">
-                    <h3>@Messages("vrm_assign_confirm.feesRelatedH3")</h3>
-                    <h4>@Messages("vrm_assign_confirm.feesRelatedH4")</h4>
-                    <dl class="playback bg-plain">
-                        @vehicleDetails.make.map { make =>
-                            <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleMake")</dt>
-                            <dd><strong>@make</strong></dd>
-                        }
-                        @vehicleDetails.model.map { model =>
-                            <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleModel")</dt>
-                            <dd><strong>@model</strong></dd>
-                        }
-                        <dt>@Messages("vrm_assign_confirm.feesRelatedVehicleRegistration")</dt>
-                        <dd>@registrationNumber() { @confirmViewModel.replacementRegistration }</dd>
-                    </dl>
-                </div>
+                @playbackList(
+                    Messages("vrm_assign_confirm.feesRelatedH3"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
 
+                        vehicleDetails.make match {
+                            case Some(make) => playbackItems += (Messages("vrm_assign_confirm.feesRelatedVehicleMake") -> make)
+                            case None => playbackItems
+                        }
+                        vehicleDetails.model match {
+                            case Some(model) => playbackItems += (Messages("vrm_assign_confirm.feesRelatedVehicleModel") -> model)
+                            case None => playbackItems
+                        }
+
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_confirm.feesRelatedVehicleRegistration")
+                        playbackItems += (flaggedRegNumberLabel -> confirmViewModel.replacementRegistration)
+                    },
+                    List("related"),
+                    {
+                        Html("<p><strong>" + Messages("vrm_assign_confirm.feesRelatedH4") + "</strong></p>")
+                    }
+                )()
             </div>
-
         </div>
 
         <div class="form-steps">

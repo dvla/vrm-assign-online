@@ -19,23 +19,40 @@
     <div class="two-col">
         <div class="second-col">
             <h2>@Messages("vrm_assign_confirm_business.title")</h2>
-
-            <dl class="playback">
-                <dt>@Messages("vrm_assign_confirm.businessNameLabel")</dt>
-                <dd>@confirmBusinessViewModel.businessName</dd>
-                <dt>@Messages("vrm_assign_confirm.businessContactLabel")</dt>
-                <dd>@confirmBusinessViewModel.businessContact</dd>
-                <dt>@Messages("vrm_assign_confirm.businessEmailLabel")</dt>
-                <dd><span class="lowercase-text">@confirmBusinessViewModel.businessEmail</span></dd>
-                <dt>@Messages("vrm_assign_confirm.businessAddressLabel")</dt>
-                <dt>
-                @confirmBusinessViewModel.businessAddress.map { addressModel =>
-                    @for(businessAddressLine <- addressModel.address) {
-                        <strong>@businessAddressLine </strong><br>
-                        }
+            @playbackList(
+                null,
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    confirmBusinessViewModel.businessName match {
+                        case Some(businessName) => playbackItems += (
+                            Messages("vrm_assign_confirm.businessNameLabel") ->
+                            businessName
+                        )
+                        case None => playbackItems
+                    }
+                    confirmBusinessViewModel.businessContact match {
+                        case Some(businessContact) => playbackItems += (
+                            Messages("vrm_assign_confirm.businessContactLabel") ->
+                            businessContact
+                        )
+                        case None => playbackItems
+                    }
+                    confirmBusinessViewModel.businessEmail match {
+                        case Some(businessEmail) => playbackItems += (
+                            Messages("vrm_assign_confirm.businessEmailLabel") ->
+                            ("<span class=\"lowercase-text\">" + businessEmail + "</span>")
+                        )
+                        case None => playbackItems
+                    }
+                    confirmBusinessViewModel.businessAddress match {
+                        case Some(businessAddress) => playbackItems += (
+                            Messages("vrm_assign_confirm.businessAddressLabel") ->
+                            businessAddress.address.mkString("<br/>")
+                        )
+                        case None => playbackItems
+                    }
                 }
-                </dt>
-            </dl>
+            )()
         </div>
         <div class="first-col">
             @playbackList(
