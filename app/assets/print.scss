@@ -1,3 +1,5 @@
+@import "../../target/web/web-modules/main/webjars/lib/vehicles-presentation-common/scss/_print.scss";
+
 @media print{@page {size: portrait}}
 
 @font-face {
@@ -218,21 +220,6 @@ img {
   }
 }
 
-dl.playback {
-    display:inline-block;
-    vertical-align:top;
-    width:100%;
-    margin-top:0;
-    dt {
-        float:left;
-        clear:both;
-        min-width:165px;
-    }
-    dd {
-        float:left;
-    }
-}
-
 .enter-address-manually form {
     fieldset > .form-item {
         margin-bottom:0;
@@ -257,26 +244,6 @@ p.transaction-id {
     }
     margin:0;
 
-//    .header-logo {
-//        position: relative;
-//        display: block;
-//        //width: 166px;
-//        //height:30px;
-//        overflow: hidden;
-//        a {
-//            font-size:26pt;
-//            font-weight:bold;
-//            text-decoration:none;
-//            &[href^="http://"]:after,
-//            &[href^="https://"]:after {
-//                content:'';
-//            }
-//
-//        }
-//        &:after {
-//            display: none;
-//        }
-//    }
     h1 {
         border:0 none;
     }
