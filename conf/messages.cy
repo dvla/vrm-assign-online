@@ -76,7 +76,6 @@ error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
 error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
-error.address.characterinvalid = Ni chaniateir nodau annilys
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod Post
 error.address.buildingNameOrNumber.invalid = Enw neu rif yr adeilad - Rhaid iddo gynnwys isafswm o bedwar nod
