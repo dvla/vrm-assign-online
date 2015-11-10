@@ -1,6 +1,7 @@
 package views.vrm_assign
 
 import models.CacheKeyPrefix
+import models.IdentifierCacheKey
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -57,6 +58,6 @@ object RelatedCacheKeys {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
     RelatedCacheKeys.AssignSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-    }
+    } + IdentifierCacheKey
   }
 }

@@ -75,8 +75,7 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
   }
 
   "back button" should {
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
-
+    "redirect to VehicleLookup page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to CaptureCertificateDetailsPage
@@ -84,9 +83,17 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
       click on back
 
       currentUrl should equal(VehicleLookupPage.url)
-
     }
 
+    "redirect to VehicleLookup page with ceg identifier" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup().withIdentifier("ceg")
+      go to CaptureCertificateDetailsPage
+
+      click on back
+
+      currentUrl should equal(VehicleLookupPage.cegUrl)
+    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

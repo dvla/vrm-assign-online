@@ -32,14 +32,13 @@ class SuccessUiSpec extends UiSpec with TestHarness {
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in
-      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to SuccessPage
-      click on finish
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs) {
+        finishToSuccess()
+    }
 
-      // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.AssignSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    "remove redundant cookies with ceg identifier" taggedAs UiTag in
+      new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs) {
+      finishToSuccess(ceg = true)
     }
   }
 
@@ -50,6 +49,16 @@ class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
       SuccessPage.print.text should equal("Print this page")
     }
+  }
+
+  private def finishToSuccess(ceg: Boolean = false)(implicit webDriver: WebDriver) = {
+      go to BeforeYouStartPage
+      val cache = cacheSetup()
+      if (ceg) cache.withIdentifier("ceg")
+      go to SuccessPage
+      click on finish
+      // Verify the cookies identified by the full set of cache keys have been removed
+      RelatedCacheKeys.AssignSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

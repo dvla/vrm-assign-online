@@ -135,7 +135,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new WithApplication {
-      val request =buildCorrectlyPopulatedRequest()
+      val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails().submit(request)
 
       whenReady(result) { r =>

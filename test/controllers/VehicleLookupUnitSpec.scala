@@ -15,6 +15,7 @@ import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
 import helpers.WithApplication
 import models.CacheKeyPrefix
+import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito.verify
 import pages.vrm_assign.BeforeYouStartPage
@@ -67,6 +68,21 @@ class VehicleLookupUnitSpec extends UnitSpec {
   "present" should {
     "display the page" in new WithApplication {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
+    }
+
+    "not contain an identifier cookie if default route" in new WithApplication {
+      whenReady(present) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.find(_.name == IdentifierCacheKey) should equal(None)
+      }
+    }
+
+    "contain an identifier cookie of type ceg if ceg route" in new WithApplication {
+      val result = vehicleLookupStubs().ceg(FakeRequest())
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.find(_.name == IdentifierCacheKey).get.value should equal(vehicleLookupStubs().identifier)
+      }
     }
 
     "display empty fields when cookie does not exist" in new WithApplication {

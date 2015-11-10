@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
-import models.{BusinessDetailsModel, CacheKeyPrefix, FulfilModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, CacheKeyPrefix, FulfilModel, IdentifierCacheKey, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
@@ -91,13 +91,22 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
-  override def presentResult(implicit request: Request[_]) = {
-    logMessage(request.cookies.trackingId(), Info, "Presenting vehicle lookup view")
-    request.cookies.getModel[FulfilModel] match {
+  private def vehicleLookup(implicit request: Request[_]) = {
+     request.cookies.getModel[FulfilModel] match {
       case Some(fulfilModel) =>
         Ok(views.html.vrm_assign.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
       case None =>
         Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))
+    }
+  }
+
+  override def presentResult(implicit request: Request[_]) = {
+    request.cookies.getString(IdentifierCacheKey) match {
+      case Some(c) =>
+        Redirect(routes.VehicleLookup.ceg())
+      case None =>
+        logMessage(request.cookies.trackingId(), Info, "Presenting vehicle lookup view")
+        vehicleLookup
     }
   }
 
@@ -250,6 +259,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   def back = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
+  }
+
+  val identifier = "ceg"
+  def ceg = Action { implicit request =>
+    logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view for identifier ${identifier}")
+    vehicleLookup.withCookie(IdentifierCacheKey, identifier)
   }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {

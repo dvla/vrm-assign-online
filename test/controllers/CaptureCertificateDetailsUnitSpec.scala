@@ -4,14 +4,13 @@ import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCa
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
+import helpers.{UnitSpec, WithApplication}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import org.joda.time.format.DateTimeFormat
@@ -21,10 +20,10 @@ import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VehicleLookupFailurePage
 import pages.vrm_assign.VehicleLookupPage
-import play.api.http.Status.OK
+import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
@@ -83,7 +82,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
         .withCookies(captureCertificateDetailsFormModel())
         .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
+      val (captureCertificateDetails, _, _) = build()
       val result = captureCertificateDetails.submit(request)
       whenReady(result) {
         r =>
@@ -227,12 +226,14 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   "back" should {
     "redirect to Vehicle Lookup page when the user is a keeper" in new WithApplication {
       whenReady(back(KeeperConsentValid)) { r =>
+        r.header.status should equal(SEE_OTHER)
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
-    "redirect to Confirm Business page when the user is a keeper" in new WithApplication {
+    "redirect to Confirm Business page when the user is a business" in new WithApplication {
       whenReady(back(BusinessConsentValid)) { r =>
+        r.header.status should equal(SEE_OTHER)
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }

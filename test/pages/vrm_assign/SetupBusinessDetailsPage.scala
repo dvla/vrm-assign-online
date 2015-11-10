@@ -40,7 +40,8 @@ object SetupBusinessDetailsPage extends Page {
 
   def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
-  def happyPath(traderBusinessName: String = TraderBusinessNameValid,
+  def happyPath(traderContactName: String = TraderBusinessContactValid,
+                traderBusinessName: String = TraderBusinessNameValid,
                 traderBusinessEmail: String = TraderBusinessEmailValid,
                 traderBusinessAddressLine1: String = BusinessAddressLine1Valid,
                 traderBusinessAddressLine2: String = BusinessAddressLine2Valid,
@@ -48,12 +49,16 @@ object SetupBusinessDetailsPage extends Page {
                 traderBusinessPostcode: String = PostcodeValid)
                (implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
+    traderContact.value = traderContactName
     traderName.value = traderBusinessName
     traderEmail.value = traderBusinessEmail
+    traderEmailVerify.value = traderBusinessEmail
     businessAddressWidget.addressLine1.value = traderBusinessAddressLine1
     businessAddressWidget.addressLine2.value = traderBusinessAddressLine2
     businessAddressWidget.town.value = traderBusinessAddressTown
     businessAddressWidget.postcode.value = traderBusinessPostcode
+    // Seems that htmlunit won't ignore a field on submit even if the field has display:none
+    businessAddressWidget.postCodeSearch.value = traderBusinessPostcode
     click on lookup
   }
 

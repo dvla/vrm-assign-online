@@ -23,6 +23,7 @@ object VehicleLookupPage extends Page {
   def address = s"$applicationContext/vehicle-lookup"
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
+  lazy val cegUrl = WebDriverFactory.testUrl + address.substring(1) + "/ceg"
 
   final override val title: String = "Getting started"
 
