@@ -1,3 +1,13 @@
+======= 1.21 ========
+Time of release binaries creation:
+
+DE813   Brackets at start of business name
+DE814   1st line of address validation
+US3912  Amend Summary Screen on all Exemplars to Display VRN in 'Number Plate Styling' and Vehicle Details in Blue Box
+US3921  Re-Format Printed outputs to standardise look and feel
+US3941  Capture CEG Identifier to Distinguish Assisted Digital Transactions from Others
+US3955  Amend implementation of feedback link and remove its associated javascript
+
 ======= 1.20 ========
 Time of release binaries creation:
 Wed Oct 28 10:55:05 UTC 2015
