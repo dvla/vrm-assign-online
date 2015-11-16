@@ -51,6 +51,42 @@ class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
+  "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
+    go to BeforeYouStartPage
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel(title = None)
+      .captureCertificateDetailsFormModel()
+      .captureCertificateDetailsModel()
+      .businessDetails()
+      .confirmFormModel()
+      .fulfilModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
+    go to SuccessPage
+    currentUrl should equal(SuccessPage.url)
+  }
+
+  "display the page blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
+    go to BeforeYouStartPage
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel(lastName = None)
+      .captureCertificateDetailsFormModel()
+      .captureCertificateDetailsModel()
+      .businessDetails()
+      .confirmFormModel()
+      .fulfilModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
+    go to SuccessPage
+    currentUrl should equal(SuccessPage.url)
+  }
+
   private def finishToSuccess(ceg: Boolean = false)(implicit webDriver: WebDriver) = {
       go to BeforeYouStartPage
       val cache = cacheSetup()
@@ -62,16 +98,16 @@ class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      setupBusinessDetails().
-      vehicleAndKeeperDetailsModel().
-      captureCertificateDetailsFormModel().
-      captureCertificateDetailsModel().
-      businessDetails().
-      confirmFormModel().
-      fulfilModel().
-      transactionId().
-      paymentTransNo().
-      paymentModel()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel()
+      .captureCertificateDetailsFormModel()
+      .captureCertificateDetailsModel()
+      .businessDetails()
+      .confirmFormModel()
+      .fulfilModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
 }
