@@ -95,11 +95,6 @@ ms.vehiclesService.response.unableToProcessApplication-title = Transaction Unsuc
 ms.vehiclesService.response.unableToProcessApplication = We are unable to process the transaction at this time. Please send the V5C/3 to the following address;
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
-soap_endpoint_error.title=We are sorry
-soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed
-soap-endpoint-error-text2= to DVLA Swansea, SA99 1DS.
-soap_endpoint_error.exit.button=Exit
-
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
