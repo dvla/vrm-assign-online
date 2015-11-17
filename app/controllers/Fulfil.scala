@@ -289,7 +289,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val trackingId = request.cookies.trackingId()
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
-      buildWebHeader(trackingId),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
       certificateDate = captureCertificateDetailsFormModel.certificateDate,
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
@@ -327,16 +327,17 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
   }
 
-  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+  private def buildWebHeader(trackingId: TrackingId,
+                             identifier: Option[String]): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
-      buildEndUser())
+      buildEndUser(identifier))
   }
 
-  private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+  private def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
   }
 
   private def buildPaymentSolveUpdateRequest(captureCertificateDetails: CaptureCertificateDetailsModel,

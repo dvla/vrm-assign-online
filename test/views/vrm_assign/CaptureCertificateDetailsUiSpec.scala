@@ -87,7 +87,7 @@ final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {
 
     "redirect to VehicleLookup page with ceg identifier" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      cacheSetup().withIdentifier("ceg")
+      cacheSetup().withIdentifier("CEG")
       go to CaptureCertificateDetailsPage
 
       click on back
