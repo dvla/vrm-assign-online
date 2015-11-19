@@ -1,7 +1,6 @@
 package controllers
 
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
@@ -22,6 +21,7 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Business

@@ -1,6 +1,5 @@
 package controllers
 
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
@@ -13,6 +12,7 @@ import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.Confirm.GranteeConsentId
 import views.vrm_assign.Confirm.KeeperEmailId

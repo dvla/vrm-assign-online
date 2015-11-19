@@ -3,11 +3,11 @@ package controllers
 import com.google.inject.Inject
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CookieHelper
 import utils.helpers.Config
-import utils.helpers.CookieHelper
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
@@ -22,6 +22,6 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
   def startAgain(exceptionDigest: String) = Action { implicit request =>
     logMessage(request.cookies.trackingId, Error,
       "Start again called - now removing full set of cookies and redirecting to Start page")
-    CookieHelper.discardAllCookies
+    CookieHelper.discardAllCookies(routes.BeforeYouStart.present)
   }
 }
