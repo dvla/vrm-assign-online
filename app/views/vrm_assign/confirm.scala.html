@@ -29,17 +29,15 @@
         @csrfTokenHiddenField()
         <div class="two-col confirm-details">
             <div class="second-col">
-                <h2>@Messages("vrm_assign_confirm.title")</h2>
-                <dl>
-                    <dt>@Messages("vrm_assign_confirm.keeperLabel")</dt>
-                    <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName</strong></dt><br />
-                    <dt>@Messages("vrm_assign_confirm.keeperAddressLabel")</dt>
-                    <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address) {
-                        <strong>@keeperAddressLine </strong><br>
-                        }</dt>
-                    @*<dt>@Messages("vrm_assign_confirm.keeperPostcodeLabel")</dt>*@
-                    @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
-                </dl>
+                @playbackList(
+                    Messages("vrm_assign_confirm.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        playbackItems += (Messages("vrm_assign_confirm.keeperLabel") -> (confirmViewModel.keeperTitle.get
+                            + " " + confirmViewModel.keeperFirstName.get + " " + confirmViewModel.keeperLastName.get) )
+                        playbackItems += (Messages("vrm_assign_confirm.keeperAddressLabel") -> confirmViewModel.keeperAddress.get.address.mkString("<br/>"))
+                    }
+                )()
 
                 @summaryWrapper(Messages("vrm_assign_confirm.emailWarn")) {
                     <p>@Messages("vrm_assign_confirm.emailWarnp1")</p>

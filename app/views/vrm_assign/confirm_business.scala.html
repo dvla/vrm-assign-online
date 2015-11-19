@@ -18,9 +18,9 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h2>@Messages("vrm_assign_confirm_business.title")</h2>
+
             @playbackList(
-                null,
+                Messages("vrm_assign_confirm_business.title"),
                 {
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
                     confirmBusinessViewModel.businessName match {
