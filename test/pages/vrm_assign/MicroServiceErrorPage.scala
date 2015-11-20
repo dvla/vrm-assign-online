@@ -4,8 +4,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
-import views.vrm_assign.MicroserviceError.ExitId
-import views.vrm_assign.MicroserviceError.TryAgainId
+import uk.gov.dvla.vehicles.presentation.common.views.widgets.MicroServiceError.{ExitId, TryAgainId}
 
 object MicroServiceErrorPage extends Page {
 

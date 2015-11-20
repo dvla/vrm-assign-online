@@ -13,9 +13,12 @@ final class MicroServiceError @Inject()(implicit clientSideSessionFactory: Clien
                                         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
   extends Controller with DVLALogger {
 
+  protected val tryAgainTarget = controllers.routes.VehicleLookup.present()
+  protected val exitTarget = controllers.routes.BeforeYouStart.present()
+
   def present = Action { implicit request =>
     val trackingId = request.cookies.trackingId()
     logMessage(trackingId, Info, s"Presenting micro service error view")
-    ServiceUnavailable(views.html.vrm_assign.micro_service_error(trackingId))
+    ServiceUnavailable(views.html.vrm_assign.micro_service_error(tryAgainTarget, exitTarget, trackingId))
   }
 }
