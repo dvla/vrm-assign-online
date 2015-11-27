@@ -20,6 +20,42 @@ class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
       currentUrl should equal(SuccessPage.url)
     }
+
+    "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .setupBusinessDetails()
+        .vehicleAndKeeperDetailsModel(title = None)
+        .captureCertificateDetailsFormModel()
+        .captureCertificateDetailsModel()
+        .businessDetails()
+        .confirmFormModel()
+        .fulfilModel()
+        .transactionId()
+        .paymentTransNo()
+        .paymentModel()
+      go to SuccessPage
+      currentUrl should equal(SuccessPage.url)
+    }
+
+    "display the page blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .setupBusinessDetails()
+        .vehicleAndKeeperDetailsModel(lastName = None)
+        .captureCertificateDetailsFormModel()
+        .captureCertificateDetailsModel()
+        .businessDetails()
+        .confirmFormModel()
+        .fulfilModel()
+        .transactionId()
+        .paymentTransNo()
+        .paymentModel()
+      go to SuccessPage
+      currentUrl should equal(SuccessPage.url)
+    }
   }
 
   "finish" should {
@@ -49,42 +85,6 @@ class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
       SuccessPage.print.text should equal("Print this page")
     }
-  }
-
-  "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
-    go to BeforeYouStartPage
-    CookieFactoryForUISpecs
-      .vehicleAndKeeperLookupFormModel()
-      .setupBusinessDetails()
-      .vehicleAndKeeperDetailsModel(title = None)
-      .captureCertificateDetailsFormModel()
-      .captureCertificateDetailsModel()
-      .businessDetails()
-      .confirmFormModel()
-      .fulfilModel()
-      .transactionId()
-      .paymentTransNo()
-      .paymentModel()
-    go to SuccessPage
-    currentUrl should equal(SuccessPage.url)
-  }
-
-  "display the page blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
-    go to BeforeYouStartPage
-    CookieFactoryForUISpecs
-      .vehicleAndKeeperLookupFormModel()
-      .setupBusinessDetails()
-      .vehicleAndKeeperDetailsModel(lastName = None)
-      .captureCertificateDetailsFormModel()
-      .captureCertificateDetailsModel()
-      .businessDetails()
-      .confirmFormModel()
-      .fulfilModel()
-      .transactionId()
-      .paymentTransNo()
-      .paymentModel()
-    go to SuccessPage
-    currentUrl should equal(SuccessPage.url)
   }
 
   private def finishToSuccess(ceg: Boolean = false)(implicit webDriver: WebDriver) = {
