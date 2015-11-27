@@ -24,14 +24,10 @@ import views.vrm_assign.Confirm.ConfirmCacheKey
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheSetup()
-
       go to ConfirmPage
-
       currentUrl should equal(ConfirmPage.url)
     }
 
@@ -48,12 +44,35 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
 
     "not display outstanding fees on page when no fees are due" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheSetup()
-
       go to ConfirmPage
-
       pageSource shouldNot contain("Outstanding Renewal Fees")
+      currentUrl should equal(ConfirmPage.url)
+    }
+
+    "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .setupBusinessDetails()
+        .vehicleAndKeeperDetailsModel(title = None)
+        .captureCertificateDetailsFormModel()
+        .captureCertificateDetailsModel()
+        .businessDetails()
+      go to ConfirmPage
+      currentUrl should equal(ConfirmPage.url)
+    }
+
+    "display the page with blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .setupBusinessDetails()
+        .vehicleAndKeeperDetailsModel(lastName = None)
+        .captureCertificateDetailsFormModel()
+        .captureCertificateDetailsModel()
+        .businessDetails()
+      go to ConfirmPage
       currentUrl should equal(ConfirmPage.url)
     }
   }
@@ -63,9 +82,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmPage
-
       click on ConfirmPage.exit
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
@@ -74,23 +91,18 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       go to BeforeYouStartPage
       cacheSetup().confirmFormModel()
       go to ConfirmPage
-
       click on ConfirmPage.exit
-
       webDriver.manage().getCookieNamed(ConfirmCacheKey) should equal(null)
     }
   }
 
   "back button" should {
     "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
-
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmPage
-
       click on back
       currentUrl should equal(CaptureCertificateDetailsPage.url)
-
     }
   }
 
