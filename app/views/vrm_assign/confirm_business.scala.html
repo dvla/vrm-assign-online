@@ -38,12 +38,9 @@
                         case None => playbackItems
                     }
                     confirmBusinessViewModel.businessEmail match {
-                        case Some(businessEmail) => playbackItems += (
-                            Messages("vrm_assign_confirm.businessEmailLabel") ->
-                            ("<span class=\"lowercase-text\">" + businessEmail + "</span>")
-                        )
-                        case None => playbackItems
-                    }
+                        case Some(businessEmail) => playbackItems += ("EMAIL_" + Messages("vrm_assign_confirm.businessEmailLabel") ->
+                            businessEmail)
+                        case None => playbackItems}
                     confirmBusinessViewModel.businessAddress match {
                         case Some(businessAddress) => playbackItems += (
                             Messages("vrm_assign_confirm.businessAddressLabel") ->

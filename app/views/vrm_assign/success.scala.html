@@ -103,13 +103,9 @@
                         Messages("success-application-details-keeper-details-name") ->
                         (successViewModel.keeperTitle.getOrElse("") + " " + successViewModel.keeperFirstName.getOrElse("") + " " + successViewModel.keeperLastName.getOrElse(""))
                     )
-                    playbackItems += (
-                        Messages("success-application-details-email") ->
-                        (successViewModel.keeperEmail match {
-                            case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
-                            case None => Messages("success-application-details-email-not-entered")
-                        })
-                    )
+                    successViewModel.keeperEmail match {
+                        case Some(keeperEmail) => playbackItems += ("EMAIL_" + Messages("success-application-details-email") -> keeperEmail)
+                        case None => playbackItems += (Messages("success-application-details-email") -> Messages("success-application-details-email-not-entered") )}
                     playbackItems += (
                         Messages("success-application-details-keeper-details-address") ->
                         successViewModel.keeperAddress.get.address.mkString("<br/>")
@@ -133,13 +129,9 @@
                             Messages("success-application-details-business-name") ->
                             successViewModel.businessName.get
                         )
-                        playbackItems += (
-                            Messages("success-application-details-email") ->
-                            (successViewModel.businessEmail match {
-                                case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
-                                case None => Messages("success-application-details-email-not-entered")
-                            })
-                        )
+                        successViewModel.businessEmail match {
+                            case Some(businessEmail) => playbackItems +=  ("EMAIL_" + Messages("success-application-details-email") -> businessEmail)
+                            case None => playbackItems += (Messages("success-application-details-email") -> Messages("success-application-details-email-not-entered") )}
                         playbackItems += (
                             Messages("success-application-details-keeper-details-address") ->
                             businessAddress.address.mkString("<br/>")
