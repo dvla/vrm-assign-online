@@ -16,10 +16,9 @@
 @main(
     title = Messages("vrm_assign_success.title")
 ) {
-    <h2>@Messages("vrm_assign_success.title")</h2>
     <div class="two-col assign-success">
         <div class="second-col">
-            @alertSuccess(){
+            @alertSuccess(Some(Messages("vrm_assign_success.title"))){
                 @registrationNumber() {@successViewModel.prVrm}
                 <h2>@Messages("vrm_assign_success.subtitle")</h2>
             }
