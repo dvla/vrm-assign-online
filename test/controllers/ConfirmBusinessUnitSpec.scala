@@ -29,7 +29,7 @@ import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
 class ConfirmBusinessUnitSpec extends UnitSpec {
@@ -54,7 +54,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       content should include(BusinessAddressLine1Valid)
       content should include(BusinessAddressLine2Valid)
       content should include(BusinessAddressPostTownValid)
-      content should include(RegistrationNumberWithSpaceValid)
+      content should include(RegistrationNumberValid)
     }
   }
 

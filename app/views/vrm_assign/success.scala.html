@@ -80,16 +80,16 @@
                 Messages("vrm_assign_vehicle_callback.title"),
                 {
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    successViewModel.vehicleMake match {
+                    successViewModel.vehicleDetails.make match {
                         case Some(vehicleMake) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> vehicleMake)
                         case None => playbackItems
                     }
-                    successViewModel.vehicleModel match {
+                    successViewModel.vehicleDetails.model match {
                         case Some(vehicleModel) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> vehicleModel)
                         case None => playbackItems
                     }
                     val flaggedRegNumberLabel: String = "REG_" + Messages("success-application-details-previous")
-                    playbackItems += (flaggedRegNumberLabel -> successViewModel.registrationNumber)
+                    playbackItems += (flaggedRegNumberLabel -> successViewModel.vehicleDetails.registrationNumber)
                 },
                 List("related")
             )()
@@ -100,15 +100,18 @@
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
                     playbackItems += (
                         Messages("success-application-details-keeper-details-name") ->
-                        (successViewModel.keeperTitle.getOrElse("") + " " + successViewModel.keeperFirstName.getOrElse("") + " " + successViewModel.keeperLastName.getOrElse(""))
+                        (successViewModel.vehicleDetails.title.getOrElse("")
+                            + " " + successViewModel.vehicleDetails.firstName.getOrElse("")
+                            + " " + successViewModel.vehicleDetails.lastName.getOrElse(""))
                     )
                     successViewModel.keeperEmail match {
                         case Some(keeperEmail) => playbackItems += ("EMAIL_" + Messages("success-application-details-email") -> keeperEmail)
                         case None => playbackItems += (Messages("success-application-details-email") -> Messages("success-application-details-email-not-entered") )}
-                    playbackItems += (
-                        Messages("success-application-details-keeper-details-address") ->
-                        successViewModel.keeperAddress.get.address.mkString("<br/>")
-                    )
+
+                    successViewModel.vehicleDetails.address match {
+                        case Some(address) => playbackItems += (Messages("success-application-details-keeper-details-address") -> address.address.mkString("<br/>"))
+                        case None => playbackItems += (Messages("success-application-details-keeper-details-address") -> "")
+                    }
                 },
                 List("related bg-plain")
             )()

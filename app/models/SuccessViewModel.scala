@@ -4,13 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
-final case class SuccessViewModel(registrationNumber: String,
-                                  vehicleMake: Option[String],
-                                  vehicleModel: Option[String],
-                                  keeperTitle: Option[String],
-                                  keeperFirstName: Option[String],
-                                  keeperLastName: Option[String],
-                                  keeperAddress: Option[AddressModel],
+final case class SuccessViewModel(vehicleDetails: VehicleAndKeeperDetailsModel,
                                   keeperEmail: Option[String],
                                   businessName: Option[String],
                                   businessContact: Option[String],
@@ -32,13 +26,7 @@ object SuccessViewModel {
             outstandingPaymentList: List[String],
             outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
-      keeperTitle = vehicleAndKeeperDetails.title,
-      keeperFirstName = vehicleAndKeeperDetails.firstName,
-      keeperLastName = vehicleAndKeeperDetails.lastName,
-      keeperAddress = vehicleAndKeeperDetails.address,
+      vehicleDetails = vehicleAndKeeperDetails,
       keeperEmail = keeperEmail,
       businessName = for (businessDetails <- businessDetailsModelOpt) yield {
         businessDetails.name
@@ -68,13 +56,7 @@ object SuccessViewModel {
             outstandingPaymentList: List[String],
             outstandingPaymentAmount: Double): SuccessViewModel = {
     SuccessViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperDetails.registrationNumber),
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
-      keeperTitle = vehicleAndKeeperDetails.title,
-      keeperFirstName = vehicleAndKeeperDetails.firstName,
-      keeperLastName = vehicleAndKeeperDetails.lastName,
-      keeperAddress = vehicleAndKeeperDetails.address,
+      vehicleDetails = vehicleAndKeeperDetails,
       keeperEmail = None,
       businessName = None,
       businessContact = None,
