@@ -503,7 +503,7 @@ closed.exit_button = Exit
 link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778=V750 or V778
 
-# Date picker
+# Address picker
 address.picker.common.postcode = Postcode
 address.picker.common.findAddress = Find UK address
 address.picker.common.manualAddress = Enter address manually
@@ -524,6 +524,7 @@ business-address.post-code = Business Postcode
 error.address.postCode = This field is mandatory
 error.address.addressLine1 = This field is mandatory
 error.required.address = Address is required
+error.threeAlphas = Must have at least 3 alpha characters
 
 # timeout
 vrm_assign_timeout.title = Please wait

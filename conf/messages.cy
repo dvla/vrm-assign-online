@@ -499,7 +499,7 @@ closed.exit_button = Gadael
 link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778=V750 neu V778
 
-# Date picker
+# Address picker
 address.picker.common.postcode = Cod Post
 address.picker.common.findAddress = Canfod cyfeiriad yn y DU
 address.picker.common.manualAddress = Rhowch eich cyfeiriad â llaw
@@ -520,6 +520,7 @@ business-address.post-code = Cod Post Busnes
 error.address.postCode = Mae’r maes hwn yn orfodol
 error.address.addressLine1 = Mae’r maes hwn yn orfodol
 error.required.address = Mae angen cyfeiriad
+error.threeAlphas = Must have at least 3 alpha characters
 
 # timeout
 vrm_assign_timeout.title = Arhoswch os gwelwch yn dda

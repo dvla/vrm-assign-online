@@ -69,6 +69,14 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
     }
   }
 
+  "address" should {
+    "reject if address line 1 doesn't contain at least three alpha characters" in {
+      val errors = formWithValidDefaults(addressLine1 = "1-12").errors
+      errors should have length 1
+      errors.head.message should equal("error.threeAlphas")
+    }
+  }
+
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
                                     traderBusinessEmail: String = TraderBusinessEmailValid,
