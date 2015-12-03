@@ -5,7 +5,7 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VehicleLookupFailurePage
@@ -45,6 +45,14 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       pageTitle should equal(VehicleLookupFailurePage.failureTitle)
+    }
+  }
+  "page should not contain contact informatio" should {
+    "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+      go to BeforeYouStartPage
+      cacheFailureSetup()
+      go to VehicleLookupFailurePage
+      pageSource should not include("Telephone")
     }
   }
 

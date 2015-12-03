@@ -33,7 +33,8 @@
         @vehicleAndKeeperLookupFormModel.map { vehicleDetails =>
             @failure_playback(
                 vrmLockedViewModel.vehicleLookupFailureViewModel,
-                vehicleDetails
+                vehicleDetails,
+                showContactDetails = true
             )
         }
     </div>
