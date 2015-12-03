@@ -231,7 +231,7 @@ vrm_assign_eligibility_ninety_day_rule_failure = Neges wall 90 diwrnod
 # Payment page
 vrm_assign_payment.title = Taliad
 vrm_assign_payment.iframe.title = Taliad iffrâm
-vrm_assign_payment.cancel.button = Canslo
+vrm_assign_payment.cancel.button = Gadael
 vrm_assign_payment.title2 = Talu gyda cherdyn credyd neu ddebyd
 vrm_assign_payment.p2 = Dim ond cardiau credyd Maestro, Visa Debit, Mastercard Debit, cardiau debyd Electron, VISA, a chardiau credyd Mastercard a dderbynnir.
 vrm_assign_paymentfailure.tryagainbutton = Rhowch gynnig arall arni

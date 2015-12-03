@@ -232,7 +232,7 @@ vrm_assign_eligibility_ninety_day_rule_failure = 90 day error message
 # Payment page
 vrm_assign_payment.title = Payment
 vrm_assign_payment.iframe.title = Payment iframe
-vrm_assign_payment.cancel.button = Cancel
+vrm_assign_payment.cancel.button = Exit
 vrm_assign_payment.title2 = Pay by credit or debit card
 vrm_assign_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_assign_paymentfailure.tryagainbutton = Try again
