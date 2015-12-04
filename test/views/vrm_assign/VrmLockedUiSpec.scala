@@ -14,6 +14,7 @@ import pages.vrm_assign.VrmLockedPage
 import pages.vrm_assign.VrmLockedPage.exit
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
+
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
@@ -36,6 +37,19 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
         equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").nonEmpty should equal(true)
     }
+
+    "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to VrmLockedPage
+       val element: WebElement = webDriver.findElement(
+        By.className("contact-info-wrapper")
+      )
+      element.getAttribute("name") should equal("contact-info-wrapper")
+      element.isDisplayed() should equal(true)
+      element.getText().contains("Telephone") should equal (true)
+    }
+
   }
 
   "exit button" should {
@@ -65,10 +79,13 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
     }
   }
 
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       transactionId().
       bruteForcePreventionViewModel().
       vehicleAndKeeperDetailsModel().
       vehicleAndKeeperLookupFormModel()
+
+
 }

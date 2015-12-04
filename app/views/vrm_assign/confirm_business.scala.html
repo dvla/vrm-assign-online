@@ -57,10 +57,9 @@
                 {
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
                     val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
-                    playbackItems += (flaggedRegNumberLabel -> confirmBusinessViewModel.registrationNumber)
+                    playbackItems += (flaggedRegNumberLabel -> confirmBusinessViewModel.vehicleDetails.registrationNumber)
                 }
             )()
-
         </div>
     </div>
 

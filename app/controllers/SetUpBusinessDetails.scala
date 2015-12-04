@@ -5,7 +5,6 @@ import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.FulfilModel
 import models.SetupBusinessDetailsFormModel
-import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
@@ -20,7 +19,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessEmailId, BusinessNameId}
+import views.vrm_assign.SetupBusinessDetails.{BusinessContactId, BusinessNameId}
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
@@ -39,9 +38,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     (request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[FulfilModel]) match {
       case (Some(vehicleAndKeeperDetails), None) =>
-        val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
         logMessage(request.cookies.trackingId(), Info, s"Presenting setup business details view")
-        Ok(views.html.vrm_assign.setup_business_details(form.fill(), viewModel))
+        Ok(views.html.vrm_assign.setup_business_details(form.fill(), vehicleAndKeeperDetails))
       case _ => Redirect(routes.VehicleLookup.present())
     }
   }
@@ -51,9 +49,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       invalidForm => {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
           case Some(vehicleAndKeeperDetails) =>
-            val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
             BadRequest(views.html.vrm_assign.setup_business_details(formWithReplacedErrors(invalidForm),
-              setupBusinessDetailsViewModel))
+              vehicleAndKeeperDetails))
           case _ =>
             Redirect(routes.VehicleLookup.present())
         }

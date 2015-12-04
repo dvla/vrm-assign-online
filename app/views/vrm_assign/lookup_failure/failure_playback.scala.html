@@ -1,5 +1,8 @@
 @(viewModel: models.VehicleLookupFailureViewModel,
-        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit lang: Lang,
+        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+        showContactDetails: Boolean = false
+
+)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
@@ -19,17 +22,19 @@
             playbackItems += (flaggedRegNumberLabelToAssign -> vehicleAndKeeperLookupFormModel.replacementVRN)
         }
     ){
-        <div class="contact-info-wrapper">
-            <h4>@Messages("assign-application-details-contact-us")</h4>
-            <p>@Messages("assign-application-details-telephone")</p>
-            <p><strong>@Messages("assign-application-details-telephone-number")</strong>
-                <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
-            </p>
-            <small>@Messages("assign-application-details-monday-to-friday")</small>
-            <small>@Messages("assign-application-details-saturday")</small>
-            <small>@Messages("assign-application-details-sunday")</small>
-            <p class="text-phone">@Messages("assign-application-details-textphone")</p>
-            <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
-        </div>
+        @if(showContactDetails) {
+            <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper">
+                <h4>@Messages("assign-application-details-contact-us")</h4>
+                <p>@Messages("assign-application-details-telephone")</p>
+                <p><strong>@Messages("assign-application-details-telephone-number")</strong>
+                    <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
+                </p>
+                <small>@Messages("assign-application-details-monday-to-friday")</small>
+                <small>@Messages("assign-application-details-saturday")</small>
+                <small>@Messages("assign-application-details-sunday")</small>
+                <p class="text-phone">@Messages("assign-application-details-textphone")</p>
+                <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
+            </div>
+        }
     }
 </div>
