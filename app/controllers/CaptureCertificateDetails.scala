@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
-import models.CaptureCertificateDetailsViewModel
 import models.FulfilModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
@@ -76,16 +75,14 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel),
         Some(storeBusinessDetails), None) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
           // Happy path for a business user that has all the cookies
-          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), vehicleAndKeeperDetails))
         case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, None)
           if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
 
           // They are not a business, so we only need the VehicleAndKeeperDetailsModel
-          val viewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
           logMessage(request.cookies.trackingId(), Info, s"Presenting capture certificate details view")
-          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), viewModel, vehicleAndKeeperDetails))
+          Ok(views.html.vrm_assign.capture_certificate_details(form.fill(), vehicleAndKeeperDetails))
         case _ =>
           logMessage(request.cookies.trackingId(), Warn,
             "CaptureCertificateDetails present is missing cookies, now redirecting")
@@ -99,10 +96,9 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         invalidForm => {
           request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
             case Some(vehicleAndKeeperDetails) =>
-              val captureCertificateDetailsViewModel = CaptureCertificateDetailsViewModel(vehicleAndKeeperDetails)
               Future.successful {
                 BadRequest(views.html.vrm_assign.capture_certificate_details(formWithReplacedErrors(invalidForm),
-                  captureCertificateDetailsViewModel, vehicleAndKeeperDetails))
+                   vehicleAndKeeperDetails))
               }
             case _ =>
               Future.successful {
