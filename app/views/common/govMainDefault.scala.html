@@ -61,12 +61,35 @@
         @pleaseWait()
 
         <div id="global-app-error" class="app-error hidden"></div>
+        <script type="text/javascript" src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/jquery/jquery.min.js")"></script>
+        <script type="text/javascript" src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/javascripts/common.js")"></script>
+        <script type="text/javascript">
+             function autoTab(currentId, nextId) {
+                var focusable = $('#' + currentId);
+                focusable.keyup(function (e) {
+                    var maxlength = false;
+                    if ($(this).attr("maxlength")) {
+                        if ($(this).val().length >= $(this).attr("maxlength")) maxlength = true;
+                    }
+                    // Tab when the input is a key between a - z, A - Z and 0 - 9 and the maxlength is reached.
+                    // Do not auto tab when we come to the field by tabbing or shift-tabbing, otherwise it is impossible to
+                    // return to the field.
+                    var inp = String.fromCharCode(e.keyCode);
+                    if ((/^[a-z0-9]+$/i.test(inp) && maxlength) || (e.keyCode >= 96 && e.keyCode <= 105 && maxlength)){
+                        $('#' + nextId).focus();
+                    }
+                });
+            }
 
-        <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
-
-        <!--[if (lt IE 9) & (!IEMobile)]>
-        <script src="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/lib/respond.min.js")"></script>
-        <![endif]-->
-
+            autoTab('certificate-document-count', 'certificate-date');
+            autoTab('certificate-date', 'certificate-time');
+            autoTab('certificate-time', 'certificate-registration-mark');
+        </script>
+        <script type="text/javascript">
+            if (typeof $ !== "function" || $('html').hasClass('js-ready') === false) {
+                // Either Jquery or common are not available so revert to the no-js view
+                document.body.className = document.body.className.replace('js-enabled','js-disabled');
+            }
+        </script>
     </body>
 </html>
