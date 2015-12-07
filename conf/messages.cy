@@ -9,10 +9,10 @@ gov-uk = GOV.UK
 global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
 global.cookiefindoutmore = Dysgwch fwy am gwcis
 
-error.email = Mae angen cyfeiriad e-bost
-error.email.confirm.required = Cadarnhewch y cyfeiriad e-bost
-error.email.not.match = Nid oedd y cyfeiriadau e-bost yn cyfateb
-email.verify.label = Cadarnhau cyfeiriad e-bost
+error.email = Mae angen cyfeiriad ebost
+error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
+error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
+email.verify.label = Cadarnhau cyfeiriad ebost
 
 global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} to {1}, rhaid i chi
 global.serviceCloseWarning.p2 = gwblhau’r gwasanaeth hwn.
@@ -147,13 +147,13 @@ vrm_assign_setupbusinessdetails.businessnamelabel = Enw busnes
 vrm_assign_setupbusinessdetails.businessnamehelper = Enw’r unigolyn sy’n cwblhau’r trafodion hyn
 contact-name = Enw cyswllt
 vrm_assign_setupbusinessdetails.businesscontactlabel = Enw cyswllt
-contact-email = Cyswllt e-bost
-vrm_assign_setupbusinessdetails.businessemaillabel = Cyswllt e-bost
-vrm_assign_setupbusinessdetails.businessemailhelper = Cyfeiriad e-bost i gadarnhau’r trafodion hyn
+contact-email = Cyswllt ebost
+vrm_assign_setupbusinessdetails.businessemaillabel = Cyswllt ebost
+vrm_assign_setupbusinessdetails.businessemailhelper = Cyfeiriad ebost i gadarnhau’r trafodion hyn
 vrm_assign_setupbusinessdetails.button = Nesaf
 error.validBusinessName = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
-error.validEmail = Rhaid iddo fod yn gyfeiriad e-bost dilys
+error.validEmail = Rhaid iddo fod yn gyfeiriad ebost dilys
 
 # vehicle Lookup
 vrm_assign_vehiclelookup.title = Rhif cofrestru sy’n mynd ar y cerbyd
@@ -297,19 +297,19 @@ error.validCertificateTime = Ni all fod yn wag neu’n cynnwys nodau annilys
 vrm_assign_confirm.title = Cadarnhau manylion ceidwad
 vrm_assign_confirm.toAssign = Rhif cofrestru sy’n mynd ar y cerbyd:
 vrm_assign_confirm.consent = Caniatâd
-vrm_assign_confirm.email = Opsiynau e-bost
+vrm_assign_confirm.email = Opsiynau ebost
 vrm_assign_confirm.keeperLabel = Ceidwad cofrestredig
 vrm_assign_confirm.keeperAddressLabel = Cyfeiriad
 vrm_assign_confirm.keeperPostcodeLabel = Cod Post
 vrm_assign_confirm.businessNameLabel = Enw busnes
 vrm_assign_confirm.businessContactLabel = Enw cyswllt
-vrm_assign_confirm.businessEmailLabel = Cyswllt e-bost
+vrm_assign_confirm.businessEmailLabel = Cyswllt ebost
 vrm_assign_confirm.businessAddressLabel = Cyfeiriad
-keeper-email = E-bost
-supply-email = Opsiynau e-bost
-mandatory-alternative.not-selected = Rhowch wybod inni a oes angen e-bost cadarnhau arnoch
-vrm_assign_confirm.emailAddressCustomerLabel = E-bost y Cwsmer
-vrm_assign_confirm.emailAddressKeeperLabel = E-bost y Ceidwad
+keeper-email = Ebost
+supply-email = Opsiynau ebost
+mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
+vrm_assign_confirm.emailAddressCustomerLabel = Ebost y Cwsmer
+vrm_assign_confirm.emailAddressKeeperLabel = Ebost y Ceidwad
 vrm_assign_confirm.button = Cadarnhau
 vrm_assign_confirm.newRegTitle = Ffioedd adnewyddu
 vrm_assign_confirm.emailWarn = Manylion anghywir?
@@ -320,8 +320,8 @@ vrm_assign_confirm.emailWarnp4 = Am ragor o wybodaeth ar sut i ddiweddaru’ch m
 vrm_assign_confirm.emailWarnp4link = “Newid manylion cerbyd ar dystysgrif cofrestru V5C (llyfr log)”
 vrm_assign_confirm.emailWarnp5 = Os bydd angen i chi wneud newidiadau i’ch tystysgrif V778, bydd angen i chi anfon y dystysgrif a ddiweddarwyd ynghyd ag unrhyw dystiolaeth angenrheidiol.  Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
 vrm_assign_confirm.emailWarnp5link = “Adnewyddu, diweddaru neu gyfnewid tystysgrif V778”
-vrm_assign_confirm.emailKeeper = Rhowch gyfeiriad e-bost i gael derbynneb taliad a chrynodeb o’r trafodion a derbynneb taliad os bydd ffioedd adnewyddu’n daladwy
-vrm_assign_confirm.emailTrade = Rhowch gyfeiriad e-bost eich cwsmer i gael crynodeb o’r trafodion
+vrm_assign_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion a derbynneb taliad os bydd ffioedd adnewyddu’n daladwy
+vrm_assign_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i gael crynodeb o’r trafodion
 
 vrm_assign_confirm.grantee_consent.notgiven = Rhaid i chi gadarnhau fod gennych chi ganiatâd i roi’r rhif cofrestru hwn ar y cerbyd hwn
 grantee-consent-id = Caniatâd Grantai
@@ -331,11 +331,11 @@ vrm_assign_confirm.businessConsent = Cadarnhaf fod y grantai wedi rhoi caniatâd
 vrm_assign_exit.button = Gadael
 vrm_assign_finish.button = Gorffen
 vrm_assign_changedetails.button = Newid Manylion
-supply-email-keeper-acting = Ydych chi’n dymuno derbyn e-bost gyda chrynodeb o’r trafodion?
-supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn e-bost gyda chrynodeb o’r trafodion?
+supply-email-keeper-acting = Ydych chi’n dymuno derbyn ebost gyda chrynodeb o’r trafodion?
+supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chrynodeb o’r trafodion?
 supply-email-true = Byddwn
 supply-email-false = Na fyddwn
-email-not-supplied = Rhaid i chi gynnig cyfeiriad e-bost er mwyn cael crynodeb o’r trafodion
+email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
 
 # fees page
 vrm_assign_confirm.outstandingFees = Mae ffioedd adnewyddu i’w talu ar gyfer
@@ -397,7 +397,7 @@ success-application-details-previous = Rhif cofrestru a newidwyd:
 success-application-details-business-details = Manylion busnes
 success-application-details-business-contact = Enw cyswllt:
 success-application-details-business-name = Enw busnes:
-success-application-details-email = E-bost:
+success-application-details-email = Ebost:
 success-application-details-email-not-entered = HEB EI ROI
 
 vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
@@ -408,7 +408,7 @@ micro_service_error.text2=
 micro_service_error.back.button=Rhowch gynnig arall arni
 micro_service_error.exit.button=Gadael
 
-email.withoutHtml = Nid yw’ch cleient e-bost yn cefnogi negeseuon HTML.
+email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Rhoi rhif cofrestru ar gerbyd yn gyflawn ar gyfer {0}
 email.line2 = Cais yn llwyddiannus
 email.line3 = Rhif Tystysgrif Cadw
@@ -438,8 +438,8 @@ email.line31 = Cyfanswm
 
 # failure email
 email.failure.title = Rhoi rhif cofrestru ar gerbyd
-email.failure.line1 = DYMA E-BOST AWTOMATIG
-email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON E-BOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
+email.failure.line1 = DYMA EBOST AWTOMATIG
+email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line3 =
 email.failure.line4 =Diolch am eich cais ‘Rhoi rhif cofrestru ar gerbyd’. Roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
@@ -469,18 +469,18 @@ vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 # feedback
 common_feedback.title = Rhowch adborth
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
-common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch e-bost
+common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch ebost
 common_feedback.label = Beth aeth o’i le os o gwbl Beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
 common_feedback.charactersRemaining = nodau’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 common_feedback.thankyou = Diolch i chi am eich adborth
 common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - Adborth
 common_feedback.name = Enw
-common_feedback.email = E-bost
-common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad e-bost rhag ofn y bydd angen i ni gysylltu â chi
+common_feedback.email = Ebost
+common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
 error.feedback = Ni all yr adborth fod yn fwy na 500 o nodau
 error.feedbackName = Ni all yr enw fod yn fwy na 60 o nodau
-feedbackEmail = E-bost
+feedbackEmail = Ebost
 feedbackName = Enw
 feedback = Ffurflen adborth
 feedback_return = ◄ Dychwelyd at eich cais
@@ -525,7 +525,7 @@ error.threeAlphas = Must have at least 3 alpha characters
 # timeout
 vrm_assign_timeout.title = Arhoswch os gwelwch yn dda
 vrm_assign_timeout.p-1 = Rydym yn profi oedi wrth brosesu’ch cais.
-vrm_assign_timeout.p-2 = Byddwn yn eich diweddaru drwy e-bost pan brosesir eich cais.
+vrm_assign_timeout.p-2 = Byddwn yn eich diweddaru drwy ebost pan brosesir eich cais.
 vrm_assign_timeout.playback-title = Manylion y cerbyd
 vrm_assign_timeout.playback-current = Rhif cofrestru presennol:
 vrm_assign_timeout.playback-new = Y rhif cofrestru y dymunwch ei roi ymlaen:
