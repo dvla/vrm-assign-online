@@ -11,6 +11,7 @@
 @import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
+@import common.views.html.widgets.xmasOpeningTimes
 
 @main(
     title =  Messages("paymentNotAuthorisedErrorMessage.title")
@@ -46,6 +47,7 @@
             <p>@Messages("assign-application-details-monday-to-friday")</p>
             <p>@Messages("assign-application-details-saturday")</p>
             <p>@Messages("assign-application-details-sunday")</p>
+            @xmasOpeningTimes()
             <br/>
             <p>@Messages("assign-application-details-textphone")</p>
             <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
