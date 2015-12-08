@@ -377,10 +377,10 @@ vrm_assign_success.newPlateLink = Lawrlwythwch y eV948
 vrm_assign_success.noticePayment.h3 = Taliad
 vrm_assign_success.noticePayment.p1 = Diolch i chi am eich taliad, mae’r arian wedi ei gymryd o’ch cerdyn credyd/debyd.
 
-vrm_assign_success_payment.what-next-1 = Os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
-vrm_assign_success_payment.what-next-2 = Os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd neu drwy ddefnyddio’ch tystysgrif V750/V778
+vrm_assign_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
+vrm_assign_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd neu drwy ddefnyddio’ch tystysgrif V750/V778
 vrm_assign_success_payment.what-next-3 = yn eich cyflenwr lleol a gymeradwyir gan y DVLA.
-vrm_assign_success_payment.what-next-4 = Cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
+vrm_assign_success_payment.what-next-4 = cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
 vrm_assign_success_payment.what-next-5a = You will receive an email confirmation of your assignment and a payment receipt.
 vrm_assign_success_payment.what-next-5b = You will receive an email confirmation of your assignment.
 

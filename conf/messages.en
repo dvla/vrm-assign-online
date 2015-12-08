@@ -381,10 +381,10 @@ vrm_assign_success.newPlateLink = Download the eV948
 vrm_assign_success.noticePayment.h3 = Payment
 vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
 
-vrm_assign_success_payment.what-next-1 = If you have the number plates already, you should put these on your vehicle as soon as possible.
-vrm_assign_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C or using your V750/V778 certificate
+vrm_assign_success_payment.what-next-1 = if you have the number plates already, you should put these on your vehicle as soon as possible.
+vrm_assign_success_payment.what-next-2 = if you need to have your new plates made up, you can do this once you have received your new V5C or using your V750/V778 certificate
 vrm_assign_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
-vrm_assign_success_payment.what-next-4 = Advise your insurance company about your change of registration number.
+vrm_assign_success_payment.what-next-4 = advise your insurance company about your change of registration number.
 vrm_assign_success_payment.what-next-5a = You will receive an email confirmation of your assignment and a payment receipt.
 vrm_assign_success_payment.what-next-5b = You will receive an email confirmation of your assignment.
 
