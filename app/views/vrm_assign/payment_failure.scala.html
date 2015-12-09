@@ -13,6 +13,7 @@
 @import controllers.routes.PaymentFailure
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
+@import common.views.html.widgets.xmasOpeningTimes
 
 @main(
     title =  Messages("paymentFailureErrorMessage.title")
@@ -45,6 +46,7 @@
             <p><strong>@Messages("assign-application-details-monday-to-friday")</strong></p>
             <p><strong>@Messages("assign-application-details-saturday")</strong></p>
             <p><strong>@Messages("assign-application-details-sunday")</strong></p>
+            @xmasOpeningTimes()
             <br/>
             <p style="font-size: 14px;">@Messages("assign-application-details-textphone")</p>
             <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>

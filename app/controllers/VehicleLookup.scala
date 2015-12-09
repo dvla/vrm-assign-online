@@ -9,6 +9,7 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -306,7 +307,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])(trackingId: TrackingId) = {
     dtoPostcode match {
       case Some(postcode) =>
-        logMessage(trackingId, Info, s"formModelPostcode = $formModelPostcode, dtoPostcode $postcode")
+        val msg = s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}, " +
+        s"dtoPostcode = ${LogFormats.anonymize(postcode)}"
+        logMessage(trackingId, Info, msg)
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
@@ -336,7 +339,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
           formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
       case None =>
-        logMessage(trackingId, Info, s"formModelPostcode = $formModelPostcode")
+        logMessage(trackingId, Info, s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}")
         formModelPostcode.isEmpty
     }
   }

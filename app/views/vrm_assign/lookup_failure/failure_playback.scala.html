@@ -1,14 +1,14 @@
 @(viewModel: models.VehicleLookupFailureViewModel,
         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-        showContactDetails: Boolean = false
-
-)(implicit lang: Lang,
+        showContactDetails: Boolean = false)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
+@import common.views.html.widgets.xmasOpeningTimes
 
 <div id="vehicle-details" class="first-col trader-details">
     @playbackList(
@@ -26,12 +26,14 @@
             <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper">
                 <h4>@Messages("assign-application-details-contact-us")</h4>
                 <p>@Messages("assign-application-details-telephone")</p>
-                <p><strong>@Messages("assign-application-details-telephone-number")</strong>
+                <p>
+                    <strong>@Messages("assign-application-details-telephone-number")</strong>
                     <strong><small>@Messages("assign-application-details-telephone-number-extension1") @Messages("assign-application-details-telephone-number-extension2") @Messages("assign-application-details-telephone-number-extension3")</small></strong>
                 </p>
                 <small>@Messages("assign-application-details-monday-to-friday")</small>
                 <small>@Messages("assign-application-details-saturday")</small>
                 <small>@Messages("assign-application-details-sunday")</small>
+                @xmasOpeningTimes()
                 <p class="text-phone">@Messages("assign-application-details-textphone")</p>
                 <p><strong>@Messages("assign-application-details-textphone-number")</strong></p>
             </div>

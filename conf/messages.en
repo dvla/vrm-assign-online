@@ -65,7 +65,6 @@ address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
-error.postTown.characterInvalid = Post town contains invalid characters
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
@@ -75,11 +74,19 @@ addressAndPostcode.addressLines.postTown = Town or city
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
-error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
-error.address.postTown = Requires a minimum length of three characters
-error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
-error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+
+# common to both addressPicker widget and addressAndPostcode widget
+error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
 error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
+#error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+error.address.postTown = Requires a minimum length of three characters
+error.address.postTown.characterInvalid = Post town contains invalid characters
+error.address.threeAlphas = Must have at least 3 alpha characters
+
+# addressPicker widget
+error.address.addressLine1 = This field is mandatory
+error.address.postCode = This field is mandatory
+error.address.required = Address is required
 
 vehicle-lookup-failure-cert-number-mismatch-title = Certificate Reference Number could not be found
 vehicle-lookup-failure-cert-number-mismatch-p1 = The Certificate Reference Number entered is either not valid or does not come from the most recent V750 Certificate of Entitlement or V778 Retention Document.
@@ -148,9 +155,9 @@ vrm_assign_setupbusinessdetails.businessnamelabel = Business name
 vrm_assign_setupbusinessdetails.businessnamehelper = Name of the person completing this transaction
 contact-name = Contact name
 vrm_assign_setupbusinessdetails.businesscontactlabel = Contact name
-contact-email = Contact e-mail
-vrm_assign_setupbusinessdetails.businessemaillabel = Contact e-mail
-vrm_assign_setupbusinessdetails.businessemailhelper = E-mail address for confirmation of this transaction
+contact-email = Contact email
+vrm_assign_setupbusinessdetails.businessemaillabel = Contact email
+vrm_assign_setupbusinessdetails.businessemailhelper = Email address for confirmation of this transaction
 vrm_assign_setupbusinessdetails.button = Next
 vrm_assign_setupbusinessdetails.addresswarning = If your address is missing from this postcode package or is showing incorrect details then please select this link to
 vrm_assign_setupbusinessdetails.addresswarninglinktext = inform the Royal Mail.
@@ -307,13 +314,13 @@ vrm_assign_confirm.keeperAddressLabel = Address
 vrm_assign_confirm.keeperPostcodeLabel = Postcode
 vrm_assign_confirm.businessNameLabel = Business name
 vrm_assign_confirm.businessContactLabel = Contact name
-vrm_assign_confirm.businessEmailLabel = Contact e-mail
+vrm_assign_confirm.businessEmailLabel = Contact email
 vrm_assign_confirm.businessAddressLabel = Address
-keeper-email = E-mail
+keeper-email = Email
 supply-email = Email Options
 mandatory-alternative.not-selected = Please tell us whether you require confirmation email
-vrm_assign_confirm.emailAddressCustomerLabel = Customer''s Email
-vrm_assign_confirm.emailAddressKeeperLabel = Keeper''s Email
+vrm_assign_confirm.emailAddressCustomerLabel = Customer''s email
+vrm_assign_confirm.emailAddressKeeperLabel = Keeper''s email
 vrm_assign_confirm.button = Confirm
 vrm_assign_confirm.newRegTitle = Renewal fees
 vrm_assign_confirm.emailWarn = Incorrect Details?
@@ -381,10 +388,10 @@ vrm_assign_success.newPlateLink = Download the eV948
 vrm_assign_success.noticePayment.h3 = Payment
 vrm_assign_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
 
-vrm_assign_success_payment.what-next-1 = If you have the number plates already, you should put these on your vehicle as soon as possible.
-vrm_assign_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C or using your V750/V778 certificate
+vrm_assign_success_payment.what-next-1 = if you have the number plates already, you should put these on your vehicle as soon as possible.
+vrm_assign_success_payment.what-next-2 = if you need to have your new plates made up, you can do this once you have received your new V5C or using your V750/V778 certificate
 vrm_assign_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
-vrm_assign_success_payment.what-next-4 = Advise your insurance company about your change of registration number.
+vrm_assign_success_payment.what-next-4 = advise your insurance company about your change of registration number.
 vrm_assign_success_payment.what-next-5a = You will receive an email confirmation of your assignment and a payment receipt.
 vrm_assign_success_payment.what-next-5b = You will receive an email confirmation of your assignment.
 
@@ -521,10 +528,6 @@ business-address.address-postcode-lookup = Business Postcode
 business-address.address-line-1 = Business Address line 1
 business-address.post-town = Business Town/City
 business-address.post-code = Business Postcode
-error.address.postCode = This field is mandatory
-error.address.addressLine1 = This field is mandatory
-error.required.address = Address is required
-error.threeAlphas = Must have at least 3 alpha characters
 
 # timeout
 vrm_assign_timeout.title = Please wait
