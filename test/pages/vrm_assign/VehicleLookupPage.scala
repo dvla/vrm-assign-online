@@ -1,7 +1,7 @@
 package pages.vrm_assign
 
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, RadioButton, textField}
+import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, RadioButton, textField, telField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
@@ -29,7 +29,7 @@ object VehicleLookupPage extends Page {
 
   def vehicleRegistrationNumber(implicit driver: WebDriver) = textField(id(VehicleRegistrationNumberId))
 
-  def documentReferenceNumber(implicit driver: WebDriver) = textField(id(DocumentReferenceNumberId))
+  def documentReferenceNumber(implicit driver: WebDriver) = telField(id(DocumentReferenceNumberId))
 
   def replacementVRNTag(implicit driver: WebDriver) = textField(id(ReplacementVRNID))
 
