@@ -15,9 +15,12 @@ import pages.vrm_assign.VehicleLookupPage.documentReferenceNumber
 import pages.vrm_assign.VehicleLookupPage.keeperPostcode
 import pages.vrm_assign.VehicleLookupPage.vehicleRegistrationNumber
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
 final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
   extends ScalaDsl with EN with Matchers {
+
+  private val replacementVRN = RandomVrmGenerator.vrm
 
   def `happy path for business` = {
     `is displayed`.

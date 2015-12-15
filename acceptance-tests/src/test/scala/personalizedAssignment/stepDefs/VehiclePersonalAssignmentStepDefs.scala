@@ -126,7 +126,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   //Scenario 4
   @When("^I enter data that does not match a valid vehicle record three times in a row$")
   def `i enter data that does not match a valid vehicle record three times in a row`() {
-    val replacementVRN = "ABC123"
+    val replacementVRN = RandomVrmGenerator.vrm
     val vehicleRegistrationNumber = RandomVrmGenerator.vrm
     val documentReferenceNumber = "22222222222"
 
@@ -170,7 +170,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
                                                                     documentReferenceNumber: String,
                                                                     postcode: String) {
     vehicleLookup.
-      enter("ABC123", vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
       `keeper is acting`.
       `find vehicle`
     user.`enterCertificateDetails`
@@ -189,7 +189,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
                                                                                  documentReferenceNumber: String,
                                                                                  postcode: String) {
     vehicleLookup.
-      enter("ABC123", vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
       `keeper is acting`.
       `find vehicle`
       user.`enterCertificateDetails`

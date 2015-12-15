@@ -8,13 +8,15 @@ import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.CaptureCertificateDetailsPage.{documentCount, date, lookup, registrationMark, time, url}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
   extends ScalaDsl with EN with Matchers {
+
+  private val RegistrationNumberValid = RandomVrmGenerator.uniqueVrm
 
   def `happy path` = {
     `is displayed`.
