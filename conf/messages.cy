@@ -1,7 +1,7 @@
 main.back = Yn ôl
 main.banner.feedback = eich adborth
 crown-copyright = Hawlfraint y Goron
-open-government-licence = Trwydded Llywodraeth Agored v2.0
+open-government-licence = trwydded llywodraeth agored v2.0
 open-government-licence-p1 = Mae’r holl gynnwys ar gael dan y
 open-government-licence-p2 = , oni bai y nodir fel arall
 gov-uk = GOV.UK
@@ -59,7 +59,7 @@ select_default = Dewiswch
 error.invalid = Gwerth annilys
 
 traderName = Enw’r masnachwr
-traderPostcode = Cod Post
+traderPostcode = Cod post
 
 address.lines.label = Adeilad/rhif a stryd
 address.buildingNameOrNumber.label =
@@ -67,16 +67,16 @@ address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
 
-vehicle-registration-number = Rhif Cofrestru Cerbyd
+vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
 addressAndPostcode.addressLines = Cyfeiriad
-addressAndPostcode.postcode = Cod Post
+addressAndPostcode.postcode = Cod post
 
 # common to both addressPicker widget and addressAndPostcode widget
-error.address.buildingNameOrNumber.invalid = Enw neu rif yr adeilad - Rhaid iddo gynnwys isafswm o bedwar nod
+error.address.buildingNameOrNumber.invalid = Enw neu rif yr adeilad - rhaid iddo gynnwys isafswm o bedwar nod
 error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
 #error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
 error.address.postTown = Rhaid cael tri nod o leiaf
@@ -141,8 +141,8 @@ vrm_assign_beforeyoustart.list2item2 = wneud y cerbyd edrych yn ifancach nag ydy
 vrm_assign_beforeyoustart.p4 = Byddwch angen:
 vrm_assign_beforeyoustart.list3item1 = y rhif cofrestru o un ai:
 vrm_assign_beforeyoustart.list3item1a = tynnu rhif cofrestru oddi ar wasanaeth cerbyd
-vrm_assign_beforeyoustart.list3item1b = Tystysgrif Hawl V750
-vrm_assign_beforeyoustart.list3item1c = Dogfen Gadw V778
+vrm_assign_beforeyoustart.list3item1b = Tystysgrif hawl V750
+vrm_assign_beforeyoustart.list3item1c = Dogfen gadw V778
 vrm_assign_beforeyoustart.list3item2 = y rhif cyfeirnod dogfen 11 digid o’r dystysgrif gofrestru ddiweddaraf (V5C) ar gyfer y cerbyd
 vrm_assign_beforeyoustart.list3item3 = cerdyn credyd neu ddebyd i dalu unrhyw ffioedd adnewyddu
 
@@ -179,8 +179,8 @@ vrm_assign_setupbusinessdetails.addresswarninglinktext =
 vrm_assign_vehiclelookup.postcodelabel = Cod post y ceidwad
 vrm_assign_vehiclelookup.postcodeHint = Cod post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen V5C (llyfr log)
 vrm_assign_vehiclelookup.granteeOrPurchaser = Ai chi yw grantai neu brynwr y rhif cofrestru?
-vrm_assign_vehiclelookup.keeper = Ie, fi yw’r Grantai / Prynwr
-vrm_assign_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatâd i weithredu ar ran y Grantai / Prynwr
+vrm_assign_vehiclelookup.keeper = Ie, fi yw’r grantai / prynwr
+vrm_assign_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatâd i weithredu ar ran y grantai / prynwr
 vrm_assign_vehiclelookup.label = Manylion y cerbyd
 document-replacement-vrn = Dogfen newydd Rhif cofrestru cerbyd
 keeper-consent = Caniatâd grantai
@@ -241,7 +241,7 @@ vrm_assign_payment.title = Taliad
 vrm_assign_payment.iframe.title = Taliad iffrâm
 vrm_assign_payment.cancel.button = Gadael
 vrm_assign_payment.title2 = Talu gyda cherdyn credyd neu ddebyd
-vrm_assign_payment.p2 = Dim ond cardiau credyd Maestro, Visa Debit, Mastercard Debit, cardiau debyd Electron, VISA, a chardiau credyd Mastercard a dderbynnir.
+vrm_assign_payment.p2 = Dim ond cardiau credyd Maestro, Visa debit, Mastercard debit, cardiau debyd Electron, VISA, a chardiau credyd Mastercard a dderbynnir.
 vrm_assign_paymentfailure.tryagainbutton = Rhowch gynnig arall arni
 vrm_assign_paymentfailure.exitbutton = Gadael
 vrm_assign_paymentnotauthorised.tryagainbutton = Rhowch gynnig arall arni
@@ -268,7 +268,7 @@ paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cy
 
 # Payment post shutdown page
 paymentPostShutdownErrorMessage.title = Mae’n ddrwg gennym ond nid yw’r gwasanaeth ar-lein ar hyn o bryd
-paymentPostShutdownErrorMessage.p1 = Mae ein Gwasanaeth yn awr ar gau. Oriau agor yw 08:00 i 18:00.
+paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 08:00 i 18:00.
 paymentPostShutdownErrorMessage.p2 = Ar hyn o bryd ni allwn barhau â’ch cais, bydd yn rhaid i chi ddychwelyd yn ystod oriau agor. Ni chymerwyd taliad.
 
 vrm_assign_confirm_business.title = Cadarnhau eich manylion busnes
@@ -351,8 +351,8 @@ vrm_assign_confirm.outstandingFees-1 =. Rhaid talu’r ffioedd os dymunwch barha
 vrm_assign_confirm.outstandingFeesTitle = Ffioedd adnewyddu i’w talu
 vrm_assign_confirm.feesRelatedH3 = Manylion cerbyd newydd
 vrm_assign_confirm.feesRelatedH4 = Y manylion cofrestru newydd ar gyfer eich cerbyd fydd:
-vrm_assign_confirm.feesRelatedVehicleMake = Gwneuthuriad y Cerbyd:
-vrm_assign_confirm.feesRelatedVehicleModel = Model y Cerbyd:
+vrm_assign_confirm.feesRelatedVehicleMake = Gwneuthuriad y cerbyd:
+vrm_assign_confirm.feesRelatedVehicleModel = Model y cerbyd:
 vrm_assign_confirm.feesRelatedVehicleRegistration = Rhif cofrestru newydd:
 vrm_assign_confirm.feesRelatedTotal = Cyfanswm i’w dalu heddiw
 vrm_assign_confirm.outstandingFeesCta = Talu yn awr
@@ -406,7 +406,7 @@ success-application-details-business-details = Manylion busnes
 success-application-details-business-contact = Enw cyswllt:
 success-application-details-business-name = Enw busnes:
 success-application-details-email = Ebost:
-success-application-details-email-not-entered = HEB EI ROI
+success-application-details-email-not-entered = Heb ei roi
 
 vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 
@@ -449,7 +449,7 @@ email.failure.title = Rhoi rhif cofrestru ar gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line3 =
-email.failure.line4 =Diolch am eich cais ‘rhoi rhif cofrestru ar gerbyd’. Roedd eich cais yn \
+email.failure.line4 =Diolch am eich cais ‘Rhoi rhif cofrestru ar gerbyd’. Roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
 email.failure.line5 =
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglŷn â’r cais hwn, yna cysylltwch â ni drwy ddefnyddio’r \
@@ -460,7 +460,7 @@ email.failure.line9 = (rhowch estyniad 227 pan ofynnir amdano)
 email.failure.line10 =
 email.failure.line11 = Dydd llun i ddydd gwener: 08:00 to 18:00
 email.failure.line12 = Dydd sadwrn: 08:00 to 14:00
-email.failure.line13 = Dydd sul: Ar gau
+email.failure.line13 = Dydd sul: ar gau
 email.failure.line14 =
 email.failure.line15 = Ffôn testun:
 email.failure.line16 = 18001 0300 123 1379
@@ -478,11 +478,11 @@ vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 common_feedback.title = Rhowch adborth
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch ebost
-common_feedback.label = Beth aeth o’i le os o gwbl Beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
+common_feedback.label = Beth aeth o’i le os o gwbl beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
 common_feedback.charactersRemaining = nodau’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 common_feedback.thankyou = Diolch i chi am eich adborth
-common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - Adborth
+common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
 common_feedback.name = Enw
 common_feedback.email = Ebost
 common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
@@ -496,12 +496,12 @@ feedback_close = Caewch y dudalen er mwyn dychwelyd at eich cais
 
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
-payment-prevent-back-text = Ni allwch ddefnyddio botwm Yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.
+payment-prevent-back-text = Ni allwch ddefnyddio botwm yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.
 payment-prevent-back-return-to-success = Dychwelyd i’r dudalen Llwyddo
 
 # closed
-closed.title = Nid yw’r Gwasanaeth ar gael
-closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd Sadwrn yn unig {0} to {1}
+closed.title = Nid yw’r gwasanaeth ar gael
+closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd sadwrn yn unig {0} to {1}
 closed.exit_button = Gadael
 
 link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
