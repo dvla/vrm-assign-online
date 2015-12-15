@@ -64,7 +64,7 @@ final class CommonStepDefs(
 
   def `enterCertificateDetails` = {
     captureCertificateDetails.`is displayed`
-    captureCertificateDetails.`enter certificate details`("1", "11111", "111111", "11111111")
+    captureCertificateDetails.`enter certificate details`("1", "11111", "111111", "ABC123")
     captureCertificateDetails.`submit details`
     this
   }

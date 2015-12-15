@@ -37,9 +37,15 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver, timeo
     this
   }
 
+  def `has 'not eligible' message` = {
+    pageSource should include("This registration number cannot be assigned")
+    pageSource should include("Our records show this registration number cannot be put on this vehicle.")
+    this
+  }
+
   def `has 'direct to paper' message` = {
     pageSource should include("This registration number cannot be assigned online")
-    pageSource should include("Download V317")
+    pageSource should include("V750 or V778")
     this
   }
 }

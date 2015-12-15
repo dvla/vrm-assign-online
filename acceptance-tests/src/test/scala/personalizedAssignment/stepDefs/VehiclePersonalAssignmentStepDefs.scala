@@ -126,39 +126,25 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   //Scenario 4
   @When("^I enter data that does not match a valid vehicle record three times in a row$")
   def `i enter data that does not match a valid vehicle record three times in a row`() {
+    val replacementVRN = "ABC123"
     val vehicleRegistrationNumber = RandomVrmGenerator.vrm
     val documentReferenceNumber = "22222222222"
-    val replacementVRN = "ABC123"
+
+    for (_ <- 1 to 3) {
+      user.`perform vehicle lookup (trader acting)`(replacementVRN,
+        vehicleRegistrationNumber,
+        documentReferenceNumber,
+        "AA11AA"
+      )
+      vehicleNotFound.`is displayed`
+      user.goToVehicleLookupPage
+    }
 
     user.`perform vehicle lookup (trader acting)`(replacementVRN,
       vehicleRegistrationNumber,
       documentReferenceNumber,
       "AA11AA"
-    ) // 1st
-    vehicleNotFound.`is displayed`
-    user.goToVehicleLookupPage
-
-    user.`perform vehicle lookup (trader acting)`(replacementVRN,
-      vehicleRegistrationNumber,
-      documentReferenceNumber,
-      "AA11AA"
-    ) // 2nd
-    vehicleNotFound.`is displayed`
-    user.goToVehicleLookupPage
-
-    user.`perform vehicle lookup (trader acting)`(replacementVRN,
-      vehicleRegistrationNumber,
-      documentReferenceNumber,
-      "AA11AA"
-    ) // 3rd
-    vehicleNotFound.`is displayed`
-    user.goToVehicleLookupPage
-
-    user.`perform vehicle lookup (trader acting)`(replacementVRN,
-      vehicleRegistrationNumber,
-      documentReferenceNumber,
-      "AA11AA"
-    ) // 4th
+    )
   }
 
   @Then("^the brute force lock out page is displayed$")
@@ -166,13 +152,16 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     vrmLocked.`is displayed`
   }
 
-  @Then("^reset the (.*?) so it won't be locked next time we run the tests$")
-  def `reset the <vehicle-registration-number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) {
+  @Then("^reset the \"(.*?)\" so it won't be locked next time we run the tests$")
+  def `reset the vrm so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) {
+    // Current and Replacement VRM are both subject to the brute force service.
+    // The brute force count needs to be reset on both.
     user.
       goToVehicleLookupPage.
       `perform vehicle lookup (trader acting)`("ABC123", vehicleRegistrationNumber, "11111111111", "SA11AA")
-      // This combination of doc ref and postcode should always appear valid to the legacy stubs,
-      // so will reset the brute force count.
+    user.
+      goToVehicleLookupPage.
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "ABC123", "11111111111", "SA11AA")
   }
 
   //Scenario 5
@@ -180,35 +169,37 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   def `i enter data in the and for a vehicle that has a marker set`(vehicleRegistrationNumber: String,
                                                                     documentReferenceNumber: String,
                                                                     postcode: String) {
-    //    vehicleLookup.
-    //      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-    //      `keeper is acting`.
-    //      `find vehicle`
-    //    user.`enterCertificateDetails`
+    vehicleLookup.
+      enter("ABC123", vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+    user.`enterCertificateDetails`
   }
 
   @Then("^the direct to paper channel page is displayed$")
   def `the direct to paper channel page is displayed`() {
-    //    vehicleNotFound.
-    //      `is displayed`.
-    //      `has 'direct to paper' message`
+    vehicleNotFound.
+      `is displayed`.
+      `has 'direct to paper' message`
   }
 
   //Scenario 6
   @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is not eligible for retention$")
-  def `i enter data in the and for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    //    vehicleLookup.
-    //      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-    //      `keeper is acting`.
-    //      `find vehicle`
-    //    user.`enterCertificateDetails`
+  def `i enter data in the and for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String,
+                                                                                 documentReferenceNumber: String,
+                                                                                 postcode: String) {
+    vehicleLookup.
+      enter("ABC123", vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+      user.`enterCertificateDetails`
   }
 
   @Then("^the vehicle not eligible page is displayed$")
   def `the vehicle not eligible page is displayed`() {
-    //    vehicleNotFound.
-    //      `is displayed`.
-    //      `has 'not found' message`
+    vehicleNotFound.
+      `is displayed`.
+      `has 'not eligible' message`
   }
 
   //Scenario 7
@@ -232,7 +223,7 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   }
 
   //Scenario 8
-  @When("^I enter data in the \"(.*?)\", \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is " +
+  @When("^I enter data in the \"(.*?)\",\"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is " +
     "eligible for retention and I indicate that the keeper is not acting and I have " +
     "previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`
