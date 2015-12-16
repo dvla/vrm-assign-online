@@ -38,7 +38,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").nonEmpty should equal(true)
     }
 
-    "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+    "contain contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
@@ -50,6 +50,18 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       element.getText().contains("Telephone") should equal (true)
     }
 
+    "not contain the vehicle make or model" taggedAs UiTag in  new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to VrmLockedPage
+      val element: WebElement = webDriver.findElement(
+        By.className("playback")
+      )
+      element.getAttribute("class") should equal("playback")
+      element.isDisplayed() should equal(true)
+      element.getText().contains("Vehicle make") should equal (false)
+      element.getText().contains("Vehicle model") should equal (false)
+    }
   }
 
   "exit button" should {

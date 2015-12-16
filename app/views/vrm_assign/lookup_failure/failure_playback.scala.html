@@ -1,6 +1,7 @@
 @(viewModel: models.VehicleLookupFailureViewModel,
         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-        showContactDetails: Boolean = false)(implicit lang: Lang,
+        showContactDetails: Boolean = false,
+        showVehicleDetails: Boolean = false)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -17,6 +18,15 @@
             val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
             val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
             playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
+
+            if(showVehicleDetails) {
+                if(viewModel.make.isDefined)
+                    playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> viewModel.make.get.take(20))
+                if(viewModel.model.isDefined)
+                    playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> viewModel.model.get.take(20))
+                else
+                    playbackItems
+            }
 
             val flaggedRegNumberLabelToAssign: String = "REG_" + Messages("vrm_assign_confirm.toAssign")
             playbackItems += (flaggedRegNumberLabelToAssign -> vehicleAndKeeperLookupFormModel.replacementVRN)
