@@ -1,5 +1,7 @@
 package email
 
+import java.io.FileWriter
+
 import com.google.inject.Inject
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
@@ -85,6 +87,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       ).toString()
+
 
       //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
       val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
