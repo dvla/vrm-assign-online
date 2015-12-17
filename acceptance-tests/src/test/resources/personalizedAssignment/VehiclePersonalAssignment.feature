@@ -27,9 +27,9 @@ Feature: Assignment of Vehicle
 
   @UnHappyPath
   Scenario: Vehicle Not Found
-    # Don't change VNF1 as it is special cased in the mock brute force service not to lock the VRM.
     When I enter data in the "ABC123","VNF1","11111111111" and "SA11AA" that does not match a valid vehicle record
     Then the vrm not found page is displayed
+    And reset the "VNF1" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Doc Ref Mismatch

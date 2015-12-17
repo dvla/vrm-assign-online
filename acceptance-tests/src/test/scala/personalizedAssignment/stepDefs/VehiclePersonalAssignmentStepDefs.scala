@@ -159,9 +159,11 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     user.
       goToVehicleLookupPage.
       `perform vehicle lookup (trader acting)`("ABC123", vehicleRegistrationNumber, "11111111111", "SA11AA")
-    user.
-      goToVehicleLookupPage.
-      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "ABC123", "11111111111", "SA11AA")
+    // The replacement VRM needs to get past the capture certificate details page for the count to be reset
+    user.goToVehicleLookupPage
+    vehicleLookup.enter(vehicleRegistrationNumber, "ABC123", "11111111111", "SA11AA")
+    `i indicate that the keeper is acting`()
+    `I enter certificate and`("1", "14316", "054027", vehicleRegistrationNumber)
   }
 
   //Scenario 5
