@@ -18,7 +18,6 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup
@@ -40,7 +39,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "contain contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
       go to BeforeYouStartPage
-      cacheSetup()
+      cacheSetup
       go to VrmLockedPage
        val element: WebElement = webDriver.findElement(
         By.className("contact-info-wrapper")
@@ -52,7 +51,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "not contain the vehicle make or model" taggedAs UiTag in  new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      cacheSetup()
+      cacheSetup
       go to VrmLockedPage
       val element: WebElement = webDriver.findElement(
         By.className("playback")
@@ -61,6 +60,24 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       element.isDisplayed() should equal(true)
       element.getText().contains("Vehicle make") should equal (false)
       element.getText().contains("Vehicle model") should equal (false)
+    }
+
+    "contain the time of locking" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup
+      go to VrmLockedPage
+      val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
+      localTime.isDisplayed should equal(true)
+      localTime.getText.contains("UTC") should equal (true)
+    }
+
+    "contain the time of locking when JavaScript is disabled" taggedAs UiTag in new WebBrowserWithJsDisabled {
+      go to BeforeYouStartPage
+      cacheSetup
+      go to VrmLockedPage
+      val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
+      localTime.isDisplayed should equal(true)
+      localTime.getText.contains("UTC") should equal (true)
     }
   }
 
