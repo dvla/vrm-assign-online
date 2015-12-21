@@ -182,7 +182,7 @@ vrm_assign_vehiclelookup.granteeOrPurchaser = Ai chi yw grantai neu brynwr y rhi
 vrm_assign_vehiclelookup.keeper = Ie, fi yw’r grantai / prynwr
 vrm_assign_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatâd i weithredu ar ran y grantai / prynwr
 vrm_assign_vehiclelookup.label = Manylion y cerbyd
-document-replacement-vrn = Dogfen newydd Rhif cofrestru cerbyd
+document-replacement-vrn = Dogfen newydd rhif cofrestru cerbyd
 keeper-consent = Caniatâd grantai
 postcode = Cod post
 
@@ -224,7 +224,7 @@ vrm_assign_eligibility_v778_failure = Dengys ein cofnodion nad yw’r rhif cofre
 vrm_assign_eligibility_vrm_failure = Ni allwn ddod o hyd i gofnod o’r rhif cofrestru hwn, gwiriwch y dystysgrif V778 a cheisio eto.
 vrm_assign_eligibility_no_keeper_failure = Dengys ein cofnodion nad oes ceidwad cofrestredig ar gyfer y cerbyd hwn.  Ceir gwybodaeth bellach ar sut i ddiweddaru manylion ceidwad yn
 vrm_assign_eligibility_no_keeper_failure_link = https://www.gov.uk/vehicle-registration-certificate-v5c-log-book
-vrm_assign_eligibility_exported_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei allforio.   I roi rhif cofrestru ar gerbyd, rhaid fod y cerbyd wedi ei gofrestru a’i ddefnyddio yn y du
+vrm_assign_eligibility_exported_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei allforio.   I roi rhif cofrestru ar gerbyd, rhaid fod y cerbyd wedi ei gofrestru a’i ddefnyddio yn y DU
 vrm_assign_eligibility_scrapped_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei sgrapio.  I roi rhif cofrestru ar gerbyd, rhaid i’r cerbyd fod ar gael i’w archwilio.
 vrm_assign_eligibility_damaged_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei ddifrodi’n ddifrifol, mae eich cais angen asesiad pellach. Anfonwch gais V317 i’r DVLA.
 vrm_assign_eligibility_vic_failure = Dengys ein cofnodion fod y cerbyd hwn angen gwiriad adnabod cerbyd (VIC). Ceir mwy o wybodaeth yn

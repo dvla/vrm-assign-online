@@ -88,7 +88,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         isKeeper
       ).toString()
 
-
       //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
       val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
