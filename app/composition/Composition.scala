@@ -52,7 +52,8 @@ trait Composition {
     new EmailServiceBinding,
     new EmailServiceWebServiceBinding,
     new RefererFromHeaderBinding,
-    new DateTimeZoneServiceBinding
+    new DateTimeZoneServiceBinding,
+    new HealthStatsBinding
   )
 
   lazy val filters = Array(
