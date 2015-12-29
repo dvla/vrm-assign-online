@@ -257,7 +257,7 @@ vrm_assign_vehicle_callback.modelLabel = Vehicle model:
 vrm_assign_vehicle_callback.regNumLabel = The current registration being replaced:
 
 # Payment failure page
-paymentFailureErrorMessage.title = Payment Failure
+paymentFailureErrorMessage.title = Payment failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
 paymentFailureErrorMessage.p3 =

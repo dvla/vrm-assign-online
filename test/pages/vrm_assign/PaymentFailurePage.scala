@@ -12,7 +12,7 @@ object PaymentFailurePage extends Page {
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Payment Failure"
+  final override val title: String = "Payment failure"
 
   def tryAgain(implicit driver: WebDriver) = find(id(TryAgainId)).get
 
