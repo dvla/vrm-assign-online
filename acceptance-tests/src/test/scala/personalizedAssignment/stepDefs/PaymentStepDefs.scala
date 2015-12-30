@@ -5,12 +5,10 @@ import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{pageSource, pageTitle}
+import org.scalatest.time.{Second, Seconds, Span}
 import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
 import pages.ConfirmBusinessPageSteps
@@ -22,17 +20,16 @@ import pages.VrmLockedPageSteps
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import scala.concurrent.duration.DurationInt
 
-final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
-  private val timeout = PatienceConfig(timeout = 5.seconds)
-  private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
-  private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
-  private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()(webDriver, timeout)
-  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
-  private val payment = new PaymentPageSteps()(webDriver, timeout)
-  private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
-  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
+  private val beforeYouStart = new BeforeYouStartPageSteps()
+  private val vehicleLookup = new VehicleLookupPageSteps()
+  private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()
+  private val confirm = new ConfirmPageSteps()
+  private val payment = new PaymentPageSteps()
+  private val vrmLocked = new VrmLockedPageSteps()
+  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
+  private val confirmBusiness = new ConfirmBusinessPageSteps()
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -40,7 +37,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     captureCertificateDetails,
     setupBusinessDetails,
     confirmBusiness
-  )(webDriver, timeout)
+  )
 
   @Given("^that I have started the PR Assign Service for payment$")
   def `that I have started the PR Assign Service for payment`() {
@@ -73,7 +70,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   def `following should be displayed`(Message: String) = {
     eventually {
       pageSource should include(Message)
-    }(timeout)
+    }
     if (Message == "Payment Successful") {
       pageTitle should include(Message)
     }

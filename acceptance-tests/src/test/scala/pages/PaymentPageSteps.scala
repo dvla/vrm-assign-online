@@ -1,9 +1,5 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_assign.PaymentPage
@@ -13,8 +9,8 @@ import pages.vrm_assign.PaymentPage.payNow
 import pages.vrm_assign.PaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+final class PaymentPageSteps(implicit webDriver: WebBrowserDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `happy path` = {
     `is displayed`.
@@ -28,7 +24,7 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: Pati
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 
@@ -65,7 +61,7 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: Pati
       pageSource should include("Please enter your password")
       PaymentPage.acsPassword.value = "password"
       submit()
-    }(timeout)
+    }
     this
   }
 }

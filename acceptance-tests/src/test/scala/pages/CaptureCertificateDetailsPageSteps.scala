@@ -1,9 +1,5 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.CaptureCertificateDetailsPage.{documentCount, date, lookup, registrationMark, time, url}
@@ -13,8 +9,8 @@ import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
 
-final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDriver)
+  extends helpers.AcceptanceTestHelper {
 
   private val RegistrationNumberValid = RandomVrmGenerator.uniqueVrm
 
@@ -31,7 +27,7 @@ final class CaptureCertificateDetailsPageSteps(implicit webDriver: WebBrowserDri
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 

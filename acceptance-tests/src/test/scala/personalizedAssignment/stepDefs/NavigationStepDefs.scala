@@ -4,10 +4,6 @@ import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser.{go, goBack}
 import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
@@ -33,21 +29,18 @@ import views.vrm_assign.Payment.PaymentDetailsCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
-import scala.concurrent.duration.DurationInt
+final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
-final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
-
-  private val timeout = PatienceConfig(timeout = 5.seconds)
-  private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
-  private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
-  private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()(webDriver, timeout)
-  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
-  private val confirmPayment = new ConfirmPaymentPageSteps()(webDriver, timeout)
-  private val payment = new PaymentPageSteps()(webDriver, timeout)
-  private val paymentPreventBack = new PaymentPreventBackPageSteps()(webDriver, timeout)
-  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
-  private val success = new SuccessPageSteps()(webDriver, timeout)
+  private val beforeYouStart = new BeforeYouStartPageSteps()
+  private val vehicleLookup = new VehicleLookupPageSteps()
+  private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()
+  private val confirm = new ConfirmPageSteps()
+  private val confirmPayment = new ConfirmPaymentPageSteps()
+  private val payment = new PaymentPageSteps()
+  private val paymentPreventBack = new PaymentPreventBackPageSteps()
+  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
+  private val confirmBusiness = new ConfirmBusinessPageSteps()
+  private val success = new SuccessPageSteps()
 
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {

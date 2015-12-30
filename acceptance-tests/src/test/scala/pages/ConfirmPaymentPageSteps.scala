@@ -1,15 +1,13 @@
 package pages
 
-import cucumber.api.scala.{EN, ScalaDsl}
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
+import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.ConfirmPaymentPage.confirm
 import pages.vrm_assign.ConfirmPaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class ConfirmPaymentPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+final class ConfirmPaymentPageSteps(implicit webDriver: WebBrowserDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `happy path` = {
       `confirm the details`
@@ -19,7 +17,7 @@ final class ConfirmPaymentPageSteps(implicit webDriver: WebBrowserDriver, timeou
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 

@@ -1,9 +1,6 @@
 package common
 
 import composition.TestHarness
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser.{click, cookie, cookies, delete, go}
 import pages.BeforeYouStartPageSteps
@@ -24,15 +21,10 @@ final class CommonStepDefs(
                             captureCertificateDetails: CaptureCertificateDetailsPageSteps,
                             setupBusinessDetails: SetupBusinessDetailsPageSteps,
                             confirmBusiness: ConfirmBusinessPageSteps
-                            )(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers with TestHarness {
+                            )(implicit webDriver: WebBrowserDriver)
+  extends helpers.AcceptanceTestHelper with TestHarness {
 
   def `start the Assign service` = {
-    // IMPORTANT:: this code will not work with the accept sandbox task. Will leave it like this until I speak to Tanvi
-    //    val TestUrl = "test.url"
-    //    val value = s"http://localhost:9000/"
-    //    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
-    //    sys.props += ((TestUrl, value))
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`
     delete all cookies

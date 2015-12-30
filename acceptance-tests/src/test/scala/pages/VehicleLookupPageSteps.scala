@@ -1,9 +1,5 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource}
 import pages.vrm_assign.VehicleLookupPage.currentKeeperNo
@@ -17,8 +13,8 @@ import pages.vrm_assign.VehicleLookupPage.vehicleRegistrationNumber
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
-final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver)
+  extends helpers.AcceptanceTestHelper {
 
   private val replacementVRN = RandomVrmGenerator.vrm
 
@@ -33,7 +29,7 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver, timeout
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 
