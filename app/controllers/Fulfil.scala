@@ -368,7 +368,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val template = FailureEmailMessageBuilder.buildWith
 
-    val title = Messages("email.failure.title")
+    val title = Messages("email.failure.title") + " "+ vehicleAndKeeperLookupFormModel.registrationNumber
 
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
