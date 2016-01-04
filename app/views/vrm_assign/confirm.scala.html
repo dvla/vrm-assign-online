@@ -24,13 +24,39 @@
     currentForm = Some(confirmForm),
     backNavigation = Some(controllers.routes.CaptureCertificateDetails.present())
 ) {
+    <h2>@Messages("vrm_assign_confirm.title")</h2>
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col confirm-details">
+            <div class="first-col">
+                @playbackList(
+                    Messages("vrm_assign_vehicle_callback.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+
+                        vehicleDetails.make match {
+                            case Some(make) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> make)
+                            case None => playbackItems
+                        }
+                        vehicleDetails.model match {
+                            case Some(model) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> model)
+                            case None => playbackItems
+                        }
+
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
+                    },
+                    Nil,
+                    {
+                        Html("<p><strong>" + Messages("vrm_assign_vehicle_callback.title-2") + "</strong></p>")
+                    }
+                )()
+            </div>
+
             <div class="second-col">
                 @playbackList(
-                    Messages("vrm_assign_confirm.title"),
+                    Messages("vrm_assign_confirm.keeper-details"),
                     {
                         val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
                         playbackItems += (Messages("vrm_assign_confirm.keeperLabel") -> (confirmViewModel.vehicleDetails.title.getOrElse("")
@@ -96,39 +122,12 @@
 
                     )
                 </div>
-
             </div>
-            <div class="first-col">
-                @playbackList(
-                    Messages("vrm_assign_vehicle_callback.title"),
-                    {
-                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
-
-                        vehicleDetails.make match {
-                            case Some(make) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> make)
-                            case None => playbackItems
-                        }
-                        vehicleDetails.model match {
-                            case Some(model) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> model)
-                            case None => playbackItems
-                        }
-
-                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
-                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
-                    },
-                    Nil,
-                    {
-                        Html("<p><strong>" + Messages("vrm_assign_vehicle_callback.title-2") + "</strong></p>")
-                    }
-                )()
-            </div>
-
             <div class="form-steps">
                 <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
                 <br/>
                 <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
             </div>
-
         </div>
     }
 

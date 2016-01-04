@@ -18,9 +18,6 @@
             <h2>@Messages("vrm_assign_timeout.title")</h2>
             <p>@Messages("vrm_assign_timeout.p-1")</p>
             <p>@Messages("vrm_assign_timeout.p-2")</p>
-            <div class="form-steps">
-                <a id="@ExitId" class="exit" href="@controllers.routes.TimeoutController.exit()">@Messages("vrm_assign_exit.button")</a>
-            </div>
         </div>
 
         @vehicleDetails.map { details =>
@@ -53,5 +50,9 @@
                 )()
             </div>
         }
+
+        <div class="form-steps">
+            <a id="@ExitId" class="button" href="@controllers.routes.TimeoutController.exit()">@Messages("vrm_assign_exit.button")</a>
+        </div>
     </div>
 }

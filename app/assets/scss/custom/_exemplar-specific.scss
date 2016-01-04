@@ -256,6 +256,11 @@ summary::-webkit-details-marker {
   }
 
   @media screen and (max-width: $device-small) {
+    ul.help-list li .field-help {
+        position: static;
+        float: right;
+        min-width: auto;
+    }
     .certificate-id-input {
 
       .form-item {

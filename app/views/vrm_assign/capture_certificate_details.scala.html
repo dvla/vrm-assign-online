@@ -24,13 +24,24 @@
     currentForm = Some(captureCertificateDetailsFormModel),
     backNavigation = Some(controllers.routes.CaptureCertificateDetails.back())
 ) {
+    <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
+
     @form(action = CaptureCertificateDetails.submit) {
         @csrfTokenHiddenField()
 
         <div class="two-col">
+            <div id="vehicle-details" class="first-col trader-details">
+                @playbackList(
+                    Messages("vrm_assign_vehicle_callback.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
+                    }
+                )()
+            </div>
             <div class="second-col inline-form">
                 <div class="certificate-details">
-                    <h2>@Messages("vrm_assign_capturecertificatedetails.title")</h2>
                     <h3>
                         @Messages("vrm_assign_capturecertificatedetails.title-2")
                     </h3>
@@ -129,16 +140,6 @@
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
                 </div>
-            </div>
-            <div id="vehicle-details" class="first-col trader-details">
-                @playbackList(
-                    Messages("vrm_assign_vehicle_callback.title"),
-                    {
-                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
-                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
-                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
-                    }
-                )()
             </div>
         </div>
         <script type="text/javascript">
