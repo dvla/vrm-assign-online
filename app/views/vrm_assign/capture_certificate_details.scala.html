@@ -30,16 +30,6 @@
         @csrfTokenHiddenField()
 
         <div class="two-col">
-            <div id="vehicle-details" class="first-col trader-details">
-                @playbackList(
-                    Messages("vrm_assign_vehicle_callback.title"),
-                    {
-                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
-                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
-                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
-                    }
-                )()
-            </div>
             <div class="second-col inline-form">
                 <div class="certificate-details">
                     <h3>
@@ -133,13 +123,23 @@
 
                 </div>
                 <br />
-                <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">
-                        @Messages("vrm_assign_capturecertificatedetails.button")
-                    </button>
-                    <br/>
-                    <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
-                </div>
+            </div>
+            <div id="vehicle-details" class="first-col trader-details">
+                @playbackList(
+                    Messages("vrm_assign_vehicle_callback.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_assign_vehicle_callback.regNumLabel")
+                        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
+                    }
+                )()
+            </div>
+            <div class="form-steps">
+                <button id="@SubmitId" type="submit" name="action" class="button">
+                     @Messages("vrm_assign_capturecertificatedetails.button")
+                </button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.CaptureCertificateDetails.exit()">@Messages("vrm_assign_exit.button")</a>
             </div>
         </div>
         <script type="text/javascript">

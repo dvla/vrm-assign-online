@@ -306,7 +306,6 @@ vrm_assign_confirm.title = Cadarnhau manylion ceidwad
 vrm_assign_confirm.toAssign = Rhif cofrestru sy’n mynd ar y cerbyd:
 vrm_assign_confirm.consent = Caniatâd
 vrm_assign_confirm.email = Opsiynau ebost
-vrm_assign_confirm.keeper-details = Manylion y ceidwad
 vrm_assign_confirm.keeperLabel = Ceidwad cofrestredig
 vrm_assign_confirm.keeperAddressLabel = Cyfeiriad
 vrm_assign_confirm.keeperPostcodeLabel = Cod post

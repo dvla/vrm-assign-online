@@ -309,7 +309,6 @@ vrm_assign_confirm.title = Confirm keeper information
 vrm_assign_confirm.toAssign = The registration number going on the vehicle:
 vrm_assign_confirm.consent = Consent
 vrm_assign_confirm.email = Email options
-vrm_assign_confirm.keeper-details = Keeper details
 vrm_assign_confirm.keeperLabel = Registered keeper
 vrm_assign_confirm.keeperAddressLabel = Address
 vrm_assign_confirm.keeperPostcodeLabel = Postcode

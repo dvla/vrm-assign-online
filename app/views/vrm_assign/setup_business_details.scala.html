@@ -26,9 +26,7 @@
 ) {
     @form(action = SetUpBusinessDetails.submit) {
         @csrfTokenHiddenField()
-
         <div class="two-col">
-
             <div class="second-col inline-form business-details-capture">
                 <h2>@Messages("vrm_assign_setupbusinessdetails.title")</h2>
                 <div class="uppercase-input">
@@ -51,11 +49,6 @@
 
                 @addressPicker(setupBusinessDetailsFormModel(BusinessAddressId), ApplicationContext())
                 </div>
-                <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
-                    <br/>
-                    <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_assign_exit.button")</a>
-                </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
                 @playbackList(
@@ -75,9 +68,12 @@
                     </p>
                     }
                 }
-
             </div>
-
+            <div class="form-steps">
+                <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_assign_setupbusinessdetails.button")</button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_assign_exit.button")</a>
+            </div>
         </div>
     }
 }
