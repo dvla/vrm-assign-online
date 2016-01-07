@@ -15,14 +15,18 @@ import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.nameMapp
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import utils.helpers.Config
 
-class FeedbackController @Inject()(val emailService: EmailService)
+class FeedbackController @Inject()(val emailService: EmailService,
+                                   val dateService: DateService,
+                                   val healthStats: HealthStats)
                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                   config: Config,
-                                   dateService: DateService) extends Controller with FeedbackBase {
+                                   config: Config) extends Controller with FeedbackBase {
 
   override val emailConfiguration = config.emailConfiguration
+
+  implicit val implicitDateService = implicitly[DateService](dateService)
 
   private[controllers] val form = Form(
     FeedbackForm.Form.Mapping
