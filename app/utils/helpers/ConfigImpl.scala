@@ -42,9 +42,6 @@ class ConfigImpl extends Config {
   // Google analytics
   override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.assign")
 
-  // Progress step indicator
-  override val isProgressBarEnabled: Boolean = getProperty[Boolean]("progressBar.enabled")
-
   // Payment Service
   override val renewalFeeInPence: String = getProperty[String]("assign.renewalFee.price")
   override val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")

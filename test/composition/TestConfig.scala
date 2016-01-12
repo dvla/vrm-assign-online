@@ -47,8 +47,6 @@ final class TestConfig(
 
     when(config.surveyUrl).thenReturn(Some("test/survey/url"))
 
-    when(config.isProgressBarEnabled).thenReturn(true)
-
     when(config.renewalFeeInPence).thenReturn("8000")
     when(config.renewalFeeAbolitionDate).thenReturn("09/03/2015")
 

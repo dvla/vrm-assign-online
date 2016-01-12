@@ -37,9 +37,6 @@ trait Config extends VehicleLookupConfig {
   // Google analytics
   val googleAnalyticsTrackingId: Option[String]
 
-  // Progress step indicator
-  val isProgressBarEnabled: Boolean
-
   // Payment Service
   val renewalFeeInPence: String
   val renewalFeeAbolitionDate: String
