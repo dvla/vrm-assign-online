@@ -110,7 +110,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(CaptureCertificateDetailsPage.address))
           val cookies = fetchCookiesFromHeaders(r)
@@ -235,7 +235,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
@@ -258,7 +258,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallNoResponse.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
@@ -336,7 +336,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       )
       val result = vehicleLookup.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           val expectedRequest = VehicleAndKeeperLookupRequest(
             dmsHeader = buildHeader(trackingId, dateService),

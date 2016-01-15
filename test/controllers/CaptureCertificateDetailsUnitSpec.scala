@@ -55,7 +55,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       val (captureCertificateDetails, dateService, auditService) = build()
       var result = captureCertificateDetails.present(request)
 
-      whenReady(result, timeout) { result =>
+      whenReady(result) { result =>
         result.header.status should equal(OK)
       }
     }
@@ -160,7 +160,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       val (captureCertificateDetails, dateService, auditService) = build()
       val result = captureCertificateDetails.exit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
@@ -188,7 +188,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
       val result = captureCertificateDetails.exit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }
@@ -217,7 +217,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
       val result = captureCertificateDetails.exit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }
