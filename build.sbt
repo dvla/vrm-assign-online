@@ -1,21 +1,10 @@
 import Common._
-import de.johoop.jacoco4sbt.JacocoPlugin._
+import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignEligibility
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
-import uk.gov.dvla.vehicles.sandbox.Sandbox
-import uk.gov.dvla.vehicles.sandbox.SandboxSettings
-import uk.gov.dvla.vehicles.sandbox.Tasks
-import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
-import scoverage.ScoverageSbtPlugin.ScoverageKeys
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{audit, emailService, legacyStubs, osAddressLookup, paymentSolve, vehicleAndKeeperLookup, vrmAssignEligibility, vrmAssignFulfil}
+import uk.gov.dvla.vehicles.sandbox.{Sandbox, SandboxSettings, Tasks}
 
 name := "vrm-assign-online"
 
@@ -105,9 +94,11 @@ concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags
 
 sbt.Keys.fork in Test := false
 
-jacoco.settings
+coverageExcludedPackages := "<empty>;Reverse.*"
 
-parallelExecution in jacoco.Config := false
+coverageMinimum := 70
+
+coverageFailOnMinimum := false
 
 // Using node to do the javascript optimisation cuts the time down dramatically
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
@@ -120,22 +111,6 @@ ScalastylePlugin.Settings
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
-
-//////////////////
-// Scoverage
-//
-// Code coverage plugin
-
-ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
-
-ScoverageKeys.coverageMinimum := 60
-
-ScoverageKeys.coverageFailOnMinimum := true
-
-ScoverageKeys.coverageHighlighting := true
-
-// End Scoverage
-//////////////////
 
 resolvers ++= projectResolvers
 
