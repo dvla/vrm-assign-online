@@ -48,12 +48,12 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
     }
   }
 
-  "page should not contain contact information" should {
+  "page should contain contact information" should {
     "contain contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
       go to BeforeYouStartPage
       cacheFailureSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include("Telephone")
+      pageSource should include("Telephone")
     }
   }
 
