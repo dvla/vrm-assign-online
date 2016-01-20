@@ -57,7 +57,7 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val result = successPayment.present(request)
       println(contentAsString(result))
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
