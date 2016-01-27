@@ -29,29 +29,34 @@ Feature: Assignment of Vehicle
   Scenario: Vehicle Not Found
     When I enter data in the "ABC123","VNF1","11111111111" and "SA11AA" that does not match a valid vehicle record
     Then the vrm not found page is displayed
+    And the contact information is displayed
     And reset the "VNF1" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Doc Ref Mismatch
     When I enter data in the "ABC123","F1","22222222222" and "AA11AA" that does not match a valid vehicle record
     Then the doc ref mismatch page is displayed
+    And the contact information is not displayed
     And reset the "F1" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Vehicle not Eligible
     When I enter data in the "FF11","11111111111" and "SA11AA" for a vehicle that is not eligible for retention
     Then the vehicle not eligible page is displayed
+    And the contact information is displayed
     And reset the "FF11" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Direct to Paper Channel
     When I enter data in the "EE36","11111111111" and "SA11AA" for a vehicle that has a marker set
     Then the direct to paper channel page is displayed
+    And the contact information is displayed
 
   @UnHappyPath
   Scenario: Brute Force Lockout
     When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
+    And the contact information is displayed
 
   @HappyPath
   Scenario: Trader Acting (no details stored)

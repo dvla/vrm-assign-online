@@ -41,7 +41,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup
       go to VrmLockedPage
-       val element: WebElement = webDriver.findElement(
+      val element: WebElement = webDriver.findElement(
         By.className("contact-info-wrapper")
       )
       element.getAttribute("name") should equal("contact-info-wrapper")

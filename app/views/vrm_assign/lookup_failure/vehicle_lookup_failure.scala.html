@@ -25,8 +25,9 @@
         </div>
 
         @failure_playback(
-            viewModel,
-            vehicleAndKeeperLookupFormModel
+            viewModel = viewModel,
+            vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupFormModel,
+            showContactDetails = (responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch")
         )
 
         <div class="form-steps">

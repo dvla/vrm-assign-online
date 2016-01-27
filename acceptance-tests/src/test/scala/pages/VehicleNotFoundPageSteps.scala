@@ -1,8 +1,8 @@
 package pages
 
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_assign.VehicleLookupFailurePage._
+import org.scalatest.selenium.WebBrowser.{cssSelector, currentUrl, Element, find, pageSource}
+import pages.vrm_assign.VehicleLookupFailurePage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
@@ -13,6 +13,20 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
       currentUrl should equal(url)
     }
     this
+  }
+
+  def `has contact information`() = {
+    val element: Option[Element] = find(cssSelector(".contact-info-wrapper"))
+    element match {
+      case Some(e) =>
+        e should be ('displayed)
+        e.text should include ("Telephone")
+      case None => element should be (defined)
+    }
+  }
+
+  def `has no contact information`() = {
+    find(cssSelector(".contact-info-wrapper")) should be (None)
   }
 
   def `has 'not found' message` = {

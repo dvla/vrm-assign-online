@@ -38,6 +38,16 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     confirmBusiness
   )
 
+  @Then("^the contact information is displayed$")
+  def `the contact information is displayed`() {
+    vehicleNotFound.`has contact information`
+  }
+
+  @Then("^the contact information is not displayed$")
+  def `the contact information is not displayed`() {
+    vehicleNotFound.`has no contact information`
+  }
+
   @Given("^that I have started the PR Assign Service$")
   def `that_I_have_started_the_PR_Assign_Service`() {
     user.`start the Assign service`
@@ -117,6 +127,44 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   }
 
   //Scenario 4
+  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is not eligible for retention$")
+  def `i enter data in the and for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String,
+                                                                                 documentReferenceNumber: String,
+                                                                                 postcode: String) {
+    vehicleLookup.
+      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+      user.`enterCertificateDetails`
+  }
+
+  @Then("^the vehicle not eligible page is displayed$")
+  def `the vehicle not eligible page is displayed`() {
+    vehicleNotFound.
+      `is displayed`.
+      `has 'not eligible' message`
+  }
+
+  //Scenario 5
+  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that has a marker set$")
+  def `i enter data in the and for a vehicle that has a marker set`(vehicleRegistrationNumber: String,
+                                                                    documentReferenceNumber: String,
+                                                                    postcode: String) {
+    vehicleLookup.
+      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+    user.`enterCertificateDetails`
+  }
+
+  @Then("^the direct to paper channel page is displayed$")
+  def `the direct to paper channel page is displayed`() {
+    vehicleNotFound.
+      `is displayed`.
+      `has 'direct to paper' message`
+  }
+
+  //Scenario 6
   @When("^I enter data that does not match a valid vehicle record three times in a row$")
   def `i enter data that does not match a valid vehicle record three times in a row`() {
     val replacementVRN = RandomVrmGenerator.vrm
@@ -157,44 +205,6 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     vehicleLookup.enter(vehicleRegistrationNumber, "ABC123", "11111111111", "SA11AA")
     `i indicate that the keeper is acting`()
     `I enter certificate and`("1", "14316", "054027", vehicleRegistrationNumber)
-  }
-
-  //Scenario 5
-  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that has a marker set$")
-  def `i enter data in the and for a vehicle that has a marker set`(vehicleRegistrationNumber: String,
-                                                                    documentReferenceNumber: String,
-                                                                    postcode: String) {
-    vehicleLookup.
-      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      `keeper is acting`.
-      `find vehicle`
-    user.`enterCertificateDetails`
-  }
-
-  @Then("^the direct to paper channel page is displayed$")
-  def `the direct to paper channel page is displayed`() {
-    vehicleNotFound.
-      `is displayed`.
-      `has 'direct to paper' message`
-  }
-
-  //Scenario 6
-  @When("^I enter data in the \"(.*?)\",\"(.*?)\" and \"(.*?)\" for a vehicle that is not eligible for retention$")
-  def `i enter data in the and for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String,
-                                                                                 documentReferenceNumber: String,
-                                                                                 postcode: String) {
-    vehicleLookup.
-      enter(RandomVrmGenerator.uniqueVrm, vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      `keeper is acting`.
-      `find vehicle`
-      user.`enterCertificateDetails`
-  }
-
-  @Then("^the vehicle not eligible page is displayed$")
-  def `the vehicle not eligible page is displayed`() {
-    vehicleNotFound.
-      `is displayed`.
-      `has 'not eligible' message`
   }
 
   //Scenario 7
