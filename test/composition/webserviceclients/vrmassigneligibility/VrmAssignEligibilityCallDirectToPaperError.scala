@@ -15,8 +15,8 @@ final class VrmAssignEligibilityCallDirectToPaperError extends ScalaModule with 
 
   val stub = {
     val webService = mock[VrmAssignEligibilityWebService]
-    when(webService.invoke(any[VrmAssignEligibilityRequest], any[TrackingId])).
-      thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseDirectToPaperError)))
+    when(webService.invoke(any[VrmAssignEligibilityRequest], any[TrackingId]))
+      .thenReturn(Future.successful(createResponse(vrmAssignEligibilityResponseDirectToPaperError)))
     webService
   }
 

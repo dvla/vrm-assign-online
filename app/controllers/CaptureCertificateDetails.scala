@@ -128,8 +128,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       val resultFuture = if (bruteForcePreventionModel.permitted) {
         val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        val transactionId = request.cookies.getString(TransactionIdCacheKey).
-          getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
+        val transactionId = request.cookies.getString(TransactionIdCacheKey)
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
         checkVrmEligibility(form, vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId)
       }
       else Future.successful {
@@ -172,6 +172,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     }
 
     def eligibilitySuccess(certificateExpiryDate: DateTime) = {
+      logMessage(trackingId, Debug, "Eligibility check was successful")
 
       // calculate number of years owed if any
       val outstandingDates = calculateYearsOwed(certificateExpiryDate)
@@ -209,10 +210,11 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     def eligibilityFailure(failure: VrmAssignEligibilityResponseDto) = {
       val response = failure.response.get
 
-      logMessage(trackingId, Debug, "VrmAssignEligibility encountered a problem with request" +
-        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) +
-        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
-        ", redirect to VehicleLookupFailure")
+      val msg = "Eligibility check failed for request " +
+        s"referenceNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, " +
+        s"registrationNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}" +
+        ", redirecting to VehicleLookupFailure"
+      logMessage(trackingId, Debug, msg)
 
       // calculate number of years owed if any
       val outstandingDates: ListBuffer[String] = failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
@@ -239,8 +241,8 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         trackingId = trackingId
       )
 
-      Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+      Redirect(routes.VehicleLookupFailure.present())
+        .withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
         .withCookie(captureCertificateDetailsModel)
     }
 
@@ -259,7 +261,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
       response =>
         response match {
-          case (INTERNAL_SERVER_ERROR, failure)  =>
+          case (FORBIDDEN, failure)  =>
             eligibilityFailure(failure)
           case (OK, success) =>
             eligibilitySuccess(success.vrmAssignEligibilityResponse.certificateExpiryDate.get)

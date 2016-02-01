@@ -21,17 +21,10 @@ final class VrmAssignEligibilityServiceImpl @Inject()(ws: VrmAssignEligibilityWe
                     : Future[(Int, VrmAssignEligibilityResponseDto)] = {
     import VrmAssignEligibilityServiceImpl.ServiceName
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) {
+      if (resp.status == Status.OK || resp.status == Status.FORBIDDEN) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         (resp.status, resp.json.as[VrmAssignEligibilityResponseDto])
-      }
-      else if (resp.status == Status.INTERNAL_SERVER_ERROR) {
-        val msg = s"Vrm Assign Eligibility micro-service call http status not OK, it was: ${resp.status}"
-        val error = new RuntimeException(msg)
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, error))
-        (resp.status, resp.json.as[VrmAssignEligibilityResponseDto])
-      }
-      else {
+      } else {
         val error = new RuntimeException(
           "Vrm Assign Eligibility micro-service call http status not OK, it " +
             s"was: ${resp.status}. Problem may come from either vrm-assign-eligibility micro-service or VSS"
