@@ -38,15 +38,6 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver)
   def `paynow` = {
     click on payNow
 
-    //DO NOT REMOVE COMMENTED CODE
-    //     maximize
-    //     theLogicaGroupLogo
-    //    printf("The URL" + pageTitle)
-    //    maximize
-    //    //theLogicaGroupLogo
-    //    printf("The URL" + pageTitle)
-
-    //    implicitlyWait(Span(2,Minutes))
     this
   }
 
