@@ -1,6 +1,6 @@
 ======= 1.26 =====
 Time of release binaries creation:
-
+Wed Feb 03 13:28:12 UTC 2016
 
 US4034 	Remove CEG's Phone number from first two screens of unsuccessful vehicle lookup
 US4213 	Correct the vrm-assign-eligibility service which is using INTERNAL_SERVER_ERROR to indicate the vehicle is not eligible for assignment
