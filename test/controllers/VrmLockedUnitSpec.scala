@@ -25,8 +25,6 @@ class VrmLockedUnitSpec extends UnitSpec {
       }
     }
 
-
-
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }

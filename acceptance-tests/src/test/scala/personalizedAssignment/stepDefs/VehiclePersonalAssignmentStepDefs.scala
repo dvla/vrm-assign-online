@@ -40,12 +40,17 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
 
   @Then("^the contact information is displayed$")
   def `the contact information is displayed`() {
-    vehicleNotFound.`has contact information`
+    vehicleNotFound.`has contact information`()
   }
 
   @Then("^the contact information is not displayed$")
   def `the contact information is not displayed`() {
-    vehicleNotFound.`has no contact information`
+    vehicleNotFound.`has no contact information`()
+  }
+
+  @Then("^the replacement VRN and the current registration are correctly formatted")
+  def `the replacement VRN and the current registration are correctly formatted`() {
+    vehicleNotFound.`displays the formatted registration numbers`()
   }
 
   @Given("^that I have started the PR Assign Service$")

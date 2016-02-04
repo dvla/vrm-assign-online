@@ -13,7 +13,7 @@ import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VrmLockedPage
 import pages.vrm_assign.VrmLockedPage.exit
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
@@ -37,6 +37,19 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").nonEmpty should equal(true)
     }
 
+    "contain correctly formatted registration numbers" taggedAs UiTag in  new WebBrowserForSelenium  {
+      go to BeforeYouStartPage
+      cacheSetup
+      go to VrmLockedPage
+      val regNumbers = webDriver.findElements(By.className("reg-number")).iterator()
+      val displayedReg = regNumbers.next.getText
+      val displayedVRN = regNumbers.next.getText
+
+      // Trim the result of formatVrm because Selenium trims any WebElement text.
+      displayedReg should be (formatVrm(displayedReg.filter(p => !p.isSpaceChar)).trim)
+      displayedVRN should be (formatVrm(displayedVRN.filter(p => !p.isSpaceChar)).trim)
+    }
+
     "contain contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
       go to BeforeYouStartPage
       cacheSetup
@@ -45,8 +58,8 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
         By.className("contact-info-wrapper")
       )
       element.getAttribute("name") should equal("contact-info-wrapper")
-      element.isDisplayed() should equal(true)
-      element.getText().contains("Telephone") should equal (true)
+      element should be ('displayed)
+      element.getText.contains("Telephone") should equal (true)
     }
 
     "not contain the vehicle make or model" taggedAs UiTag in  new WebBrowserForSelenium {
@@ -57,9 +70,9 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
         By.className("playback")
       )
       element.getAttribute("class") should equal("playback")
-      element.isDisplayed() should equal(true)
-      element.getText().contains("Vehicle make") should equal (false)
-      element.getText().contains("Vehicle model") should equal (false)
+      element should be ('displayed)
+      element.getText.contains("Vehicle make") should equal (false)
+      element.getText.contains("Vehicle model") should equal (false)
     }
 
     "contain the time of locking" taggedAs UiTag in new WebBrowserForSelenium {
@@ -67,7 +80,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       cacheSetup
       go to VrmLockedPage
       val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
-      localTime.isDisplayed should equal(true)
+      localTime should be ('displayed)
       localTime.getText.contains("UTC") should equal (true)
     }
 
@@ -76,7 +89,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       cacheSetup
       go to VrmLockedPage
       val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
-      localTime.isDisplayed should equal(true)
+      localTime should be ('displayed)
       localTime.getText.contains("UTC") should equal (true)
     }
   }
@@ -103,7 +116,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.AssignSet.foreach(cacheKey => {
-        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
+        Option(webDriver.manage().getCookieNamed(cacheKey)) should equal(None)
       })
     }
   }

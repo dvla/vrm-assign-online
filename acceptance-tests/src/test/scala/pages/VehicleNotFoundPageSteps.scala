@@ -1,9 +1,10 @@
 package pages
 
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser.{cssSelector, currentUrl, Element, find, pageSource}
+import org.scalatest.selenium.WebBrowser.{className, cssSelector, currentUrl, Element, find, findAll, pageSource}
 import pages.vrm_assign.VehicleLookupFailurePage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
   extends helpers.AcceptanceTestHelper {
@@ -27,6 +28,16 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
 
   def `has no contact information`() = {
     find(cssSelector(".contact-info-wrapper")) should be (None)
+  }
+
+  def `displays the formatted registration numbers`() = {
+    val regNumbers: Iterator[Element] = findAll(className("reg-number"))
+    val displayedReg = regNumbers.next.text
+    val displayedVRN = regNumbers.next.text
+
+    // Trim the result of formatVrm because Selenium trims any WebElement text.
+    displayedReg should be (formatVrm(displayedReg.filter(p => !p.isSpaceChar)).trim)
+    displayedVRN should be (formatVrm(displayedVRN.filter(p => !p.isSpaceChar)).trim)
   }
 
   def `has 'not found' message` = {

@@ -32,15 +32,14 @@ final class PaymentPostShutdown @Inject()()(implicit clientSideSessionFactory: C
                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
                                           )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
+      case Some(details) => VehicleLookupFailureViewModel(details, vehicleAndKeeperLookupForm.replacementVRN)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
     logMessage(request.cookies.trackingId(), Info, s"Presenting payment post shutdown view")
     Ok(views.html.vrm_assign.payment_post_shutdown(
       transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm)
-    )
+      vehicleLookupFailureViewModel = viewModel
+    ))
   }
 }

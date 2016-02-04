@@ -25,24 +25,18 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[PaymentModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[CaptureCertificateDetailsModel]) match {
 
-      case (Some(transactionId), paymentModelOpt, vehicleAndKeeperDetails, Some(vehicleAndKeeperLookupForm),
+      case (Some(transactionId), paymentModelOpt, Some(vehicleAndKeeperLookupForm),
         captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
-        val viewModel = vehicleAndKeeperDetails match {
-          case Some(details) => VehicleLookupFailureViewModel(details)
-          case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
-        }
         logMessage(request.cookies.trackingId(), Info, s"Presenting fulfil failure view")
         Ok(
           views.html.vrm_assign.fulfil_failure(
             transactionId,
             paymentModelOpt.isDefined,
-            viewModel,
-            vehicleAndKeeperLookupForm
+            VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
           )
         )
       case _ =>

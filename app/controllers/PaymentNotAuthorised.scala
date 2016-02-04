@@ -52,8 +52,9 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel)
                                          (implicit request: Request[AnyContent]) = {
+
     val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
+      case Some(details) => VehicleLookupFailureViewModel(details, vehicleAndKeeperLookupForm.replacementVRN)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
@@ -61,7 +62,6 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
     Ok(views.html.vrm_assign.payment_not_authorised(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
       captureCertificateDetailsFormModel = captureCertificateDetailsFormModel)
     )
   }

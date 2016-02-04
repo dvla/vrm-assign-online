@@ -34,11 +34,9 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       request.cookies.getModel[CaptureCertificateDetailsModel]) match {
       case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm),
       Some(vehicleLookupResponseCode), captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
-        val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
         displayVehicleLookupFailure(transactionId,
           vehicleAndKeeperLookupForm,
           bruteForcePreventionResponse,
-          vehicleAndKeeperDetails,
           vehicleLookupResponseCode,
           captureCertificateDetailsFormModel,
           captureCertificateDetailsModel
@@ -65,15 +63,12 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           bruteForcePreventionModel: BruteForcePreventionModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           vehicleAndKeeperLookupResponseCode: String,
                                           captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
                                           captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
-    val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
-      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
-    }
+
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
 
     val intro = "VehicleLookupFailure is"
     val failurePage = vehicleAndKeeperLookupResponseCode match {
@@ -82,36 +77,31 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case "vrm_assign_eligibility_cert_number_mismatch" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
-          viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+          viewModel = viewModel
         )
       case "vrm_assign_eligibility_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
-          viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+          viewModel = viewModel
         )
       case "vrm_assign_eligibility_cert_begin_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
-          viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+          viewModel = viewModel
         )
       case "vrm_assign_eligibility_q_plate_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_q_plate_failure")
         )
       case "vrm_assign_eligibility_v778_failure" =>
@@ -119,7 +109,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_v778_failure")
         )
       case "vrm_assign_eligibility_vrm_failure" =>
@@ -127,7 +116,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_vrm_failure")
         )
       case "vrm_assign_eligibility_no_keeper_failure" =>
@@ -135,7 +123,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel,
           responseMessage = Some("vrm_assign_eligibility_no_keeper_failure"),
           responseLink = Some("vrm_assign_eligibility_no_keeper_failure_link")
@@ -145,7 +132,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_exported_failure")
         )
       case "vrm_assign_eligibility_scrapped_failure" =>
@@ -153,7 +139,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_scrapped_failure")
         )
       case "vrm_assign_eligibility_damaged_failure" =>
@@ -161,7 +146,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel,
           responseMessage = Some("vrm_assign_eligibility_damaged_failure")
         )
@@ -170,7 +154,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel,
           responseMessage = Some("vrm_assign_eligibility_vic_failure"),
           responseLink = Some("vrm_assign_eligibility_vic_failure_link")
@@ -180,7 +163,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel,
           responseMessage = Some("vrm_assign_eligibility_destroyed_failure")
         )
@@ -189,7 +171,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_not_mot_failure"),
           responseLink = Some("vrm_assign_eligibility_not_mot_failure_link")
         )
@@ -198,22 +179,19 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         eligibility(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           responseMessage = Some("vrm_assign_eligibility_too_young_failure")
         )
       case "vrm_assign_eligibility_v778_ref_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting cert number mismatch failure view")
         cert_number_mismatch(
           transactionId = transactionId,
-          viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+          viewModel = viewModel
         )
       case "vrm_assign_eligibility_ninety_day_rule_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting ninety day rule failure view")
         ninety_day_rule_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm,
           captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case _ =>
@@ -221,8 +199,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-          vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupForm
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
         )
     }
     Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))

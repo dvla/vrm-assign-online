@@ -22,18 +22,17 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
                                   ) extends VrmLockedBase {
 
   protected override def presentResult(model: BruteForcePreventionModel)(implicit request: Request[_]): Result = {
-    val happyPath = for {
+    val happyPath: Option[Result] = for {
       transactionId <- request.cookies.getString(TransactionIdCacheKey)
-      viewModel <- List(
-        request.cookies.getModel[VehicleAndKeeperDetailsModel].map(m => VrmLockedViewModel(m, _: String, _: Long)),
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(m => VrmLockedViewModel(m, _: String, _: Long))
-      ).flatten.headOption
+      vehicleAndKeeperLookupFormModel <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
     } yield {
       logMessage(request.cookies.trackingId, Debug, "VrmLocked - Displaying the vrm locked error page")
       val timeString = model.dateTimeISOChronology
       val javascriptTimestamp = DateTime.parse(timeString).getMillis
-      Ok(views.html.vrm_assign.vrm_locked(transactionId, viewModel(timeString, javascriptTimestamp),
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel]))
+      Ok(views.html.vrm_assign.vrm_locked(
+        transactionId,
+        VrmLockedViewModel(vehicleAndKeeperLookupFormModel, timeString, javascriptTimestamp)
+      ))
     }
 
     happyPath.getOrElse {

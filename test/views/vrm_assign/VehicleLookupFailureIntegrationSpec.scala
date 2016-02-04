@@ -14,6 +14,7 @@ import pages.vrm_assign.VehicleLookupFailurePage
 import pages.vrm_assign.VehicleLookupFailurePage.exit
 import pages.vrm_assign.VehicleLookupFailurePage.tryAgain
 import pages.vrm_assign.VehicleLookupPage
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -52,8 +53,8 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
       element.getAttribute("name") should equal("contact-info-wrapper")
-      element.isDisplayed() should equal(true)
-      element.getText().contains("Telephone") should equal(true)
+      element should be ('displayed)
+      element.getText.contains("Telephone") should equal(true)
     }
 
     "not contain contact information with a document reference mismatch" taggedAs UiTag in new WebBrowserForSelenium  {
@@ -62,7 +63,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       intercept[org.openqa.selenium.NoSuchElementException] {
-        val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
+        val _: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
       }
     }
 
@@ -80,8 +81,24 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to BeforeYouStartPage
       cacheFailureSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include("Vehicle make")
-      pageSource should not include("Vehicle model")
+      pageSource should not include "Vehicle make"
+      pageSource should not include "Vehicle model"
+    }
+  }
+
+  "registration numbers" should {
+    "be correctly formatted" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheFailureSetup()
+      go to VehicleLookupFailurePage
+
+      val regNumbers = webDriver.findElements(By.className("reg-number")).iterator()
+      val displayedReg = regNumbers.next.getText
+      val displayedVRN = regNumbers.next.getText
+
+      // Trim the result of formatVrm because Selenium trims any WebElement text.
+      displayedReg should be (formatVrm(displayedReg.filter(p => !p.isSpaceChar)).trim)
+      displayedVRN should be (formatVrm(displayedVRN.filter(p => !p.isSpaceChar)).trim)
     }
   }
 

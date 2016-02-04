@@ -1,6 +1,5 @@
 @(transactionId: String,
         viewModel: models.VehicleLookupFailureViewModel,
-        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
         captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel],
         responseMessage: Option[String] = None,
         responseLink: Option[String] = None
@@ -56,9 +55,7 @@
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p4")</p>
 
         </div>
-        @failure_playback(
-        viewModel, vehicleAndKeeperLookupFormModel
-        )
+        @failure_playback(viewModel)
         <div class="form-steps">
             <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vehicle-lookup-failure-cert-number-try-again")</a>
             <br/>

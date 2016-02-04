@@ -48,7 +48,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
                                     captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel)
                                    (implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
+      case Some(details) => VehicleLookupFailureViewModel(details, vehicleAndKeeperLookupForm.replacementVRN)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
@@ -57,7 +57,6 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
     Ok(views.html.vrm_assign.payment_failure(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
       captureCertificateDetailsFormModel = captureCertificateDetailsFormModel,
       trackingId = trackingId)
     ).discardingCookies(removeCookiesOnExit)

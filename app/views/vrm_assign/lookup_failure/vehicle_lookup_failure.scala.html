@@ -1,7 +1,6 @@
 @(transactionId: String,
         viewModel: models.VehicleLookupFailureViewModel,
-        responseCodeVehicleLookupMSErrorMessage: String,
-        vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel
+        responseCodeVehicleLookupMSErrorMessage: String
         )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -26,7 +25,6 @@
 
         @failure_playback(
             viewModel = viewModel,
-            vehicleAndKeeperLookupFormModel = vehicleAndKeeperLookupFormModel,
             showContactDetails = (responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch")
         )
 

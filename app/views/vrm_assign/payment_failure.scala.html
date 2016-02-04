@@ -1,6 +1,5 @@
 @(transactionId: String,
         vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
-        data: models.VehicleAndKeeperLookupFormModel,
         captureCertificateDetailsFormModel: models.CaptureCertificateDetailsFormModel,
         trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -29,9 +28,7 @@
         </div>
         @failure_playback(
             vehicleLookupFailureViewModel,
-            data,
-            showContactDetails = true,
-            showVehicleDetails = true
+            showContactDetails = true
         )
 
         @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
