@@ -1,8 +1,6 @@
 package webserviceclients.fakes
 
-import play.api.http.Status.INTERNAL_SERVER_ERROR
-import play.api.http.Status.OK
-import play.api.http.Status.SERVICE_UNAVAILABLE
+import play.api.http.Status.{NOT_FOUND, OK, SERVICE_UNAVAILABLE}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 import vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
@@ -81,7 +79,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   val vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
     VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR,
+    (NOT_FOUND,
       Some(Left(VehicleAndKeeperLookupFailureResponse(
         MicroserviceResponse("200", "vehicle_lookup_vrm_not_found")))
       )
@@ -89,7 +87,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   val vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
     VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(RecordMismatch))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(RecordMismatch))))
 
   val vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
     VehicleAndKeeperLookupSuccessResponse]]) =
