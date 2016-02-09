@@ -19,17 +19,10 @@ final class VrmAssignFulfilServiceImpl @Inject()(ws: VrmAssignFulfilWebService,
   override def invoke(cmd: VrmAssignFulfilRequest, trackingId: TrackingId): Future[(Int, VrmAssignFulfilResponseDto)] = {
     import VrmAssignFulfilServiceImpl.ServiceName
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) {
+      if (resp.status == Status.OK || resp.status == Status.FORBIDDEN) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         (resp.status, resp.json.as[VrmAssignFulfilResponseDto])
-      }
-      else if (resp.status == Status.INTERNAL_SERVER_ERROR) {
-        val msg = s"Vrm Assign Fulfil micro-service call http status not OK, it was: ${resp.status}"
-        val error = new RuntimeException(msg)
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, error))
-        (resp.status, resp.json.as[VrmAssignFulfilResponseDto])
-      }
-      else {
+      } else {
         val error = new RuntimeException(
           "Vrm Assign Fulfil micro service call http status not OK, it " +
             s"was: ${resp.status}. Problem may come from either vrm-assign-fulfil micro-service or VSS"

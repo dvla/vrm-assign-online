@@ -311,7 +311,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
       response =>
         response match {
-          case (INTERNAL_SERVER_ERROR, failure) => fulfilFailure(failure.response.get)
+          case (FORBIDDEN, failure) => fulfilFailure(failure.response.get)
           case (OK, success) =>
             success.vrmAssignFulfilResponse.documentNumber match {
               case Some(documentNumber) =>

@@ -1,7 +1,8 @@
 package webserviceclients.fakes
 
-import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK}
+import play.api.http.Status.{FORBIDDEN, OK}
 import webserviceclients.vrmassignfulfil.{VrmAssignFulfilResponse, VrmAssignFulfilResponseDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 
 object VrmAssignFulfilWebServiceConstants {
 
@@ -12,6 +13,15 @@ object VrmAssignFulfilWebServiceConstants {
       VrmAssignFulfilResponseDto(
         None,
         VrmAssignFulfilResponse(Some("stub-document-number"))
+      )
+    )
+  }
+
+  def vrmAssignFulfilResponseFailure: (Int, VrmAssignFulfilResponseDto) = {
+    (FORBIDDEN,
+      VrmAssignFulfilResponseDto(
+        Some(MicroserviceResponse("X9999", "unknownErrorCode")),
+        VrmAssignFulfilResponse(None)
       )
     )
   }

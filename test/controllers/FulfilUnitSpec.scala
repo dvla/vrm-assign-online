@@ -5,6 +5,7 @@ import composition.RefererFromHeaderBinding
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
+import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilFailure
 import controllers.Payment.AuthorisedStatus
 import email.{AssignEmailServiceImpl, AssignEmailService}
 import helpers.UnitSpec
@@ -74,8 +75,18 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "send a payment email to the registered keeper only and not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
-      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+    "redirect to Assign Failure with a reg number that cannot be assigned" in new WithApplication {
+      val (fulfilController, _) = fulfilControllerAndWebServiceMock((new VrmAssignFulfilFailure).stub)
+      val result = fulfilController.fulfil(requestWithUnassignableRegNumber())
+
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some("/fulfil-failure"))
+      }
+    }
+
+    "send a payment email to the registered keeper only and not to the business when " +
+    "registered keeper is chosen and keeper email is supplied" in new WithApplication {
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
       // user type: keeper
@@ -104,7 +115,7 @@ class FulfilUnitSpec extends UnitSpec {
     "send a payment email to the business acting on behalf of the keeper and " +
       "not to the keeper when business is chosen and send retention success emails " +
       "to both business and keeper when keeper email is supplied" in new WithApplication {
-      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
       // user type: business
@@ -133,7 +144,7 @@ class FulfilUnitSpec extends UnitSpec {
 
     "send a payment email and a retention success email to the business " +
       "acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
-      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
       // user type: business
@@ -197,14 +208,29 @@ class FulfilUnitSpec extends UnitSpec {
       )
   }
 
+  private def requestWithUnassignableRegNumber(referer: String = loadBalancerUrl): FakeRequest[AnyContentAsEmpty.type] = {
+    val refererHeader = (REFERER, Seq(referer))
+    val headers = FakeHeaders(data = Seq(refererHeader))
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty)
+      .withCookies(
+        vehicleAndKeeperLookupFormModel(registrationNumber = "FF111"),
+        transactionId(),
+        captureCertificateDetailsFormModel(),
+        granteeConsent(),
+        captureCertificateDetailsModel(),
+        vehicleAndKeeperDetailsModel(registrationNumber = "FF111"),
+        confirmFormModel()
+      )
+  }
+
   private def fulfil = testInjector(
     new ValidatedCardDetails(),
     new RefererFromHeaderBinding
   ).getInstance(classOf[Fulfil])
 
-  private def fulfilControllerAndWebServiceMock: (Fulfil, VrmAssignFulfilWebService) = {
-    val webServiceMock = new TestVrmAssignFulfilWebServiceBinding
-    val mock = webServiceMock.stub
+  private def fulfilControllerAndWebServiceMock(assignWSMock: VrmAssignFulfilWebService =
+                                                (new TestVrmAssignFulfilWebServiceBinding).stub)
+                                                                              : (Fulfil, VrmAssignFulfilWebService) = {
 
     val fulfil = testInjector(
       new ValidatedCardDetails(),
@@ -212,7 +238,7 @@ class FulfilUnitSpec extends UnitSpec {
       // Bind the mock to the trait. We have a reference to the mock which we can pass out of this method
       // so client code can perform expectations on it
       new ScalaModule() {
-        override def configure(): Unit = bind[VrmAssignFulfilWebService].toInstance(mock)
+        override def configure(): Unit = bind[VrmAssignFulfilWebService].toInstance(assignWSMock)
       },
       // By default the testInjector mocks the RetainEmailService. However, we want a real instance of the
       // RetainEmailService because it contains logic that needs to be tested. So we bind a real instance
@@ -221,7 +247,7 @@ class FulfilUnitSpec extends UnitSpec {
         override def configure(): Unit = bind[AssignEmailService].toInstance(assignEmailServiceInstance)
       }
     ).getInstance(classOf[Fulfil])
-    (fulfil, mock)
+    (fulfil, assignWSMock)
   }
 
   private def assignEmailServiceInstance: AssignEmailService = {
