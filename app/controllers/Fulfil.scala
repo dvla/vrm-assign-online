@@ -130,8 +130,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     val transactionTimestampWithZone = s"$isoDateTimeString"
 
     def fulfilSuccess() = {
-
       val trackingId = request.cookies.trackingId()
+      logMessage(trackingId, Info, "Vrm assign fulfil micro-service returned success")
       // if no payment model then no outstanding fees
       paymentModel match {
         case Some(payment) =>
@@ -151,9 +151,9 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             paymentModel = paymentModel), trackingId
           )
 
-          Redirect(routes.FulfilSuccess.present()).
-            withCookie(paymentModel.get).
-            withCookie(FulfilModel.from(transactionTimestampWithZone))
+          Redirect(routes.FulfilSuccess.present())
+            .withCookie(paymentModel.get)
+            .withCookie(FulfilModel.from(transactionTimestampWithZone))
         case _ =>
           auditService2.send(AuditRequest.from(
             pageMovement = AuditRequest.ConfirmToSuccess,
@@ -172,16 +172,15 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     def fulfilFailure(response: MicroserviceResponse) = {
-      val responseCode = s"${response.code} - ${response.message}"
-
-      logMessage(request.cookies.trackingId, Debug, "VRMRetentionFulfil encountered a problem with request: " +
-        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber) + ", "  +
-        LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber) +
-        ", redirect to VehicleLookupFailure")
+      logMessage(request.cookies.trackingId, Debug, "Vrm assign fulfil micro-service failed for request with " +
+        s"referenceNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, "  +
+        s"registrationNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
+        "redirecting to FulfilFailure")
 
       val captureCertificateDetailsFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel].get
       val captureCertificateDetails = request.cookies.getModel[CaptureCertificateDetailsModel].get
       val trackingId = request.cookies.trackingId()
+      val responseCode = s"${response.code} - ${response.message}"
 
       if (paymentModel.isDefined) {
         paymentModel.get.paymentStatus = Some(Payment.SettledStatus)
@@ -309,16 +308,13 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     )
 
     vrmAssignFulfilService.invoke(vrmAssignFulfilRequest, trackingId).map {
-      response =>
-        response match {
-          case (FORBIDDEN, failure) => fulfilFailure(failure.response.get)
-          case (OK, success) =>
-            success.vrmAssignFulfilResponse.documentNumber match {
-              case Some(documentNumber) =>
-                fulfilSuccess()
-              case _ =>
-                microServiceErrorResult(message = "Document number not found in response")
-            }
+      case (FORBIDDEN, failure) => fulfilFailure(failure.response.get)
+      case (OK, success) =>
+        success.vrmAssignFulfilResponse.documentNumber match {
+          case Some(documentNumber) =>
+            fulfilSuccess()
+          case _ =>
+            microServiceErrorResult(message = "Document number not found in response")
         }
     }.recover {
       case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
