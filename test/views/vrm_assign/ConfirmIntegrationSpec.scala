@@ -75,6 +75,14 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       go to ConfirmPage
       currentUrl should equal(ConfirmPage.url)
     }
+
+    "display the page with blank address" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetupWithEmptyAddress()
+      go to ConfirmPage
+      currentUrl should equal(ConfirmPage.url)
+    }
+
   }
 
   "exit" should {
@@ -110,6 +118,15 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
+      businessDetails().
+      transactionId().
+      captureCertificateDetailsModel().
+      captureCertificateDetailsFormModel()
+
+  private def cacheSetupWithEmptyAddress()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs.
+      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperDetailsModel(emptyAddress = true).
       businessDetails().
       transactionId().
       captureCertificateDetailsModel().

@@ -72,6 +72,14 @@ object VehicleAndKeeperLookupWebServiceConstants {
     suppressedV5Flag = None
   )
 
+  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
+
+  def vehicleAndKeeperDetailsResponseUnhandledException: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
+                                                                  VehicleAndKeeperLookupSuccessResponse]]) =
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(
+      MicroserviceResponse(code = vehicleAndKeeperLookupUnhandledExceptionResponseCode, message = "unhandled_exception")
+    ))))
+
   val vehicleAndKeeperDetailsResponseSuccess: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
     VehicleAndKeeperLookupSuccessResponse]]) =
     (OK, Some(Right(VehicleAndKeeperLookupSuccessResponse(Some(vehicleAndKeeperDetails)))))
@@ -81,7 +89,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
     VehicleAndKeeperLookupSuccessResponse]]) =
     (NOT_FOUND,
       Some(Left(VehicleAndKeeperLookupFailureResponse(
-        MicroserviceResponse("200", "vehicle_lookup_vrm_not_found")))
+        MicroserviceResponse("VMPR1", "vehicle_and_keeper_lookup_vrm_not_found")))
       )
     )
 

@@ -386,7 +386,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
       new TestVehicleAndKeeperLookupWebServiceBinding(
-        vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService
+        webService = vehicleAndKeeperLookupWebService
       )
     )
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))

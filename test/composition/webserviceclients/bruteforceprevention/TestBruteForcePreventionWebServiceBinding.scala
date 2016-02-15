@@ -23,6 +23,18 @@ final class TestBruteForcePreventionWebServiceBinding(permitted: Boolean = true)
     val bruteForceStatus = if (permitted) OK else FORBIDDEN
     val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
+    when(bruteForcePreventionWebService.callBruteForce("VNF1",
+      TrackingId("default_test_tracking_id"))
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
+
+    when(bruteForcePreventionWebService.callBruteForce("H1",
+      TrackingId("default_test_tracking_id"))
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
+
+    when(bruteForcePreventionWebService.callBruteForce("I1",
+      TrackingId("default_test_tracking_id"))
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
+
     when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid,
       TrackingId("default_test_tracking_id"))
     ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))

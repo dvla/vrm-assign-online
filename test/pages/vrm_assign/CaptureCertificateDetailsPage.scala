@@ -17,7 +17,7 @@ object CaptureCertificateDetailsPage extends Page {
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Enter Certificate Details"
+  final override val title: String = "Certificate details"
 
   def documentCount(implicit driver: WebDriver) = textField(id(CertificateDocumentCountId))
 

@@ -36,6 +36,14 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
     }
 
+    "display the lookup unsuccessful page for a post code mismatch" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cachePostcodeMismatchSetup()
+      go to VehicleLookupFailurePage
+      pageTitle should equal(VehicleLookupFailurePage.title)
+    }
+
+
     "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheFailureSetup()
@@ -153,4 +161,13 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperLookupResponseCode("vrm_assign_eligibility_failure").
       vehicleAndKeeperDetailsModel()
+
+  private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+      .vehicleAndKeeperDetailsModel()
+
 }

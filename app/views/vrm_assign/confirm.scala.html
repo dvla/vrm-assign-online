@@ -35,7 +35,11 @@
                         playbackItems += (Messages("vrm_assign_confirm.keeperLabel") -> (confirmViewModel.vehicleDetails.title.getOrElse("")
                             + " " + confirmViewModel.vehicleDetails.firstName.getOrElse("")
                             + " " + confirmViewModel.vehicleDetails.lastName.getOrElse("")) )
-                        playbackItems += (Messages("vrm_assign_confirm.keeperAddressLabel") -> confirmViewModel.vehicleDetails.address.get.address.mkString("<br/>"))
+                        confirmViewModel.vehicleDetails.address match {
+                            case Some(address) => playbackItems += (Messages("vrm_assign_confirm.keeperAddressLabel") -> address.address.mkString("<br/>"))
+                            case None => playbackItems += (Messages("vrm_assign_confirm.keeperAddressLabel") -> "") //do not display address
+                        }
+
                     }
                 )()
 

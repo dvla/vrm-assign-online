@@ -3,13 +3,14 @@ package views.vrm_assign
 import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
-import org.openqa.selenium.By
-import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
-import org.scalatest.selenium.WebBrowser.{currentUrl, go}
+import helpers.vrm_assign.CookieFactoryForUISpecs
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser.{currentUrl, go, pageTitle}
 import pages.common.ErrorPanel
 import pages.vrm_assign.VehicleLookupPage.fillWith
-import pages.vrm_assign.{BeforeYouStartPage, VehicleLookupPage}
+import pages.vrm_assign.{ErrorPage, BeforeYouStartPage, CaptureCertificateDetailsPage, ConfirmBusinessPage}
+import pages.vrm_assign.{SetupBusinessDetailsPage, VehicleLookupFailurePage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -121,9 +122,66 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       "only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      fillWith(referenceNumber = "")
+      fillWith(replacementVRN = "",
+              referenceNumber = "",
+              postcode = "") // Note : postcode is effectively optional
 
-      ErrorPanel.numberOfErrors should equal(1)
+      ErrorPanel.numberOfErrors should equal(2)
     }
+
+//    "display the capture certificate page for a unhandled business exception failure" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cachePreLookupSetup()
+//      fillWith(registrationNumber = "H1") // business exception (GetVehicleAndKeeperDetailsInvalidDataException)
+//      pageTitle should equal(CaptureCertificateDetailsPage.title) // UserType = keeper (purchaser)
+//    }
+
+    "display the lookup failure page (vrm not found) for a non-unhandled business exception failure" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cachePreLookupSetup()
+//      fillWith(registrationNumber = "H1") // technical exception (GetVehicleAndKeeperDetailsTechnicalException)
+      fillWith(registrationNumber = "VNF1") // technical exception (GetVehicleAndKeeperDetailsTechnicalException)
+      currentUrl should equal(VehicleLookupFailurePage.url)
+      pageTitle should equal(VehicleLookupFailurePage.title)
+    }
+
+    "display the setup business page for a non-unhandled exception failure and business user without details" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cachePreLookupSetup()
+      fillWith(registrationNumber = "I1", isCurrentKeeper = false)
+      pageTitle should equal(ErrorPage.title)
+    }
+
+//    "display the setup business page for a non-unhandled exception failure and business user without details" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cachePreLookupSetup()
+//      fillWith(registrationNumber = "I1", isCurrentKeeper = false)
+//      pageTitle should equal(SetupBusinessDetailsPage.title)
+//    }
+
+//    "display the confirm business page for a non-unhandled exception failure and business user with details" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cacheConfirmBusinessDetailsSetup()
+//      fillWith(registrationNumber = "I1", isCurrentKeeper = false)
+//      currentUrl should equal(ConfirmBusinessPage.url)
+//    }
+
   }
+
+  private def cachePreLookupSetup()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+
+  private def cacheConfirmBusinessDetailsSetup()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .businessDetails()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .setupBusinessDetails()
+      .storeBusinessDetailsConsent(consent = "true")
+      //fulfilModel must be None
+
 }

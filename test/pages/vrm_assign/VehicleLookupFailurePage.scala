@@ -16,6 +16,7 @@ object VehicleLookupFailurePage extends Page {
   final override val title: String = "Unable to find vehicle record"
   final val directToPaperTitle: String = "This registration number cannot be assigned online"
   final val failureTitle: String = "This registration number cannot be assigned"
+//  final val certNumMismatchTitle: String = "Certificate reference number could not be found"
 
   def tryAgain(implicit driver: WebDriver) = find(id(VehicleLookupId)).get
 
