@@ -146,46 +146,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     val trackingId = request.cookies.trackingId()
     if (responseCode.code.startsWith(vehicleAndKeeperLookupUnhandledExceptionResponseCode)) {
         addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
-
-//      if (formModel.userType == UserType_Keeper) {
-//        auditService2.send(AuditRequest.from(
-//          pageMovement = AuditRequest.VehicleLookupToCaptureCertificateDetails,
-//          transactionId = txnId,
-//          timestamp = dateService.dateTimeISOChronology,
-//          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//          rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")), trackingId
-//        )
-//
-//        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), txnId)
-//          .withCookie(vehicleAndKeeperDetailsModel)
-//      } else {
-//        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-//        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-//        if (storeBusinessDetails && businessDetailsModel.isDefined) {
-//          auditService2.send(AuditRequest.from(
-//            pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
-//            transactionId = txnId,
-//            timestamp = dateService.dateTimeISOChronology,
-//            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//            businessDetailsModel = businessDetailsModel,
-//            rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")), trackingId
-//          )
-//
-//          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), txnId)
-//            .withCookie(vehicleAndKeeperDetailsModel)
-//        } else {
-//          auditService2.send(AuditRequest.from(
-//            pageMovement = AuditRequest.VehicleLookupToCaptureActor,
-//            transactionId = txnId,
-//            timestamp = dateService.dateTimeISOChronology,
-//            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-//            rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")), trackingId
-//          )
-//
-//          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), txnId).
-//            withCookie(vehicleAndKeeperDetailsModel)
-//        }
-//      }
     } else {
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,

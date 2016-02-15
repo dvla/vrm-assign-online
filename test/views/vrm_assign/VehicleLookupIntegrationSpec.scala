@@ -129,17 +129,9 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(2)
     }
 
-//    "display the capture certificate page for a unhandled business exception failure" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cachePreLookupSetup()
-//      fillWith(registrationNumber = "H1") // business exception (GetVehicleAndKeeperDetailsInvalidDataException)
-//      pageTitle should equal(CaptureCertificateDetailsPage.title) // UserType = keeper (purchaser)
-//    }
-
     "display the lookup failure page (vrm not found) for a non-unhandled business exception failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cachePreLookupSetup()
-//      fillWith(registrationNumber = "H1") // technical exception (GetVehicleAndKeeperDetailsTechnicalException)
       fillWith(registrationNumber = "VNF1") // technical exception (GetVehicleAndKeeperDetailsTechnicalException)
       currentUrl should equal(VehicleLookupFailurePage.url)
       pageTitle should equal(VehicleLookupFailurePage.title)
@@ -152,20 +144,6 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       pageTitle should equal(ErrorPage.title)
     }
 
-//    "display the setup business page for a non-unhandled exception failure and business user without details" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cachePreLookupSetup()
-//      fillWith(registrationNumber = "I1", isCurrentKeeper = false)
-//      pageTitle should equal(SetupBusinessDetailsPage.title)
-//    }
-
-//    "display the confirm business page for a non-unhandled exception failure and business user with details" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheConfirmBusinessDetailsSetup()
-//      fillWith(registrationNumber = "I1", isCurrentKeeper = false)
-//      currentUrl should equal(ConfirmBusinessPage.url)
-//    }
-
   }
 
   private def cachePreLookupSetup()(implicit webDriver: WebDriver) =
@@ -173,15 +151,5 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       .transactionId()
       .bruteForcePreventionViewModel()
 
-  private def cacheConfirmBusinessDetailsSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .businessDetails()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .setupBusinessDetails()
-      .storeBusinessDetailsConsent(consent = "true")
-      //fulfilModel must be None
 
 }

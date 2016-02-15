@@ -56,10 +56,6 @@ final class TestVehicleAndKeeperLookupWebServiceBinding(
     when(webService.invoke(Matchers.refEq(exceptionTestRequest1, "dmsHeader", "referenceNumber", "transactionTimestamp"),
                           any[TrackingId]))
       .thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseUnhandledException))
-//                  Future.successful(createResponse(vehicleAndKeeperDetailsResponseVRMNotFound))
-
-        //                  Future.successful(createResponse(vehicleAndKeeperDetailsResponseDocRefNumberNotLatest))
-//                  Future.successful(createResponse(vehicleAndKeeperDetailsResponseUnhandledException))
       )
 
     when(webService.invoke(Matchers.refEq(exceptionTestRequest2, "dmsHeader", "referenceNumber", "transactionTimestamp"),
