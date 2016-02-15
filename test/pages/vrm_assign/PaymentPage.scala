@@ -2,7 +2,7 @@ package pages.vrm_assign
 
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{find, id, pwdField, textField}
+import org.scalatest.selenium.WebBrowser.{find, cssSelector, id, name, pwdField, textField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.Payment.AcsPassword
@@ -15,6 +15,7 @@ import views.vrm_assign.Payment.ExpiryYear
 import views.vrm_assign.Payment.IFrame
 import views.vrm_assign.Payment.NoJavaScriptContinueButton
 import views.vrm_assign.Payment.PayNow
+import views.vrm_assign.Payment.Submit
 
 object PaymentPage extends Page {
 
@@ -46,5 +47,7 @@ object PaymentPage extends Page {
 
   def acsPassword(implicit driver: WebDriver) = pwdField(id(AcsPassword))
 
-  def noJavaScriptContinueButton(implicit driver: WebDriver) = find(id(NoJavaScriptContinueButton)).get
+  def noJavaScriptContinueButton(implicit driver: WebDriver) = find(cssSelector(NoJavaScriptContinueButton)).get
+
+  def submitButton(implicit driver: WebDriver) = find(name(Submit)).get
 }

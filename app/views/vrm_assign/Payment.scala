@@ -10,14 +10,16 @@ object Payment {
   final val PaymentDetailsCacheKey = s"${CacheKeyPrefix}payment-details"
   final val PaymentTransNoCacheKey = s"${CacheKeyPrefix}payment-trans-no"
 
-  // Logic Group Iframe
   final val CardholderName = "cardholderName"
   final val CardNumber = "cardNumber"
   final val CardSecurityCode = "csc"
+  // Logic Group Iframe
   final val IFrame = "#main > div > div.section-content > iframe"
   final val ExpiryMonth = "expiryMonth"
   final val ExpiryYear = "expiryYear"
   final val PayNow = "btnSubmit"
   final val AcsPassword = "acsPassword"
-  final val NoJavaScriptContinueButton = "noJavaScriptContinueButton"
+  // Need to find by class as the Continue buttons have different ids.
+  final val NoJavaScriptContinueButton = ".noJsContinueButton"
+  final val Submit = "submit"
 }

@@ -5,7 +5,9 @@ import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleS
 import pages.vrm_assign.PaymentPage
 import pages.vrm_assign.PaymentPage.expiryMonth
 import pages.vrm_assign.PaymentPage.expiryYear
+import pages.vrm_assign.PaymentPage.noJavaScriptContinueButton
 import pages.vrm_assign.PaymentPage.payNow
+import pages.vrm_assign.PaymentPage.submitButton
 import pages.vrm_assign.PaymentPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
@@ -37,7 +39,6 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver)
 
   def `paynow` = {
     click on payNow
-
     this
   }
 
@@ -52,6 +53,22 @@ final class PaymentPageSteps(implicit webDriver: WebBrowserDriver)
       pageSource should include("Please enter your password")
       PaymentPage.acsPassword.value = "password"
       submit()
+    }
+    this
+  }
+
+  def `no javascript continue` = {
+    eventually {
+      pageSource should include("please click the Continue button below.")
+      noJavaScriptContinueButton.underlying.submit()
+    }
+    this
+  }
+
+  def `no javascript submit` = {
+    eventually {
+      pageSource should include("please click the Submit button below.")
+      submitButton.underlying.submit()
     }
     this
   }

@@ -13,12 +13,12 @@ import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
 import pages.ConfirmBusinessPageSteps
 import pages.ConfirmPageSteps
+import pages.ConfirmPaymentPageSteps
 import pages.PaymentPageSteps
 import pages.SetupBusinessDetailsPageSteps
 import pages.VehicleLookupPageSteps
 import pages.VrmLockedPageSteps
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
-import scala.concurrent.duration.DurationInt
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
@@ -26,6 +26,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
   private val vehicleLookup = new VehicleLookupPageSteps()
   private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()
   private val confirm = new ConfirmPageSteps()
+  private val confirmPayment = new ConfirmPaymentPageSteps()
   private val payment = new PaymentPageSteps()
   private val vrmLocked = new VrmLockedPageSteps()
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
@@ -49,6 +50,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
     vehicleLookup.`happy path for keeper`
     captureCertificateDetails.`happy path`
     confirm.`happy path`
+    confirmPayment.`happy path`
   }
 
   @When("^I enter payment details as \"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
@@ -64,6 +66,10 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
   @When("^proceed to the payment$")
   def `proceed to the payment`() = {
     payment.`paynow`
+    payment.`no javascript continue`
+    payment.`enter password`
+    payment.`no javascript submit`
+    payment.`no javascript continue`
   }
 
   @Then("^following \"(.*?)\" should be displayed$")
@@ -71,14 +77,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
     eventually {
       pageSource should include(Message)
     }
-    if (Message == "Payment Successful") {
-      pageTitle should include(Message)
-    }
-    else if (Message == "Payment Cancelled or Not Authorised") {
-      pageTitle should include("/payment-not-authorised")
-    }
-    else
-      fail(s"not the message we expected: $Message")
   }
 
   /** DO NOT REMOVE **/

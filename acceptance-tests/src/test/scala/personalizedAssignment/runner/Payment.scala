@@ -1,4 +1,4 @@
-package PersonalizedAssignment.runner
+package PersonalizedAssignment.runner.browser
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber
@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-  features = Array("acceptance-tests/src/test/resources/personalizedAssignment/Navigation.feature"),
+  features = Array("acceptance-tests/src/test/resources/personalizedAssignment/Payment.feature"),
   glue = Array("personalizedAssignment.stepDefs")
 )
-class Navigation
+class Payment
