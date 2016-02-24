@@ -475,24 +475,7 @@ vrm_assign_leave_feedback.feedback = rhoi adborth
 vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 
 # feedback
-common_feedback.title = Rhowch adborth
-common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
-common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch ebost
-common_feedback.label = Beth aeth o’i le os o gwbl beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
-common_feedback.charactersRemaining = nodau’n weddill
-common_feedback.submit_button = Cyflwyno adborth
-common_feedback.thankyou = Diolch i chi am eich adborth
 common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
-common_feedback.name = Enw
-common_feedback.email = Ebost
-common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
-error.feedback = Ni all yr adborth fod yn fwy na 500 o nodau
-error.feedbackName = Ni all yr enw fod yn fwy na 60 o nodau
-feedbackEmail = Ebost
-feedbackName = Enw
-feedback = Ffurflen adborth
-feedback_return = ◄ Dychwelyd at eich cais
-feedback_close = Caewch y dudalen er mwyn dychwelyd at eich cais
 
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
