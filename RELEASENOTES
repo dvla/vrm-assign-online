@@ -1,3 +1,10 @@
+======= 1.28 =====
+Time of release binaries creation:
+
+
+DE845 	Feedback - error message wording
+US4206 	Change gatling tests to only log failures
+
 ======= 1.27 =====
 Time of release binaries creation:
 Wed Feb 17 15:38:58 UTC 2016
