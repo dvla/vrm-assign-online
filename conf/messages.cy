@@ -373,8 +373,6 @@ assign-application-details-telephone-number-extension3 = pan ofynnir amdano)
 assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08.00 - 19.00
 assign-application-details-saturday = Dydd sadwrn: 08.00 - 14.00
 assign-application-details-sunday = Dydd sul: ar gau
-assign-application-details-textphone = Ffôn testun
-assign-application-details-textphone-number = 18001 0300 123 1379
 
 vrm_assign_success.title = Cais yn llwyddiannus
 vrm_assign_success.subtitle = Gellir ei roi ar y cerbyd nawr
@@ -462,8 +460,6 @@ email.failure.line11 = Dydd llun i ddydd gwener: 08:00 to 18:00
 email.failure.line12 = Dydd sadwrn: 08:00 to 14:00
 email.failure.line13 = Dydd sul: ar gau
 email.failure.line14 =
-email.failure.line15 = Ffôn testun:
-email.failure.line16 = 18001 0300 123 1379
 
 email.email_service_impl.subject = ar gerbyd
 vrm_assign_failure.title = Trafodion yn aflwyddiannus

@@ -376,8 +376,6 @@ assign-application-details-telephone-number-extension3 = when prompted)
 assign-application-details-monday-to-friday = Monday to Friday: 08.00 - 19.00
 assign-application-details-saturday = Saturday: 08.00 - 14.00
 assign-application-details-sunday = Sunday: Closed
-assign-application-details-textphone = Textphone
-assign-application-details-textphone-number = 18001 0300 123 1379
 
 vrm_assign_success.title = Application successful
 vrm_assign_success.subtitle = Can now be put on the vehicle
@@ -465,8 +463,6 @@ email.failure.line11 = Monday to Friday: 08:00 to 18:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
 email.failure.line14 =
-email.failure.line15 = Textphone:
-email.failure.line16 = 18001 0300 123 1379
 
 email.email_service_impl.subject = can be put on vehicle
 vrm_assign_failure.title = Transaction not successful
