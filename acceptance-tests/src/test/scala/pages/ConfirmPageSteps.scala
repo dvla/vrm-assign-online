@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.ConfirmPage.{confirm, `don't supply keeper email`, GranteeConsent, url}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver

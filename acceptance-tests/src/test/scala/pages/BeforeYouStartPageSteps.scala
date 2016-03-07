@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.BeforeYouStartPage.startNow

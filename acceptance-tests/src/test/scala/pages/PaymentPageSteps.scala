@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_assign.PaymentPage
 import pages.vrm_assign.PaymentPage.expiryMonth

@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.ConfirmPaymentPage.confirm
 import pages.vrm_assign.ConfirmPaymentPage.url

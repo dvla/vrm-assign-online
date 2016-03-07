@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_assign.SuccessPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver

@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource}
 import pages.vrm_assign.VehicleLookupPage.currentKeeperNo
 import pages.vrm_assign.VehicleLookupPage.currentKeeperYes

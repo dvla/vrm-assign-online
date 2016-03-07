@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{className, cssSelector, currentUrl, Element, find, findAll, pageSource}
 import pages.vrm_assign.VehicleLookupFailurePage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver

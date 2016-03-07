@@ -1,4 +1,4 @@
-package PersonalizedAssignment.runner.browser
+package PersonalizedAssignment.runner
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber

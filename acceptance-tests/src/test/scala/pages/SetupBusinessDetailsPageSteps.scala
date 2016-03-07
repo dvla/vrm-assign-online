@@ -1,6 +1,5 @@
 package pages
 
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_assign.SetupBusinessDetailsPage.businessAddressWidget
 import pages.vrm_assign.SetupBusinessDetailsPage.lookup
