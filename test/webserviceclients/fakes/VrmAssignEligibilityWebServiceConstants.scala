@@ -16,7 +16,7 @@ object VrmAssignEligibilityWebServiceConstants {
   def vrmAssignEligibilityResponseDirectToPaperError = {
     (FORBIDDEN,
       VrmAssignEligibilityResponseDto(
-        Some(MicroserviceResponse("A5096", "vrm_assign_eligibility_direct_to_paper")),
+        Some(MicroserviceResponse("", "vrm_assign_eligibility_direct_to_paper")),
         VrmAssignEligibilityResponse(Some(new DateTime().minus(Period.years(2))))
       )
     )
@@ -25,7 +25,7 @@ object VrmAssignEligibilityWebServiceConstants {
   def vrmAssignEligibilityResponseNotEligibleError = {
     (FORBIDDEN,
       VrmAssignEligibilityResponseDto(
-        Some(MicroserviceResponse("U1122", "vrm_assign_eligibility_failure")),
+        Some(MicroserviceResponse("", "vrm_assign_eligibility_failure")),
         VrmAssignEligibilityResponse(Some(new DateTime().minus(Period.years(2))))
       )
     )

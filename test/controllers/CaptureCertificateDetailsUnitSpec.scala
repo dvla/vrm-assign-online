@@ -12,6 +12,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import org.joda.time.{DateTime, Days, Years}
 import org.joda.time.format.DateTimeFormat
 import org.mockito.Mockito.{times, verify}
 import pages.vrm_assign.ConfirmBusinessPage
@@ -120,7 +121,15 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-              model.outstandingDates.size should equal(2)
+
+              val renewalDate = new DateTime(2015, 3, 9, 0, 0).toLocalDate // config.renewalFeeAbolitionDate
+              val certificateExpiryDate = model.certificateExpiryDate.get.toLocalDate
+
+              val daysDiff =  Days.daysBetween(certificateExpiryDate, renewalDate).getDays
+              val yearsDiff = Years.yearsBetween(certificateExpiryDate, renewalDate).getYears
+              val totalYears = yearsDiff + { if (daysDiff > 0) 1 else 0 }
+
+              model.outstandingDates.size should equal(totalYears)
             case None => fail(s"$cookieName cookie not found")
           }
       }
