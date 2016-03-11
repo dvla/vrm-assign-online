@@ -119,6 +119,18 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     )
   }
 
+  @When("^I enter data in the \"(.*?)\",\"(.*?)\",\"(.*?)\" and \"(.*?)\" that does match a valid vehicle record$")
+  def `i enter data in the and that does match a valid vehicle record`(replacementVRN: String,
+                                                                           vehicleRegistrationNumber: String,
+                                                                           documentReferenceNumber: String,
+                                                                           postcode: String) {
+    user.`perform vehicle lookup (trader acting)`(replacementVRN,
+      vehicleRegistrationNumber,
+      documentReferenceNumber,
+      postcode
+    )
+  }
+
   @Then("^the vrm not found page is displayed$")
   def `the vrm not found page is displayed`() {
     vehicleNotFound.`is displayed`
@@ -129,6 +141,12 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   def `the doc ref mismatch page is displayed`() {
     vehicleNotFound.`is displayed`
       .`has 'doc ref mismatch' message`
+  }
+
+  @Then("^the postcode mismatch page is displayed$")
+  def `the postcode mismatch page is displayed`() {
+    vehicleNotFound.`is displayed`
+      .`has 'postcode mismatch' message`
   }
 
   //Scenario 4

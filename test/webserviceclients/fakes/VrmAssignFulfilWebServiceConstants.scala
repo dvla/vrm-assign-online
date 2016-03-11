@@ -7,6 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.Microse
 object VrmAssignFulfilWebServiceConstants {
 
   final val TransactionTimestampValid = "2014-10-11 11:51"
+  final val FailureCodeUndefined = "blah"
 
   def vrmAssignFulfilResponseSuccess: (Int, VrmAssignFulfilResponseDto) = {
     (OK,

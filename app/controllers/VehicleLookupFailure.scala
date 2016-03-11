@@ -11,14 +11,15 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import utils.helpers.Config
 import views.html.vrm_assign.lookup_failure.cert_number_mismatch
 import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.eligibility
 import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey}
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -29,15 +30,19 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey),
+      request.cookies.getModel[MicroserviceResponseModel],
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getModel[CaptureCertificateDetailsModel]) match {
-      case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm),
-      Some(vehicleLookupResponseCode), captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
+      case (Some(transactionId),
+            Some(bruteForcePreventionResponse),
+            Some(vehicleAndKeeperLookupForm),
+            Some(msResponseModel),
+            captureCertificateDetailsFormModel,
+            captureCertificateDetailsModel) =>
         displayVehicleLookupFailure(transactionId,
           vehicleAndKeeperLookupForm,
           bruteForcePreventionResponse,
-          vehicleLookupResponseCode,
+          msResponseModel,
           captureCertificateDetailsFormModel,
           captureCertificateDetailsModel
         )
@@ -63,7 +68,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           bruteForcePreventionModel: BruteForcePreventionModel,
-                                          vehicleAndKeeperLookupResponseCode: String,
+                                          msResponseModel: MicroserviceResponseModel,
                                           captureCertificateDetailsFormModel: Option[CaptureCertificateDetailsFormModel],
                                           captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
@@ -71,7 +76,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
 
     val intro = "VehicleLookupFailure is"
-    val failurePage = vehicleAndKeeperLookupResponseCode match {
+    val failurePage = msResponseModel.msResponse.message match {
       case "vrm_assign_eligibility_direct_to_paper" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
@@ -199,9 +204,9 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
+          responseCodeVehicleLookupMSErrorMessage = msResponseModel.msResponse.message
         )
     }
-    Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    Ok(failurePage).discardingCookies(DiscardingCookie(name = MsResponseCacheKey))
   }
 }

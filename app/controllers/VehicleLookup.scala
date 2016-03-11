@@ -10,6 +10,7 @@ import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -17,8 +18,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
@@ -36,7 +37,6 @@ import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_assign.VehicleLookup.PostcodeId
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Keeper
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import views.vrm_assign.VehicleLookup.ReplacementVRN
 import webserviceclients.audit2
@@ -54,7 +54,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
-  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
+  override val responseCodeCacheKey: String = MsResponseCacheKey
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel,
                          formModel: VehicleAndKeeperLookupFormModel)
@@ -181,7 +181,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       )
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-        withCookie(responseCodeCacheKey, "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)

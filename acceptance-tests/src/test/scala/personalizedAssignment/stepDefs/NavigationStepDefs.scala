@@ -27,7 +27,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDri
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentDetailsCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
@@ -192,7 +192,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends hel
         webDriver.manage().getCookieNamed(FulfilCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(PaymentDetailsCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupFormModelCacheKey) should equal(null)
-        webDriver.manage().getCookieNamed(VehicleAndKeeperLookupResponseCodeCacheKey) should equal(null)
+        webDriver.manage().getCookieNamed(MsResponseCacheKey) should equal(null)
       case "not wiped" => println("not wiped")
       case "-" => println("not created in the first place")
 

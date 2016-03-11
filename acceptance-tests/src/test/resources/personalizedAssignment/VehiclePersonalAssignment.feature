@@ -42,6 +42,13 @@ Feature: Assignment of Vehicle
     And reset the "F1" so it won't be locked next time we run the tests
 
   @UnHappyPath
+  Scenario: Postcode Mismatch
+    When I enter data in the "A2","A1","11111111111" and "SA11AA" that does match a valid vehicle record
+    Then the postcode mismatch page is displayed
+    And the contact information is displayed
+    And reset the "A1" so it won't be locked next time we run the tests
+
+  @UnHappyPath
   Scenario: Vehicle not Eligible
     When I enter data in the "FF11","11111111111" and "SA11AA" for a vehicle that is not eligible for retention
     Then the vehicle not eligible page is displayed

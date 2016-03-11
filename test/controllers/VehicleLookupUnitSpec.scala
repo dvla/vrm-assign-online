@@ -29,6 +29,7 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -46,7 +47,6 @@ import views.vrm_assign.VehicleLookup.PostcodeId
 import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNForm}
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
@@ -282,7 +282,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
           PaymentTransNoCacheKey, TransactionIdCacheKey, bruteForcePreventionViewModelCacheKey,
-          VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+          MsResponseCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
@@ -308,7 +308,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
             bruteForcePreventionViewModelCacheKey,
-            VehicleAndKeeperLookupResponseCodeCacheKey,
+            MsResponseCacheKey,
             VehicleAndKeeperLookupFormModelCacheKey
             )
       }

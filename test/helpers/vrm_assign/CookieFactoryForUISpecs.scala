@@ -16,15 +16,13 @@ import play.Play
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
-import uk.gov.dvla.vehicles.presentation.common.model.Address
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, Address, AddressModel, BruteForcePreventionModel, SearchFields, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.SearchFields
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import views.vrm_assign
 import views.vrm_assign.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
@@ -36,7 +34,6 @@ import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.addressWithoutUprn
 import webserviceclients.fakes.AddressLookupServiceConstants.GranteeConsentValid
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
@@ -75,6 +72,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Transac
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTimestampValid
+import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.FailureCodeUndefined
 
 object CookieFactoryForUISpecs {
 
@@ -232,11 +230,9 @@ object CookieFactoryForUISpecs {
     else Some(address)
   }
 
-
-  def vehicleAndKeeperLookupResponseCode(responseCode: String)
-                                        (implicit webDriver: WebDriver) = {
-    val key = VehicleAndKeeperLookupResponseCodeCacheKey
-    val value = responseCode
+  def storeMsResponseCode(code: String = FailureCodeUndefined, message: String = "")(implicit webDriver: WebDriver) = {
+    val key = MsResponseCacheKey
+    val value = MicroserviceResponseModel(MicroserviceResponse(code, message)) //speific message value not needed
     addCookie(key, value)
     this
   }

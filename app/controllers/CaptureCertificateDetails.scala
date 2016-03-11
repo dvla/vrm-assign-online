@@ -28,7 +28,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
@@ -44,7 +44,6 @@ import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import views.vrm_assign.VehicleLookup.UserType_Business
 import views.vrm_assign.VehicleLookup.UserType_Keeper
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
@@ -242,7 +241,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       )
 
       Redirect(routes.VehicleLookupFailure.present())
-        .withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+        .withCookie(MicroserviceResponseModel.content(response))
         .withCookie(captureCertificateDetailsModel)
     }
 

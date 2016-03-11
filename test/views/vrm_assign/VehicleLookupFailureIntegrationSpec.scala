@@ -143,31 +143,31 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       transactionId().
       bruteForcePreventionViewModel().
       vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_document_reference_mismatch").
-      vehicleAndKeeperDetailsModel()
+      vehicleAndKeeperDetailsModel().
+      storeMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       transactionId().
       bruteForcePreventionViewModel().
       vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vrm_assign_eligibility_direct_to_paper").
-      vehicleAndKeeperDetailsModel()
+      vehicleAndKeeperDetailsModel().
+      storeMsResponseCode(message = "vrm_assign_eligibility_direct_to_paper")
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       transactionId().
       bruteForcePreventionViewModel().
       vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vrm_assign_eligibility_failure").
-      vehicleAndKeeperDetailsModel()
+      vehicleAndKeeperDetailsModel().
+      storeMsResponseCode(message = "vrm_assign_eligibility_failure")
 
   private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       .vehicleAndKeeperDetailsModel()
+      .storeMsResponseCode(message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
 }
