@@ -38,32 +38,25 @@
                 <li>@Messages("vrm_assign_success_payment.what-next-4")</li>
             </ul>
 
-            @if(isKeeper) {
-                <h2>@Messages("vrm_assign_success.h2a")</h2>
-                <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5")</p>
-                @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
-            }
-
-            @if(!isKeeper) {
-                <div class="info-highlight two-col">
-                    <div class="second-col">
-                        <h3>@Messages("vrm_assign_success_payment.p6")</h3>
-                        <p>@Messages("vrm_assign_success_payment.p7")</p>
-                    </div>
-                    <div class="first-col">
-                        <a id="@CreatePdfId" class="pdf-link" href="@controllers.routes.Success.createPdf()">
-                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_assign_success.newPlateLink")">
-                            @Messages("vrm_assign_success.newPlateLink")
-                        </a>
-                    </div>
+            <div class="info-highlight two-col">
+                <div class="second-col">
+                    <h3>@Messages("vrm_assign_success_payment.p6")</h3>
+                    <p>@Messages("vrm_assign_success_payment.p7")</p>
                 </div>
-            }
+                <div class="first-col">
+                    <a id="@CreatePdfId"
+                       class="pdf-link ga-track-click-event-once"
+                       href="@controllers.routes.Success.createPdf()"
+                       data-ga-event-action="@CreatePdfId">
+                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_assign_success.newPlateLink")">
+                        @Messages("vrm_assign_success.newPlateLink")
+                    </a>
+                </div>
+            </div>
 
-            @if(!isKeeper) {
-                <h2>@Messages("vrm_assign_success.h2a")</h2>
-                <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5") </p>
-                @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
-            }
+            <h2>@Messages("vrm_assign_success.h2a")</h2>
+            <p>@Messages("vrm_assign_success.p4") <b>@successViewModel.prVrm</b> @Messages("vrm_assign_success.p5") </p>
+            @alertWarning() { <h3>@Messages("vrm_assign_success.p6")</h3> }
 
             @if(successViewModel.paymentMade) {
                 @if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
@@ -146,22 +139,22 @@
 
         <div class="form-steps">
             <div class="step">
-                <button id="@PrintId" type="button" name="action" value="Print this page" class="button js-only print-button">@Messages("vrm_assign_success.buttonnavprint")</button>
+                <button id="@PrintId"
+                        type="button"
+                        name="action"
+                        value="Print this page"
+                        class="button js-only print-button ga-track-click-event-once"
+                        data-ga-event-action="@PrintId">
+                        @Messages("vrm_assign_success.buttonnavprint")
+                </button>
                 <br /><br />
-                <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_assign_finish.button")</a>
+                <a id="@FinishId"
+                   href="@controllers.routes.Success.finish()"
+                   class="exit ga-track-click-event-once"
+                   data-ga-event-action="@FinishId">
+                   @Messages("vrm_assign_finish.button")
+                </a>
             </div>
         </div>
     </div>
-
-    @if(config.googleAnalyticsTrackingId.isDefined) {
-        @if(!isKeeper) {
-            <script type="text/javascript">
-                trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
-            </script>
-        }
-
-        <script type="text/javascript">
-            trackClick(['@PrintId', '@FinishId']);
-        </script>
-    }
 }

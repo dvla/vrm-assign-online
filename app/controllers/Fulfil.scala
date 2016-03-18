@@ -151,7 +151,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             paymentModel = paymentModel), trackingId
           )
 
-          Redirect(routes.FulfilSuccess.present())
+          Redirect(routes.Success.present())
             .withCookie(paymentModel.get)
             .withCookie(FulfilModel.from(transactionTimestampWithZone))
         case _ =>
@@ -167,7 +167,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
             businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
           )
 
-          Redirect(routes.FulfilSuccess.present()).withCookie(FulfilModel.from(transactionTimestampWithZone))
+          Redirect(routes.Success.present()).withCookie(FulfilModel.from(transactionTimestampWithZone))
       }
     }
 

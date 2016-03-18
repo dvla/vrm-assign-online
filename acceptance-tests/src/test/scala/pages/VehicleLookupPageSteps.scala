@@ -15,11 +15,9 @@ import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver)
   extends helpers.AcceptanceTestHelper {
 
-  private val replacementVRN = RandomVrmGenerator.vrm
-
-  def `happy path for business` = {
+  def `happy path for business`(regNo: String = "A2") = {
     `is displayed`.
-      enter(replacementVRN = "ABC123", registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
+      enter(replacementVRN = "ABC123", registrationNumber = regNo, docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is not acting`.
       `find vehicle`
     this
@@ -50,8 +48,8 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver)
     this
   }
 
-  def `happy path for keeper` = {
-    enter(replacementVRN = "ABC123", registrationNumber = "DD22", docRefNumber = "11111111111", postcode = "SA11AA").
+  def `happy path for keeper`(regNo: String = "A2") = {
+    enter(replacementVRN = "ABC123", registrationNumber = regNo, docRefNumber = "11111111111", postcode = "SA11AA").
       `keeper is acting`.
       `find vehicle`
     this
@@ -62,8 +60,8 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver)
     this
   }
 
-  def `form is filled with the values I previously entered`() = {
-    vehicleRegistrationNumber.value should equal("DD22")
+  def `form is filled with the values I previously entered`(regNo: String = "A2") = {
+    vehicleRegistrationNumber.value should equal(regNo)
     documentReferenceNumber.value should equal("11111111111")
     keeperPostcode.value should equal("SA11AA")
     this

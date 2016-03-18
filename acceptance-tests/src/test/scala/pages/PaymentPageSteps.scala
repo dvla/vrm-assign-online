@@ -13,14 +13,15 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDri
 final class PaymentPageSteps(implicit webDriver: WebBrowserDriver)
   extends helpers.AcceptanceTestHelper {
 
-  def `happy path` = {
-    `is displayed`.
-      enter(cardholderName = "test", cardNumber = "4444333322221111", cardSecurityCode = "123").
-      `expiryDate`.
-      `paynow`.
-      `enter password`
-    this
-  }
+  def `happy path` =
+    `is displayed`
+      .enter(cardholderName = "test", cardNumber = "4444333322221111", cardSecurityCode = "123")
+      .`expiryDate`
+      .`paynow`
+      .`no javascript continue`
+      .`enter password`
+      .`no javascript submit`
+      .`no javascript continue`
 
   def `is displayed` = {
     eventually {

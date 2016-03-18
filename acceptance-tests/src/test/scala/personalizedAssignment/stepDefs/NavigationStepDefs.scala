@@ -42,55 +42,55 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends hel
   private val confirmBusiness = new ConfirmBusinessPageSteps()
   private val success = new SuccessPageSteps()
 
-  @Given( """^that I am on the "(.*?)" page$""")
-  def `that I am on the <origin> page`(origin: String) {
+  @Given( """^that I am on the "(.*?)" page with "(.*?)"$""")
+  def `that I am on the <origin> page with <vehicle-registration-number>`(origin: String, regNo: String) {
     origin match {
       case "vehicle-lookup" =>
         // Starting the service takes you to this page
         vehicleLookup.`is displayed`
       case "setup-business-details" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`is displayed`
       case "business-choose-your-address" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`happy path`
       case "confirm-business" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`happy path`
         confirmBusiness.`is displayed`
       case "capture-certificate-details (keeper acting)" =>
-        vehicleLookup.`happy path for keeper`
+        vehicleLookup.`happy path for keeper`(regNo)
         captureCertificateDetails.`is displayed`
       case "capture-certificate-details (business acting)" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`is displayed`
       case "confirm" =>
-        vehicleLookup.`happy path for keeper`
+        vehicleLookup.`happy path for keeper`(regNo)
         captureCertificateDetails.`happy path`
         confirm.`is displayed`
       case "confirm (business acting)" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`happy path`
         confirm.`is displayed`
       case "payment (keeper acting)" =>
-        vehicleLookup.`happy path for keeper`
+        vehicleLookup.`happy path for keeper`(regNo)
         captureCertificateDetails.`happy path`
         confirm.`happy path`
         confirmPayment.`happy path`
         payment.`is displayed`
       case "payment (business acting)" =>
-        vehicleLookup.`happy path for business`
+        vehicleLookup.`happy path for business`(regNo)
         setupBusinessDetails.`happy path`
         confirmBusiness.`happy path`
         captureCertificateDetails.`happy path`
         confirm.`happy path`
         confirmPayment.`happy path`
         payment.`is displayed`
-      case "success" => vehicleLookup.`happy path for keeper`
+      case "success" => vehicleLookup.`happy path for keeper`(regNo)
         captureCertificateDetails.`happy path`
         confirm.`happy path`
         confirmPayment.`happy path`
@@ -137,20 +137,20 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends hel
     }
   }
 
-  @Then("^the \"(.*?)\" form is \"(.*?)\" with the values I previously entered$")
-  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String) {
+  @Then("^the \"(.*?)\" form is \"(.*?)\" with the values I previously entered \"(.*?)\"$")
+  def `the <expected> form is <filled> with the values I previously entered`(expected: String, filled: String, regNo: String) {
     filled match {
-      case "filled" => `the <expected> form is filled with the values I previously entered`(expected)
+      case "filled" => `the <expected> form is filled with the values I previously entered <vehicle-registration-number>`(expected, regNo)
       case "not filled" => `the <expected> form is not filled with the values I previously entered`(expected)
       case e => throw new RuntimeException(s"unknown 'filled' value")
     }
   }
 
-  @Then( """^the "(.*?)" form is filled with the values I previously entered$""")
-  def `the <expected> form is filled with the values I previously entered`(expected: String) {
+  @Then( """^the "(.*?)" form is filled with the values I previously entered "(.*?)"$""")
+  def `the <expected> form is filled with the values I previously entered <vehicle-registration-number>`(expected: String, regNo: String) {
     expected match {
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`()
+      case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`(regNo)
       case "setup-business-details" => setupBusinessDetails.`form is filled with the values I previously entered`
       case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
       case "capture-certificate-details (business acting)" =>

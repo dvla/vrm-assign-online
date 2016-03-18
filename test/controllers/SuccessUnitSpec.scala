@@ -28,14 +28,17 @@ import org.scalatest.mock.MockitoSugar
 import pages.vrm_assign.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
-import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.CONTENT_DISPOSITION
+import play.api.test.Helpers.CONTENT_TYPE
 import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReplacementVRN
 
 class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
@@ -53,13 +56,10 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, _) = build
-      val result = successPayment.present(request)
-      println(contentAsString(result))
 
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
-      }
+      val (success, _) = build
+      val result = success.present(request)
+      status(result) should equal(OK)
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
@@ -74,11 +74,10 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, _) = build
-      val result = successPayment.present(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
-      }
+
+      val (success, _) = build
+      val result = success.present(request)
+      status(result) should equal(OK)
     }
 
     "call the email service when businessDetails cookie exists" in new WithApplication {
@@ -96,8 +95,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
+      val (success, emailService) = build
+      val result = success.present(request)
       whenReady(result) { r =>
         // verify no email was sent in present
         Mockito.verifyNoMoreInteractions(emailService)
@@ -118,8 +117,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
+      val (success, emailService) = build
+      val result = success.present(request)
       whenReady(result) { r =>
         // verify no email was sent in present
         Mockito.verifyNoMoreInteractions(emailService)
@@ -139,8 +138,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
+      val (success, emailService) = build
+      val result = success.present(request)
       whenReady(result) { r =>
         // verify no email was sent in present
         Mockito.verifyNoMoreInteractions(emailService)
@@ -160,8 +159,8 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
           transactionId(),
           paymentTransNo(),
           paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
+      val (success, emailService) = build
+      val result = success.present(request)
       whenReady(result) { r =>
         verify(emailService, never).emailRequest(
           any[String],
@@ -184,19 +183,39 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
   "create pdf" should {
     "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
       val request = FakeRequest().withCookies(transactionId())
-      val (successPayment, _) = build
-      val result = successPayment.createPdf(request)
+      val (success, _) = build
+      val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
     "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
       val request = FakeRequest().withCookies(fulfilModel())
-      val (successPayment, _) = build
-      val result = successPayment.createPdf(request)
+      val (success, _) = build
+      val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a pdf when the cookie exists" in pending
+    "return a pdf when the cookie exists" in new WithApplication {
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel(),
+          setupBusinessDetails(),
+          vehicleAndKeeperDetailsModel(),
+          captureCertificateDetailsFormModel(),
+          captureCertificateDetailsModel(),
+          businessDetailsModel(),
+          confirmFormModel(),
+          fulfilModel(),
+          transactionId(),
+          paymentTransNo(),
+          paymentModel())
+      val (success, _) = build
+      val result = success.createPdf(request)
+      whenReady(result) { r =>
+        r.header.status should equal(OK)
+        r.header.headers.get(CONTENT_DISPOSITION) should equal(Some(s"attachment;filename=${ReplacementVRN}-eV948.pdf"))
+        r.header.headers.get(CONTENT_TYPE) should equal(Some("application/pdf"))
+      }
+    }
   }
 
   private def build = {
@@ -205,8 +224,6 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       new ValidatedAuthorised(),
       assignEmailService
     )
-    (injector.getInstance(classOf[FulfilSuccess]), assignEmailService.stub)
+    (injector.getInstance(classOf[Success]), assignEmailService.stub)
   }
-
-  private val supplyEmailTrue = "true"
 }

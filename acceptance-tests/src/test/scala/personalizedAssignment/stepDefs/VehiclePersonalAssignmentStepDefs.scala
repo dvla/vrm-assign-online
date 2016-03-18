@@ -9,13 +9,16 @@ import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
 import pages.ConfirmBusinessPageSteps
 import pages.ConfirmPageSteps
+import pages.ConfirmPaymentPageSteps
 import pages.PaymentPageSteps
 import pages.SetupBusinessDetailsPageSteps
-import pages.VehicleLookupPageSteps
+import pages.SuccessPageSteps
 import pages.VehicleNotFoundPageSteps
+import pages.VehicleLookupPageSteps
 import pages.VrmLockedPageSteps
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
+import uk.gov.dvla.vehicles.presentation.common
+import common.helpers.webbrowser.WebBrowserDriver
+import common.testhelpers.RandomVrmGenerator
 
 final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriver)
   extends helpers.AcceptanceTestHelper {
@@ -24,7 +27,9 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   private val vehicleLookup = new VehicleLookupPageSteps()
   private val captureCertificateDetails = new CaptureCertificateDetailsPageSteps()
   private val confirm = new ConfirmPageSteps()
+  private val confirmPayment = new ConfirmPaymentPageSteps()
   private val payment = new PaymentPageSteps()
+  private val success = new SuccessPageSteps()
   private val vehicleNotFound = new VehicleNotFoundPageSteps()
   private val vrmLocked = new VrmLockedPageSteps()
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
@@ -286,6 +291,30 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
   @Then("^the confirm business details page is displayed$")
   def `the_confirm_business_details_page_is_displayed`() {
     confirmBusiness.`is displayed`
+  }
+
+  @When("^I have successfully assigned a reg mark as a private customer$")
+  def `I have successfully assigned a reg mark as a private customer`() {
+    vehicleLookup.`happy path for keeper`()
+    captureCertificateDetails.`happy path`
+    confirm.`happy path`
+    success.`is displayed`
+  }
+
+  @When("^I have successfully assigned a reg mark as a business$")
+  def `I have successfully assigned a reg mark as a business`() {
+    vehicleLookup.`happy path for business`()
+    setupBusinessDetails.`happy path`
+    confirmBusiness.`happy path`
+    captureCertificateDetails.`happy path`
+    confirm.`happy path`
+    success.`is displayed`
+  }
+
+  @Then("^the success page will contain a link to download the e-V948 pdf$")
+  def `the success page will contain a link to download the e-V948 pdf`() {
+    success.`is displayed`
+    success.`has pdf link`
   }
 
   /** DO NOT REMOVE **/

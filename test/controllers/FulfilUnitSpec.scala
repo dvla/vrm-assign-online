@@ -23,6 +23,7 @@ import helpers.WithApplication
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
+import pages.vrm_assign.SuccessPage
 import pdf.PdfService
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
@@ -43,7 +44,7 @@ class FulfilUnitSpec extends UnitSpec {
   val businessEmail = "business.example@test.com"
 
   "fulfil" should {
-    "redirect to ErrorPage when cookies do not exist" in new WithApplication {
+    "redirect to error page when cookies do not exist" in new WithApplication {
       val request = FakeRequest()
 
       val result = fulfil.fulfil(request)
@@ -53,21 +54,21 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to FulfilSuccessPage when no fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when no fees due and required cookies are present" in new WithApplication {
       val result = fulfil.fulfil(requestWithFeesNotDue())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to FulfilSuccessPage when fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when fees due and required cookies are present" in new WithApplication {
       val result = fulfil.fulfil(requestWithFeesDue())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to ErrorPage when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
+    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
       val result = fulfil.fulfil(requestWithFeesDue(paymentStatus = None))
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should
@@ -75,7 +76,7 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Assign Failure with a reg number that cannot be assigned" in new WithApplication {
+    "redirect to assign failure with a reg number that cannot be assigned" in new WithApplication {
       val (fulfilController, _) = fulfilControllerAndWebServiceMock((new VrmAssignFulfilFailure).stub)
       val result = fulfilController.fulfil(requestWithUnassignableRegNumber())
 
@@ -94,7 +95,7 @@ class FulfilUnitSpec extends UnitSpec {
       // confirmModel created with the keeper email supplied
       val result = fulfilController.fulfil(requestWithFeesDue())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])
@@ -123,7 +124,7 @@ class FulfilUnitSpec extends UnitSpec {
       // confirmModel created with the keeper email supplied
       val result = fulfilController.fulfil(requestWithFeesDue(keeperConsent = BusinessConsentValid))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])
@@ -152,7 +153,7 @@ class FulfilUnitSpec extends UnitSpec {
       // confirmModel created with no keeper email supplied
       val result = fulfilController.fulfil(requestWithFeesDue(keeperConsent = BusinessConsentValid, keeperEmail = None))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/fulfil-success"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           assignFulfilRequestArg.capture(), any[TrackingId])

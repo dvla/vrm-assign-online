@@ -24,10 +24,8 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
-import webserviceclients.paymentsolve.PaymentSolveService
 
-final class Success @Inject()(pdfService: PdfService,
-                              paymentSolveService: PaymentSolveService)
+final class Success @Inject()(pdfService: PdfService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: DateService) extends Controller with DVLALogger {
@@ -74,7 +72,6 @@ final class Success @Inject()(pdfService: PdfService,
 
   def createPdf = Action { implicit request =>
     ( request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      //request.cookies.getModel[CaptureCertificateDetailsFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(vehicleAndKeeperLookupFormModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>

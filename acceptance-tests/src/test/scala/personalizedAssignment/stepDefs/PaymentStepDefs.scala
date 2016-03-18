@@ -47,7 +47,8 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
 
   @Given("^I search and confirm the vehicle to be registered$")
   def `i search and confirm the vehicle to be registered`() = {
-    vehicleLookup.`happy path for keeper`
+    val vrnFeesDue = "DD22"
+    vehicleLookup.`happy path for keeper`(vrnFeesDue)
     captureCertificateDetails.`happy path`
     confirm.`happy path`
     confirmPayment.`happy path`

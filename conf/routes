@@ -76,11 +76,6 @@ GET         /payment-prevent-back/return-to-success        @controllers.PaymentP
 # no form on payment page so is GET the right http verb for submit
 GET         /fulfil                                        @controllers.Fulfil.fulfil
 
-GET         /fulfil-success                                @controllers.FulfilSuccess.present
-GET         /fulfil-success/create-pdf                     @controllers.FulfilSuccess.createPdf
-GET         /fulfil-success/next                           @controllers.FulfilSuccess.next
-GET         /email-stub                                    @controllers.FulfilSuccess.emailStub
-
 GET         /timeout                                       @controllers.TimeoutController.present
 GET         /timeout/exit                                  @controllers.TimeoutController.exit
 
