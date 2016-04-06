@@ -417,7 +417,6 @@ email.line5 = Eich ID trafodion yw:
 email.line6 = Gellir ei roi ar y cerbyd nawr
 email.line7 = Cyhoeddir tystysgrif gadw yn awr i’r ceidwad cofrestredig.
 email.line8 =
-email.line8.with-pdf = Rydym wedi anfon manylion y rhif cofrestru newydd atoch hefyd, gyda’r manylion isod, ynghyd â PDF o’r llythyr awdurdodi (V948) y gallwch ei lawrlwytho neu ei argraffu gan ddefnyddio’r ddolen a ddarparwyd.
 email.line9 =
 email.line10 =
 email.line11 =

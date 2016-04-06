@@ -420,7 +420,6 @@ email.line5 = Your transaction ID is:
 email.line6 = Can now be put on the vehicle
 email.line7 = A certificate of retention will be now be issued to the registered keeper.
 email.line8 =
-email.line8.with-pdf = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the letter of authorisation (eV948) which can be downloaded or printed using the link provided.
 email.line9 =
 email.line10 =
 email.line11 =

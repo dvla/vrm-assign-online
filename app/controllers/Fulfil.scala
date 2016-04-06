@@ -263,7 +263,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false, // US1589: Do not send keeper a pdf
+              sendPdf = true,
+              isKeeper = false,
               trackingId = trackingId
             )
           },
@@ -278,6 +279,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                 transactionId,
                 confirmFormModel,
                 businessDetailsModel,
+                sendPdf = vehicleAndKeeperLookupFormModel.isKeeperUserType,
                 isKeeper = true,
                 trackingId = trackingId
               )

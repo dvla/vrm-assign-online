@@ -79,105 +79,6 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val result = success.present(request)
       status(result) should equal(OK)
     }
-
-    "call the email service when businessDetails cookie exists" in new WithApplication {
-      val isKeeper = false
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-          setupBusinessDetails(),
-          businessDetailsModel(),
-          vehicleAndKeeperDetailsModel(),
-          captureCertificateDetailsFormModel(),
-          captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None),
-          fulfilModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (success, emailService) = build
-      val result = success.present(request)
-      whenReady(result) { r =>
-        // verify no email was sent in present
-        Mockito.verifyNoMoreInteractions(emailService)
-      }
-    }
-
-    "call the email service when keeper selected to supply an " +
-      "email address and did supply an email" in new WithApplication {
-      val isKeeper = true
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          captureCertificateDetailsFormModel(),
-          captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = KeeperEmailValid),
-          fulfilModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (success, emailService) = build
-      val result = success.present(request)
-      whenReady(result) { r =>
-        // verify no email was sent in present
-        Mockito.verifyNoMoreInteractions(emailService)
-      }
-    }
-
-    "not call the email service when businessDetails does not cookie" in new WithApplication {
-      val isKeeper = false
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-          vehicleAndKeeperDetailsModel(),
-          captureCertificateDetailsFormModel(),
-          captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None),
-          fulfilModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (success, emailService) = build
-      val result = success.present(request)
-      whenReady(result) { r =>
-        // verify no email was sent in present
-        Mockito.verifyNoMoreInteractions(emailService)
-      }
-    }
-
-    "not call the email service when keeper did not select to supply an email address" in new WithApplication {
-      val isKeeper = true
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          captureCertificateDetailsFormModel(),
-          captureCertificateDetailsModel(),
-          confirmFormModel(keeperEmail = None),
-          fulfilModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (success, emailService) = build
-      val result = success.present(request)
-      whenReady(result) { r =>
-        verify(emailService, never).emailRequest(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[CaptureCertificateDetailsFormModel],
-          any[CaptureCertificateDetailsModel],
-          any[VehicleAndKeeperLookupFormModel],
-          any[String],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[TrackingId]
-        )
-        Mockito.verifyNoMoreInteractions(emailService)
-      }
-    }
   }
 
   "create pdf" should {
@@ -212,7 +113,7 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       val result = success.createPdf(request)
       whenReady(result) { r =>
         r.header.status should equal(OK)
-        r.header.headers.get(CONTENT_DISPOSITION) should equal(Some(s"attachment;filename=${ReplacementVRN}-eV948.pdf"))
+        r.header.headers.get(CONTENT_DISPOSITION) should equal(Some(s"attachment;filename=$ReplacementVRN-eV948.pdf"))
         r.header.headers.get(CONTENT_TYPE) should equal(Some("application/pdf"))
       }
     }

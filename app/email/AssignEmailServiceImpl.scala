@@ -44,6 +44,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                    transactionId: String,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
+                   sendPdf: Boolean,
                    isKeeper: Boolean,
                    trackingId: TrackingId): Option[EmailServiceSendRequest] = {
 
@@ -56,13 +57,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         vehicleAndKeeperDetailsModel.firstName,
         vehicleAndKeeperDetailsModel.lastName
       ).flatten.mkString(" ")
-
-      val pdf = pdfService.create(
-        transactionId,
-        keeperName,
-        vehicleAndKeeperDetailsModel.address,
-        vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", ""), trackingId
-      )
 
       val plainTextMessage = populateEmailWithoutHtml(
         vehicleAndKeeperDetailsModel,
@@ -88,24 +82,25 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
         isKeeper
       ).toString()
 
-      //          var subject = captureCertificateDetailsFormModel.prVrm.replace(" ", "") +
       val subject = vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
         " " + vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "")
 
-      val attachment: Option[Attachment] = {
-        isKeeper match {
-          case false => Some(
-            new Attachment(
-              Base64.encodeBase64URLSafeString(pdf),
-              "application/pdf",
-              "eV948.pdf",
-              "Replacement registration number letter of authorisation"
-            )
+        val attachment: Option[Attachment] = if (sendPdf) {
+          val pdf = pdfService.create(
+            transactionId,
+            keeperName,
+            vehicleAndKeeperDetailsModel.address,
+            vehicleAndKeeperLookupFormModel.replacementVRN.replace(" ", ""), trackingId
           )
-          case true => None
-        }
-      } // US1589: Do not send keeper a pdf
+
+          Some(new Attachment(
+            Base64.encodeBase64URLSafeString(pdf),
+            "application/pdf",
+            "eV948.pdf",
+            "Replacement registration number letter of authorisation"
+          ))
+        } else None
 
       Some(new EmailServiceSendRequest(
         plainTextMessage,
@@ -119,48 +114,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
     } else {
       logMessage(trackingId, Error, s"Email not sent as email address $emailAddress is not in white list")
       None
-    }
-  }
-
-  override def sendEmail(emailAddress: String,
-                         vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
-                         captureCertificateDetailsModel: CaptureCertificateDetailsModel,
-                         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                         transactionTimestamp: String,
-                         transactionId: String,
-                         confirmFormModel: Option[ConfirmFormModel],
-                         businessDetailsModel: Option[BusinessDetailsModel],
-                         isKeeper: Boolean,
-                         trackingId: TrackingId) {
-    Future {
-      emailRequest(
-        emailAddress,
-        vehicleAndKeeperDetailsModel,
-        captureCertificateDetailsFormModel,
-        captureCertificateDetailsModel,
-        vehicleAndKeeperLookupFormModel,
-        transactionTimestamp,
-        transactionId,
-        confirmFormModel,
-        businessDetailsModel,
-        isKeeper,
-        trackingId
-      ).map { emailServiceSendRequest =>
-        logMessage(trackingId, Info, s"About to send email to $emailAddress")
-        if (emailServiceSendRequest.attachment.isDefined) {
-          logMessage(trackingId, Info, "Sending with attachment")
-        }
-
-        emailService.invoke(emailServiceSendRequest, trackingId).map {
-          response =>
-            if (isKeeper) logMessage(trackingId, Info, "Keeper email sent")
-            else logMessage(trackingId, Info, "Non-keeper email sent")
-        }.recover {
-          case NonFatal(e) =>
-            logMessage(trackingId, Error, s"Email Service web service call failed. Exception ${e.getMessage}")
-        }
-      }
     }
   }
 
@@ -228,7 +181,6 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
-//      replacementVRM = captureCertificateDetailsFormModel.prVrm,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
       outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,
       outstandingDates = captureCertificateDetailsModel.outstandingDates,

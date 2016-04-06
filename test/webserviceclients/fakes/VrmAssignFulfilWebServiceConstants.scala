@@ -21,7 +21,7 @@ object VrmAssignFulfilWebServiceConstants {
   def vrmAssignFulfilResponseFailure: (Int, VrmAssignFulfilResponseDto) = {
     (FORBIDDEN,
       VrmAssignFulfilResponseDto(
-        Some(MicroserviceResponse("X9999", "unknownErrorCode")),
+        Some(MicroserviceResponse("", "unknownErrorCode")),
         VrmAssignFulfilResponse(None)
       )
     )

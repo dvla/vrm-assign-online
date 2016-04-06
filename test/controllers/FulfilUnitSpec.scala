@@ -85,6 +85,29 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
+    "not send a payment email to the registered keeper and not to the business when " +
+    "registered keeper is chosen and keeper email is not supplied" in new WithApplication {
+      val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
+      val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
+
+      // user type: keeper
+      // businessDetailsModel is populated
+      // confirmModel created with no keeper email supplied
+      val result = fulfilController.fulfil(requestWithFeesDue(keeperEmail = None))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+
+        verify(wsMock).invoke(assignFulfilRequestArg.capture(), any[TrackingId])
+
+        val paymentSuccessReceiptEmails =
+          assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
+        paymentSuccessReceiptEmails shouldBe empty
+
+        val assignSuccessEmailRequests = assignFulfilRequestArg.getValue.successEmailRequests
+        assignSuccessEmailRequests shouldBe empty
+      }
+    }
+
     "send a payment email to the registered keeper only and not to the business when " +
     "registered keeper is chosen and keeper email is supplied" in new WithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
@@ -97,8 +120,7 @@ class FulfilUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          assignFulfilRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(assignFulfilRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails =
           assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
@@ -109,7 +131,10 @@ class FulfilUnitSpec extends UnitSpec {
         // Email for the keeper because the keeper email is specified in confirmModel.
         // No business email because the user type is keeper
         assignSuccessEmailRequests.size should equal(1)
-        assignSuccessEmailRequests.head.toReceivers should equal(Some(List(keeperEmail)))
+
+        val successEmail = assignSuccessEmailRequests.head
+        successEmail.toReceivers should equal(Some(List(keeperEmail)))
+        successEmail.attachment shouldBe defined
       }
     }
 
@@ -126,8 +151,7 @@ class FulfilUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          assignFulfilRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(assignFulfilRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails =
           assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
@@ -138,8 +162,15 @@ class FulfilUnitSpec extends UnitSpec {
         // 1 for business because user type = business and
         // 1 for keeper because the keeper email is supplied in the confirmModel
         retentionSuccessEmailRequests.size should equal(2)
-        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
-        retentionSuccessEmailRequests(1).toReceivers should equal(Some(List(keeperEmail)))
+
+        val businessSuccessEmail =  retentionSuccessEmailRequests.head
+        val keeperSuccessEmail = retentionSuccessEmailRequests(1)
+
+        businessSuccessEmail.toReceivers should equal(Some(List(businessEmail)))
+        keeperSuccessEmail.toReceivers should equal(Some(List(keeperEmail)))
+
+        businessSuccessEmail.attachment shouldBe defined
+        keeperSuccessEmail.attachment shouldBe None
       }
     }
 
@@ -155,8 +186,7 @@ class FulfilUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          assignFulfilRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(assignFulfilRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails =
           assignFulfilRequestArg.getValue.paymentSolveUpdateRequest.get.businessReceiptEmails
@@ -167,7 +197,10 @@ class FulfilUnitSpec extends UnitSpec {
         // Email for the business because the user type is business.
         // No keeper email because no keeper email supplied in ConfirmModel
         retentionSuccessEmailRequests.size should equal(1)
-        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
+
+        val successEmail = retentionSuccessEmailRequests.head
+        successEmail.toReceivers should equal(Some(List(businessEmail)))
+        successEmail.attachment shouldBe defined
       }
     }
   }

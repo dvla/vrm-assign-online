@@ -27,6 +27,7 @@ final class TestAssignEmailServiceBinding extends ScalaModule with MockitoSugar 
     any[Option[ConfirmFormModel]],
     any[Option[BusinessDetailsModel]],
     any[Boolean],
+    any[Boolean],
     any[TrackingId]
   )).thenReturn(None)
 
