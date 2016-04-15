@@ -287,7 +287,6 @@ vrm_assign_capturecertificatedetails.referencenumberBox1 = Box 1
 vrm_assign_capturecertificatedetails.referencenumberBox2 = Box 2
 vrm_assign_capturecertificatedetails.referencenumberBox3 = Box 3
 vrm_assign_capturecertificatedetails.referencenumberBox4 = Box 4
-capture-certificate-details-reference-number-helper-1 = Example format:  1 - 14316 - 054027 - GK64BCC
 vrm_assign_capturecertificatedetails.button = Next
 
 error.validReferenceNumber = You must supply a valid certificate document reference number

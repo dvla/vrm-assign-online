@@ -285,7 +285,6 @@ vrm_assign_capturecertificatedetails.referencenumberBox1 = Blwch 1
 vrm_assign_capturecertificatedetails.referencenumberBox2 = Blwch 2
 vrm_assign_capturecertificatedetails.referencenumberBox3 = Blwch 3
 vrm_assign_capturecertificatedetails.referencenumberBox4 = Blwch 4
-capture-certificate-details-reference-number-helper-1 = Enghraifft o ffurf:  1 - 14316 - 054027 - GK64BCC
 vrm_assign_capturecertificatedetails.button = Nesaf
 
 error.validReferenceNumber = Rhaid i chi roi rhif cyfeirnod dogfen y dystysgrif dilys
