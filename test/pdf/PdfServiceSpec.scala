@@ -11,7 +11,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Transac
 
 class PdfServiceSpec extends UnitSpec {
 
-  // See getting started documentation from https://pdfbox.apache.org/cookbook/documentcreation.html
+  // See getting started documentation from https://pdfbox.apache.org/1.8/cookbook/documentcreation.html
 
   // See http://stackoverflow.com/questions/13917105/how-to-download-a-file-with-play-framework-2-0
   // for how to do the controller.

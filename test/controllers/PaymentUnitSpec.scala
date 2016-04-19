@@ -19,6 +19,8 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import helpers.WithApplication
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Second, Span}
 import pages.vrm_assign.ConfirmPaymentPage
 import pages.vrm_assign.FulfilPage
 import pages.vrm_assign.LeaveFeedbackPage
@@ -107,7 +109,7 @@ class PaymentUnitSpec extends UnitSpec {
     "display the Payment page when required cookies and referer exist " +
       "and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
-      whenReady(result) { r =>
+      whenReady(result, Timeout(Span(1, Second))) { r =>
         r.header.status should equal(OK)
       }
     }

@@ -17,6 +17,8 @@ import models.CacheKeyPrefix
 import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito.verify
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Second, Span}
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.CaptureCertificateDetailsPage
 import pages.vrm_assign.MicroServiceErrorPage
@@ -110,7 +112,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result) {
+      whenReady(result, Timeout(Span(1, Second))) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(CaptureCertificateDetailsPage.address))
           val cookies = fetchCookiesFromHeaders(r)
