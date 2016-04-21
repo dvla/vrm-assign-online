@@ -41,8 +41,8 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
 
   def `has 'not found' message` = {
     pageSource should include("Unable to find vehicle record")
-    pageSource should include("The vehicle registration number and/or the V5C document reference " +
-      "number entered is either incorrect or does not come from the latest V5C issued for this vehicle.")
+    pageSource should include("The vehicle registration number and/or the V5C registration certificate (logbook) document reference " +
+      "number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.")
     pageSource should include("To contact us:")
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "Download V317"
@@ -51,8 +51,8 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
 
   def `has 'doc ref mismatch' message` = {
     pageSource should include("Unable to find vehicle record")
-    pageSource should include("The vehicle registration number and/or the V5C document reference " +
-      "number entered is either incorrect or does not come from the latest V5C issued for this vehicle.")
+    pageSource should include("The vehicle registration number and/or the V5C registration certificate (logbook) document reference " +
+      "number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.")
     pageSource should not include "To contact us:"
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "Download V317"
@@ -61,7 +61,7 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
 
   def `has 'postcode mismatch' message` = {
     pageSource should include("Unable to find vehicle record")
-    pageSource should include("Postcode entered does not come from the most recent V5C issued for this vehicle.")
+    pageSource should include("Postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle.")
     pageSource should not include "This registration number cannot be assigned online"
     pageSource should not include "complete and submit a V317 form"
     this
