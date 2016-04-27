@@ -3,7 +3,14 @@ import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
 import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{audit, emailService, legacyStubs, osAddressLookup, paymentSolve, vehicleAndKeeperLookup, vrmAssignEligibility, vrmAssignFulfil}
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignEligibility
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
 import uk.gov.dvla.vehicles.sandbox.{Sandbox, SandboxSettings, Tasks}
 
 name := "vrm-assign-online"
