@@ -19,7 +19,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
+import helpers.TestWithApplication
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
@@ -44,7 +44,7 @@ class FulfilUnitSpec extends UnitSpec {
   val businessEmail = "business.example@test.com"
 
   "fulfil" should {
-    "redirect to error page when cookies do not exist" in new WithApplication {
+    "redirect to error page when cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
 
       val result = fulfil.fulfil(request)
@@ -54,21 +54,21 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to success page when no fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when no fees due and required cookies are present" in new TestWithApplication {
       val result = fulfil.fulfil(requestWithFeesNotDue())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to success page when fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when fees due and required cookies are present" in new TestWithApplication {
       val result = fulfil.fulfil(requestWithFeesDue())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
+    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new TestWithApplication {
       val result = fulfil.fulfil(requestWithFeesDue(paymentStatus = None))
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should
@@ -76,7 +76,7 @@ class FulfilUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to assign failure with a reg number that cannot be assigned" in new WithApplication {
+    "redirect to assign failure with a reg number that cannot be assigned" in new TestWithApplication {
       val (fulfilController, _) = fulfilControllerAndWebServiceMock((new VrmAssignFulfilFailure).stub)
       val result = fulfilController.fulfil(requestWithUnassignableRegNumber())
 
@@ -86,7 +86,7 @@ class FulfilUnitSpec extends UnitSpec {
     }
 
     "not send a payment email to the registered keeper and not to the business when " +
-    "registered keeper is chosen and keeper email is not supplied" in new WithApplication {
+    "registered keeper is chosen and keeper email is not supplied" in new TestWithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
@@ -109,7 +109,7 @@ class FulfilUnitSpec extends UnitSpec {
     }
 
     "send a payment email to the registered keeper only and not to the business when " +
-    "registered keeper is chosen and keeper email is supplied" in new WithApplication {
+    "registered keeper is chosen and keeper email is supplied" in new TestWithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
@@ -140,7 +140,7 @@ class FulfilUnitSpec extends UnitSpec {
 
     "send a payment email to the business acting on behalf of the keeper and " +
       "not to the keeper when business is chosen and send retention success emails " +
-      "to both business and keeper when keeper email is supplied" in new WithApplication {
+      "to both business and keeper when keeper email is supplied" in new TestWithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 
@@ -175,7 +175,7 @@ class FulfilUnitSpec extends UnitSpec {
     }
 
     "send a payment email and a retention success email to the business " +
-      "acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
+      "acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new TestWithApplication {
       val (fulfilController, wsMock) = fulfilControllerAndWebServiceMock()
       val assignFulfilRequestArg = ArgumentCaptor.forClass(classOf[VrmAssignFulfilRequest])
 

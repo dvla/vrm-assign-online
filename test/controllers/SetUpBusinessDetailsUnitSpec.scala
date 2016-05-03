@@ -5,7 +5,7 @@ import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
-import helpers.WithApplication
+import helpers.TestWithApplication
 import models.SetupBusinessDetailsFormModel
 import pages.vrm_assign.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
@@ -27,13 +27,13 @@ import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameV
 class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
       }
     }
 
-    "display populated fields when cookie exists" in new WithApplication {
+    "display populated fields when cookie exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           setupBusinessDetails(),
@@ -45,17 +45,17 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       content should include(PostcodeValid)
     }
 
-    "display empty fields when setupBusinessDetails cookie does not exist" in new WithApplication {
+    "display empty fields when setupBusinessDetails cookie does not exist" in new TestWithApplication {
       val content = contentAsString(present)
       content should not include TraderBusinessNameValid
       content should not include PostcodeValid
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" in new TestWithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" in new TestWithApplication {
       val request = FakeRequest()
       val result = setUpBusinessDetailsPrototypeNotVisible().present(request)
       contentAsString(result) should not include PrototypeHtml
@@ -63,7 +63,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to VehicleLookup page if required cookies do not exist" in new WithApplication {
+    "redirect to VehicleLookup page if required cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withFormUrlEncodedBody(s"$BusinessAddressId.${AddressPicker.ShowSearchFields}" -> true.toString)
       val result = setUpBusinessDetails().submit(request)
@@ -73,7 +73,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to next page when the form is completed successfully" in new WithApplication {
+    "redirect to next page when the form is completed successfully" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) {
@@ -92,7 +92,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "return a bad request if no details are entered" in new WithApplication {
+    "return a bad request if no details are entered" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
         .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -102,7 +102,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for traderBusinessName " +
-      "with standard error message (US158)" in new WithApplication {
+      "with standard error message (US158)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1))
         .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -114,7 +114,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "replace required and min length error messages for traderBusinessName " +
-      "with standard error message (US158)" in new WithApplication {
+      "with standard error message (US158)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "")
         .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -125,7 +125,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       // the page and once above the field.
     }
 
-    "write cookie when the form is completed successfully" in new WithApplication {
+    "write cookie when the form is completed successfully" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) { r =>
@@ -134,7 +134,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new WithApplication {
+    "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails().submit(request)
 

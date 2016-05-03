@@ -34,7 +34,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
  * To override and stipulate a particular "conf" e.g.
  * play -Dconfig.file=conf/application.test.conf run
  */
-trait GlobalLike extends WithFilters with GlobalSettings with Composition {
+trait GlobalWithFilters extends WithFilters {
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

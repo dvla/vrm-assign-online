@@ -9,7 +9,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
+import helpers.TestWithApplication
 import org.mockito.Mockito.verify
 import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.LeaveFeedbackPage
@@ -35,13 +35,13 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Busines
 class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page when required cookies are cached" in new WithApplication {
+    "display the page when required cookies are cached" in new TestWithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
       }
     }
 
-    "redirect to setupBusinessDetails page when required cookies do not exist" in new WithApplication {
+    "redirect to setupBusinessDetails page when required cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
       val result = confirmBusiness.present(request)
       whenReady(result) { r =>
@@ -49,7 +49,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       }
     }
 
-    "display a summary of previously entered user data" in new WithApplication {
+    "display a summary of previously entered user data" in new TestWithApplication {
       val content = contentAsString(present)
       content should include(BusinessAddressLine1Valid)
       content should include(BusinessAddressLine2Valid)
@@ -59,7 +59,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "call the audit service" in new WithApplication {
+    "call the audit service" in new TestWithApplication {
       val auditService2 = new AuditServiceDoesNothing
       val injector = testInjector(
         auditService2
@@ -98,7 +98,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
     }
 
     "refresh all of the business details cookies to have a maxAge that is " +
-      "7 days in the future if user is a business" in new WithApplication {
+      "7 days in the future if user is a business" in new TestWithApplication {
       val expected = 7.days.toSeconds.toInt
       val request = FakeRequest()
         .withCookies(
@@ -124,7 +124,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
     }
 
     "refresh all of the business details cookies to have a maxAge that is " +
-      "7 days in the future if user is a business and entered address manually" in new WithApplication {
+      "7 days in the future if user is a business and entered address manually" in new TestWithApplication {
       val expected = 7.days.toSeconds.toInt
       val request = FakeRequest()
         .withCookies(
@@ -151,7 +151,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "back" should {
-    "redirect to SetupBusinessDetails page when navigating back" in new WithApplication {
+    "redirect to SetupBusinessDetails page when navigating back" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -166,7 +166,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-    "redirect to mock feedback page" in new WithApplication {
+    "redirect to mock feedback page" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),

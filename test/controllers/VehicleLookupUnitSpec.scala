@@ -12,7 +12,7 @@ import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import helpers.WithApplication
+import helpers.TestWithApplication
 import models.CacheKeyPrefix
 import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
@@ -68,18 +68,18 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicle
 class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }
 
-    "not contain an identifier cookie if default route" in new WithApplication {
+    "not contain an identifier cookie if default route" in new TestWithApplication {
       whenReady(present) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.find(_.name == IdentifierCacheKey) should equal(None)
       }
     }
 
-    "contain an identifier cookie of type ceg if ceg route" in new WithApplication {
+    "contain an identifier cookie of type ceg if ceg route" in new TestWithApplication {
       val result = vehicleLookupStubs().ceg(FakeRequest())
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
@@ -87,7 +87,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "display empty fields when cookie does not exist" in new WithApplication {
+    "display empty fields when cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
       val result = vehicleLookupStubs().present(request)
       val content = contentAsString(result)
@@ -95,11 +95,11 @@ class VehicleLookupUnitSpec extends UnitSpec {
       content should not include RegistrationNumberValid
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" in new TestWithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" in new TestWithApplication {
       val request = FakeRequest()
       val result = vehicleLookupStubsPrototypeBannerNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
@@ -108,11 +108,11 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
   "submit" should {
     "redirect to CaptureCertificateDetailsPage after a valid submit and " +
-      "true message returned from the fake microservice" in new WithApplication {
+      "true message returned from the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result, Timeout(Span(1, Second))) {
+      whenReady(result, timeout) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(CaptureCertificateDetailsPage.address))
           val cookies = fetchCookiesFromHeaders(r)
@@ -135,7 +135,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "remove spaces from registrationNumber" in new WithApplication {
+    "remove spaces from registrationNumber" in new TestWithApplication {
       // DE7 Spaces should be stripped
       val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
       val result = vehicleLookupStubs().submit(request)
@@ -148,7 +148,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to MicroServiceError after a submit and no response code and no " +
-      "vehicledetailsdto returned from the fake microservice" in new WithApplication {
+      "vehicledetailsdto returned from the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotFoundResponseCode
@@ -160,7 +160,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found " +
-      "the fake microservice" in new WithApplication {
+      "the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVRMNotFound
@@ -170,7 +170,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
       "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number " +
-        "mismatch returned by the fake microservice" in new WithApplication {
+        "mismatch returned by the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
@@ -180,7 +180,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned " +
-      "by the fake microservice" in new WithApplication {
+      "by the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsServerDown
@@ -190,7 +190,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for document reference number with "+
-      "standard error message (US43)" in new WithApplication {
+      "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1))
       val result = vehicleLookupStubs().submit(request)
       // check the validation summary text
@@ -202,7 +202,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace required and min length error messages for document reference number with " +
-      "standard error message (US43)" in new WithApplication {
+      "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "")
       val result = vehicleLookupStubs().submit(request)
       // check the validation summary text
@@ -214,7 +214,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace max length error message for vehicle registration mark with " +
-      "standard error message (US43)" in new WithApplication {
+      "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupStubs().submit(request)
       val count = "Must be valid registration number".r.findAllIn(contentAsString(result)).length
@@ -223,7 +223,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "replace required and min length error messages for vehicle registration mark with " +
-      "standard error message (US43)" in new WithApplication {
+      "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
       val result = vehicleLookupStubs().submit(request)
       val count = "Must be valid registration number".r.findAllIn(contentAsString(result)).length
@@ -233,7 +233,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       count should equal(2)
     }
 
-    "redirect to MicroserviceError page when vehicleAndKeeperLookup throws an exception" in new WithApplication {
+    "redirect to MicroserviceError page when vehicleAndKeeperLookup throws an exception" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails.submit(request)
 
@@ -243,7 +243,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "does not write VehicleAndKeeperDetailsModel cookie when microservice throws an exception" in new WithApplication {
+    "does not write VehicleAndKeeperDetailsModel cookie when microservice throws an exception" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails.submit(request)
 
@@ -256,7 +256,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to MicroServiceError after a submit " +
-      "if response status is Ok and no response payload" in new WithApplication {
+      "if response status is Ok and no response payload" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallNoResponse.submit(request)
 
@@ -266,7 +266,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when vss error returned by the microservice" in new WithApplication {
+    "write cookie when vss error returned by the microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallServerDown.submit(request)
 
@@ -277,7 +277,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+    "write cookie when vrm not found by the fake microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound.submit(request)
       whenReady(result) { r =>
@@ -288,21 +288,21 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
+    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
       val result = vehicleLookupStubsBruteForceReturnsNotPermitted.submit(request)
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
 
     "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when " +
-      "document reference number not found and security service returns 1st attempt" in new WithApplication {
+      "document reference number not found and security service returns 1st attempt" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest.submit(request)
 
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+    "write cookie when document reference number mismatch returned by microservice" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest.submit(request)
       whenReady(result) {
@@ -317,7 +317,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when " +
-      "document reference number not found and security service returns 2nd attempt" in new WithApplication {
+      "document reference number not found and security service returns 2nd attempt" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(
         registrationNumber = BruteForcePreventionWebServiceConstants.VrmAttempt2
       )
@@ -328,7 +328,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
+    "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new TestWithApplication {
       val trackingId = TrackingId("default_test_tracking_id")
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
@@ -352,7 +352,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "back" should {
-    "redirect to Before You Start page when back button is pressed" in new WithApplication {
+    "redirect to Before You Start page when back button is pressed" in new TestWithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupStubs().back(request)
 

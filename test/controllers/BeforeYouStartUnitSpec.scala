@@ -3,7 +3,7 @@ package controllers
 import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
-import helpers.WithApplication
+import helpers.TestWithApplication
 import pages.vrm_assign.BeforeYouStartPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.OK
@@ -14,18 +14,18 @@ import play.api.test.Helpers.status
 class BeforeYouStartUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
       contentAsString(result) should include(BeforeYouStartPage.title)
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" in new TestWithApplication {
       val result = beforeYouStart.present(FakeRequest())
       contentAsString(result) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" in new TestWithApplication {
       val request = FakeRequest()
       val result = beforeYouStartPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml

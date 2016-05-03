@@ -2,7 +2,7 @@ package controllers
 
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs
-import helpers.WithApplication
+import helpers.TestWithApplication
 import play.api.mvc.Request
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
@@ -21,15 +21,19 @@ class AddressLookupUnitSpec extends UnitSpec {
     implicit val clientSideSessionFactory = new ClearTextClientSideSessionFactory()
     implicit val addressLookup = mock[AddressLookupService]
 
-    "return true if VehicleAndKeeperDetailsModel is set" in new WithApplication {
+    "return true if VehicleAndKeeperDetailsModel is set" in new TestWithApplication {
       val request = FakeRequest().withCookies(
         CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()
       )
       new AddressLookupTest().authenticate(request) should equal(true)
     }
 
-    "return false if VehicleAndKeeperDetailsModel is set" in new WithApplication {
+    "return false if VehicleAndKeeperDetailsModel is set" in new TestWithApplication {
       new AddressLookupTest().authenticate(FakeRequest()) should equal(false)
     }
+
+
+
+
   }
 }

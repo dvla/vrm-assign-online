@@ -3,7 +3,7 @@ package email
 import composition.AssignEmailServiceBinding
 
 import helpers.UnitSpec
-import helpers.WithApplication
+import helpers.TestWithApplication
 
 import models.{VehicleAndKeeperLookupFormModel, BusinessDetailsModel, CaptureCertificateDetailsModel, CaptureCertificateDetailsFormModel, ConfirmFormModel}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
@@ -33,7 +33,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Vehicle
 final class EmailServiceImplSpec extends UnitSpec {
 
   "EmailRequest" should {
-      "have an attachment if send pdf is true" in new WithApplication {
+      "have an attachment if send pdf is true" in new TestWithApplication {
         val (dateService, emailService) = build
 
         val emailRequest = emailService.emailRequest(
@@ -55,7 +55,7 @@ final class EmailServiceImplSpec extends UnitSpec {
         emailRequest.get.attachment shouldBe defined
       }
 
-      "not have an attachment if send pdf is false" in new WithApplication {
+      "not have an attachment if send pdf is false" in new TestWithApplication {
         val (dateService, emailService) = build
 
         val emailRequest = emailService.emailRequest(
@@ -79,7 +79,7 @@ final class EmailServiceImplSpec extends UnitSpec {
     }
 
   "htmlMessage" should {
-    "return html with business details when user type is business" in new WithApplication {
+    "return html with business details when user type is business" in new TestWithApplication {
       val (_, emailService) = build
 
       val result = emailService.htmlMessage(
@@ -110,7 +110,7 @@ final class EmailServiceImplSpec extends UnitSpec {
       message should include(TraderBusinessEmailValid)
     }
 
-    "return html without business details html when user type is keeper" in new WithApplication {
+    "return html without business details html when user type is keeper" in new TestWithApplication {
       val (_, emailService) = build
 
       val result = emailService.htmlMessage(

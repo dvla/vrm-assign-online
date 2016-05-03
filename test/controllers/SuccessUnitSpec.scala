@@ -14,7 +14,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
+import helpers.TestWithApplication
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
@@ -43,7 +43,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Replace
 class SuccessUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
-    "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
@@ -62,7 +62,7 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
       status(result) should equal(OK)
     }
 
-    "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie does not exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
@@ -82,21 +82,21 @@ class SuccessUnitSpec extends UnitSpec with MockitoSugar {
   }
 
   "create pdf" should {
-    "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
+    "return a bad request if cookie for EligibilityModel does no exist" in new TestWithApplication {
       val request = FakeRequest().withCookies(transactionId())
       val (success, _) = build
       val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
+    "return a bad request if cookie for TransactionId does no exist" in new TestWithApplication {
       val request = FakeRequest().withCookies(fulfilModel())
       val (success, _) = build
       val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a pdf when the cookie exists" in new WithApplication {
+    "return a pdf when the cookie exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),

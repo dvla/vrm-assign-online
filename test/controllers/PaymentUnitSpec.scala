@@ -18,9 +18,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import org.scalatest.time.{Second, Span}
+import helpers.TestWithApplication
 import pages.vrm_assign.ConfirmPaymentPage
 import pages.vrm_assign.FulfilPage
 import pages.vrm_assign.LeaveFeedbackPage
@@ -34,7 +32,7 @@ import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOC
 class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
-    "redirect to ConfirmPaymentPage when TransactionId cookie does not exist" in new WithApplication {
+    "redirect to ConfirmPaymentPage when TransactionId cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           paymentTransNo(),
@@ -52,7 +50,7 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to ConfirmPaymentPage when " +
-      "CaptureCertificateDetailsFormModel cookie does not exist" in new WithApplication {
+      "CaptureCertificateDetailsFormModel cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -69,7 +67,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailurePage when no referer in request" in new WithApplication {
+    "redirect to PaymentFailurePage when no referer in request" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -89,7 +87,7 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailure page when required cookies " +
-      "and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
+      "and referer exist and payment service status is not 'CARD_DETAILS'" in new TestWithApplication {
       val payment = testInjector(
         new ValidatedNotCardDetails
       ).getInstance(classOf[Payment])
@@ -99,7 +97,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
+    "redirect to PaymentFailurePage when payment service call throws an exception" in new TestWithApplication {
       val result = paymentCallFails.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
@@ -107,14 +105,14 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "display the Payment page when required cookies and referer exist " +
-      "and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+      "and payment service response is 'validated' and status is 'CARD_DETAILS'" in new TestWithApplication {
       val result = payment.begin(requestWithValidDefaults())
-      whenReady(result, Timeout(Span(1, Second))) { r =>
+      whenReady(result, timeout) { r =>
         r.header.status should equal(OK)
       }
     }
 
-    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+    "display the Payment page with an iframe with src url returned by payment micro-service" in new TestWithApplication {
       val result = payment.begin(requestWithValidDefaults())
       val content = contentAsString(result)
       content should include("<iframe")
@@ -123,7 +121,7 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "getWebPayment" should {
-    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
+    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           paymentTransNo(),
@@ -139,7 +137,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
+    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -155,7 +153,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
+    "redirect to PaymentFailurePage when payment service call throws an exception" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -172,7 +170,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new WithApplication {
+    "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new TestWithApplication {
       val payment = testInjector(
         new ValidatedNotAuthorised
       ).getInstance(classOf[Payment])
@@ -182,7 +180,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Fulfil page when payment service response is status is 'AUTHORISED'" in new WithApplication {
+    "redirect to Fulfil page when payment service response is status is 'AUTHORISED'" in new TestWithApplication {
       val payment = testInjector(
         new ValidatedAuthorised
       ).getInstance(classOf[Payment])
@@ -204,14 +202,14 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "cancel" should {
-    "redirect to LeaveFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
+    "redirect to LeaveFeedbackPage when TransactionId cookie does not exist" in new TestWithApplication {
       val result = paymentCancelValidated.cancel(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
 
-    "redirect to PaymentFailurePage when paymentModel cookie does not exist" in new WithApplication {
+    "redirect to PaymentFailurePage when paymentModel cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -227,7 +225,7 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to LeaveFeedback page when required cookies exist" in new WithApplication {
+    "redirect to LeaveFeedback page when required cookies exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           transactionId(),
@@ -248,7 +246,7 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "callback" should {
-    "should redirect" in new WithApplication {
+    "should redirect" in new TestWithApplication {
       val result = payment.callback("stub token")(FakeRequest())
 
       whenReady(result) { r =>

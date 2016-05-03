@@ -5,7 +5,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFor
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
+import helpers.TestWithApplication
 import pages.vrm_assign.FulfilPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
@@ -24,7 +24,7 @@ import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
       }
@@ -32,20 +32,20 @@ class ConfirmUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to next page when the form is completed successfully" in new WithApplication {
+    "redirect to next page when the form is completed successfully" in new TestWithApplication {
       whenReady(submit) { r =>
         r.header.headers.get(LOCATION) should equal(Some(FulfilPage.address))
       }
     }
 
-    "write cookies to the cache when a valid form is submitted" in new WithApplication {
+    "write cookies to the cache when a valid form is submitted" in new TestWithApplication {
       whenReady(submit) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(ConfirmCacheKey)
       }
     }
 
-    "return a bad request when the supply email field has nothing selected" in new WithApplication {
+    "return a bad request when the supply email field has nothing selected" in new TestWithApplication {
       val request = buildRequest(supplyEmail = supplyEmailEmpty)
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -61,7 +61,7 @@ class ConfirmUnitSpec extends UnitSpec {
     }
 
     "return a bad request when the keeper wants to supply an email " +
-      "and does not provide an email address" in new WithApplication {
+      "and does not provide an email address" in new TestWithApplication {
       val request = buildRequest(keeperEmail = keeperEmailEmpty)
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),

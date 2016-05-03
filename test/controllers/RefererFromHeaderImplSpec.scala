@@ -1,6 +1,6 @@
-package composition
+package controllers
 
-import controllers.routes
+import composition.{RefererFromHeaderImpl, TestWithDefaultApplication}
 import helpers.UnitSpec
 import play.api.mvc.Request
 import play.api.test.FakeRequest
@@ -9,31 +9,31 @@ import play.api.test.Helpers.REFERER
 final class RefererFromHeaderImplSpec extends UnitSpec {
 
   "fetch" should {
-    "return none when request does not contain a referer" in new WithApplication {
+    "return none when request does not contain a referer" in new TestWithDefaultApplication {
       val refererFromHeader = new RefererFromHeaderImpl
       val request: Request[_] = FakeRequest()
       refererFromHeader.fetch(request) should equal(None)
     }
 
-    "return expected value when request contains referer with hyphens" in new WithApplication {
+    "return expected value when request contains referer with hyphens" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer${routes.Confirm.present()}"
       checkExpectedReferer(referer)
     }
 
-    "return expected value when request contains referer with hyphens and full stops" in new WithApplication {
+    "return expected value when request contains referer with hyphens and full stops" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer.co.uk${routes.Confirm.present()}"
       checkExpectedReferer(referer)
     }
 
     "return expected value when request contains referer with hyphens, " +
-      "full stops and port number" in new WithApplication {
+      "full stops and port number" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}"
       checkExpectedReferer(referer)
     }
   }
 
   "paymentCallbackUrl" should {
-    "return expected value when request contains referer with hyphens" in new WithApplication {
+    "return expected value when request contains referer with hyphens" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer${routes.Confirm.present()}"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl
@@ -41,7 +41,7 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
         tokenBase64URLSafe = tokenBase64URLSafe) should equal(s"$loadBalancer/payment/callback/01234")
     }
 
-    "return expected value when request contains referer with hyphens and full stops" in new WithApplication {
+    "return expected value when request contains referer with hyphens and full stops" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer.co.uk${routes.Confirm.present()}"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl
@@ -50,7 +50,7 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
     }
 
     "return expected value when request contains referer with hyphens, " +
-      "full stops and port number" in new WithApplication {
+      "full stops and port number" in new TestWithDefaultApplication {
       val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}.co.uk"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl

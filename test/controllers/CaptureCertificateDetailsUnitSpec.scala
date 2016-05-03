@@ -3,7 +3,7 @@ package controllers
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.{UnitSpec, WithApplication}
+import helpers.{UnitSpec, TestWithApplication}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.trackingIdModel
@@ -47,7 +47,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Vehicle
 class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperDetailsModel(),
@@ -63,7 +63,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect back to Error page is required cookies do not exist" in new WithApplication {
+    "redirect back to Error page is required cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
       val (captureCertificateDetails, dateService, auditService) = build()
       val result = captureCertificateDetails.submit(request)
@@ -77,7 +77,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to confirm page when the form is completed successfully" in new WithApplication {
+    "redirect to confirm page when the form is completed successfully" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -104,7 +104,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
 
     "redirect to vehicles failure page when the form is completed successfully " +
-      "but fails eligibility with a direct to paper code" in new WithApplication {
+      "but fails eligibility with a direct to paper code" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -136,7 +136,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
 
     "redirect to vehicles failure page when the form is completed successfully " +
-      "but fails eligibility with a not eligible code" in new WithApplication {
+      "but fails eligibility with a not eligible code" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -161,7 +161,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-    "redirect to LeaveFeedback" in new WithApplication {
+    "redirect to LeaveFeedback" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperDetailsModel()
@@ -174,7 +174,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service once with 'default_test_tracking_id' when the required cookies exist" in new WithApplication {
+    "call audit service once with 'default_test_tracking_id' when the required cookies exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperDetailsModel(),
@@ -202,7 +202,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service once with expected values when the required cookies exist" in new WithApplication {
+    "call audit service once with expected values when the required cookies exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperDetailsModel(),
@@ -233,14 +233,14 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "back" should {
-    "redirect to Vehicle Lookup page when the user is a keeper" in new WithApplication {
+    "redirect to Vehicle Lookup page when the user is a keeper" in new TestWithApplication {
       whenReady(back(KeeperConsentValid)) { r =>
         r.header.status should equal(SEE_OTHER)
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
-    "redirect to Confirm Business page when the user is a business" in new WithApplication {
+    "redirect to Confirm Business page when the user is a business" in new TestWithApplication {
       whenReady(back(BusinessConsentValid)) { r =>
         r.header.status should equal(SEE_OTHER)
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
@@ -249,7 +249,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "calculateYearsOwed" should {
-    "return no charge for an expiry date after the abolition date" in new WithApplication {
+    "return no charge for an expiry date after the abolition date" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -262,7 +262,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
     }
 
-    "return no charge for an expiry date on the abolition date" in new WithApplication {
+    "return no charge for an expiry date on the abolition date" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -275,7 +275,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
     }
 
-    "return 1 charge for an expiry date on the day before abolition date" in new WithApplication {
+    "return 1 charge for an expiry date on the day before abolition date" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -288,7 +288,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(1)
     }
 
-    "return 4 charges for an expiry date of 08/03/2012" in new WithApplication {
+    "return 4 charges for an expiry date of 08/03/2012" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
@@ -301,7 +301,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(4)
     }
 
-    "return 3 charges for an expiry date of 11/11/2012" in new WithApplication {
+    "return 3 charges for an expiry date of 11/11/2012" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest()
         .withCookies(vehicleAndKeeperDetailsModel())
         .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))

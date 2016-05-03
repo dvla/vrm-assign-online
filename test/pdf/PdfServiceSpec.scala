@@ -1,6 +1,6 @@
 package pdf
 
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.Seconds
@@ -17,7 +17,7 @@ class PdfServiceSpec extends UnitSpec {
   // for how to do the controller.
 
   "create" should {
-    "return a non-empty output stream" in new WithApplication {
+    "return a non-empty output stream" in new TestWithApplication {
       val pdf = pdfService.create(
         transactionId = TransactionIdValid,
         name = "stub name",
