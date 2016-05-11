@@ -1,6 +1,6 @@
 ======= 1.33 =====
 Time of release binaries creation:
-
+Wed May 11 14:49:50 UTC 2016
 
 VMPRCI-4351 	Add messages file test to identify missing values
 VMPRCI-4356 	Payment-solve connection/request timeouts not working correctly
