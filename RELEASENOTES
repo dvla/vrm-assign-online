@@ -1,3 +1,12 @@
+======= 1.33 =====
+Time of release binaries creation:
+
+
+VMPRCI-4351 	Add messages file test to identify missing values
+VMPRCI-4356 	Payment-solve connection/request timeouts not working correctly
+VMPRCI-4348 	Review VM/PR components that are logging to syslog
+VMPRCI-4347 	Refactor WithApplication
+
 ======= 1.32 =====
 Time of release binaries creation:
 Wed Apr 27 11:02:49 UTC 2016
