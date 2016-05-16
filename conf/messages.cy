@@ -374,7 +374,7 @@ assign-application-details-telephone-number = 0300 123 1350
 assign-application-details-telephone-number-extension1 = (Rhowch y cod
 assign-application-details-telephone-number-extension2 = 227
 assign-application-details-telephone-number-extension3 = pan ofynnir amdano)
-assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08.00 - 19.00
+assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08.00 - 18.00
 assign-application-details-saturday = Dydd sadwrn: 08.00 - 14.00
 assign-application-details-sunday = Dydd sul: ar gau
 
