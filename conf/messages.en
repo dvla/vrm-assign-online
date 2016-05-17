@@ -1,5 +1,4 @@
 main.back = Back
-main.banner.feedback = your feedback
 crown-copyright = Crown Copyright
 gov-uk = GOV.UK
 
@@ -22,8 +21,9 @@ global-please-wait-close = Close this message
 
 error.required = This field is required
 
-prototype.banner.part1 = This is a new service -
-prototype.banner.part2 = will help us to improve it
+prototype.banner = This is a new service -
+prototype.bannerPart2 = will help us to improve it
+prototype.link = your feedback
 
 errorsummary.title = Please check the form
 widget.optional = (optional)

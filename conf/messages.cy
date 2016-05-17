@@ -1,5 +1,4 @@
 main.back = Yn ôl
-main.banner.feedback = eich adborth
 crown-copyright = Hawlfraint y Goron
 gov-uk = GOV.UK
 
@@ -22,8 +21,9 @@ global-please-wait-close = Ceuwch y neges hon
 
 error.required = Mae angen y maes hwn
 
-prototype.banner.part1 = Dyma wasanaeth newydd -
-prototype.banner.part2 = fydd yn ein helpu i’w wella
+prototype.banner = Dyma wasanaeth newydd -
+prototype.bannerPart2 = fydd yn ein helpu i’w wella
+prototype.link = eich adborth
 
 errorsummary.title = Gwiriwch y ffurflen
 widget.optional = (dewisol)
