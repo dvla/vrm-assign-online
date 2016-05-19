@@ -21,10 +21,6 @@ global-please-wait-close = Ceuwch y neges hon
 
 error.required = Mae angen y maes hwn
 
-prototype.banner = Dyma wasanaeth newydd -
-prototype.bannerPart2 = fydd yn ein helpu i’w wella
-prototype.link = eich adborth
-
 errorsummary.title = Gwiriwch y ffurflen
 widget.optional = (dewisol)
 
@@ -472,9 +468,6 @@ vrm_assign_failure_with_payment.text = Ni fu’r trafodion yn llwyddiannus, ni c
 vrm_assign_leave_feedback.title=Diolch
 vrm_assign_leave_feedback.feedback = rhoi adborth
 vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
-
-# feedback
-common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
 
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl

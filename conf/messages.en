@@ -21,10 +21,6 @@ global-please-wait-close = Close this message
 
 error.required = This field is required
 
-prototype.banner = This is a new service -
-prototype.bannerPart2 = will help us to improve it
-prototype.link = your feedback
-
 errorsummary.title = Please check the form
 widget.optional = (optional)
 
@@ -474,9 +470,6 @@ vrm_assign_failure_with_payment.text = This transaction has not been successful,
 vrm_assign_leave_feedback.title=Thank you
 vrm_assign_leave_feedback.feedback = leaving feedback
 vrm_assign_leave_feedback.p1=Please help us to improve this service by
-
-# feedback
-common_feedback.subject = Put a registration number on a vehicle - feedback
 
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented

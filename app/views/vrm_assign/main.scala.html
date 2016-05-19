@@ -1,19 +1,22 @@
 @(title: String,
     currentForm: Option[Form[_]] = None,
     showLanguageSwitch: Boolean = false,
-    backNavigation: Option[Call] = None
+    backNavigation: Option[Call] = None,
+    showBanner: Boolean = true
     )(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
-@import views.html.common.{govMainDefault, protoType}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.prototype
+@import views.html.common.govMainDefault
 @import views.vrm_assign.Main.BackId
 
 @govMainDefault(title, showLanguageSwitch) {
     <div class="app vrm-assign-online">
-        @protoType()
+        @if(showBanner) {
+            @prototype(controllers.routes.FeedbackController.present())
+        }
 
         <div class="section-content">
 

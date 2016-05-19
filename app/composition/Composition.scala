@@ -27,7 +27,7 @@ import utils.helpers.ErrorStrategy
 trait Composition {
 
   lazy val injector = Guice.createInjector(
-    new DevModule,
+//    new DevModule,
     new AuditMicroServiceBinding,
     new audit2.AuditServiceBinding,
     new ConfigBinding,
