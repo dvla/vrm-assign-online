@@ -29,9 +29,6 @@ trait Config extends VehicleLookupConfig with CommonConfig {
   val vrmAssignEligibilityRequestTimeout: Int
   val vrmAssignFulfilRequestTimeout: Int
 
-  // Prototype message in html
-  val isPrototypeBannerVisible: Boolean
-
   // Survey URL
   val surveyUrl: Option[String]
 
