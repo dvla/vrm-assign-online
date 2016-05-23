@@ -408,12 +408,6 @@ success-application-details-email-not-entered = Heb ei roi
 
 vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 
-micro_service_error.title=Ymddiheurwn
-micro_service_error.text1=Nid yw’r gwasanaeth ar gael ar hyn o bryd. Rhowch gynnig arall arni yn nes ymlaen.
-micro_service_error.text2=
-micro_service_error.back.button=Rhowch gynnig arall arni
-micro_service_error.exit.button=Gadael
-
 email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Rhoi rhif cofrestru ar gerbyd yn gyflawn ar gyfer {0}
 email.line2 = Cais yn llwyddiannus

@@ -410,12 +410,6 @@ success-application-details-email-not-entered = Not entered
 
 vrm_assign_success.buttonnavprint = Print this page
 
-micro_service_error.title=We are sorry
-micro_service_error.text1=The service is temporarily unavailable. Please try again later.
-micro_service_error.text2=
-micro_service_error.back.button=Try again
-micro_service_error.exit.button=Exit
-
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Putting a registration number on a vehicle complete for {0}
 email.line2 = Application successful
