@@ -1,5 +1,6 @@
 ======= 1.34 =====
 Time of release binaries creation:
+Wed May 25 13:39:19 UTC 2016
 
 VMPRCI-4370 	PR prototype banner feedback link to remain out of hours
 VMPRCI-4367 	Refactor GlobalWithFilter into vehicles-presentation-common
