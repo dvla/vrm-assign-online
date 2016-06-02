@@ -23,13 +23,11 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.9")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-rjs" % "1.0.7")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.0.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-gzip" % "1.0.0")
 
 addSbtPlugin("default" % "sbt-sass" % "0.1.9")
-
-addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.5")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.4.0")
 
@@ -39,9 +37,9 @@ resolvers += "Templemore Repository" at "http://templemore.co.uk/repo/"
 
 addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
 
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 
-addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")
 
 // Plugin for gathering app coverage data under test
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.3.5")
