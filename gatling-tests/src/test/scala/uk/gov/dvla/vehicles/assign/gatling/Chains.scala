@@ -11,31 +11,31 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
   /* images */
     exec(
       http("apple-touch-icon-57x57.png")
-        .get( s"""/assets/images/apple-touch-icon-57x57.png""")
+        .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-57x57.png""")
     )
       .exec(
         http("apple-touch-icon-72x72.png")
-          .get( s"""/assets/images/apple-touch-icon-72x72.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-72x72.png""")
       )
       .exec(
         http("apple-touch-icon-76x76.png")
-          .get( s"""/assets/images/apple-touch-icon-76x76.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-76x76.png""")
       )
       .exec(
         http("apple-touch-icon-114x114.png")
-          .get( s"""/assets/images/apple-touch-icon-114x114.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-114x114.png""")
       )
       .exec(
         http("apple-touch-icon-120x120.png")
-          .get( s"""/assets/images/apple-touch-icon-120x120.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-120x120.png""")
       )
       .exec(
         http("apple-touch-icon-144x144.png")
-          .get( s"""/assets/images/apple-touch-icon-144x144.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-144x144.png""")
       )
       .exec(
         http("apple-touch-icon-144x144.png")
-          .get( s"""/assets/images/apple-touch-icon-152x152.png""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/apple-touch-icon-152x152.png""")
       )
       .exec(
         http("document-reference-number.png")
@@ -43,7 +43,7 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
       )
       .exec(
         http("favicon.ico")
-          .get( s"""/assets/images/favicon.ico""")
+          .get( s"""/assets/lib/vehicles-presentation-common/images/favicon.ico""")
       )
       .exec(
         http("gov-uk-email.jpg")
@@ -62,72 +62,12 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/images/pdf-icon-1.png""")
       )
       .exec(
-        http("v750-viewfinder-1.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1.jpg""")
-      )
-      .exec(
-        http("v750-viewfinder-1.png")
-          .get( s"""/assets/images/v750-viewfinder-1.png""")
-      )
-      .exec(
-        http("v750-viewfinder-1-240px.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1-240px.jpg""")
-      )
-      .exec(
-        http("v750-viewfinder-1-320px.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1-320px.jpg""")
-      )
-      .exec(
         http("v750-viewfinder-1-480px.jpg")
           .get( s"""/assets/images/v750-viewfinder-1-480px.jpg""")
       )
       .exec(
-        http("v750-viewfinder-1-600px.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1-600px.jpg""")
-      )
-      .exec(
-        http("v750-viewfinder-1-768px.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1-768px.jpg""")
-      )
-      .exec(
-        http("v750-viewfinder-1-960px.jpg")
-          .get( s"""/assets/images/v750-viewfinder-1-960px.jpg""")
-      )
-      .exec(
-        http("V750_viewfinder-1.png")
-          .get( s"""/assets/images/V750_viewfinder-1.png""")
-      )
-      .exec(
-        http("v778-viewfinder-1.png")
-          .get( s"""/assets/images/v778-viewfinder-1.png""")
-      )
-      .exec(
-        http("v778-viewfinder-1-240px.jpg")
-          .get( s"""/assets/images/v778-viewfinder-1-240px.jpg""")
-      )
-      .exec(
-        http("v778-viewfinder-1-320px.jpg")
-          .get( s"""/assets/images/v778-viewfinder-1-320px.jpg""")
-      )
-      .exec(
         http("v778-viewfinder-1-480px.jpg")
           .get( s"""/assets/images/v778-viewfinder-1-480px.jpg""")
-      )
-      .exec(
-        http("v778-viewfinder-1-600px.jpg")
-          .get( s"""/assets/images/v778-viewfinder-1-600px.jpg""")
-      )
-      .exec(
-        http("v778-viewfinder-1-768px.jpg")
-          .get( s"""/assets/images/v778-viewfinder-1-768px.jpg""")
-      )
-      .exec(
-        http("v778-viewfinder-1-960px.jpg")
-          .get( s"""/assets/images/v778-viewfinder-1-960px.jpg""")
-      )
-      .exec(
-        http("V778_viewfinder-1.png")
-          .get( s"""/assets/images/V778_viewfinder-1.png""")
       )
 
       /* javascript */
