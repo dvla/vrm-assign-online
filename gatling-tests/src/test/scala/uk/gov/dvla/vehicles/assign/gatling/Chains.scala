@@ -155,7 +155,7 @@ final class Chains(data: RecordSeqFeederBuilder[String]) {
       /* javascript from webjars */
       .exec(
         http("require.min.js")
-          .get( s"""/webjars/requirejs/2.1.16/require.min.js""")
+          .get( s"""/webjars/requirejs/2.1.22/require.min.js""")
           .headers(Map(
           """Accept""" -> """*/*""",
           """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
