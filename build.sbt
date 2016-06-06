@@ -1,16 +1,9 @@
 import Common._
 import com.typesafe.sbt.rjs.Import.RjsKeys.webJarCdns
-import io.gatling.sbt.GatlingPlugin
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignEligibility
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmAssignFulfil
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{audit, emailService, legacyStubs, osAddressLookup, paymentSolve}
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{vehicleAndKeeperLookup, vrmAssignEligibility, vrmAssignFulfil}
 import uk.gov.dvla.vehicles.sandbox.{Sandbox, SandboxSettings, Tasks}
 
 name := "vrm-assign-online"
@@ -40,25 +33,26 @@ lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
   .disablePlugins(PlayScala, SbtWeb)
   .enablePlugins(GatlingPlugin)
 
-libraryDependencies ++= { Seq(
+libraryDependencies ++= Seq(
   filters,
   // Note that commons-collections transitive dependency of htmlunit has been excluded
   // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
   // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
   "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc(),
   "commons-codec" % "commons-codec" % "1.10" withSources() withJavadoc(),
-  // Auditing service
-  "com.rabbitmq" % "amqp-client" % "3.4.1",
   "com.google.inject" % "guice" % "4.0" withSources() withJavadoc(),
   "com.google.guava" % "guava" % "19.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
+  // Auditing service
+  "com.rabbitmq" % "amqp-client" % "3.4.1",
   "com.sun.mail" % "javax.mail" % "1.5.2",
   "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
   "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
   "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
-  "org.webjars" %% "webjars-play" % "2.3.0-3",
-  "org.webjars" % "requirejs" % "2.1.16",
   "org.webjars" % "jquery" % "1.9.1",
+  "org.webjars" % "requirejs" % "2.1.22",
+  "org.webjars" %% "webjars-play" % "2.3.0-3",
   // test
+  // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
   "info.cukes" % "cucumber-java" % "1.2.4" % "test" withSources() withJavadoc(),
@@ -67,13 +61,11 @@ libraryDependencies ++= { Seq(
   "net.sourceforge.htmlunit" % "htmlunit" % "2.13" % "test" exclude("commons-collections", "commons-collections"),
   "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
   "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
-  // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
   "org.slf4j" % "log4j-over-slf4j" % "1.7.21" % "test" withSources() withJavadoc(),
   // VMPR
   "dvla" %% "vehicles-presentation-common" % "2.50-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-  "dvla" %% "vehicles-presentation-common" % "2.50-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep")
-  )
-}
+  "dvla" %% "vehicles-presentation-common" % "2.50-SNAPSHOT" % "test" classifier "tests" withSources() withJavadoc() exclude("junit", "junit-dep")
+)
 
 pipelineStages := Seq(rjs, digest, gzip)
 
@@ -94,12 +86,13 @@ testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.t
 
 javaOptions in Test += System.getProperty("waitSeconds")
 
+// use this to get a full stack trace when test failures occur
 //testOptions in Test := Seq(Tests.Filter(s => (s.endsWith("IntegrationSpec") || s.endsWith("UiSpec"))))
 
 concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4))
 
 //parallelExecution in Test := true
-parallelExecution in Test in acceptanceTestsProject := true
+//parallelExecution in Test in acceptanceTestsProject := true
 
 sbt.Keys.fork in Test := false
 
@@ -127,7 +120,7 @@ resolvers ++= projectResolvers
 
 webJarCdns := Map()
 
-// Uncomment before releasing to bithub in order to make Travis work
+// Uncomment before releasing to github in order to make Travis work
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
@@ -152,24 +145,24 @@ SandboxSettings.vehicleAndKeeperLookupProject := vehicleAndKeeperLookupProject
 
 SandboxSettings.paymentSolveProject := paymentSolveProject
 
+SandboxSettings.emailServiceProject := emailServiceProject
+
 SandboxSettings.vrmAssignEligibilityProject := vrmAssignEligibilityProject
 
 SandboxSettings.vrmAssignFulfilProject := vrmAssignFulfilProject
 
-SandboxSettings.legacyStubsProject := legacyStubsProject
-
-SandboxSettings.emailServiceProject := emailServiceProject
-
 SandboxSettings.auditProject := auditProject
+
+SandboxSettings.legacyStubsProject := legacyStubsProject
 
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
-  Tasks.runEmailService.value
   Tasks.runOsAddressLookup.value
   Tasks.runVehicleAndKeeperLookup.value
   Tasks.runPaymentSolve.value
   Tasks.runVrmAssignEligibility.value
   Tasks.runVrmAssignFulfil.value
+  Tasks.runEmailService.value
   Tasks.runAudit.value
 }
 
