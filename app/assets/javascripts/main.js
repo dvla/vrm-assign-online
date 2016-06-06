@@ -1,7 +1,2 @@
-require(['config'], function() {
-    require(["assign-page-init"], function(assignPageInit) {
-        $(function() {
-            assignPageInit.init();
-        });
-    });
-});
+// This file is left intentionally blank.
+// It is only required for r.js (RequireJs optimiser) to run successfully.

@@ -61,14 +61,18 @@
                         @valtechDeclareCheck(confirmForm(GranteeConsentId),
                             args = Map(
                                 '_showConstraints -> false,
-                                '_label -> Messages("vrm_assign_confirm.granteeConsent")
+                                '_label -> Messages("vrm_assign_confirm.granteeConsent"),
+                                'class -> "ga-track-click-event-once",
+                                Symbol("data-ga-event-action") -> GranteeConsentId
                             )
                         )
                     } else {
                         @valtechDeclareCheck(confirmForm(GranteeConsentId),
                             args = Map(
                                 '_showConstraints -> false,
-                                '_label -> Messages("vrm_assign_confirm.businessConsent")
+                                '_label -> Messages("vrm_assign_confirm.businessConsent"),
+                                'class -> "ga-track-click-event-once",
+                                Symbol("data-ga-action") -> GranteeConsentId
                             )
                         )
                     }
@@ -123,17 +127,17 @@
                 )()
             </div>
             <div class="form-steps">
-                <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_assign_confirm.button")</button>
+                <button id="@ConfirmId"
+                        type="submit"
+                        name="action"
+                        class="button ga-track-click-event-once"
+                        data-ga-event-action="@ConfirmId">@Messages("vrm_assign_confirm.button")</button>
                 <br/>
-                <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
+                <a id="@ExitId"
+                   class="exit ga-track-click-event-once"
+                   data-ga-event-action="@ExitId"
+                   href="@controllers.routes.Confirm.exit()">@Messages("vrm_assign_exit.button")</a>
             </div>
         </div>
-    }
-
-    @if(config.googleAnalyticsTrackingId.isDefined) {
-        <script type="text/javascript">
-            trackChange(['@KeeperEmailId']);
-            trackClick(['@GranteeConsentId', '@SummaryId', '@ConfirmId', '@ExitId']);
-        </script>
     }
 }
