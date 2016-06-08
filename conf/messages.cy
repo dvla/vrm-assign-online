@@ -463,6 +463,9 @@ vrm_assign_leave_feedback.title=Diolch
 vrm_assign_leave_feedback.feedback = rhoi adborth
 vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 
+# feedback
+common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
+
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
 payment-prevent-back-text = Ni allwch ddefnyddio botwm yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.

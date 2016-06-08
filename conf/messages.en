@@ -465,6 +465,9 @@ vrm_assign_leave_feedback.title=Thank you
 vrm_assign_leave_feedback.feedback = leaving feedback
 vrm_assign_leave_feedback.p1=Please help us to improve this service by
 
+# feedback
+common_feedback.subject = Put a registration number on a vehicle - feedback
+
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented
 payment-prevent-back-text = You cannot use your browser back button after making a payment. No new payments have been taken.
