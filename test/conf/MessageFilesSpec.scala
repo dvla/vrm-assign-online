@@ -34,7 +34,7 @@ class MessageFilesSpec extends UnitSpec {
     }
 
     "have no blank Welsh and English values" in {
-      messagesFilesHelper.getBlankBlankValuesCount(mapWelsh, mapEnglish) should equal(18)
+      messagesFilesHelper.getBlankBlankValuesCount(mapWelsh, mapEnglish) should equal(2)
     }
   }
 }

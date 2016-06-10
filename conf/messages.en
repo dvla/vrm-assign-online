@@ -29,22 +29,6 @@ error.restricted.validVrnOnly = Must be valid registration number
 error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
-datePlaceholder.day=Day
-datePlaceholder.month=Month
-datePlaceholder.year=Year
-datePlaceholder.January=January
-datePlaceholder.February=February
-datePlaceholder.March=March
-datePlaceholder.April=April
-datePlaceholder.May=May
-datePlaceholder.June=June
-datePlaceholder.July=July
-datePlaceholder.August=August
-datePlaceholder.September=September
-datePlaceholder.October=October
-datePlaceholder.November=November
-datePlaceholder.December=December
-
 select_default = Please select
 error.invalid = Invalid value
 
@@ -52,9 +36,6 @@ traderName = Trader name
 traderPostcode = Postcode
 
 address.lines.label = Building/number and street
-address.buildingNameOrNumber.label =
-address.line2.label=
-address.line3.label=
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
@@ -91,23 +72,23 @@ ms.vehiclesService.response.unableToProcessApplication-title = Transaction unsuc
 ms.vehiclesService.response.unableToProcessApplication = We are unable to process the transaction at this time. Please send the V5C/3 to the following address;
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
-vrm_locked.title=Registration number is locked
-vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
-vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed
-vrm-locked-text4=to DVLA, Swansea, SA99 1BD
+vrm_locked.title = Registration number is locked
+vrm_locked.text1 = There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
+vrm_locked.text2 = Locked at
+vrm_locked.text3 = If you are sure that the details entered are correct then please send your completed
+vrm-locked-text4 = to DVLA, Swansea, SA99 1BD
 
-vrm_locked.exit.button=Exit
+vrm_locked.exit.button = Exit
 
 # 404 onHandlerNotFound
-onHandlerNotFound.title=This page cannot be found
-onHandlerNotFound.header=This page cannot be found
-onHandlerNotFound.body=We are unable to find the page you have requested, this event has been logged for investigation.
-onHandlerNotFound.start.button=Start
+onHandlerNotFound.title = This page cannot be found
+onHandlerNotFound.header = This page cannot be found
+onHandlerNotFound.body = We are unable to find the page you have requested, this event has been logged for investigation.
+onHandlerNotFound.start.button = Start
 
-error.title=We are sorry
-error.text=An error has occurred, please start again.
-error.button=Start again
+error.title = We are sorry
+error.text = An error has occurred, please start again.
+error.button = Start again
 
 language.cy.button = Cymraeg
 language.en.button = YAGNI
@@ -194,9 +175,6 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p5 = You will only have a 
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Unable to find vehicle record
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C registration certificate (logbook) and try again.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p4 =
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p5 =
 vehicle-lookup-failure-direct_to_paper-title = This registration number cannot be assigned online
 vehicle-lookup-failure-direct_to_paper-p1 = You are unable to continue with this application online.
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = We need to look into your application further due to the vehicle’s licensing history.
@@ -261,7 +239,6 @@ vrm_assign_vehicle_callback.regNumLabel = The current registration being replace
 paymentFailureErrorMessage.title = Payment failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
-paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment cancelled or not authorised
@@ -359,10 +336,6 @@ vrm_assign_confirm.feesRelatedVehicleRegistration = New registration number:
 vrm_assign_confirm.feesRelatedTotal = Total to pay today
 vrm_assign_confirm.outstandingFeesCta = Pay now
 
-vrm_assign_uprnnotfound.title = Error confirming postcode
-vrm_assign_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter your details
-vrm_assign_uprnnotfound.setuptradedetailsbutton = Set-up business details
-
 vrm_assign_success_payment.p6 = You’ll need this to make up the replacement plates
 vrm_assign_success_payment.p7 = You will need the updated V5C registration certificate (logbook) or a number plate authorisation certificate (eV948) which you can download and save or print using the link provided.
 
@@ -418,11 +391,6 @@ email.line4 = Transaction Completed
 email.line5 = Your transaction ID is:
 email.line6 = Can now be put on the vehicle
 email.line7 = A certificate of retention will be now be issued to the registered keeper.
-email.line8 =
-email.line9 =
-email.line10 =
-email.line11 =
-email.line12 =
 email.line13 = About this transaction
 email.line14 = This transaction was completed, with the consent of the registered keeper by:
 email.line20 = Registered Keeper:
@@ -441,29 +409,25 @@ email.line31 = Total:
 email.failure.title = Put a registration number on a vehicle
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
-email.failure.line3 =
 email.failure.line4 = Thank you for your application to ''Put a registration number on a vehicle''. Your application was \
   unsuccessful at this time and your credit/debit card has not been charged.
-email.failure.line5 =
 email.failure.line6 = If you wish to contact DVLA regarding this application please contact us using the \
   following details:
 email.failure.line7 = Telephone:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (please enter extension 227 when prompted)
-email.failure.line10 =
 email.failure.line11 = Monday to Friday: 08:00 to 18:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
-email.failure.line14 =
 
 email.email_service_impl.subject = can be put on vehicle
 vrm_assign_failure.title = Transaction not successful
 vrm_assign_failure.text = This transaction has not been successful and no changes have been made to the vehicle details.
 vrm_assign_failure_with_payment.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.
 
-vrm_assign_leave_feedback.title=Thank you
+vrm_assign_leave_feedback.title = Thank you
 vrm_assign_leave_feedback.feedback = leaving feedback
-vrm_assign_leave_feedback.p1=Please help us to improve this service by
+vrm_assign_leave_feedback.p1 = Please help us to improve this service by
 
 # feedback
 common_feedback.subject = Put a registration number on a vehicle - feedback
@@ -478,8 +442,8 @@ closed.title = Service unavailable
 closed.p1 = This service is only available Monday to Saturday {0} to {1}.
 closed.exit_button = Exit
 
-link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
-text-v750-or-v778=V750 or V778
+link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
+text-v750-or-v778 = V750 or V778
 
 # Address picker
 address.picker.common.postcode = Postcode

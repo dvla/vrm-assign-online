@@ -29,22 +29,6 @@ error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
 error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
 error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
 
-datePlaceholder.day=Diwrnod
-datePlaceholder.month=Mis
-datePlaceholder.year=Blwyddyn
-datePlaceholder.January=Ionawr
-datePlaceholder.February=Chwefror
-datePlaceholder.March=Mawrth
-datePlaceholder.April=Ebrill
-datePlaceholder.May=Mai
-datePlaceholder.June=Mehefin
-datePlaceholder.July=Gorffennaf
-datePlaceholder.August=Awst
-datePlaceholder.September=Medi
-datePlaceholder.October=Hydref
-datePlaceholder.November=Tachwedd
-datePlaceholder.December=Rhagfyr
-
 select_default = Dewiswch
 error.invalid = Gwerth annilys
 
@@ -52,9 +36,6 @@ traderName = Enw’r masnachwr
 traderPostcode = Cod post
 
 address.lines.label = Adeilad/rhif a stryd
-address.buildingNameOrNumber.label =
-address.line2.label=
-address.line3.label=
 
 vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
@@ -91,23 +72,23 @@ ms.vehiclesService.response.unableToProcessApplication-title = Trafodion yn aflw
 ms.vehiclesService.response.unableToProcessApplication = Ni lwyddom i brosesu’r trafodion y tro hwn. Anfonwch y V5C/3 i’r cyfeiriad canlynol;
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Heol Longview, Abertawe, SA6 7JL
 
-vrm_locked.title=Mae’r rhif cofrestru wedi ei gloi
-vrm_locked.text1=Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
-vrm_locked.text2=Wedi cloi am
-vrm_locked.text3=Os ydych chi’n siŵr fod y manylion a roddwyd yn gywir yna anfonwch eich ffurflen a gwblhawyd
-vrm-locked-text4=i’r DVLA, Abertawe, SA99 1BD
+vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
+vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
+vrm_locked.text2 = Wedi cloi am
+vrm_locked.text3 = Os ydych chi’n siŵr fod y manylion a roddwyd yn gywir yna anfonwch eich ffurflen a gwblhawyd
+vrm-locked-text4 = i’r DVLA, Abertawe, SA99 1BD
 
-vrm_locked.exit.button=Gadael
+vrm_locked.exit.button = Gadael
 
 # 404 onHandlerNotFound
-onHandlerNotFound.title=Ni ellir dod o hyd i’r dudalen hon
-onHandlerNotFound.header=Ni ellir dod o hyd i’r dudalen hon
-onHandlerNotFound.body=Ni allwn ddod o hyd i’r dudalen a ofynnoch amdani, mae’r digwyddiad hwn wedi ei logio er mwyn ei archwilio.
-onHandlerNotFound.start.button=Dechrau
+onHandlerNotFound.title = Ni ellir dod o hyd i’r dudalen hon
+onHandlerNotFound.header = Ni ellir dod o hyd i’r dudalen hon
+onHandlerNotFound.body = Ni allwn ddod o hyd i’r dudalen a ofynnoch amdani, mae’r digwyddiad hwn wedi ei logio er mwyn ei archwilio.
+onHandlerNotFound.start.button = Dechrau
 
-error.title=Cafwyd gwall na allwn ei adfer
-error.text=An error has occurred, please start again.
-error.button=Cychwyn eto
+error.title = Cafwyd gwall na allwn ei adfer
+error.text = An error has occurred, please start again.
+error.button = Cychwyn eto
 
 language.cy.button = Cymraeg
 language.en.button = English
@@ -194,9 +175,6 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p5 = Bydd gennych nifer cy
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p4 =
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p5 =
 vehicle-lookup-failure-direct_to_paper-title = Ni ellir dynodi’r rhif cofrestru hwn ar-lein
 vehicle-lookup-failure-direct_to_paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
@@ -259,7 +237,6 @@ vrm_assign_vehicle_callback.regNumLabel = Y rhif cofrestru presennol sy’n cael
 paymentFailureErrorMessage.title = Methiant wrth Dalu
 paymentFailureErrorMessage.p1 = Ni chymerwyd unrhyw daliad.
 paymentFailureErrorMessage.p2 = Un ai rhowch gynnig arall arni neu gadewch y gwasanaeth.
-paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Taliad wedi ei Ganslo neu Heb ei Awdurdodi
@@ -357,10 +334,6 @@ vrm_assign_confirm.feesRelatedVehicleRegistration = Rhif cofrestru newydd:
 vrm_assign_confirm.feesRelatedTotal = Cyfanswm i’w dalu heddiw
 vrm_assign_confirm.outstandingFeesCta = Talu yn awr
 
-vrm_assign_uprnnotfound.title = Gwall wrth gadarnhau cod post
-vrm_assign_uprnnotfound.p1 = Cafwyd gwall wrth ddilysu’ch cod post. Rhowch eich manylion eto
-vrm_assign_uprnnotfound.setuptradedetailsbutton = Gosod manylion busnes
-
 vrm_assign_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
 vrm_assign_success_payment.p7 = Byddwch angen y ffurflen tystysgrif cofrestru V5CW (llyfr log) a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
 
@@ -416,11 +389,6 @@ email.line4 = Cwblhawyd y trafodion
 email.line5 = Eich ID trafodion yw:
 email.line6 = Gellir ei roi ar y cerbyd nawr
 email.line7 = Cyhoeddir tystysgrif gadw yn awr i’r ceidwad cofrestredig.
-email.line8 =
-email.line9 =
-email.line10 =
-email.line11 =
-email.line12 =
 email.line13 = Ynglŷn â’r trafodion hyn
 email.line14 = Cwblhawyd y trafodion, gyda chaniatâd y ceidwad cofrestredig, drwy:
 email.line20 = Ceidwad cofrestredig:
@@ -439,29 +407,25 @@ email.line31 = Cyfanswm
 email.failure.title = Rhoi rhif cofrestru ar gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
-email.failure.line3 =
 email.failure.line4 =Diolch am eich cais ‘Rhoi rhif cofrestru ar gerbyd’. Roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
-email.failure.line5 =
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglŷn â’r cais hwn, yna cysylltwch â ni drwy ddefnyddio’r \
   following details:
 email.failure.line7 = Ffôn:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (rhowch estyniad 227 pan ofynnir amdano)
-email.failure.line10 =
 email.failure.line11 = Dydd llun i ddydd gwener: 08:00 to 18:00
 email.failure.line12 = Dydd sadwrn: 08:00 to 14:00
 email.failure.line13 = Dydd sul: ar gau
-email.failure.line14 =
 
 email.email_service_impl.subject = ar gerbyd
 vrm_assign_failure.title = Trafodion yn aflwyddiannus
 vrm_assign_failure.text = Ni fu’r trafodion yn llwyddiannus, ni chymerwyd unrhyw daliad ac ni wnaed unrhyw newid i fanylion y cerbyd.
 vrm_assign_failure_with_payment.text = Ni fu’r trafodion yn llwyddiannus, ni chymerwyd unrhyw daliad ac ni wnaed unrhyw newid i fanylion y cerbyd.
 
-vrm_assign_leave_feedback.title=Diolch
+vrm_assign_leave_feedback.title = Diolch
 vrm_assign_leave_feedback.feedback = rhoi adborth
-vrm_assign_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
+vrm_assign_leave_feedback.p1 = Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 
 # feedback
 common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
@@ -476,8 +440,8 @@ closed.title = Nid yw’r gwasanaeth ar gael
 closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd sadwrn yn unig {0} to {1}
 closed.exit_button = Gadael
 
-link-v750-or-v778=https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
-text-v750-or-v778=V750 neu V778
+link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
+text-v750-or-v778 = V750 neu V778
 
 # Address picker
 address.picker.common.postcode = Cod post
