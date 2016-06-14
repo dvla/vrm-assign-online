@@ -1,160 +1,150 @@
 //Exemplar specific
-.vehicle-lookup {
-
-    .form-item-radio .radio .form-item {
-        margin-bottom:1.5em;
-    }
-//
-    .first-col {
-        display:block;
-    }
-}
-
-.summary-replacement-reg {
-    dt, dd {
-        display:inline;
-        font-size: 1.2em;
-    }
-}
-ul.hint-list {
-  color: $grey-1;
-  margin-top: -2em;
-  font-size: 16px;
-  line-height: 16px;
-}
-
 #{$htmlNamespace} {
 
-  .business-details-capture {
-    input[type="text"] {
-      width: 100%;
-      box-sizing: border-box;
-    }
-  }
-    .reg-number {
-      font-family: 'mandatoryregular';
-    }
-  
-    .beta-info {
-        clear: both;
-        color: $grey-1;
-        font-size: 0.9em;
-        margin-top: 1.5em;
-    }
-
-    //radios common widget html need a parent wrapper class
-    .form-item-radio {
-        > .form-item > label {
-            font-weight: bold;
+    .business-details-capture {
+        input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
         }
     }
 
     .assign-success {
         .second-col h3 {
-            margin-bottom: 10px;
             font-size: 1.3em;
         }
-        li {
-          margin-bottom: 1em;
+        .alert-complete {
+            h2{
+                &:before {
+                    width: 0; /* Center align */
+                    background: none; /* Remove tick */
+                }
+            }
         }
     }
 
     .vehicle-lookup {
-      h2 {
-        width: 90%;
-      }
-      label.form-radio {
-        width: 100%;
-        box-sizing: border-box;
-      }
-      label.form-radio {
-        display: inline-block;
-        span {
-          margin-left: 10px;
-          display: inline-block;
-          width: 80%;
+        h2 {
+            width: 90%;
         }
-      }
-      ::-webkit-input-placeholder {
-        text-transform: none;
-      }
-      :-moz-placeholder { /* Firefox 18- */
-        text-transform: none;
-      }
-      ::-moz-placeholder {  /* Firefox 19+ */
-        text-transform: none;
-      }
-      :-ms-input-placeholder {
-        text-transform: none;
-      }
-
+        label.form-radio {
+            width: 100%;
+            display: inline-block;
+            span {
+                margin-left: 10px;
+                display: inline-block;
+                width: 80%;
+            }
+        }
     }
 
-  .alert-complete {
-    h2{
-      &:before {
-        content: "";
-        width: 0;
-        background: none;
-      }
+    .certificate-details {
+        label {
+            padding-bottom: 0px;
+        }
+        .form-hint {
+            clear: both;
+            margin-bottom: 10px;
+        }
+
+        .certificate-id-input {
+            display: block;
+            .form-item {
+                display: inline;
+                margin-bottom: 8px;
+                float: left;
+                clear: right;
+                //below fix for IE7 inline-block
+                zoom: 1;
+                *display: inline;
+                *clear: both;
+                &.validation {
+                    margin-right: 30px;
+                }
+                .error {
+                    padding-top: 6px;
+                }
+                &:last-child {
+                    &::after {
+                        content: "";
+                    }
+                }
+
+                input {
+                    margin: 0 10px 10px 0;
+                    text-align: center;
+                    width:95px;
+                }
+                #certificate-document-count {
+                    width:30px;
+                }
+                #certificate-registration-mark {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        @media screen and (max-width: $device-small) {
+            ul.help-list li .field-help {
+                position: static;
+                float: right;
+                min-width: auto;
+            }
+            .certificate-id-input {
+                .form-item {
+                    display: block;
+                    clear: both;
+                    margin-bottom: 8px;
+                    #certificate-document-count {
+                        width:50px;
+                    }
+                }
+            }
+        }
+
+        #certificate-date {
+            width:80px;
+        }
+        #certificate-registration-mark {
+            width:105px;
+        }
+        .certificate-id-input {
+            margin-top: 10px;
+            line-height: 2.75;
+            .form-item {
+                margin-right: 10px;
+            }
+            label {
+                color: #6f777b;
+                font-size: 1.6rem;
+            }
+        }
     }
-  }
 
-
-}
-
-.app ol li, .app ul li {
-    margin-bottom: .1em;
-}
-
-.vrm-assign-online .first-col .playback {
-    .reg-number {
-      margin-top: 10px;
-      font-family: 'mandatoryregular';
+    .confirmation-block {
+        margin-bottom: 30px;
+        display: inline-block;
+        width: 100%;
     }
-    .reg-number-zoomed {
-      @extend .reg-number;
+
+    .price-total {
+        border-top: 1px solid;
+        padding-top: 1em;
     }
-  .contact-info-wrapper {
-    margin-top: 20px;
-    h4 {
-      margin-bottom: 10px;
+
+    .renewalFee {
+        float:right;
+        font-weight:bold;
     }
-    small {
-      width: 100%;
-      display: inline-block;
+
+    .renewalFeeTotalRow {
+        margin-top: 10px;
+        border-top: 1px solid $black-3;
+        border-bottom: 1px solid $black-3;
+        padding: 5px 0;
     }
-  }
 }
 
-.vrm-assign-online .first-col .playback.bg-plain {
-    padding: 1em 0 0 1em;
-}
-
-.renewalFee {
-    float:right;
-    font-weight:bold;
-}
-
-
-/*Custom styles requested by Clifton for PR
-so copied to assign may want to be moved to common*/
-
-details {
-    position: relative;
-}
-
-summary {
-  padding-left: 14px;
-}
-
-summary::-webkit-details-marker {
-  position: absolute;
-  left: 0;
-  top: 10px;
-}
-
-
+/* These will be removed once VMPRCI-4323 is complete */
 .app h1 {
     margin:0px;
     font-size:48px;
@@ -168,168 +158,4 @@ summary::-webkit-details-marker {
     font-size:27px;
     font-weight:bold;
     padding-bottom:10px;
-}
-
-.price-total {
-    border-top: 1px solid;
-    padding-top: 1em;
-}
-
-.panel-indent {
-    margin-top: 1em;
-    margin-left: 1em;
-}
-
-.confirm-registration-number {
-  width: 100%;
-  display: inline-block;
-  h3 {
-    width: 60%;
-    line-height: 1.1;
-    float: left;
-  }
-}
-.confirmation-block {
-  margin-bottom: 30px;
-  display: inline-block;
-  width: 100%;
-}
-.error ~ .form-checkbox {
-    margin-top: 1em !important;
-}
-
-.vrm-assign-online .alert-warning {
-    color:#000;
-}
-
-.vrm-assign-online .certificate-details {
-
-  label {
-      padding-bottom: 0px;
-  }
-  .form-hint {
-      clear: both;
-  }
-
-  .certificate-id-input {
-    display: block;
-    .form-item {
-      display: inline;
-      margin-bottom: 8px;
-      float: left;
-      clear: right;
-      //below fix for IE7 inline-block
-      zoom: 1;
-      *display: inline;
-      *clear: both;
-      &.validation {
-        margin-right: 30px;
-      }
-      .error {
-          padding-top: 6px;
-      }
-      &:last-child {
-        &::after {
-          content: "";
-        }
-      }
-
-      input {
-        margin: 0 10px 10px 0;
-        text-align: center;
-        width:95px;
-      }
-      #certificate-document-count {
-        width:30px;
-      }
-      #certificate-registration-mark {
-        margin-right: 0;
-      }
-    }
-  }
-
-  @media screen and (max-width: $device-small) {
-    ul.help-list li .field-help {
-        position: static;
-        float: right;
-        min-width: auto;
-    }
-    .certificate-id-input {
-
-      .form-item {
-        display: block;
-        clear: both;
-        margin-bottom: 8px;
-        #certificate-document-count {
-          width:50px;
-        }
-      }
-    }
-  }
-
-  #certificate-date {
-      width:80px;
-  }
-  #certificate-registration-mark {
-      width:105px;
-  }
-  .certificate-id-input {
-    margin-top: 10px;
-      line-height: 2.75;
-      .form-item {
-          margin-right: 10px;
-      }
-    label {
-      color: #6f777b;
-      font-size: 1.6rem;
-    }
-  }
-}
-
-.help-thumbs {
-    border-top: 10px solid #005ea5;
-    padding-top: 1em;
-    h3 {
-        padding-bottom: 0;
-    }
-    p {
-        margin-top: 0;
-    }
-}
-
-#supply-email {
-  label {
-    clear: none;
-  }
-}
-
-.certificate-details {
-  .form-hint {
-    margin-bottom: 10px;
-  }
-  .js-has-tooltip {
-    border: 2px solid #005ea5;
-    font-size: 22px;
-    width: 30px;
-    height: 30px;
-  }
-  .js-has-long-tooltip {
-    width: auto;
-    text-align: left;
-    border: none;
-    text-decoration: none;
-  }
-  .js-tooltip-style {
-    max-width: 210px;
-  }
-  .js-tooltip-long {
-      max-width: 1500px;
-  }
-}
-
-.renewalFeeTotalRow {
-  margin-top: 10px;
-  border-top: 1px solid $black-3;
-  border-bottom: 1px solid $black-3;
-  padding: 5px 0;
 }
