@@ -17,42 +17,27 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val ReferenceNumberValid = "12345678910"
   final val TransactionIdValid = "ABC123123123123"
   final val PaymentTransNoValid = "123456"
-
-  def VehicleMakeValid = Some("Alfa Romeo")
-
-  def VehicleModelValid = Some("Alfasud ti")
-
-  final val KeeperNameValid = "Keeper Name"
-  final val KeeperUprnValid = 10123456789L
-  final val ConsentValid = "true"
-  final val KeeperConsentValid = UserType_Keeper
+  final val VehicleMakeValid = Some("Alfa Romeo")
+  final val VehicleModelValid = Some("Alfasud ti")
   final val BusinessConsentValid = "Business"
+
+  final val KeeperConsentValid = UserType_Keeper
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
-
-  def KeeperTitleValid = Some("MR")
-
-  def KeeperLastNameValid = Some("JONES")
-
-  def KeeperFirstNameValid = Some("DAVID")
-
-  def KeeperAddressLine1Valid = Some("1 High Street")
-
-  def KeeperAddressLine2Valid = Some("Skewen")
-
-  def KeeperAddressLine3Valid = None
-
-  def KeeperAddressLine4Valid = None
-
-  def KeeperPostTownValid = Some("Swansea")
-
-  def KeeperPostCodeValid = Some("SA11AA")
+  final val KeeperTitleValid = Some("MR")
+  final val KeeperLastNameValid = Some("JONES")
+  final val KeeperFirstNameValid = Some("DAVID")
+  final val KeeperAddressLine1Valid = Some("1 High Street")
+  final val KeeperAddressLine2Valid = Some("Skewen")
+  final val KeeperAddressLine3Valid = None
+  final val KeeperAddressLine4Valid = None
+  final val KeeperPostTownValid = Some("Swansea")
+  final val KeeperPostCodeValid = Some("SA11AA")
 
   final val RecordMismatch = MicroserviceResponse(
     code = "200",
     message = "vehicle_and_keeper_lookup_document_record_mismatch"
   )
-  final val NoKeeper = MicroserviceResponse("200", "vrm_assign_eligibility_no_keeper_failure")
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,

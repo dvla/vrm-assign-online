@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_assign.VehicleLookup.{UserType_Business, UserType_Keeper}
-import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithoutUprn
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
@@ -197,6 +197,6 @@ final class EmailServiceImplSpec extends UnitSpec {
     name = TraderBusinessNameValid,
     contact = TraderBusinessContactValid,
     email = TraderBusinessEmailValid,
-    address = addressWithUprn
+    address = addressWithoutUprn
   )
 }
