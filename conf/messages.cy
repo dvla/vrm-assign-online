@@ -469,3 +469,12 @@ vrm_assign_timeout.p-2 = Byddwn yn eich diweddaru drwy ebost pan brosesir eich c
 vrm_assign_timeout.playback-title = Manylion y cerbyd
 vrm_assign_timeout.playback-current = Rhif cofrestru presennol:
 vrm_assign_timeout.playback-new = Y rhif cofrestru y dymunwch ei roi ymlaen:
+
+# email
+email.template.line1 = THIS IS AN AUTOMATED EMAIL - Please do not reply as emails received at this address cannot be responded to.
+email.template.line2 = Payment received
+email.template.line3 = DVLA Online Assignment of
+email.template.line4 = Paid by Credit/Debit Card
+email.template.line5 = Date:
+email.template.line6 = Transaction Number:
+email.template.line7 = DVLA, Swansea, SA6 7JL
