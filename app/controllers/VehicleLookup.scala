@@ -80,7 +80,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")), trackingId
+      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode +
+        VehicleLookup.RESPONSE_CODE_DELIMITER +
+        VehicleLookup.RESPONSE_CODE_VRM_LOCKED)), trackingId
     )
 
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
@@ -173,13 +175,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           rejectionCode = Some(
-            ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+            ErrorCodes.PostcodeMismatchErrorCode +
+              VehicleLookup.RESPONSE_CODE_DELIMITER +
+              VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH
           )
         ), trackingId
       )
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)))
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
@@ -307,6 +311,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 }
 
 object VehicleLookup {
+  final val RESPONSE_CODE_DELIMITER = " - "
+  // ms response codes (correlate to the name of a template html file in views.<exemplar>.lookup_failure)
+  final val RESPONSE_CODE_VRM_LOCKED = "vrm_locked"
   final val RESPONSE_CODE_POSTCODE_MISMATCH = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+  // exemplar failure codes
   final val FAILURE_CODE_VKL_UNHANDLED_EXCEPTION = "VMPR6"
 }
