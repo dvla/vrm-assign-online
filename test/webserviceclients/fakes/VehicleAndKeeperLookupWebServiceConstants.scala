@@ -1,5 +1,6 @@
 package webserviceclients.fakes
 
+import controllers.VehicleLookup
 import play.api.http.Status.{NOT_FOUND, OK, SERVICE_UNAVAILABLE}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
@@ -57,12 +58,10 @@ object VehicleAndKeeperLookupWebServiceConstants {
     suppressedV5Flag = None
   )
 
-  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
-
   def vehicleAndKeeperDetailsResponseUnhandledException: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                   VehicleAndKeeperLookupSuccessResponse]]) =
     (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(
-      MicroserviceResponse(code = vehicleAndKeeperLookupUnhandledExceptionResponseCode, message = "unhandled_exception")
+      MicroserviceResponse(code = VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH, message = "unhandled_exception")
     ))))
 
   val vehicleAndKeeperDetailsResponseSuccess: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,

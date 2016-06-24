@@ -49,8 +49,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
-  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
-
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
@@ -144,7 +142,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     // check whether the response code is a VMPR6 code, if so redirect to microservice error page
     val trackingId = request.cookies.trackingId()
-    if (responseCode.code.startsWith(vehicleAndKeeperLookupUnhandledExceptionResponseCode)) {
+    if (responseCode.code.startsWith(VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)) {
         addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
     } else {
       auditService2.send(AuditRequest.from(
@@ -306,4 +304,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         formModelPostcode.isEmpty
     }
   }
+}
+
+object VehicleLookup {
+  final val RESPONSE_CODE_POSTCODE_MISMATCH = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+  final val FAILURE_CODE_VKL_UNHANDLED_EXCEPTION = "VMPR6"
 }
