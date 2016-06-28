@@ -8,29 +8,17 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupFormMod
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber.referenceNumber
 import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber.registrationNumber
 import views.vrm_assign.KeeperConsent.keeperConsent
-import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
-import views.vrm_assign.VehicleLookup.KeeperConsentId
-import views.vrm_assign.VehicleLookup.PostcodeId
-import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
-import views.vrm_assign.VehicleLookup.ReplacementVRN
+import views.vrm_assign.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, ReplacementVRN}
+import views.vrm_assign.VehicleLookup.{UserType_Business, UserType_Keeper, VehicleAndKeeperLookupFormModelCacheKey, VehicleRegistrationNumberId}
 
-/**
- * A form model for the vehicle lookup page
- * @param replacementVRN the new VRN to be assigned to the vehicle.
- * @param referenceNumber the current VRN number
- * @param registrationNumber the current VC5 registration number
- * @param postcode keeper's postcode
- * @param userType either the grantee or the business on behalf of the grantee
- */
 final case class VehicleAndKeeperLookupFormModel(replacementVRN: String,
                                                  referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
                                                  userType: String) extends VehicleLookupFormModelBase {
 
-  def isBusinessUserType = userType == views.vrm_assign.VehicleLookup.UserType_Business
-  def isKeeperUserType = userType == views.vrm_assign.VehicleLookup.UserType_Keeper
+  def isBusinessUserType = userType == UserType_Business
+  def isKeeperUserType = userType == UserType_Keeper
 }
 
 object VehicleAndKeeperLookupFormModel {

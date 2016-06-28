@@ -3,44 +3,29 @@ package controllers
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models.{BusinessDetailsModel, CacheKeyPrefix, FulfilModel, IdentifierCacheKey, VehicleAndKeeperLookupFormModel}
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.ISODateTimeFormat
-import play.api.data.FormError
-import play.api.data.{Form => PlayForm}
+import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
-import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, MicroserviceResponseModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
+import vehicleandkeeperlookup.{VehicleAndKeeperLookupDetailsDto, VehicleAndKeeperLookupFailureResponse, VehicleAndKeeperLookupService}
 import utils.helpers.Config
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
-import views.vrm_assign.VehicleLookup.PostcodeId
-import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
-import views.vrm_assign.VehicleLookup.UserType_Keeper
-import views.vrm_assign.VehicleLookup.VehicleRegistrationNumberId
-import views.vrm_assign.VehicleLookup.ReplacementVRN
+import views.vrm_assign.VehicleLookup.{DocumentReferenceNumberId, PostcodeId, ReplacementVRN, TransactionIdCacheKey, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+
+import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -77,29 +62,26 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     val trackingId = request.cookies.trackingId()
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-      transactionId = transactionId(formModel),
+      transactionId = transactionId(formModel.registrationNumber),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(ErrorCodes.VrmLockedErrorCode +
-        VehicleLookup.RESPONSE_CODE_DELIMITER +
-        VehicleLookup.RESPONSE_CODE_VRM_LOCKED)), trackingId
+        VehicleLookupBase.RESPONSE_CODE_DELIMITER +
+        VehicleLookupBase.RESPONSE_CODE_VRM_LOCKED)), trackingId
     )
 
-    addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
+    addDefaultCookies(Redirect(routes.VrmLocked.present()),
+      transactionId(formModel.registrationNumber),
+      TransactionIdCacheKey,
+      PaymentTransNoCacheKey)
   }
-  
+
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
                                 (implicit request: Request[_]): Result =
-    addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
-
-  private def vehicleLookup(implicit request: Request[_]) = {
-     request.cookies.getModel[FulfilModel] match {
-      case Some(fulfilModel) =>
-        Ok(views.html.vrm_assign.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
-      case None =>
-        Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))
-    }
-  }
+    addDefaultCookies(Redirect(routes.MicroServiceError.present()),
+      transactionId(formModel.registrationNumber),
+      TransactionIdCacheKey,
+      PaymentTransNoCacheKey)
 
   override def presentResult(implicit request: Request[_]) = {
     request.cookies.getString(IdentifierCacheKey) match {
@@ -140,12 +122,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       suppressedV5Flag = None
     )
 
-    val txnId = transactionId(formModel)
+    val txnId = transactionId(formModel.registrationNumber)
 
     // check whether the response code is a VMPR6 code, if so redirect to microservice error page
     val trackingId = request.cookies.trackingId()
-    if (responseCode.code.startsWith(VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)) {
-        addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
+    if (responseCode.code.startsWith(VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)) {
+      addDefaultCookies(Redirect(routes.MicroServiceError.present()),
+        transactionId(formModel.registrationNumber),
+        TransactionIdCacheKey,
+        PaymentTransNoCacheKey)
     } else {
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
@@ -155,7 +140,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")), trackingId
       )
 
-      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId)
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()),
+        txnId,
+        TransactionIdCacheKey,
+        PaymentTransNoCacheKey)
     }
   }
 
@@ -163,7 +151,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                   formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Result = {
 
-    val txnId = transactionId(formModel)
+    val txnId = transactionId(formModel.registrationNumber)
     val trackingId = request.cookies.trackingId()
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)(trackingId)) {
 
@@ -176,14 +164,17 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           rejectionCode = Some(
             ErrorCodes.PostcodeMismatchErrorCode +
-              VehicleLookup.RESPONSE_CODE_DELIMITER +
-              VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH
+              VehicleLookupBase.RESPONSE_CODE_DELIMITER +
+              VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH
           )
         ), trackingId
       )
 
-      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)))
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()),
+        txnId,
+        TransactionIdCacheKey,
+        PaymentTransNoCacheKey).
+        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)))
     } else {
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
@@ -195,7 +186,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)), trackingId
         )
-        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()), txnId)
+        addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()),
+          txnId,
+          TransactionIdCacheKey,
+          PaymentTransNoCacheKey)
           .withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
       } else {
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
@@ -207,7 +201,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             businessDetailsModel = businessDetailsModel), trackingId
           )
-          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()), txnId)
+          addDefaultCookies(Redirect(routes.ConfirmBusiness.present()),
+            txnId,
+            TransactionIdCacheKey,
+            PaymentTransNoCacheKey)
             .withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
         } else {
           auditService2.send(AuditRequest.from(
@@ -216,7 +213,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)), trackingId
           )
-          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()), txnId)
+          addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()),
+            txnId,
+            TransactionIdCacheKey,
+            PaymentTransNoCacheKey)
             .withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
         }
       }
@@ -233,13 +233,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     vehicleLookup.withCookie(IdentifierCacheKey, identifier)
   }
 
-  private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
-    val transactionTimestamp =
-      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp).drop(2) + " " +
-      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
-    validForm.registrationNumber +
-      isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
+  private def vehicleLookup(implicit request: Request[_]) = {
+    request.cookies.getModel[FulfilModel] match {
+      case Some(fulfilModel) =>
+        Ok(views.html.vrm_assign.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
+      case None =>
+        Ok(views.html.vrm_assign.vehicle_lookup(form.fill()))
+    }
   }
 
   private def formWithReplacedErrors(form: PlayForm[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
@@ -255,66 +255,4 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       ))
     }.distinctErrors
 
-  // payment solve requires (for each day) a unique six digit number
-  // use time from midnight in tenths of a second units
-  private def calculatePaymentTransNo = {
-    val milliSecondsFromMidnight = dateService.today.toDateTime.get.millisOfDay().get()
-    val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
-    // prepend with zeros
-    "%06d".format(tenthSecondsFromMidnight)
-  }
-
-  private def addDefaultCookies(result: Result, transactionId: String)
-                               (implicit request: Request[_]): Result = result
-    .withCookie(TransactionIdCacheKey, transactionId)
-    .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
-
-  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])(trackingId: TrackingId) = {
-    dtoPostcode match {
-      case Some(postcode) =>
-        val msg = s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}, " +
-        s"dtoPostcode = ${LogFormats.anonymize(postcode)}"
-        logMessage(trackingId, Info, msg)
-
-        def formatPartialPostcode(postcode: String): String = {
-          val SpaceCharDelimiter = " "
-          val A99AA = "([A-Z][0-9][*]{3})".r
-          val A099AA = "([A-Z][0][0-9][*]{3})".r
-          val A999AA = "([A-Z][0-9]{2}[*]{3})".r
-          val A9A9AA = "([A-Z][0-9][A-Z][*]{3})".r
-          val AA99AA = "([A-Z]{2}[0-9][*]{3})".r
-          val AA099AA = "([A-Z]{2}[0][0-9][*]{3})".r
-          val AA999AA = "([A-Z]{2}[0-9]{2}[*]{3})".r
-          val AA9A9AA = "([A-Z]{2}[0-9][A-Z][*]{3})".r
-
-          postcode.toUpperCase.replace(SpaceCharDelimiter, "") match {
-            case A99AA(p) => p.substring(0, 2)
-            case A099AA(p) => p.substring(0, 1) + p.substring(2, 3)
-            case A999AA(p) => p.substring(0, 3)
-            case A9A9AA(p) => p.substring(0, 3)
-            case AA99AA(p) => p.substring(0, 3)
-            case AA099AA(p) => p.substring(0, 2) + p.substring(3, 4)
-            case AA999AA(p) => p.substring(0, 4)
-            case AA9A9AA(p) => p.substring(0, 4)
-            case _ => formatPostcode(postcode)
-          }
-        }
-
-        // strip the spaces before comparison
-        formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
-          formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
-      case None =>
-        logMessage(trackingId, Info, s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}")
-        formModelPostcode.isEmpty
-    }
-  }
-}
-
-object VehicleLookup {
-  final val RESPONSE_CODE_DELIMITER = " - "
-  // ms response codes (correlate to the name of a template html file in views.<exemplar>.lookup_failure)
-  final val RESPONSE_CODE_VRM_LOCKED = "vrm_locked"
-  final val RESPONSE_CODE_POSTCODE_MISMATCH = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
-  // exemplar failure codes
-  final val FAILURE_CODE_VKL_UNHANDLED_EXCEPTION = "VMPR6"
 }

@@ -168,6 +168,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = controllers.VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)
+      .storeMsResponseCode(message = uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)
 
 }
