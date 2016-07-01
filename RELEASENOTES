@@ -1,5 +1,6 @@
 ======= 1.36 =====
 Time of release binaries creation:
+Fri Jul 01 10:08:36 UTC 2016
 
 VMPRCI-4382 	Webchat failure code is blank when a postcode mismatch occurs
 VMPRCI-4424 	Refactor exemplar ErrorStrategy into VPC
