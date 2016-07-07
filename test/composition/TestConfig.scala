@@ -38,12 +38,11 @@ final class TestConfig(
     when(config.ordnanceSurveyRequestTimeout).thenReturn(TestConfig.SOLVE_REQ_TIMEOUT.seconds.toMillis.toInt)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
-    when(config.vrmAssignEligibilityRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
+    when(config.vrmAssignEligibilityRequestTimeout).thenRgetDurationProperty, getIntListProperty, getOptionalProperty, getProperty, getStringListProperty, eturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vrmAssignFulfilRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
 
-//    when(config.surveyUrl).thenReturn(Some("test/survey/url"))
     when(config.surveyUrl).thenReturn(None)
 
     when(config.renewalFeeInPence).thenReturn(TestConfig.RENEWAL_FEE)
@@ -80,6 +79,7 @@ final class TestConfig(
       feedbackEmail = From(TestConfig.EMAILFEEDBACK_FROM_EMAIL, TestConfig.EMAILFEEDBACK_FROM_NAME),
       whiteList = None
     ))
+    when(config.closedDays).thenReturn(TestConfig.CLOSED_DAYS)
 
     config
   }
@@ -111,6 +111,7 @@ object TestConfig {
 
   final val RENEWAL_FEE = "8000" // in pence
   final val RENEWAL_FEE_ABOLUTION_DATE = "09/03/2015"
+  final val CLOSED_DAYS = List(7) // Sunday
 
   // defaults
   final val DEFAULT_BASE_URL = NotFound
