@@ -437,8 +437,9 @@ payment-prevent-back-return-to-success = Dychwelyd i’r dudalen Llwyddo
 
 # closed
 closed.title = Nid yw’r gwasanaeth ar gael
-closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd sadwrn yn unig {0} to {1}
+closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd {2} yn unig {0} to {1}
 closed.exit_button = Gadael
+closed.lastDayOpen = Sadwrn
 
 link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778 = V750 neu V778
