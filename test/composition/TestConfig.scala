@@ -38,7 +38,7 @@ final class TestConfig(
     when(config.ordnanceSurveyRequestTimeout).thenReturn(TestConfig.SOLVE_REQ_TIMEOUT.seconds.toMillis.toInt)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
-    when(config.vrmAssignEligibilityRequestTimeout).thenRgetDurationProperty, getIntListProperty, getOptionalProperty, getProperty, getStringListProperty, eturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
+    when(config.vrmAssignEligibilityRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vrmAssignFulfilRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
