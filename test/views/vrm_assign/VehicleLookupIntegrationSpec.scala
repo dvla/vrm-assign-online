@@ -126,7 +126,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when " +
+    "display two validation error messages when " +
       "only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
