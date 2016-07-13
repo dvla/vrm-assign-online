@@ -87,8 +87,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
 
-    val searchFields = SearchFields(showSearchFields = true,
-      showAddressSelect = true,
+    val searchFields = SearchFields(showSearchFields = false,
+      showAddressSelect = false,
       showAddressFields = true,
       postCode = None,
       listOption = None,

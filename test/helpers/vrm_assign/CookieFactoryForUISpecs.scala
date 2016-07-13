@@ -109,8 +109,8 @@ object CookieFactoryForUISpecs {
     val key = SetupBusinessDetailsCacheKey
 
     val searchFields = SearchFields(
-      showSearchFields = true,
-      showAddressSelect = true,
+      showSearchFields = false,
+      showAddressSelect = false,
       showAddressFields = true,
       postCode = None,
       listOption = None,
