@@ -61,7 +61,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   def vehicleAndKeeperDetailsResponseUnhandledException: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                   VehicleAndKeeperLookupSuccessResponse]]) =
     (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(
-      MicroserviceResponse(code = uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH, message = "unhandled_exception")
+      MicroserviceResponse(code = uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.FAILURE_CODE_VKL_UNHANDLED_EXCEPTION, message = "unhandled_exception")
     ))))
 
   val vehicleAndKeeperDetailsResponseSuccess: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,

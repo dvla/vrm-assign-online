@@ -126,7 +126,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     // check whether the response code is a VMPR6 code, if so redirect to microservice error page
     val trackingId = request.cookies.trackingId()
-    if (responseCode.code.startsWith(VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)) {
+    if (responseCode.code.startsWith(VehicleLookupBase.FAILURE_CODE_VKL_UNHANDLED_EXCEPTION)) {
       addDefaultCookies(Redirect(routes.MicroServiceError.present()),
         transactionId(formModel.registrationNumber),
         TransactionIdCacheKey,
