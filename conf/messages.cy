@@ -120,6 +120,7 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p5 = Bydd gennych nifer cy
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
+unhandled_exception.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
 unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.

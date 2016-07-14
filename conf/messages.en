@@ -120,6 +120,7 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p5 = You will only have a 
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Unable to find vehicle record
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C registration certificate (logbook) and try again.
+unhandled_exception.title = Unable to find vehicle record
 unhandled_exception.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
 unhandled_exception.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
 unhandled_exception.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
