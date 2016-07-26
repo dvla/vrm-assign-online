@@ -188,6 +188,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
           pageMovement = AuditRequest.CaptureCertificateDetailsToConfirm,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
+          documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
           captureCertificateDetailsModel = Some(captureCertificateDetailsModel)), trackingId
@@ -233,6 +234,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         pageMovement = AuditRequest.CaptureCertificateDetailsToCaptureCertificateDetailsFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
+        documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         captureCertificateDetailFormModel = Some(captureCertificateDetailsFormModel),
         captureCertificateDetailsModel = Some(captureCertificateDetailsModel),
@@ -329,6 +331,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       transactionId = request.cookies.getString(TransactionIdCacheKey).
         getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]), trackingId
     )
     Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)

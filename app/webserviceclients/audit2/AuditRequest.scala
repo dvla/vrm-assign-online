@@ -4,6 +4,7 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.libs.json.JsBoolean
 import play.api.libs.json.JsNull
 import play.api.libs.json.JsNumber
@@ -78,6 +79,7 @@ object AuditRequest {
   def from(pageMovement: String,
            transactionId: String,
            timestamp: String,
+           documentReferenceNumber: Option[String] = None,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
            captureCertificateDetailFormModel: Option[CaptureCertificateDetailsFormModel] = None,
            captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel] = None,
@@ -88,6 +90,7 @@ object AuditRequest {
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
+      val documentReferenceNumberOpt = documentReferenceNumber.map(ref => ("documentReferenceNumber", ref))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
       val captureCertificateDetailsFormModelOpt =
         CaptureCertificateDetailsFormModelOptSeq.from(captureCertificateDetailFormModel)
@@ -100,6 +103,7 @@ object AuditRequest {
       (Seq(
         transactionIdOpt,
         timestampOpt,
+        documentReferenceNumberOpt,
         keeperEmailOpt,
         rejectionCodeOpt
       ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq

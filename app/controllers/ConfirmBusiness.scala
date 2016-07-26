@@ -72,6 +72,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
               transactionId = request.cookies.getString(TransactionIdCacheKey)
                 .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
               timestamp = dateService.dateTimeISOChronology,
+              documentReferenceNumber = Some(vehicleAndKeeperLookup.referenceNumber),
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
             )
@@ -92,6 +93,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
     )

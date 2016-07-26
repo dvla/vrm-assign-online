@@ -90,6 +90,7 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],

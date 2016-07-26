@@ -64,6 +64,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = transactionId(formModel.registrationNumber),
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = Some(formModel.referenceNumber),
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(ErrorCodes.VrmLockedErrorCode +
         VehicleLookupBase.RESPONSE_CODE_DELIMITER +
@@ -136,6 +137,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,
+        documentReferenceNumber = Some(formModel.referenceNumber),
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")), trackingId
       )
@@ -161,6 +163,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
           transactionId = txnId,
           timestamp = dateService.dateTimeISOChronology,
+          documentReferenceNumber = Some(formModel.referenceNumber),
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           rejectionCode = Some(
             ErrorCodes.PostcodeMismatchErrorCode +
@@ -184,6 +187,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           pageMovement = AuditRequest.VehicleLookupToCaptureCertificateDetails,
           transactionId = txnId,
           timestamp = dateService.dateTimeISOChronology,
+          documentReferenceNumber = Some(formModel.referenceNumber),
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)), trackingId
         )
         addDefaultCookies(Redirect(routes.CaptureCertificateDetails.present()),
@@ -198,6 +202,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
             transactionId = txnId,
             timestamp = dateService.dateTimeISOChronology,
+            documentReferenceNumber = Some(formModel.referenceNumber),
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             businessDetailsModel = businessDetailsModel), trackingId
           )
@@ -211,6 +216,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
             pageMovement = AuditRequest.VehicleLookupToCaptureActor,
             transactionId = txnId,
             timestamp = dateService.dateTimeISOChronology,
+            documentReferenceNumber = Some(formModel.referenceNumber),
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel)), trackingId
           )
           addDefaultCookies(Redirect(routes.SetUpBusinessDetails.present()),

@@ -139,6 +139,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       keeperEmail = model.flatMap(_.keeperEmail),
       captureCertificateDetailFormModel = request.cookies.getModel[CaptureCertificateDetailsFormModel],

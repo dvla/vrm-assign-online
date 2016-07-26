@@ -5,6 +5,7 @@ import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.FulfilModel
 import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
@@ -73,6 +74,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel]), trackingId
     )
     Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
