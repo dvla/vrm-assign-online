@@ -9,18 +9,6 @@ vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
-vehicle-lookup-failure-cert-number-mismatch-title = Ni lwyddwyd i ddod o hyd i rif cyfeirnod y dystysgrif
-vehicle-lookup-failure-cert-number-mismatch-p1 = Nid yw rhif cyfeirnod y dystysgrif a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif hawl V750 ne’r ddogfen gadw V778 mwyaf diweddar.
-vehicle-lookup-failure-cert-number-mismatch-p2 = Gwnewch yn siŵr fod y fersiwn fwyaf diweddar gennych chi
-vehicle-lookup-failure-cert-number-mismatch-p2a = a cheisio eto.
-
-# micro-service response codes
-ms.vehiclesService.response.applicationBeingProcessed.p1 = Mae’r cais yn cael ei brosesu.
-ms.vehiclesService.response.applicationBeingProcessed.p2 = Peidiwch ag anfon y V5C/3 (slip gwaredu) gwreiddiol i’r DVLA
-ms.vehiclesService.response.unableToProcessApplication-title = Trafodion yn aflwyddiannus
-ms.vehiclesService.response.unableToProcessApplication = Ni lwyddom i brosesu’r trafodion y tro hwn. Anfonwch y V5C/3 i’r cyfeiriad canlynol;
-ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Heol Longview, Abertawe, SA6 7JL
-
 vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
 vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
 vrm_locked.text2 = Wedi cloi am
@@ -105,29 +93,24 @@ postcode = Cod post
 # vehicle lookup failure
 vehicle-lookup-failure-cert-number-try-again = Rhowch gynnig arall arni
 vehicle-lookup-failure-exit = Gadael
-vehicle_and_keeper_lookup_vrm_not_found.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-vehicle_and_keeper_lookup_vrm_not_found.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_vrm_not_found.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
-vehicle_and_keeper_lookup_vrm_not_found.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-vehicle_and_keeper_lookup_vrm_not_found.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_document_reference_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
-vehicle_and_keeper_lookup_document_reference_mismatch.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-vehicle_and_keeper_lookup_document_reference_mismatch.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
-unhandled_exception.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
-unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
-unhandled_exception.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-unhandled_exception.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+vehicle-lookup-failure-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 
-# direct_to_paper / ninety-day_rule failure
+vehicle_lookup_failure.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle_lookup_failure.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
+vehicle_lookup_failure.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
+vehicle_lookup_failure.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
+vehicle_lookup_failure.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+
+vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
+
+# lookup_failure/vert_number_mismatch
+vehicle-lookup-failure-cert-number-mismatch-title = Ni lwyddwyd i ddod o hyd i rif cyfeirnod y dystysgrif
+vehicle-lookup-failure-cert-number-mismatch-p1 = Nid yw rhif cyfeirnod y dystysgrif a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif hawl V750 ne’r ddogfen gadw V778 mwyaf diweddar.
+vehicle-lookup-failure-cert-number-mismatch-p2 = Gwnewch yn siŵr fod y fersiwn fwyaf diweddar gennych chi
+vehicle-lookup-failure-cert-number-mismatch-p2a = a cheisio eto.
+
+# direct_to_paper / ninety-day_rule failure / cert_number_mismatch / postcode_mismatch
 vehicle-lookup-failure-direct_to_paper-title = Ni ellir dynodi’r rhif cofrestru hwn ar-lein
 vehicle-lookup-failure-direct_to_paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-direct-to-paper-p2a = Rhaid i chi anfon y
@@ -143,9 +126,11 @@ vehicle-lookup-failure-notice-payment-desc1 = Disgrifiad
 vehicle-lookup-failure-transaction-id = ID trafodion
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 
-# eligibility
+# eligibility_failure
 vehicle-lookup-failure-eligibility-title = Ni ellir dynodi’r rhif cofrestru hwn
 vehicle-lookup-failure-eligibility-p1 = Dengys ein cofnodion ni ellir rhoi’r rhif cofrestru ar y cerbyd hwn.
+
+# eligibility
 vrm_assign_eligibility_cert_begin_failure = Rhaid i’r rhif tystygrif gychwyn gyda x x x x
 vrm_assign_eligibility_cert_number_mismatch = Gwiriwch eich rhif cofrestru a rhoi cynnig arall.
 vrm_assign_eligibility_q_plate_failure = Ni allwch gymryd rhif cofrestru i ffwrdd sydd wedi ei gofrestru gyda rhif cofrestru Q.

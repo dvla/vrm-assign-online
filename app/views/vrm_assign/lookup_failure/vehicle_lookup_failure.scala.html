@@ -17,24 +17,19 @@
 }
 
 @main(
-    title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+    title = Messages("vehicle-lookup-failure-title")
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+            <h2>@Messages("vehicle-lookup-failure-title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
 
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p1"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p2"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p3"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p4"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p5"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5"))}
+            @displayMessage(Messages("vehicle_lookup_failure.p1"))
+            @displayMessage(Messages("vehicle_lookup_failure.p2"))
+            @displayMessage(Messages("vehicle_lookup_failure.p3"))
+            @displayMessage(Messages("vehicle_lookup_failure.p4"))
+            @displayMessage(Messages("vehicle_lookup_failure.p5"))
         </div>
 
         @failure_playback(

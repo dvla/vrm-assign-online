@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import mappings.common.ErrorCodes
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
@@ -10,6 +11,7 @@ import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
@@ -19,7 +21,8 @@ import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.eligibility
 import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
-import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey}
+import views.html.vrm_assign.lookup_failure.postcode_mismatch
+import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -76,6 +79,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
 
     val intro = "VehicleLookupFailure is"
+    println("displayVehicleLookupFailure: ms response message - " + msResponseModel.msResponse.message)
     val failurePage = msResponseModel.msResponse.message match {
       case "vrm_assign_eligibility_direct_to_paper" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
@@ -198,6 +202,13 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           captureCertificateDetailsModel = captureCertificateDetailsModel
+        )
+      case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH =>
+        logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
+        postcode_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          failureCode = ErrorCodes.PostcodeMismatchErrorCode
         )
       case _ =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting vehicle lookup failure view")
