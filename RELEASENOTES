@@ -1,6 +1,6 @@
 ======= 1.38 =====
 Time of release binaries creation:
-
+Wed Aug 03 11:16:32 UTC 2016
 
 VMPRCI-4446 	Disable of invalid keys within PR services
 VMPRCI-4453 	Simplify vehicle lookup failure view
