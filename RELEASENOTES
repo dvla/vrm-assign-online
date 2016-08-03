@@ -1,3 +1,11 @@
+======= 1.38 =====
+Time of release binaries creation:
+
+
+VMPRCI-4446 	Disable of invalid keys within PR services
+VMPRCI-4453 	Simplify vehicle lookup failure view
+VMRPCI-4463 	Add Doc Ref No to the RabbitMQ so available to DSD
+
 ======= 1.37.2 =====
 Time of release binaries creation:
 Mon Jul 25 12:59:14 UTC 2016
