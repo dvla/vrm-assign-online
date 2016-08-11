@@ -30,12 +30,12 @@
                         playbackItems += (flaggedRegNumberLabel -> details.registrationNumber)
 
                         details.make match {
-                            case Some(make) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> make.take(20))
+                            case Some(make) => playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> make)
                             case None => playbackItems
                         }
 
                         details.model match {
-                            case Some(model) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> model.take(20))
+                            case Some(model) => playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> model)
                             case None => playbackItems
                         }
 
