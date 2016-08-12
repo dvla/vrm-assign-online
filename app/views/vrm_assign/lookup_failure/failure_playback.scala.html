@@ -18,9 +18,9 @@
             playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
 
             if(viewModel.make.isDefined)
-                playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> viewModel.make.get.take(20))
+                playbackItems += (Messages("vrm_assign_vehicle_callback.makeLabel") -> viewModel.make.get)
             if(viewModel.model.isDefined)
-                playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> viewModel.model.get.take(20))
+                playbackItems += (Messages("vrm_assign_vehicle_callback.modelLabel") -> viewModel.model.get)
             else
                 playbackItems
 
