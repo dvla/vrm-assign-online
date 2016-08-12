@@ -181,7 +181,7 @@ paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cy
 
 # Payment post shutdown page
 paymentPostShutdownErrorMessage.title = Mae’n ddrwg gennym ond nid yw’r gwasanaeth ar-lein ar hyn o bryd
-paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 08:00 i 18:00.
+paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 07:00 i 19:00.
 paymentPostShutdownErrorMessage.p2 = Ar hyn o bryd ni allwn barhau â’ch cais, bydd yn rhaid i chi ddychwelyd yn ystod oriau agor. Ni chymerwyd taliad.
 
 vrm_assign_confirm_business.title = Cadarnhau eich manylion busnes
@@ -280,8 +280,8 @@ assign-application-details-telephone-number = 0300 123 1350
 assign-application-details-telephone-number-extension1 = (Rhowch y cod
 assign-application-details-telephone-number-extension2 = 227
 assign-application-details-telephone-number-extension3 = pan ofynnir amdano)
-assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08.00 - 18.00
-assign-application-details-saturday = Dydd sadwrn: 08.00 - 14.00
+assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08:00 i 19:00
+assign-application-details-saturday = Dydd sadwrn: 08:00 i 14:00
 assign-application-details-sunday = Dydd sul: ar gau
 
 vrm_assign_success.title = Cais yn llwyddiannus
@@ -366,12 +366,6 @@ common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
 payment-prevent-back-text = Ni allwch ddefnyddio botwm yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.
 payment-prevent-back-return-to-success = Dychwelyd i’r dudalen Llwyddo
-
-# closed
-closed.title = Nid yw’r gwasanaeth ar gael
-closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd {2} yn unig {0} to {1}
-closed.exit_button = Gadael
-closed.lastDayOpen = Sadwrn
 
 link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778 = V750 neu V778
