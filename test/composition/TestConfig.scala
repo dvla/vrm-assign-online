@@ -34,9 +34,6 @@ final class TestConfig(
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
 
-    when(config.ordnanceSurveyMicroServiceUrl).thenReturn(TestConfig.NotFound)
-    when(config.ordnanceSurveyRequestTimeout).thenReturn(TestConfig.SOLVE_REQ_TIMEOUT.seconds.toMillis.toInt)
-
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vrmAssignEligibilityRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vrmAssignFulfilRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)

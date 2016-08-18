@@ -21,10 +21,6 @@ trait Config extends VehicleLookupConfig with CommonConfig {
   val emailServiceMsRequestTimeout: Int
   val emailConfiguration: EmailConfiguration
 
-  // Ordnance survey config
-  val ordnanceSurveyMicroServiceUrl: String
-  val ordnanceSurveyRequestTimeout: Int
-
   val vehicleAndKeeperLookupRequestTimeout: Int
   val vrmAssignEligibilityRequestTimeout: Int
   val vrmAssignFulfilRequestTimeout: Int
