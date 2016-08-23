@@ -1,5 +1,6 @@
 package utils.helpers
 
+import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
@@ -80,6 +81,20 @@ class ConfigImpl extends Config {
   override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(ConfigImpl.DEFAULT_CLOSING_WARN_PERIOD)
 
   override val closedDays: List[Int] = getIntListProperty("closedDays").getOrElse(List())
+
+  override val liveAgentEnvironmentId: Option[String] = {
+    val liveAgentId: Option[String] = getOptionalProperty[String]("webchat.liveAgent.environmentId")
+    liveAgentId.fold(Logger.info("Webchat functionality is not enabled"))
+      {id => Logger.info("Webchat functionality is enabled")}
+    liveAgentId
+  }
+
+  override val liveAgentButtonId: String = getProperty[String]("webchat.liveAgent.buttonId")
+  override val liveAgentOrgId: String = getProperty[String]("webchat.liveAgent.orgId")
+  override val liveAgentUrl: String = getProperty[String]("webchat.liveAgent.url")
+  override val liveAgentjsUrl: String = getProperty[String]("webchat.liveAgent.jsUrl")
+
+  override val failureCodeBlacklist: Option[List[String]] = getStringListProperty("webchat.failureCodes.blacklist")
 }
 
 object ConfigImpl {

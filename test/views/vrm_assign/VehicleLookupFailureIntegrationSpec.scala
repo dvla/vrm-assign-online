@@ -1,6 +1,7 @@
 package views.vrm_assign
 
-import composition.TestHarness
+import com.google.inject.Module
+import composition.{GlobalWithFilters, TestComposition, TestConfig, TestGlobalCreator, TestGlobalWithFilters, TestHarness}
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
@@ -14,6 +15,9 @@ import pages.vrm_assign.VehicleLookupFailurePage
 import pages.vrm_assign.VehicleLookupFailurePage.exit
 import pages.vrm_assign.VehicleLookupFailurePage.tryAgain
 import pages.vrm_assign.VehicleLookupPage
+import play.api.GlobalSettings
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
@@ -107,6 +111,55 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       // Trim the result of formatVrm because Selenium trims any WebElement text.
       displayedReg should be (formatVrm(displayedReg.filter(p => !p.isSpaceChar)).trim)
       displayedVRN should be (formatVrm(displayedVRN.filter(p => !p.isSpaceChar)).trim)
+    }
+  }
+
+  "webchat" should {
+    trait TestCompositionWithWebchat extends TestComposition {
+      override def testInjector(modules: Module*) =
+        super.testInjector(new TestConfig(liveAgentEnvVal = Some("testval")))
+    }
+
+    object TestGlobalWithWebchat extends GlobalWithFilters with TestCompositionWithWebchat
+
+    object TestGlobalCreatorWithWebchat extends TestGlobalCreator {
+      override def global: GlobalSettings = TestGlobalWithWebchat
+    }
+
+    val fakeAppWithWebchatEnabledConfig = LightFakeApplication(TestGlobalWithWebchat)
+
+    "contain failure code" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.
+        transactionId().
+        bruteForcePreventionViewModel().
+        vehicleAndKeeperLookupFormModel().
+        vehicleAndKeeperDetailsModel().
+        storeMsResponseCode("failure", "vehicle_and_keeper_lookup_failure")
+      go to VehicleLookupFailurePage
+
+      pageSource should include("liveagent.addCustomDetail(\"Failure\",\"failure\", false);")
+    }
+
+    "not contain sensitive failure code" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.
+        transactionId().
+        bruteForcePreventionViewModel().
+        vehicleAndKeeperLookupFormModel().
+        vehicleAndKeeperDetailsModel().
+        storeMsResponseCode("alpha", "vehicle_and_keeper_lookup_failure")
+      go to VehicleLookupFailurePage
+
+      pageSource should include("liveagent.addCustomDetail(\"Failure\",\"\", false);")
+    }
+
+    "contain specific failure code for postcode mismatch" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      cachePostcodeMismatchSetup()
+      go to VehicleLookupFailurePage
+
+      pageSource should include("liveagent.addCustomDetail(\"Failure\",\"PR002\", false);")
     }
   }
 

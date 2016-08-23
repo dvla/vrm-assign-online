@@ -16,7 +16,6 @@ import views.vrm_assign.Confirm.ConfirmCacheKey
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
-import views.vrm_assign.Fulfil.FulfilResponseCodeCacheKey
 import views.vrm_assign.Payment.PaymentDetailsCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.SetupBusinessDetails.SetupBusinessDetailsCacheKey
@@ -37,7 +36,6 @@ object RelatedCacheKeys {
     GranteeConsentCacheKey,
     REFERER,
     FulfilCacheKey,
-    FulfilResponseCodeCacheKey,
     PaymentDetailsCacheKey,
     PaymentTransNoCacheKey
   )

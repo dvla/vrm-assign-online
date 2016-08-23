@@ -7,6 +7,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_assign.main
 @import views.vrm_assign.PaymentFailure.ExitId
+@import views.html.common.liveAgentInfo
 @import views.html.vrm_assign.lookup_failure.failure_playback
 
 @main(
@@ -16,22 +17,23 @@
         @failure_playback(
             viewModel
         )
+
         <div class="second-col">
-    <h2>@Messages("vrm_assign_failure.title")</h2>
-
+            <h2>@Messages("vrm_assign_failure.title")</h2>
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+            @if(paymentDue) {
+                <p>@Messages("vrm_assign_failure_with_payment.text")</p>
+            } else {
+                <p>@Messages("vrm_assign_failure.text")</p>
+            }
 
-    @if(paymentDue) {
-        <p>@Messages("vrm_assign_failure_with_payment.text")</p>
-    } else {
-        <p>@Messages("vrm_assign_failure.text")</p>
-    }
+            @liveAgentInfo()
 
-    <div class="form-steps">
-        @csrfTokenHiddenField()
-        @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_assign_paymentfailure.exitbutton")</a>
-    </div>
+            <div class="form-steps">
+                @csrfTokenHiddenField()
+                @* Note the reverse routing syntax for the hyperlink *@
+                <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_assign_paymentfailure.exitbutton")</a>
+            </div>
         </div>
     </div>
 }

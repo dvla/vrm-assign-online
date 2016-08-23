@@ -37,7 +37,6 @@ trait Config extends VehicleLookupConfig with CommonConfig {
 
   // Email Service
   val emailWhitelist: Option[List[String]]
-  //getOptionalProperty[("email.whitelist", "").split(",")
   val emailSenderAddress: String
 
   // Cookie flags
@@ -55,4 +54,13 @@ trait Config extends VehicleLookupConfig with CommonConfig {
   val closingWarnPeriodMins: Int
 
   val closedDays: List[Int]
+
+  // Web chat Salesforce live agent
+  val liveAgentEnvironmentId: Option[String]
+  val liveAgentButtonId: String
+  val liveAgentOrgId: String
+  val liveAgentUrl: String
+  val liveAgentjsUrl: String
+
+  val failureCodeBlacklist: Option[List[String]]
 }

@@ -5,6 +5,7 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import views.html.common.liveAgentInfo
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.VehicleLookupFailure.ExitId
@@ -30,6 +31,9 @@
             @displayMessage(Messages("vehicle_lookup_failure.p3"))
             @displayMessage(Messages("vehicle_lookup_failure.p4"))
             @displayMessage(Messages("vehicle_lookup_failure.p5"))
+            @if(responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch") {
+                @liveAgentInfo()
+            }
         </div>
 
         @failure_playback(

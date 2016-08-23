@@ -378,6 +378,11 @@ vrm_assign_timeout.playback-title = Manylion y cerbyd
 vrm_assign_timeout.playback-current = Rhif cofrestru presennol:
 vrm_assign_timeout.playback-new = Y rhif cofrestru y dymunwch ei roi ymlaen:
 
+# webchat
+webchat.title = Web Chat
+webchat.info.p1 = If you would like further information then our advisors are available to
+webchat.info.chatlink.text = Chat
+
 # email
 email.template.line1 = THIS IS AN AUTOMATED EMAIL - Please do not reply as emails received at this address cannot be responded to.
 email.template.line2 = Payment received

@@ -12,6 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import utils.helpers.Config
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.paymentsolve.PaymentSolveService
@@ -27,16 +28,17 @@ final class FulfilFailure @Inject()(paymentSolveService: PaymentSolveService)
       request.cookies.getModel[PaymentModel],
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[CaptureCertificateDetailsFormModel],
-      request.cookies.getModel[CaptureCertificateDetailsModel]) match {
+      request.cookies.getModel[CaptureCertificateDetailsModel],
+      request.cookies.getModel[MicroserviceResponseModel]) match {
 
       case (Some(transactionId), paymentModelOpt, Some(vehicleAndKeeperLookupForm),
-        captureCertificateDetailsFormModel, captureCertificateDetailsModel) =>
+        captureCertificateDetailsFormModel, captureCertificateDetailsModel, Some(ms)) =>
         logMessage(request.cookies.trackingId(), Info, s"Presenting fulfil failure view")
         Ok(
           views.html.vrm_assign.fulfil_failure(
             transactionId,
             paymentModelOpt.isDefined,
-            VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
+            VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, failureCode = ms.msResponse.code)
           )
         )
       case _ =>

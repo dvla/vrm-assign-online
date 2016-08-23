@@ -1,13 +1,19 @@
 @(viewModel: models.VehicleLookupFailureViewModel,
   showContactDetails: Boolean = true)(implicit lang: Lang,
-    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config,
-    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+  config: utils.helpers.Config,
+  dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
 @import common.views.html.widgets.xmasOpeningTimes
+@import views.vrm_assign.LiveAgent.ServiceId
+@import views.vrm_assign.LiveAgent.VrmId
+@import views.vrm_assign.LiveAgent.V5Id
+@import views.vrm_assign.LiveAgent.PostcodeId
+@import views.vrm_assign.LiveAgent.FailureCodeId
+@import views.html.common.liveAgent
 
 <div id="vehicle-details" class="first-col trader-details">
     @playbackList(
@@ -29,6 +35,15 @@
         }
     ){
         @if(showContactDetails) {
+            @liveAgent({
+                val details: LinkedHashMap[String, String] = LinkedHashMap()
+                details += ServiceId -> "PR Put"
+                details += VrmId -> viewModel.registrationNumber
+                details += V5Id -> viewModel.v5ref
+                details += PostcodeId -> viewModel.postcode
+                details += FailureCodeId -> viewModel.failureCode
+            })
+
             <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper">
                 <h4>@Messages("assign-application-details-contact-us")</h4>
                 <p>@Messages("assign-application-details-telephone")</p>

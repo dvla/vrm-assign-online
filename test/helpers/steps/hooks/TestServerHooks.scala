@@ -1,6 +1,6 @@
 package helpers.steps.hooks
 
-import composition.TestGlobal
+import composition.TestGlobalWithFilters
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import play.api.test.FakeApplication
@@ -27,5 +27,5 @@ final class TestServerHooks {
 object TestServerHooks {
 
   private final val port: Int = 9005
-  private lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global = TestGlobal)
+  private lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global = TestGlobalWithFilters)
 }

@@ -76,7 +76,10 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
 
-    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
+    val viewModel = VehicleLookupFailureViewModel(
+      vehicleAndKeeperLookupForm,
+      msResponseModel.msResponse.code
+    )
 
     val intro = "VehicleLookupFailure is"
     println("displayVehicleLookupFailure: ms response message - " + msResponseModel.msResponse.message)
@@ -207,8 +210,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
         postcode_mismatch(
           transactionId = transactionId,
-          viewModel = viewModel,
-          failureCode = ErrorCodes.PostcodeMismatchErrorCode
+          viewModel = viewModel.copy(failureCode = ErrorCodes.PostcodeMismatchErrorCode)
         )
       case _ =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting vehicle lookup failure view")

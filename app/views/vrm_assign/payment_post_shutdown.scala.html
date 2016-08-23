@@ -5,12 +5,12 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.PaymentFailure
-@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
 @import common.views.html.widgets.xmasOpeningTimes
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
+@import views.html.common.liveAgentInfo
 @import views.vrm_assign.PaymentPostShutdown.ExitId
 
 @main(
@@ -22,6 +22,7 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("paymentPostShutdownErrorMessage.p1")</p>
             <p>@Messages("paymentPostShutdownErrorMessage.p2")</p>
+            @liveAgentInfo()
         </div>
 
         @failure_playback(

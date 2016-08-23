@@ -4,6 +4,7 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import views.html.common.liveAgentInfo
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.VehicleLookupFailure.ExitId
@@ -19,6 +20,7 @@
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages("vehicle-lookup-failure-cert-number-mismatch-p1")</p>
             <p>@Messages("vehicle-lookup-failure-cert-number-mismatch-p2") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-cert-number-mismatch-p2a")</p>
+            @liveAgentInfo()
         </div>
         @failure_playback(viewModel)
         <div class="form-steps">

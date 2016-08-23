@@ -8,9 +8,9 @@ object VrmLockedViewModel {
 
   def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
             timeString: String,
-            javascriptTimestamp: Long): VrmLockedViewModel =
+            javascriptTimestamp: Long)(implicit config: utils.helpers.Config): VrmLockedViewModel =
     VrmLockedViewModel(
-      VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm),
+      VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, failureCode = ""),
       timeString,
       javascriptTimestamp
     )

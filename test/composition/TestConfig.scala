@@ -8,19 +8,22 @@ import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 
-final class TestConfig(
-                        isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB_VISIBLE,
-                        auditServiceUseRabbit: Boolean = TestConfig.DEFAULT_AUDIT_SERVICE_USE_RABBIT,
-                        rabbitmqHost: String = TestConfig.DEFAULT_RABBITMQ_HOST,
-                        rabbitmqPort: Int = TestConfig.DEFAULT_RABBITMQ_PORT,
-                        rabbitmqQueue: String =  TestConfig.DEFAULT_RABBITMQ_Q,
-                        vehicleAndKeeperLookupMicroServiceBaseUrl: String = TestConfig.DEFAULT_BASE_URL,
-                        secureCookies: Boolean = TestConfig.DEFAULT_SECURE_COOKIES,
-                        cookieMaxAge: Int = TestConfig.DEFAULT_COOKIE_MAX_AGE.minutes.toSeconds.toInt,
-                        storeBusinessDetailsMaxAge: Int = TestConfig.DEFAULT_STORE_BUSINESS_DETAILS_MAX_AGE.days.toSeconds.toInt,
-                        auditMicroServiceUrlBase: String = TestConfig.DEFAULT_AUDIT_BASE_URL,
-                        emailServiceMicroServiceUrlBase: String = TestConfig.DEFAULT_BASE_URL
-                        ) extends ScalaModule with MockitoSugar {
+final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB_VISIBLE,
+                       auditServiceUseRabbit: Boolean = TestConfig.DEFAULT_AUDIT_SERVICE_USE_RABBIT,
+                       rabbitmqHost: String = TestConfig.DEFAULT_RABBITMQ_HOST,
+                       rabbitmqPort: Int = TestConfig.DEFAULT_RABBITMQ_PORT,
+                       rabbitmqQueue: String =  TestConfig.DEFAULT_RABBITMQ_Q,
+                       vehicleAndKeeperLookupMicroServiceBaseUrl: String = TestConfig.DEFAULT_BASE_URL,
+                       secureCookies: Boolean = TestConfig.DEFAULT_SECURE_COOKIES,
+                       cookieMaxAge: Int = TestConfig.DEFAULT_COOKIE_MAX_AGE.minutes.toSeconds.toInt,
+                       storeBusinessDetailsMaxAge: Int = TestConfig.DEFAULT_STORE_BUSINESS_DETAILS_MAX_AGE.days.toSeconds.toInt,
+                       auditMicroServiceUrlBase: String = TestConfig.DEFAULT_AUDIT_BASE_URL,
+                       emailServiceMicroServiceUrlBase: String = TestConfig.DEFAULT_BASE_URL,
+                       liveAgentEnvVal: Option[String] = None,
+                       liveAgentButtonVal: String = TestConfig.DEFAULT_WEBCHAT_BUTTON,
+                       liveAgentOrgVal: String = TestConfig.DEFAULT_WEBCHAT_ORG,
+                       liveAgentUrlVal: String = TestConfig.DEFAULT_WEBCHAT_URL,
+                       failureCodeBlacklist: Option[List[String]] = TestConfig.DEFAULT_WEBCHAT_BLACKLIST) extends ScalaModule with MockitoSugar {
 
   val stub = {
     val config: Config = mock[Config]
@@ -78,6 +81,16 @@ final class TestConfig(
     ))
     when(config.closedDays).thenReturn(TestConfig.CLOSED_DAYS)
 
+    // Web chat enablement
+    when(config.liveAgentEnvironmentId).thenReturn(liveAgentEnvVal)
+
+    // Web chat extra config
+    when(config.liveAgentButtonId).thenReturn(liveAgentButtonVal)
+    when(config.liveAgentOrgId).thenReturn(liveAgentOrgVal)
+    when(config.liveAgentUrl).thenReturn(liveAgentUrlVal)
+
+    when(config.failureCodeBlacklist).thenReturn(failureCodeBlacklist)
+
     config
   }
 
@@ -121,4 +134,9 @@ object TestConfig {
   final val DEFAULT_COOKIE_MAX_AGE = 30
   final val DEFAULT_STORE_BUSINESS_DETAILS_MAX_AGE = 7 // days
   final val DEFAULT_AUDIT_SERVICE_USE_RABBIT = false
+
+  final val DEFAULT_WEBCHAT_BUTTON = "XXX"
+  final val DEFAULT_WEBCHAT_ORG = "YYY"
+  final val DEFAULT_WEBCHAT_URL = "ZZZ"
+  final val DEFAULT_WEBCHAT_BLACKLIST = Some(List("alpha", "bravo", "charlie"))
 }

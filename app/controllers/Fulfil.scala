@@ -20,25 +20,26 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.clientsidesession.ClearTextClientSideSessionFactory
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.TrackingId
+import common.LogFormats
+import common.LogFormats.DVLALogger
+import common.model.MicroserviceResponseModel
+import common.model.VehicleAndKeeperDetailsModel
+import common.services.DateService
+import common.services.SEND.Contents
+import common.views.models.DayMonthYear
+import common.webserviceclients.common.MicroserviceResponse
+import common.webserviceclients.common.VssWebEndUserDto
+import common.webserviceclients.common.VssWebHeaderDto
+import common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
-import views.vrm_assign.Fulfil.FulfilResponseCodeCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
@@ -205,7 +206,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
         Redirect(routes.FulfilFailure.present())
           .withCookie(paymentModel.get)
-          .withCookie(key = FulfilResponseCodeCacheKey, value = response.message)
+          .withCookie(MicroserviceResponseModel.content(response))
       } else {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.ConfirmToFulfilFailure,
@@ -223,7 +224,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
         )
 
         Redirect(routes.FulfilFailure.present())
-          .withCookie(key = FulfilResponseCodeCacheKey, value = response.message)
+          .withCookie(MicroserviceResponseModel.content(response))
       }
     }
 

@@ -13,6 +13,7 @@
 @import common.views.html.widgets.xmasOpeningTimes
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
+@import views.html.common.liveAgentInfo
 @import views.vrm_assign.PaymentFailure.{TryAgainId, ExitId}
 
 @main(
@@ -24,6 +25,7 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("paymentFailureErrorMessage.p1")</p>
             <p>@Messages("paymentFailureErrorMessage.p2")</p>
+            @liveAgentInfo()
         </div>
         @failure_playback(
             vehicleLookupFailureViewModel,

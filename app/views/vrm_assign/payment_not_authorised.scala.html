@@ -5,10 +5,10 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.playbackList
 @import common.views.html.widgets.xmasOpeningTimes
+@import views.html.common.liveAgentInfo
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
 @import views.vrm_assign.PaymentNotAuthorised.{TryAgainId, ExitId}
@@ -23,6 +23,7 @@
             <p>@Messages("paymentNotAuthorisedErrorMessage.p1")</p>
             <p>@Messages("paymentNotAuthorisedErrorMessage.p2")</p>
             <p>@Messages("paymentNotAuthorisedErrorMessage.p3")</p>
+            @liveAgentInfo()
         </div>
 
         @failure_playback(

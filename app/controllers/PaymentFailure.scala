@@ -48,8 +48,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
                                     captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel)
                                    (implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details, vehicleAndKeeperLookupForm.replacementVRN)
-      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
+      case Some(details) => VehicleLookupFailureViewModel(details, vehicleAndKeeperLookupForm, failureCode = "")
+      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, failureCode = "")
     }
 
     val trackingId = request.cookies.trackingId()
