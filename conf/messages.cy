@@ -179,11 +179,6 @@ paymentNotAuthorisedErrorMessage.p1 = Ni awdurdodwyd y taliad wrth ddefnyddio’
 paymentNotAuthorisedErrorMessage.p2 = Efallai na roesoch eich manylion i mewn yn gywir.  Os hoffech roi cynnig arall ar roi manylion eich cerdyn neu dalu gyda cherdyn arall, gwnewch hynny nawr.
 paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cysylltwch â chyhoeddwr eich cerdyn am gyngor.
 
-# Payment post shutdown page
-paymentPostShutdownErrorMessage.title = Mae’n ddrwg gennym ond nid yw’r gwasanaeth ar-lein ar hyn o bryd
-paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 07:00 i 19:00.
-paymentPostShutdownErrorMessage.p2 = Ar hyn o bryd ni allwn barhau â’ch cais, bydd yn rhaid i chi ddychwelyd yn ystod oriau agor. Ni chymerwyd taliad.
-
 vrm_assign_confirm_business.title = Cadarnhau eich manylion busnes
 
 vrm_assign_capturecertificatedetails.title = Manylion tystysgrif
