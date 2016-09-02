@@ -110,7 +110,7 @@ vehicle-lookup-failure-cert-number-mismatch-p1 = The certificate reference numbe
 vehicle-lookup-failure-cert-number-mismatch-p2 = Please make sure you have the most recent
 vehicle-lookup-failure-cert-number-mismatch-p2a = and try again.
 
-# direct_to_paper / ninety-day_rule failure / cert_number_mismatch / postcode_mismatch
+# direct_to_paper / cert_number_mismatch / postcode_mismatch
 vehicle-lookup-failure-direct_to_paper-title = This registration number cannot be assigned online
 vehicle-lookup-failure-direct_to_paper-p1 = You are unable to continue with this application online.
 vehicle-lookup-failure-direct-to-paper-p2a = Please complete and send your
@@ -124,7 +124,6 @@ vehicle-lookup-failure-direct-to-paper-p4 = All documents must be originals, not
 vehicle-lookup-failure-notice-payment-p1a = There are outstanding renewal fees:
 vehicle-lookup-failure-notice-payment-desc1 = Description
 vehicle-lookup-failure-transaction-id = Transaction Id
-vehicle-lookup-failure-ninety_day_rule_failure-p1 = We need to look into your application further due to the vehicle’s licensing history.
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-title = This registration number cannot be assigned
@@ -148,7 +147,6 @@ vrm_assign_eligibility_not_mot_failure = Our records show this vehicle is not MO
 vrm_assign_eligibility_not_mot_failure_link = https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency
 vrm_assign_eligibility_too_young_failure = You cannot put your registration number on this vehicle as it would make your vehicle appear younger than it is.
 vrm_assign_eligibility_v778_ref_failure = The V778 document reference number does not match our records, please check the number and try again.
-vrm_assign_eligibility_ninety_day_rule_failure = 90 day error message
 
 # Payment page
 vrm_assign_payment.title = Payment

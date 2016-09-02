@@ -170,15 +170,18 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       Redirect(routes.MicroServiceError.present())
     }
 
-    def eligibilitySuccess(certificateExpiryDate: DateTime) = {
+    def eligibilitySuccess(certificateExpiryDate: Option[DateTime]) = {
       logMessage(trackingId, Debug, "Eligibility check was successful")
 
       // calculate number of years owed if any
-      val outstandingDates = calculateYearsOwed(certificateExpiryDate)
+      val outstandingDates = certificateExpiryDate match {
+        case Some(expiryDate) => calculateYearsOwed(expiryDate)
+        case _ => new ListBuffer[String]
+      }
 
       val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
         vehicleAndKeeperLookupFormModel.replacementVRN,
-        Some(certificateExpiryDate),
+        certificateExpiryDate,
         outstandingDates.toList,
         outstandingDates.size * config.renewalFeeInPence.toInt
       )
@@ -262,10 +265,12 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
       response =>
         response match {
-          case (FORBIDDEN, failure)  =>
+          case (FORBIDDEN, failure) if (failure.response.get.message == "vrm_assign_eligibility_ninety_day_rule_failure")  =>
+            eligibilitySuccess(failure.vrmAssignEligibilityResponse.certificateExpiryDate)
+          case (FORBIDDEN, failure) =>
             eligibilityFailure(failure)
           case (OK, success) =>
-            eligibilitySuccess(success.vrmAssignEligibilityResponse.certificateExpiryDate.get)
+            eligibilitySuccess(success.vrmAssignEligibilityResponse.certificateExpiryDate)
         }
     }.recover {
       case NonFatal(e) =>

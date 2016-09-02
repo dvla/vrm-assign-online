@@ -1,6 +1,7 @@
 package controllers
 
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNinetyDayRuleError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, TestWithApplication}
@@ -100,6 +101,32 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
               model.certificateTime should equal(CertificateTimeValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
+      }
+    }
+
+    "redirect to confirm page when the form is completed successfully " +
+      "but fails eligibility with the ninety day rule" in new TestWithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+        .withCookies(vehicleAndKeeperDetailsModel())
+        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+        .withCookies(captureCertificateDetailsFormModel())
+        .withCookies(captureCertificateDetailsModel())
+      val (captureCertificateDetails, dateService, auditService) = buildWithNinetyDayRule()
+      val result = captureCertificateDetails.submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+        val cookies = fetchCookiesFromHeaders(r)
+        val cookieName = CaptureCertificateDetailsFormModelCacheKey
+        cookies.find(_.name == cookieName) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[CaptureCertificateDetailsFormModel](json)
+            model.certificateDate should equal(CertificateDateValid.toUpperCase)
+            model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
+            model.certificateRegistrationMark should equal(RegistrationNumberValid.toUpperCase)
+            model.certificateTime should equal(CertificateTimeValid.toUpperCase)
+          case None => fail(s"$cookieName cookie not found")
+        }
       }
     }
 
@@ -350,6 +377,16 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   private def buildWithNotEligible() = {
     val ioc = testInjector(
       new VrmAssignEligibilityCallNotEligibleError
+    )
+    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+      ioc.getInstance(classOf[DateService]),
+      ioc.getInstance(classOf[AuditService])
+      )
+  }
+
+  private def buildWithNinetyDayRule() = {
+    val ioc = testInjector(
+      new VrmAssignEligibilityCallNinetyDayRuleError
     )
     (ioc.getInstance(classOf[CaptureCertificateDetails]),
       ioc.getInstance(classOf[DateService]),
