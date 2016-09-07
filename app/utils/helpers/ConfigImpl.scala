@@ -49,8 +49,8 @@ class ConfigImpl extends Config {
   //getProperty[("email.whitelist", "").split(",")
   override val emailSenderAddress: String = getProperty[String]("email.senderAddress")
   override val emailConfiguration: EmailConfiguration = EmailConfiguration(
-    From(getProperty[String]("email.senderAddress"), ConfigImpl.EMAIL_FROM_NAME),
-    From(getProperty[String]("email.feedbackAddress"), ConfigImpl.EMAILFEEDBACK_FROM_NAME),
+    From(getProperty[String]("email.senderAddress"), ConfigImpl.EmailFromName),
+    From(getProperty[String]("email.feedbackAddress"), ConfigImpl.EmailFeedbackFromName),
     getStringListProperty("email.whitelist")
   )
 
@@ -78,7 +78,8 @@ class ConfigImpl extends Config {
 
   override val openingTimeMinOfDay: Int = getProperty[Int]("openingTimeMinOfDay")
   override val closingTimeMinOfDay: Int = getProperty[Int]("closingTimeMinOfDay")
-  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(ConfigImpl.DEFAULT_CLOSING_WARN_PERIOD)
+  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins")
+    .getOrElse(ConfigImpl.DefaultClosingWarnPeriodMins)
 
   override val closedDays: List[Int] = getIntListProperty("closedDays").getOrElse(List())
 
@@ -98,7 +99,7 @@ class ConfigImpl extends Config {
 }
 
 object ConfigImpl {
-  final val DEFAULT_CLOSING_WARN_PERIOD = 15
-  final val EMAIL_FROM_NAME = "DO-NOT-REPLY"
-  final val EMAILFEEDBACK_FROM_NAME = "Feedback"
+  final val DefaultClosingWarnPeriodMins = 15
+  final val EmailFromName = "DO-NOT-REPLY"
+  final val EmailFeedbackFromName = "Feedback"
 }
