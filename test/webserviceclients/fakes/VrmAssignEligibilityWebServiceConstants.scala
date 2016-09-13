@@ -30,13 +30,4 @@ object VrmAssignEligibilityWebServiceConstants {
       )
     )
   }
-
-  def vrmAssignEligibilityResponseNinetyDayRuleError = {
-    (FORBIDDEN,
-      VrmAssignEligibilityResponseDto(
-        Some(MicroserviceResponse("", "vrm_assign_eligibility_ninety_day_rule_failure")),
-        VrmAssignEligibilityResponse(Some(new DateTime().minus(Period.years(2))))
-      )
-    )
-  }
 }
