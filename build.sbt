@@ -180,3 +180,5 @@ Sandbox.acceptTask
 Sandbox.cucumberTask
 
 Sandbox.acceptRemoteTask
+
+resolvers ++= Seq("Bintray-repo" at "http://dl.bintray.com/dvla/maven/")
