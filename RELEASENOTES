@@ -1,3 +1,15 @@
+======= 1.40 =====
+Time of release binaries creation:
+
+
+VMPRCI-4288 	Update VMPR Cookies policy
+VMPRCI-4436 	Add webchat support
+VMPRCI-4475 	Business route (error messages being displayed when fields are left blank)
+VMPRCI-4481 	Payment post shutdown page not displayed
+VMPRCI-4500 	Removed the need for ordnancesurvey.ms.url property
+VMPRCI-4503 	Ignore 90 day LOTI rule & allow customers to transact on-line
+VMPRCI-4504 	Ignore 180 day LOTI rule & allow customers to transact on-line
+
 ======= 1.39 =====
 Time of release binaries creation:
 Wed Aug 17 10:39:53 UTC 2016
