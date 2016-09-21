@@ -134,7 +134,7 @@ SandboxSettings.portOffset := 21000
 
 SandboxSettings.applicationContext := ""
 
-SandboxSettings.webAppSecrets := "ui/dev/vrm-assign-online.conf.enc"
+SandboxSettings.webAppSecrets := "vrm-assign-online/conf/vrm-assign-online.conf"
 
 SandboxSettings.osAddressLookupProject := osAddressLookupProject
 
