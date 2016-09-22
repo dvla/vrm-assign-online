@@ -265,8 +265,6 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
       response =>
         response match {
-          case (FORBIDDEN, failure) if (failure.response.get.message == "vrm_assign_eligibility_ninety_day_rule_failure")  =>
-            eligibilitySuccess(failure.vrmAssignEligibilityResponse.certificateExpiryDate)
           case (FORBIDDEN, failure) =>
             eligibilityFailure(failure)
           case (OK, success) =>
