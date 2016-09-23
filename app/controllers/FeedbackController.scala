@@ -41,7 +41,11 @@ class FeedbackController @Inject()(val emailService: EmailService,
       invalidForm => BadRequest(views.html.vrm_assign.feedback(formWithReplacedErrors(invalidForm))),
       validForm => {
         val trackingId = request.cookies.trackingId
-        sendFeedback(validForm, Messages("common_feedback.subject"), trackingId)
+        sendFeedback(
+          validForm,
+          s"${Messages("main.banner")} - ${Messages("common_feedback.subject.suffix")}",
+          trackingId
+        )
         Ok(views.html.vrm_assign.feedbackSuccess())
       }
     )

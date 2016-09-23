@@ -33,7 +33,6 @@ error.button = Start again
 main.banner = Put a registration number on a vehicle
 
 # before you start
-vrm_assign_beforeyoustart.title = Put a registration number on a vehicle
 vrm_assign_beforeyoustart.p1 = You can use this service if your vehicle:
 vrm_assign_beforeyoustart.list1item1 = is registered, taxed and used in the UK
 vrm_assign_beforeyoustart.list1item2 = is available for us to inspect
@@ -327,7 +326,6 @@ email.line30 = Having identified outstanding renewal fees for the registration n
 email.line31 = Total:
 
 # failure email
-email.failure.title = Put a registration number on a vehicle
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
 email.failure.line4 = Thank you for your application to ''Put a registration number on a vehicle''. Your application was \
@@ -349,9 +347,6 @@ vrm_assign_failure_with_payment.text = This transaction has not been successful,
 vrm_assign_leave_feedback.title = Thank you
 vrm_assign_leave_feedback.feedback = leaving feedback
 vrm_assign_leave_feedback.p1 = Please help us to improve this service by
-
-# feedback
-common_feedback.subject = Put a registration number on a vehicle - feedback
 
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented

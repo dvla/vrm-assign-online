@@ -33,7 +33,6 @@ error.button = Cychwyn eto
 main.banner = Rhoi rhif cofrestru ar gerbyd
 
 # before you start
-vrm_assign_beforeyoustart.title = Rhoi rhif cofrestru ar gerbyd
 vrm_assign_beforeyoustart.p1 = Gallwch ddefnyddio’r gwasanaeth hwn os yw’ch cerbyd:
 vrm_assign_beforeyoustart.list1item1 = wedi ei gofrestru, ei drethu a’i ddefnyddio yn y DU
 vrm_assign_beforeyoustart.list1item2 = ar gael i ni ei archwilio
@@ -327,7 +326,6 @@ email.line30 = Wedi adnabod y ffioedd adnewyddu sy’n weddill ar gyfer y rhif c
 email.line31 = Cyfanswm
 
 # failure email
-email.failure.title = Rhoi rhif cofrestru ar gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line4 =Diolch am eich cais ‘Rhoi rhif cofrestru ar gerbyd’. Roedd eich cais yn \
@@ -349,9 +347,6 @@ vrm_assign_failure_with_payment.text = Ni fu’r trafodion yn llwyddiannus, ni c
 vrm_assign_leave_feedback.title = Diolch
 vrm_assign_leave_feedback.feedback = rhoi adborth
 vrm_assign_leave_feedback.p1 = Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
-
-# feedback
-common_feedback.subject = Rhoi rhif cofrestru ar gerbyd - adborth
 
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
