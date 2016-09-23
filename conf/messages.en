@@ -1,14 +1,14 @@
-# VPC - main widget
+# main widget
 main.back = Back
-crown-copyright = Crown Copyright
-gov-uk = GOV.UK
 
-address.lines.label = Building/number and street
+#email_with_html
+crown-copyright = Crown Copyright
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
+# vrm_locked page
 vrm_locked.title = Registration number is locked
 vrm_locked.text1 = There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2 = Locked at
@@ -27,11 +27,9 @@ error.title = We are sorry
 error.text = An error has occurred, please start again.
 error.button = Start again
 
-mandatory = Fields not labelled (optional) are mandatory
-
 # vrm assign messages
 
-# main
+# VPC header
 main.banner = Put a registration number on a vehicle
 
 # before you start
@@ -360,6 +358,7 @@ payment-prevent-back-title = Back button prevented
 payment-prevent-back-text = You cannot use your browser back button after making a payment. No new payments have been taken.
 payment-prevent-back-return-to-success = Return to success page
 
+# vrm_locked, cert_number_mismatch, direct_to_paper
 link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778 = V750 or V778
 

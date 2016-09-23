@@ -1,14 +1,14 @@
-# VPC - main widget
+# main widget
 main.back = Yn ôl
-crown-copyright = Hawlfraint y Goron
-gov-uk = GOV.UK
 
-address.lines.label = Adeilad/rhif a stryd
+#email_with_html
+crown-copyright = Hawlfraint y Goron
 
 vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
+# vrm_locked page
 vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
 vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
 vrm_locked.text2 = Wedi cloi am
@@ -27,11 +27,9 @@ error.title = Cafwyd gwall na allwn ei adfer
 error.text = An error has occurred, please start again.
 error.button = Cychwyn eto
 
-mandatory = Mae’r meysydd nad ydynt wedi eu nodi fel rhai (dewisol) yn orfodol
-
 # vrm assign messages
 
-# main
+# VPC header
 main.banner = Rhoi rhif cofrestru ar gerbyd
 
 # before you start
@@ -360,6 +358,7 @@ payment-prevent-back-title = Atalwyd y botwm Yn ôl
 payment-prevent-back-text = Ni allwch ddefnyddio botwm yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.
 payment-prevent-back-return-to-success = Dychwelyd i’r dudalen Llwyddo
 
+# vrm_locked, cert_number_mismatch, direct_to_paper
 link-v750-or-v778 = https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle
 text-v750-or-v778 = V750 neu V778
 
