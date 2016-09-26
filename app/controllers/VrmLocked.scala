@@ -26,7 +26,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
       transactionId <- request.cookies.getString(TransactionIdCacheKey)
       vehicleAndKeeperLookupFormModel <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
     } yield {
-      logMessage(request.cookies.trackingId, Debug, "VrmLocked - Displaying the vrm locked error page")
+      logMessage(request.cookies.trackingId(), Debug, "VrmLocked - Displaying the vrm locked error page")
       val timeString = model.dateTimeISOChronology
       val javascriptTimestamp = DateTime.parse(timeString).getMillis
       Ok(views.html.vrm_assign.vrm_locked(
@@ -36,7 +36,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
 
     happyPath.getOrElse {
-      logMessage(request.cookies.trackingId, Debug, "VrmLocked - Can't find cookies")
+      logMessage(request.cookies.trackingId(), Debug, "VrmLocked - Can't find cookies")
       Redirect(routes.VehicleLookup.present())
     }
   }

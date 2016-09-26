@@ -175,7 +175,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     def fulfilFailure(response: MicroserviceResponse) = {
-      logMessage(request.cookies.trackingId, Debug, "Vrm assign fulfil micro-service failed for request with " +
+      logMessage(request.cookies.trackingId(), Debug, "Vrm assign fulfil micro-service failed for request with " +
         s"referenceNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, "  +
         s"registrationNumber = ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
         "redirecting to FulfilFailure")
@@ -229,7 +229,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
     }
 
     def microServiceErrorResult(message: String) = {
-      logMessage(request.cookies.trackingId, Error, message)
+      logMessage(request.cookies.trackingId(), Error, message)
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -244,17 +244,17 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-          businessDetailsOpt.fold {logMessage(request.cookies.trackingId, Debug,
+          businessDetailsOpt.fold {logMessage(request.cookies.trackingId(), Debug,
             "No business details cookie found or user type not business so will " +
             "not create a fulfil confirm email for the business")
           }
-          {keeperEmail => logMessage(request.cookies.trackingId, Debug,
+          {keeperEmail => logMessage(request.cookies.trackingId(), Debug,
             "Business details cookie found and user type is business so will " +
             "create a fulfil confirm email for the business")}
-          keeperEmailOpt.fold {logMessage(request.cookies.trackingId, Debug,
+          keeperEmailOpt.fold {logMessage(request.cookies.trackingId(), Debug,
             "No keeper email supplied so will not create a fulfil confirm email for the keeper")
           }
-          {keeperEmail => logMessage(request.cookies.trackingId, Debug,
+          {keeperEmail => logMessage(request.cookies.trackingId(), Debug,
             "Keeper email supplied so will create a fulfil confirm email for the keeper")}
 
           Seq(businessDetailsOpt.flatMap { businessDetails =>

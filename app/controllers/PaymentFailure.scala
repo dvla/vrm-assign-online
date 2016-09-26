@@ -32,7 +32,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
           captureCertificateDetailsFormModel
         )
       case _ =>
-        logMessage(request.cookies.trackingId, Warn, "PaymentFailure present cookie missing go to BeforeYouStart")
+        logMessage(request.cookies.trackingId(), Warn, "PaymentFailure present cookie missing go to BeforeYouStart")
         Redirect(routes.BeforeYouStart.present())
     }
   }

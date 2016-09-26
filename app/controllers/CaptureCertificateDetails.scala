@@ -161,7 +161,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     val trackingId = request.cookies.trackingId()
 
     def microServiceErrorResult(message: String) = {
-      logMessage(request.cookies.trackingId, Error, message)
+      logMessage(request.cookies.trackingId(), Error, message)
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureCertificateDetailsToMicroServiceError,
         transactionId = transactionId,
