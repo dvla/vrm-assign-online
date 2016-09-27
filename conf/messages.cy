@@ -107,7 +107,7 @@ vehicle-lookup-failure-cert-number-mismatch-p1 = Nid yw rhif cyfeirnod y dystysg
 vehicle-lookup-failure-cert-number-mismatch-p2 = Gwnewch yn siŵr fod y fersiwn fwyaf diweddar gennych chi
 vehicle-lookup-failure-cert-number-mismatch-p2a = a cheisio eto.
 
-# direct_to_paper / cert_number_mismatch / postcode_mismatch
+# direct_to_paper / ninety-day_rule failure / cert_number_mismatch / postcode_mismatch
 vehicle-lookup-failure-direct_to_paper-title = Ni ellir dynodi’r rhif cofrestru hwn ar-lein
 vehicle-lookup-failure-direct_to_paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-direct-to-paper-p2a = Rhaid i chi anfon y
@@ -121,6 +121,7 @@ vehicle-lookup-failure-direct-to-paper-p4 = Rhaid i’r holl ddogfennau fod yn r
 vehicle-lookup-failure-notice-payment-p1a = Mae ffioedd adnewyddu i’w talu:
 vehicle-lookup-failure-notice-payment-desc1 = Disgrifiad
 vehicle-lookup-failure-transaction-id = ID trafodion
+vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-title = Ni ellir dynodi’r rhif cofrestru hwn
@@ -144,6 +145,7 @@ vrm_assign_eligibility_not_mot_failure = Dengys ein cofnodion nad oes modd rhoi 
 vrm_assign_eligibility_not_mot_failure_link = https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency
 vrm_assign_eligibility_too_young_failure = Ni allwch roi eich rhif cofrestru ar y cerbyd hwn eich plât cofrestru ar y cerbyd hwn.  Ni allwch wneud i gerbyd ymddangos yn ifancach na’r hyn ydyw.
 vrm_assign_eligibility_v778_ref_failure = Nid yw rhif cyfeirnod y ddogfen V778 yn cyfateb â’n cofnodion, gwiriwch y rhif cofrestru a cheisio eto.
+vrm_assign_eligibility_ninety_day_rule_failure = Neges wall 90 diwrnod
 
 # Payment page
 vrm_assign_payment.title = Taliad

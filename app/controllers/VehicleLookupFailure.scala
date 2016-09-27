@@ -19,6 +19,7 @@ import utils.helpers.Config
 import views.html.vrm_assign.lookup_failure.cert_number_mismatch
 import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.eligibility
+import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
 import views.html.vrm_assign.lookup_failure.postcode_mismatch
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
@@ -197,6 +198,13 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         cert_number_mismatch(
           transactionId = transactionId,
           viewModel = viewModel
+        )
+      case "vrm_assign_eligibility_ninety_day_rule_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"$intro presenting ninety day rule failure view")
+        ninety_day_rule_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          captureCertificateDetailsModel = captureCertificateDetailsModel
         )
       case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")

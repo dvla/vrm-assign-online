@@ -19,10 +19,6 @@ Feature: Assignment of Vehicle
     | "ABC123"           | "S15"                     | "11111111111" | "SA2"     | "1"               | "23456"           | "891234"          | "ABC123"          |
     | "ABC123"           | "S101"                    | "11111111111" | "SA222AA" | "1"               | "23456"           | "891234"          | "ABC123"          |
     | "ABC123"           | "S102"                    | "11111111111" | "SA222AA" | "1"               | "23456"           | "891234"          | "ABC123"          |
-    # 90 day rule
-    | "ABC123"           | "EE111"                   | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          |
-    # 180 day rule
-    | "ABC123"           | "EE35"                    | "11111111111" | "SA11AA"  | "1"               | "23456"           | "891234"          | "ABC123"          |
 
   @UnHappyPath
   Scenario: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
