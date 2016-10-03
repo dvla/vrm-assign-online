@@ -1,4 +1,4 @@
-package PersonalizedAssignment.runner
+package personalizedAssignment.runner
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber
