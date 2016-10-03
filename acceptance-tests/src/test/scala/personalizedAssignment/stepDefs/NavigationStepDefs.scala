@@ -24,10 +24,10 @@ import pages.vrm_assign.SetupBusinessDetailsPage
 import pages.vrm_assign.SuccessPage
 import pages.vrm_assign.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import views.vrm_assign.Fulfil.FulfilCacheKey
 import views.vrm_assign.Payment.PaymentDetailsCacheKey
 import views.vrm_assign.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 

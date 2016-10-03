@@ -5,10 +5,7 @@ import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import org.scalatest.concurrent.Eventually.PatienceConfig
-import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser.{pageSource, pageTitle}
-import org.scalatest.time.{Second, Seconds, Span}
+import org.scalatest.selenium.WebBrowser.pageSource
 import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
 import pages.ConfirmBusinessPageSteps
