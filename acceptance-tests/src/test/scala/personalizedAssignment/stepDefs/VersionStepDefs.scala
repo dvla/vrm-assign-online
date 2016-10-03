@@ -19,7 +19,7 @@ final class VersionStepDefs(implicit webDriver: WebBrowserDriver) extends helper
     }).build()
 
     val httpClient = HttpClientBuilder.create.setSSLContext(sslContext).build()
-    val post = new HttpGet(WebDriverFactory.testUrl +  "version")
+    val post = new HttpGet(WebDriverFactory.testUrl + "version")
     val httpResponse = httpClient.execute(post)
     versionString = Option(fromInputStream(httpResponse.getEntity.getContent).mkString)
     httpResponse.close()
