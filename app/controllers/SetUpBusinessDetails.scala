@@ -85,7 +85,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
-      (s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}", "error.restricted.validPostcode"),
+      (s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}", "error.addresslookup.mandatory"),
       (s"$BusinessAddressId.${AddressPicker.PostcodeId}", "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,

@@ -12,6 +12,7 @@ import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.SubmitId
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -45,6 +46,7 @@ object SetupBusinessDetailsPage extends Page {
                 traderBusinessEmail: String = TraderBusinessEmailValid,
                 traderBusinessAddressLine1: String = BusinessAddressLine1Valid,
                 traderBusinessAddressLine2: String = BusinessAddressLine2Valid,
+                traderBusinessAddressLine3: String = BusinessAddressLine3Valid,
                 traderBusinessAddressTown: String = BusinessAddressPostTownValid,
                 traderBusinessPostcode: String = PostcodeValid)
                (implicit driver: WebDriver) = {

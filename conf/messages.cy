@@ -32,6 +32,9 @@ error.button = Cychwyn eto
 # VPC header
 main.banner = Rhoi rhif cofrestru ar gerbyd
 
+# various views
+vrm_assign_exit.button = Gadael
+
 # before you start
 vrm_assign_beforeyoustart.p1 = Gallwch ddefnyddio’r gwasanaeth hwn os yw’ch cerbyd:
 vrm_assign_beforeyoustart.list1item1 = wedi ei gofrestru, ei drethu a’i ddefnyddio yn y DU
@@ -63,11 +66,12 @@ vrm_assign_setupbusinessdetails.button = Nesaf
 vrm_assign_setupbusinessdetails.addresswarning = Os nad yw’ch cyfeiriad yn y pecyn cod post hwn neu’n dangos manylion anghywir, dewiswch y ddolen hon i
 vrm_assign_setupbusinessdetails.addresswarninglinktext = rhoi gwybod i’r Bost Brenhinol
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
+error.addresslookup.mandatory = You must enter a postcode to find an address or enter an address manually
 
 # Confirm
 error.validEmail = Rhaid iddo fod yn gyfeiriad ebost dilys
 
-# vehicle Lookup
+# vehicle_lookup view
 vrm_assign_vehiclelookup.title = Rhif cofrestru sy’n mynd ar y cerbyd
 vrm_assign_vehiclelookup.v5c = Tystysgrif cofrestru V5CW (llyfr log)
 vrm_assign_vehiclelookup.currentVrnLabel = Rhif cofrestru cerbyd presennol
@@ -176,8 +180,10 @@ paymentNotAuthorisedErrorMessage.p1 = Ni awdurdodwyd y taliad wrth ddefnyddio’
 paymentNotAuthorisedErrorMessage.p2 = Efallai na roesoch eich manylion i mewn yn gywir.  Os hoffech roi cynnig arall ar roi manylion eich cerdyn neu dalu gyda cherdyn arall, gwnewch hynny nawr.
 paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cysylltwch â chyhoeddwr eich cerdyn am gyngor.
 
-vrm_assign_confirm_business.title = Cadarnhau eich manylion busnes
+# ReferenceNumber mapping
+error.validReferenceNumber = Rhaid i chi roi rhif cyfeirnod dogfen y dystysgrif dilys
 
+# capture_certificate_details view
 vrm_assign_capturecertificatedetails.title = Manylion tystysgrif
 vrm_assign_capturecertificatedetails.title-2 = Rhif cyfeirnod y dystysgrif neu ddogfen
 vrm_assign_capturecertificatedetails.referencenumberhelper = Please y rhif 14 to 20 digid rhif o:
@@ -186,42 +192,47 @@ vrm_assign_capturecertificatedetails.referencenumberBox2 = Blwch 2
 vrm_assign_capturecertificatedetails.referencenumberBox3 = Blwch 3
 vrm_assign_capturecertificatedetails.referencenumberBox4 = Blwch 4
 vrm_assign_capturecertificatedetails.button = Nesaf
-
-error.validReferenceNumber = Rhaid i chi roi rhif cyfeirnod dogfen y dystysgrif dilys
 vrm_assign_capturecertificatedetails.onlineRetention = y gwasanaeth gadw ar-lein
 vrm_assign_capturecertificatedetails.onlineRetentionHint = Y gwasanaeth gadw ar-lein
 vrm_assign_capturecertificatedetails.hintCertificate = y dystysgrif hawl V750
 vrm_assign_capturecertificatedetails.hintCertificate-1 = neu
 vrm_assign_capturecertificatedetails.hintDocumentReference = y dogfen gadw V778.
+capture-certificate-details-you-will-need-certificate-of-entitlement = Tystysgrif hawl (V750)
+capture-certificate-details-you-will-need-retention-document = Dogfen gadw (V778)
+
+# CaptureCertificateDetails
 certificate-document-count = Blwch rhif cyfeirnod 1
 certificate-date = Blwch rhif cyfeirnod 2
 certificate-time = Blwch rhif cyfeirnod 3
 certificate-registration-mark = Blwch rhif cyfeirnod 4
-
-capture-certificate-details-you-will-need-certificate-of-entitlement = Tystysgrif hawl (V750)
-capture-certificate-details-you-will-need-retention-document = Dogfen gadw (V778)
-
 error.validCertificateDocumentCount = Rhaid iddo fod yn 1 llythyren neu ddigid
 error.validCertificateDate = Rhaid iddo fod yn 5 digid
 error.summary-validCertificateTime = Ni all fod yn wag neu’n cynnwys nodau annilys
 error.validCertificateTime = Ni all fod yn wag neu’n cynnwys nodau annilys
 
-vrm_assign_confirm.title = Cadarnhau manylion ceidwad
-vrm_assign_confirm.toAssign = Rhif cofrestru sy’n mynd ar y cerbyd:
-vrm_assign_confirm.consent = Caniatâd
-vrm_assign_confirm.email = Opsiynau ebost
-vrm_assign_confirm.keeperLabel = Ceidwad cofrestredig
-vrm_assign_confirm.keeperAddressLabel = Cyfeiriad
+# confirm_business view
+vrm_assign_confirm_business.title = Cadarnhau eich manylion busnes
 vrm_assign_confirm.businessNameLabel = Enw busnes
 vrm_assign_confirm.businessContactLabel = Enw cyswllt
 vrm_assign_confirm.businessEmailLabel = Cyswllt ebost
 vrm_assign_confirm.businessAddressLabel = Cyfeiriad
-keeper-email = Ebost
-supply-email = Opsiynau ebost
+
+# confirm and confirm_payment view
+vrm_assign_confirm.title = Cadarnhau manylion ceidwad
+
+# confirm and failure_playback view
+vrm_assign_confirm.toAssign = Rhif cofrestru sy’n mynd ar y cerbyd:
 
 # VPC - OptionsToggle
 mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
 
+# confirm view
+vrm_assign_confirm.consent = Caniatâd
+vrm_assign_confirm.email = Opsiynau ebost
+vrm_assign_confirm.keeperLabel = Ceidwad cofrestredig
+vrm_assign_confirm.keeperAddressLabel = Cyfeiriad
+keeper-email = Ebost
+supply-email = Opsiynau ebost
 vrm_assign_confirm.emailAddressCustomerLabel = Ebost y Cwsmer
 vrm_assign_confirm.emailAddressKeeperLabel = Ebost y Ceidwad
 vrm_assign_confirm.button = Cadarnhau
@@ -236,22 +247,24 @@ vrm_assign_confirm.emailWarnp5 = Os bydd angen i chi wneud newidiadau i’ch tys
 vrm_assign_confirm.emailWarnp5link = “Adnewyddu, diweddaru neu gyfnewid tystysgrif V778”
 vrm_assign_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion a derbynneb taliad os bydd ffioedd adnewyddu’n daladwy
 vrm_assign_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i gael crynodeb o’r trafodion
-
 vrm_assign_confirm.grantee_consent.notgiven = Rhaid i chi gadarnhau fod gennych chi ganiatâd i roi’r rhif cofrestru hwn ar y cerbyd hwn
-grantee-consent-id = Caniatâd grantai
 vrm_assign_confirm.granteeConsent = Rwyf i, y grantai, yn cadarnhau y gall y rhif cofrestru hwn fynd ar y cerbyd hwn
 vrm_assign_confirm.businessConsent = Cadarnhaf fod y grantai wedi rhoi caniatâd i’r rhif cofrestru hwn fynd ar y cerbyd hwn
-
-vrm_assign_exit.button = Gadael
-vrm_assign_finish.button = Gorffen
-vrm_assign_changedetails.button = Newid manylion
 supply-email-keeper-acting = Ydych chi’n dymuno derbyn ebost gyda chrynodeb o’r trafodion?
 supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chrynodeb o’r trafodion?
 supply-email-true = Byddwn
 supply-email-false = Na Fyddwn
+
+# confirm_business view
+vrm_assign_changedetails.button = Newid manylion
+
+# Confirm ids
+grantee-consent-id = Caniatâd grantai
+
+# Confirm controller
 email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
 
-# fees page
+# confirm_payment view
 vrm_assign_confirm.outstandingFees = Mae ffioedd adnewyddu i’w talu ar gyfer
 vrm_assign_confirm.outstandingFees-1 =. Rhaid talu’r ffioedd os dymunwch barhau â’r cais hwn.
 vrm_assign_confirm.outstandingFeesTitle = Ffioedd adnewyddu i’w talu
@@ -263,9 +276,7 @@ vrm_assign_confirm.feesRelatedVehicleRegistration = Rhif cofrestru newydd:
 vrm_assign_confirm.feesRelatedTotal = Cyfanswm i’w dalu heddiw
 vrm_assign_confirm.outstandingFeesCta = Talu yn awr
 
-vrm_assign_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
-vrm_assign_success_payment.p7 = Byddwch angen y ffurflen tystysgrif cofrestru V5CW (llyfr log) a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
-
+# failure_playback view
 assign-application-details-contact-us = I gysylltu â ni:
 assign-application-details-telephone = Ffôn
 assign-application-details-telephone-number = 0300 123 1350
@@ -276,27 +287,28 @@ assign-application-details-monday-to-friday = Dydd llun i ddydd gwener: 08:00 i 
 assign-application-details-saturday = Dydd sadwrn: 08:00 i 14:00
 assign-application-details-sunday = Dydd sul: ar gau
 
+# success view
+vrm_assign_finish.button = Gorffen
 vrm_assign_success.title = Cais yn llwyddiannus
 vrm_assign_success.subtitle = Gellir ei roi ar y cerbyd nawr
 success-cert-warning-1 = Bydd eich treth gerbyd a thystysgrif MOT yn parhau’n ddilys hyd nes y bydd eu dyddiadau’n dirwyn i ben. Ni fydd y DVLA yn anfon tystysgrif MOT newydd atoch.
-
 vrm_assign_success.newPlateLink = Lawrlwythwch y eV948
-
 vrm_assign_success.noticePayment.h3 = Taliad
 vrm_assign_success.noticePayment.p1 = Diolch i chi am eich taliad, mae’r arian wedi ei gymryd o’ch cerdyn credyd/debyd.
-
 vrm_assign_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
 vrm_assign_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich tystysgrif cofrestru V5CW (llyfr log) newydd neu drwy ddefnyddio’ch tystysgrif V750/V778
 vrm_assign_success_payment.what-next-3 = yn eich cyflenwr lleol a gymeradwyir gan y DVLA.
 vrm_assign_success_payment.what-next-4 = cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
 vrm_assign_success_payment.what-next-5a = You will receive an email confirmation of your assignment and a payment receipt.
 vrm_assign_success_payment.what-next-5b = You will receive an email confirmation of your assignment.
-
+vrm_assign_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
+vrm_assign_success_payment.p7 = Byddwch angen y ffurflen tystysgrif cofrestru V5CW (llyfr log) a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
 vrm_assign_success.h2a = Beth fydd yn digwydd nesaf?
 vrm_assign_success.p4 = Bydd y DVLA yn anfon tystysgrif cofrestru V5CW (llyfr log) newydd ar gyfer y rhif cofrestru
 vrm_assign_success.p5 = at y ceidwad i’w gyfeiriad cofrestredig. Bydd hon yn cyrraedd cyn pen 3 i 5 diwrnod.
 vrm_assign_success.p6 = Dinistriwch yr hen tystysgrif cofrestru V5CW (llyfr log) wedi i chi gael yr un newydd.
 vrm_assign_success.h3a = Beth i’w wneud nesaf
+vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
 
 success-application-details-keeper-details = Manylion y ceidwad
 success-application-details-keeper-details-name = Enw:
@@ -308,8 +320,7 @@ success-application-details-business-name = Enw busnes:
 success-application-details-email = Ebost:
 success-application-details-email-not-entered = Heb ei roi
 
-vrm_assign_success.buttonnavprint = Argraffwch y dudalen hon
-
+# email_without_html view
 email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Rhoi rhif cofrestru ar gerbyd yn gyflawn ar gyfer {0}
 email.line2 = Cais yn llwyddiannus

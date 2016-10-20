@@ -4,7 +4,6 @@ import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.PaymentModel
-import models.VehicleAndKeeperLookupFormModel
 import play.api.libs.json.JsBoolean
 import play.api.libs.json.JsNull
 import play.api.libs.json.JsNumber
@@ -43,7 +42,6 @@ object AuditRequest {
   final val CaptureCertificateDetailsToCaptureCertificateDetailsFailure =
     "CaptureCertificateDetailsToCaptureCertificateDetailsFailure"
 
-  //final val ConfirmToPayment = "ConfirmToPayment"
   final val ConfirmToSuccess = "ConfirmToSuccess"
   final val ConfirmToExit = "ConfirmToExit"
   final val ConfirmToFulfilFailure = "ConfirmToFulfilFailure"

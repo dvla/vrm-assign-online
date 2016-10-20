@@ -6,6 +6,7 @@ import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
+import pages.common.ErrorPanel
 import pages.common.MainPanel.back
 import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.ConfirmBusinessPage
@@ -47,6 +48,14 @@ class SetUpBusinessDetailsIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       SetupBusinessDetailsPage.happyPath()
       currentUrl should equal(ConfirmBusinessPage.url)
+    }
+
+    "display one validation error message when " +
+      "no address lookup postcode is entered" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      SetupBusinessDetailsPage.happyPath(traderBusinessPostcode = "")
+      ErrorPanel.numberOfErrors should equal(1)
     }
   }
 

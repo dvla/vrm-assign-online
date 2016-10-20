@@ -75,7 +75,42 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       errors should have length 1
       errors.head.message should equal("error.address.threeAlphas")
     }
+
+    "reject if address postcode lookup is blank" in {
+      val errors = formWithValidDefaults(searchPostCode = "").errors
+      //errors should have length 3
+      //NOTE: the form errors for the address lookup postcode are replaced with a single error, error.addresslookup.mandatory
+      // see IntegrationSpec
+      errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.restricted.validPostcode","error.minLength","error.required")
+    }
   }
+
+  "postcode" should {
+    "reject if trader postcode is empty" in {
+      val errors = formWithValidDefaults(traderPostcode = "").errors
+      errors should have length 1
+      errors.head.key should equal(s"$BusinessAddressId.post-code")
+      errors.head.message should equal("error.address.postCode")
+    }
+
+    "reject if trader postcode is less than the minimum length" in {
+      formWithValidDefaults(traderPostcode = "M15A").errors should have length 2
+    }
+
+    "reject if trader postcode is more than the maximum length" in {
+      formWithValidDefaults(traderPostcode = "SA99 1DDD").errors should have length 2
+    }
+
+    "reject if trader postcode contains special characters" in {
+      formWithValidDefaults(traderPostcode = "SA99 1D$").errors should have length 1
+    }
+
+    "reject if trader postcode contains an incorrect format" in {
+      formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
+    }
+  }
+
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
