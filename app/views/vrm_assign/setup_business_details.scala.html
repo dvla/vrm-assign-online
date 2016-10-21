@@ -24,7 +24,7 @@
     currentForm = Some(setupBusinessDetailsFormModel),
     backButton = Some(controllers.routes.VehicleLookup.present())
 ) {
-    @form(action = SetUpBusinessDetails.submit) {
+    @form(action = SetUpBusinessDetails.submit, 'novalidate -> "novalidate") {
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col inline-form business-details-capture">
@@ -38,8 +38,7 @@
                 @email(setupBusinessDetailsFormModel(BusinessEmailId),
                     labelText = Messages("vrm_assign_setupbusinessdetails.businessemaillabel"),
                     hintText = Some(Messages("vrm_assign_setupbusinessdetails.businessemailhelper")),
-                    args = Map('maxLength -> BusinessEmailMaxLength,
-                    'validityMessage -> Messages("error.email"))
+                    args = Map('maxLength -> BusinessEmailMaxLength)
                 )
                 <div class="uppercase-input">
                 @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
