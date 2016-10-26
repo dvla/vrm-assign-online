@@ -1,3 +1,12 @@
+======= 1.42 =====
+Time of release binaries creation:
+
+
+VMPRCI-4525 	Error message holding on new keeper's page
+VMPRCI-4526 	Setup business details postcode lookup validation message
+VMPRCI-4531 	Add acceptance tests where they are missing that exercise the version functionality
+VMPRCI-4532 	Fix coverage reporting jobs
+
 ======= 1.41 =====
 Time of release binaries creation:
 Wed Sep 28 13:11:54 UTC 2016
