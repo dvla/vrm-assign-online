@@ -12,6 +12,7 @@ import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentPage, Veh
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_assign.RelatedCacheKeys.AssignSet
 import views.vrm_assign.RelatedCacheKeys.BusinessDetailsSet
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 
 class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
@@ -44,8 +45,8 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  //  Cannot test without mocking up the html of the Solve payment iframe
-  //  "pay now button" should
+  // Cannot test without mocking up the html of the Solve payment iframe
+  // "pay now button" should
 
   "cancel" should {
     "redirect to mock feedback page" taggedAs UiTag in new WebBrowserForSelenium {
@@ -119,6 +120,6 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
       transactionId().
       paymentModel().
       paymentTransNo().
-      captureCertificateDetailsModel().
+      captureCertificateDetailsModel(certificate = ExpiredWithFeeCertificate).
       captureCertificateDetailsFormModel()
 }

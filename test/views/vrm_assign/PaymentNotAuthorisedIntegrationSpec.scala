@@ -14,6 +14,7 @@ import pages.vrm_assign.PaymentNotAuthorisedPage
 import pages.vrm_assign.PaymentNotAuthorisedPage.exit
 import pages.vrm_assign.PaymentNotAuthorisedPage.tryAgain
 import pages.vrm_assign.PaymentPage
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 
 final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 
@@ -94,6 +95,6 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
       transactionId().
       paymentModel().
       paymentTransNo().
-      captureCertificateDetailsModel().
+      captureCertificateDetailsModel(certificate = ExpiredWithFeeCertificate).
       captureCertificateDetailsFormModel()
 }

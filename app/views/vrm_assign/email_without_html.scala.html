@@ -4,49 +4,50 @@
         transactionTimestamp: String,
         keeperName: String,
         keeperAddress: String,
-        amount: String,
         replacementVRM: String,
-        outstandingFees: Int,
-        outstandingDates: List[String],
+        outstandingFees: Option[String],
         keeperEmail: Option[String],
         businessDetailsModel: Option[BusinessDetailsModel],
         businessAddress: String,
         isKeeper: Boolean)(implicit lang: Lang)
 
-    @Messages("email.withoutHtml")
-    @Messages("email.title", replacementVRM)
-    @Messages("email.line2")
-    @Messages("email.line3")
-    @retentionCertId
-    @Messages("email.line4")
-    @transactionTimestamp
-    @Messages("email.line5")
-    @transactionId
-    @Messages("email.line6", replacementVRM)
+@Messages("email.withoutHtml")
 
-    @Messages("email.line13")
-    @if(!isKeeper) {
-        @businessDetailsModel.map { businessDetails =>
-            @Messages("email.line14")
-            @businessDetails.name
-            @businessAddress
-            @businessDetails.email.toLowerCase
-        }
+@Messages("email.title", replacementVRM)
+
+@Messages("email.line2")
+
+@Messages("email.line3")
+@retentionCertId
+
+@Messages("email.line4")
+@transactionTimestamp
+
+@Messages("email.line5")
+@transactionId
+@Messages("email.line6", replacementVRM)
+
+@Messages("email.line13")
+@if(!isKeeper) {
+    @businessDetailsModel.map { businessDetails =>
+@Messages("email.line14")
+@businessDetails.name
+@businessAddress
+@businessDetails.email.toLowerCase
     }
-    @Messages("email.line20")
-    @keeperName
-    @keeperAddress
-    @keeperEmail.getOrElse("").toLowerCase
-    @Messages("email.line29")
-    @Messages("email.line30")
-    @for(payment <- outstandingDates) {
-        @payment.split("£")(0)
-        £@payment.split("£")(1)
-    }
-    ---------------------------
-    @Messages("email.line31")
-    @outstandingFees
-    ---------------------------
-    @Messages("email.line21")
-    @Messages("email.line22")
-    @Messages("email.line23")
+}
+@Messages("email.line20")
+@keeperName
+@keeperAddress
+@keeperEmail.getOrElse("").toLowerCase
+
+@outstandingFees.map { fee =>
+@Messages("email.line29")
+@Messages("email.line30", fee)
+}
+
+---------------------------
+
+@Messages("email.line21")
+@Messages("email.line22")
+@Messages("email.line23")

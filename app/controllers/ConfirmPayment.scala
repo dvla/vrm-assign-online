@@ -52,8 +52,7 @@ class ConfirmPayment @Inject()(auditService2: audit2.AuditService)
       } yield {
           val viewModel = ConfirmViewModel(vehicleDetails,
             vehicleAndKeeperLookupForm,
-            captureCertDetails.outstandingDates,
-            captureCertDetails.outstandingFees,
+            captureCertDetails.certificate,
             vehicleAndKeeperLookupForm.userType
           )
           logMessage(request.cookies.trackingId(), Info, s"Presenting confirm payment view")

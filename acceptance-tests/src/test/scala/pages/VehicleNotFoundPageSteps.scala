@@ -79,4 +79,9 @@ final class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver)
     pageSource should include("V750 or V778")
     this
   }
+
+  def `has 'certificate expired' message` = {
+    pageSource should include("The entitlement to this registration number has expired")
+    this
+  }
 }

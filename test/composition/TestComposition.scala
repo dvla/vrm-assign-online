@@ -12,7 +12,7 @@ import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBind
 import composition.webserviceclients.paymentsolve.PaymentServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
-import composition.webserviceclients.vrmassigneligibility.TestVrmAssignEligibilityWebServiceBinding
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallSuccess
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityServiceBinding
 import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
 import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilServiceBinding
@@ -37,7 +37,7 @@ trait TestComposition extends Composition {
       new TestConfig,
       new TestVehicleAndKeeperLookupWebServiceBinding,
       new TestDateServiceBinding,
-      new TestVrmAssignEligibilityWebServiceBinding,
+      new VrmAssignEligibilityCallSuccess,
       new TestVrmAssignFulfilWebServiceBinding,
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebServiceBinding,

@@ -5,6 +5,7 @@ import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import org.scalatest.selenium.WebBrowser.pageSource
 import pages.BeforeYouStartPageSteps
 import pages.CaptureCertificateDetailsPageSteps
 import pages.ConfirmBusinessPageSteps
@@ -190,6 +191,18 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     vehicleNotFound.
       `is displayed`.
       `has 'direct to paper' message`
+  }
+
+  @Then("^the certificate expired page is displayed$")
+  def `the certificate expired page is displayed`() {
+    vehicleNotFound.
+      `is displayed`.
+      `has 'certificate expired' message`
+  }
+
+  @Then("^the page contains \"(.*?)\"$")
+  def `the page contains`(contents: String) {
+    pageSource should include(contents)
   }
 
   //Scenario 6

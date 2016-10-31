@@ -1,5 +1,6 @@
 package models
 
+import models.Certificate.ExpiredWithFee
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
@@ -23,8 +24,7 @@ object SuccessViewModel {
             keeperEmail: Option[String],
             fulfilModel: FulfilModel,
             transactionId: String,
-            outstandingPaymentList: List[String],
-            outstandingPaymentAmount: Double): SuccessViewModel = {
+            certificate: Certificate): SuccessViewModel = {
     SuccessViewModel(
       vehicleDetails = vehicleAndKeeperDetails,
       keeperEmail = keeperEmail,
@@ -43,29 +43,7 @@ object SuccessViewModel {
       prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
       transactionId,
       fulfilModel.transactionTimestamp,
-      paymentMade = outstandingPaymentAmount > 0
-    )
-  }
-
-  /** TODO check if this is used and if we can remove it */
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
-            vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-            fulfilModel: FulfilModel,
-            transactionId: String,
-            outstandingPaymentList: List[String],
-            outstandingPaymentAmount: Double): SuccessViewModel = {
-    SuccessViewModel(
-      vehicleDetails = vehicleAndKeeperDetails,
-      keeperEmail = None,
-      businessName = None,
-      businessContact = None,
-      businessEmail = None,
-      businessAddress = None,
-      prVrm = formatVrm(vehicleAndKeeperLookupFormModel.replacementVRN),
-      transactionId,
-      fulfilModel.transactionTimestamp,
-      paymentMade = outstandingPaymentAmount > 0
+      paymentMade = certificate.isInstanceOf[ExpiredWithFee]
     )
   }
 }

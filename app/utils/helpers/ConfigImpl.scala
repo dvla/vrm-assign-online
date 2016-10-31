@@ -42,7 +42,7 @@ class ConfigImpl extends Config {
 
   // Payment Service
   override val renewalFeeInPence: String = getProperty[String]("assign.renewalFee.price")
-  override val renewalFeeAbolitionDate: String = getProperty[String]("assign.renewalFee.abolitionDate")
+  override val renewalFeeExpiryInYears: Int = getProperty[Int]("assign.renewalFee.expiry")
 
   // Email Service
   override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")

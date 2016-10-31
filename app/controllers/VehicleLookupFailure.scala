@@ -5,6 +5,7 @@ import mappings.common.ErrorCodes
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import models.DirectToPaperViewModel
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
@@ -16,6 +17,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import utils.helpers.Config
+import views.html.vrm_assign.lookup_failure.cert_expired
 import views.html.vrm_assign.lookup_failure.cert_number_mismatch
 import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.eligibility
@@ -88,12 +90,17 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel)
         )
       case "vrm_assign_eligibility_cert_number_mismatch" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting cert number mismatch failure view")
         cert_number_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel
+        )
+      case "vrm_assign_eligibility_cert_expired" =>
+        logMessage(request.cookies.trackingId(), Info, s"$intro presenting cert expired failure view")
+        cert_expired(
           transactionId = transactionId,
           viewModel = viewModel
         )
@@ -134,8 +141,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel),
           responseMessage = Some("vrm_assign_eligibility_no_keeper_failure"),
           responseLink = Some("vrm_assign_eligibility_no_keeper_failure_link")
         )
@@ -157,16 +163,14 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel),
           responseMessage = Some("vrm_assign_eligibility_damaged_failure")
         )
       case "vrm_assign_eligibility_vic_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel),
           responseMessage = Some("vrm_assign_eligibility_vic_failure"),
           responseLink = Some("vrm_assign_eligibility_vic_failure_link")
         )
@@ -174,8 +178,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel,
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel),
           responseMessage = Some("vrm_assign_eligibility_destroyed_failure")
         )
       case "vrm_assign_eligibility_not_mot_failure" =>

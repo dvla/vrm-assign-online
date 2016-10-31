@@ -9,14 +9,18 @@ import play.api.libs.json.Json
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.FakeResponse
-import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseSuccess
+import webserviceclients.fakes.VrmAssignEligibilityWebServiceConstants
+import VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseSuccess
+import VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseDirectToPaperError
+import VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseExpiredCertOver6Years
+import VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseExpiredCertWithin6Years
+import VrmAssignEligibilityWebServiceConstants.vrmAssignEligibilityResponseNotEligibleError
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponseDto
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityWebService
 
-final class TestVrmAssignEligibilityWebServiceBinding(
-            statusAndResponse: (Int, VrmAssignEligibilityResponseDto) = vrmAssignEligibilityResponseSuccess)
-  extends ScalaModule with MockitoSugar {
+sealed class TestVrmAssignEligibilityWebServiceBinding(
+            statusAndResponse: (Int, VrmAssignEligibilityResponseDto)) extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService: VrmAssignEligibilityWebService = mock[VrmAssignEligibilityWebService]
@@ -38,3 +42,18 @@ object TestVrmAssignEligibilityWebServiceBinding {
     new FakeResponse(status = status, fakeJson = Some(asJson))
   }
 }
+
+final class VrmAssignEligibilityCallSuccess extends
+  TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityResponseSuccess)
+
+final class VrmAssignEligibilityCallDirectToPaperError extends
+  TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityResponseDirectToPaperError)
+
+final class VrmAssignEligibilityCallExpiredCertOver6Years extends
+  TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityResponseExpiredCertOver6Years)
+
+final class VrmAssignEligibilityCallExpiredCertWithin6Years extends
+  TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityResponseExpiredCertWithin6Years)
+
+final class VrmAssignEligibilityCallNotEligibleError extends
+  TestVrmAssignEligibilityWebServiceBinding(vrmAssignEligibilityResponseNotEligibleError)

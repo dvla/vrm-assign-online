@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import models.Certificate
 import models.FulfilModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
@@ -32,6 +33,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
@@ -47,6 +49,7 @@ import views.vrm_assign.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityRequest
+import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponse
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityService
 import webserviceclients.vrmassigneligibility.VrmAssignEligibilityResponseDto
 
@@ -170,21 +173,13 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
       Redirect(routes.MicroServiceError.present())
     }
 
-    def eligibilitySuccess(certificateExpiryDate: Option[DateTime]) = {
+    def eligibilitySuccess(certificate: Certificate) = {
       logMessage(trackingId, Debug, "Eligibility check was successful")
-
-      // calculate number of years owed if any
-      val outstandingDates = certificateExpiryDate match {
-        case Some(expiryDate) => calculateYearsOwed(expiryDate)
-        case _ => new ListBuffer[String]
-      }
 
       val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
         vehicleAndKeeperLookupFormModel.replacementVRN,
-        certificateExpiryDate,
-        outstandingDates.toList,
-        outstandingDates.size * config.renewalFeeInPence.toInt
-      )
+        certificate
+       )
 
       val redirectLocation = {
         auditService2.send(AuditRequest.from(
@@ -210,7 +205,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         .withCookie(captureCertificateDetailsFormModel)
     }
 
-    def eligibilityFailure(failure: VrmAssignEligibilityResponseDto) = {
+    def eligibilityFailure(failure: VrmAssignEligibilityResponseDto, certificate: Certificate) = {
       val response = failure.response.get
 
       val msg = "Eligibility check failed for request " +
@@ -219,18 +214,9 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
         ", redirecting to VehicleLookupFailure"
       logMessage(trackingId, Debug, msg)
 
-      // calculate number of years owed if any
-      val outstandingDates: ListBuffer[String] = failure.vrmAssignEligibilityResponse.certificateExpiryDate match {
-        case Some(expiryDate)
-          if (response.message == "vrm_assign_eligibility_direct_to_paper") => calculateYearsOwed(expiryDate)
-        case _ => new ListBuffer[String]
-      }
-
       val captureCertificateDetailsModel = CaptureCertificateDetailsModel.from(
         vehicleAndKeeperLookupFormModel.replacementVRN,
-        failure.vrmAssignEligibilityResponse.certificateExpiryDate,
-        outstandingDates.toList,
-        outstandingDates.size * config.renewalFeeInPence.toInt
+        certificate
       )
 
       auditService2.send(AuditRequest.from(
@@ -263,13 +249,25 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     )
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map {
-      response =>
+      response => {
         response match {
+          // Only need to calculate certificate expiry for direct to paper failures
+          case (FORBIDDEN, failure) if failure.response.get.message == "vrm_assign_eligibility_direct_to_paper" =>
+            eligibilityFailure(failure, validateCertificate(failure.vrmAssignEligibilityResponse.certificateExpiryDate))
           case (FORBIDDEN, failure) =>
-            eligibilityFailure(failure)
-          case (OK, success) =>
-            eligibilitySuccess(success.vrmAssignEligibilityResponse.certificateExpiryDate)
+            eligibilityFailure(failure, Certificate.Unknown)
+          case (OK, success) => {
+            val expiryDate = success.vrmAssignEligibilityResponse.certificateExpiryDate
+            validateCertificate(expiryDate) match {
+              case certificate: Certificate.Expired => eligibilityFailure(VrmAssignEligibilityResponseDto(
+                Some(MicroserviceResponse("T1045", "vrm_assign_eligibility_cert_expired")),
+                VrmAssignEligibilityResponse(expiryDate)
+              ), certificate)
+              case certificate @ _ => eligibilitySuccess(certificate)
+            }
+          }
         }
+      }
     }.recover {
       case NonFatal(e) =>
         microServiceErrorResult(s"Vrm Assign Eligibility web service call failed. Exception: " + e.toString)
@@ -279,7 +277,7 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
   private def buildWebHeader(trackingId: TrackingId,
                              identifier: Option[String]): VssWebHeaderDto =
     VssWebHeaderDto(transactionId = trackingId.value,
-      originDateTime = new DateTime,
+      originDateTime = dateService.now.toDateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser(identifier))
@@ -340,23 +338,18 @@ final class CaptureCertificateDetails @Inject()(val bruteForceService: BruteForc
     Redirect(routes.LeaveFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
-  private val certFmt = DateTimeFormat.forPattern("dd/MM/YYYY")
+  def validateCertificate(certExpiryDate: Option[DateTime]) = {
+    val today = dateService.now.toDateTime.toLocalDate
 
-  def calculateYearsOwed(certExpiryDate: DateTime): ListBuffer[String] = {
-    val renewalDate = certExpiryDate.plus(Period.years(1))
-    val renewalFeeAbolitionDate = certFmt.parseDateTime(config.renewalFeeAbolitionDate)
+    def canMakeOneOffPayment(expiryDate: DateTime) =
+      !expiryDate.toLocalDate.isBefore(today.minusYears(config.renewalFeeExpiryInYears))
 
-    if (certExpiryDate.isBefore(renewalFeeAbolitionDate)) {
-      yearOwedOutputLine(renewalDate) ++ calculateYearsOwed(renewalDate)
-    } else {
-      ListBuffer.empty
+    certExpiryDate match {
+      case Some(expiryDate) if (!expiryDate.toLocalDate.isBefore(today)) => Certificate.Valid(expiryDate)
+      case Some(expiryDate) if (canMakeOneOffPayment(expiryDate)) =>
+        Certificate.ExpiredWithFee(expiryDate, config.renewalFeeInPence.toInt, f"${config.renewalFeeInPence.toDouble / 100.0}%.2f")
+      case Some(expiryDate) => Certificate.Expired(expiryDate)
+      case None => Certificate.Unknown
     }
-  }
-
-  def yearOwedOutputLine(renewalDate: DateTime): ListBuffer[String] = {
-    new ListBuffer[String] += 
-      certFmt.print(renewalDate.minus(Period.years(1)).plus(Period.days(1))) + 
-      "  -  "  + certFmt.print(renewalDate) + 
-      "   £" + (config.renewalFeeInPence.toInt / 100.0) + "0"
   }
 }

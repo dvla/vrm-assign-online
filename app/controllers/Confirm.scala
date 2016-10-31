@@ -5,6 +5,7 @@ import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsModel
 import models.CaptureCertificateDetailsFormModel
+import models.Certificate.ExpiredWithFee
 import models.ConfirmFormModel
 import models.ConfirmViewModel
 import models.FulfilModel
@@ -48,7 +49,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       Some(captureCertDetailsForm), Some(captureCertDetails), None) =>
 
         val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
-          captureCertDetails.outstandingDates, captureCertDetails.outstandingFees, vehicleAndKeeperLookupForm.userType)
+          captureCertDetails.certificate, vehicleAndKeeperLookupForm.userType)
         val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
         // with the situation where payment fails and they come back to this page via either back button or coming
         // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
@@ -93,15 +94,16 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       vehicleAndKeeperLookup <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       captureCertificateDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
     } yield {
-        if (captureCertificateDetails.outstandingFees > 0) {
+      captureCertificateDetails.certificate match {
+        case _: ExpiredWithFee =>
           audit(AuditRequest.ConfirmToFeesDue, Some(model))
           Redirect(routes.ConfirmPayment.present()).withCookiesEx(cookies: _*).withCookie(model)
-        } else {
+        case _ =>
           audit(AuditRequest.ConfirmToSuccess, Some(model))
           Redirect(routes.Fulfil.fulfil()).withCookiesEx(cookies: _*).withCookie(model)
-        }
+      }
 
-      }) getOrElse sadPath
+    }) getOrElse sadPath
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = (for {
@@ -111,8 +113,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
     captureCertDetails <- request.cookies.getModel[CaptureCertificateDetailsModel]
   } yield {
     val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm,
-      captureCertDetails.outstandingDates, captureCertDetails.outstandingFees,
-      vehicleAndKeeperLookupForm.userType)
+      captureCertDetails.certificate, vehicleAndKeeperLookupForm.userType)
     val updatedForm = formWithReplacedErrors(form, KeeperEmailId, "error.validEmail").distinctErrors
     val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
     BadRequest(views.html.vrm_assign.confirm(viewModel, updatedForm, vehicleAndKeeper, isKeeper))

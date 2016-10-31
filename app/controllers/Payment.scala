@@ -2,7 +2,15 @@ package controllers
 
 import com.google.inject.Inject
 import composition.RefererFromHeader
-import models.{BusinessDetailsModel, CacheKeyPrefix, CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel, ConfirmFormModel, FulfilModel, PaymentModel, VehicleAndKeeperLookupFormModel}
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.CaptureCertificateDetailsFormModel
+import models.CaptureCertificateDetailsModel
+import models.Certificate.ExpiredWithFee
+import models.ConfirmFormModel
+import models.FulfilModel
+import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
@@ -130,7 +138,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           tokenBase64URLSafe = tokenBase64URLSafe
         )
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-        val outstandingFees = request.cookies.getModel[CaptureCertificateDetailsModel].get.outstandingFees
+        val outstandingFees = request.cookies.getModel[CaptureCertificateDetailsModel].get.certificate match {
+          case ExpiredWithFee(_, fee, _) => fee
+          case _ => throw new IllegalStateException("There are no outstanding fees")
+        }
+
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
           transNo = transNo,

@@ -1,12 +1,12 @@
 @(transactionId: String,
-        viewModel: models.VehicleLookupFailureViewModel,
-        captureCertificateDetailsModel: Option[CaptureCertificateDetailsModel],
+        viewModel: models.DirectToPaperViewModel,
         responseMessage: Option[String] = None,
         responseLink: Option[String] = None
         )(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import models.Certificate.{Expired, ExpiredWithFee, Valid}
 @import views.html.common.liveAgentInfo
 @import views.html.vrm_assign.lookup_failure.failure_playback
 @import views.html.vrm_assign.main
@@ -31,32 +31,32 @@
                 }
             }
 
-            @if(captureCertificateDetailsModel.isDefined) {
-                @if(captureCertificateDetailsModel.get.outstandingDates.size > 0) {
-                    <p>@Messages("vehicle-lookup-failure-notice-payment-p1a")</p>
-                    <p><strong>@Messages("vehicle-lookup-failure-notice-payment-desc1")</strong></p>
-                    <p>
-                    @for(payment <- captureCertificateDetailsModel.get.outstandingDates) {
-                        @payment.split("£")(0)
-                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
+            @if(viewModel.certificate.isDefined) {
+                @viewModel.certificate.get match {
+                    case Expired(_) => {
+                        <p>@Messages("vehicle-lookup-failure-cert-expired-p1")</p>
                     }
-                    <p class="price-total">
-                    <strong>Total</strong>
-                    <span class="renewalFee">£@(captureCertificateDetailsModel.get.outstandingFees / 100.0)0</span>
-                    </p>
-                    </p>
-                    <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2a2")</p>
-                } else {
-                    <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2b") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2b2")</p>
+                    case certificate @ _ => {
+                        @certificate match {
+                            case ExpiredWithFee(_, _, fmtFee) => {
+                                <p>@Messages("vrm_assign_confirm.payment.p1", fmtFee)</p>
+                                <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2a1")</p>
+                            }
+                            case _ => {
+                                <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2a2")</p>
+                            }
+                        }
+                        <p>@Messages("vehicle-lookup-failure-direct-to-paper-address-line1")<br/>
+                            @Messages("vehicle-lookup-failure-direct-to-paper-address-line2")<br/>
+                            @Messages("vehicle-lookup-failure-direct-to-paper-address-line3")</p>
+                        <p>@Messages("vehicle-lookup-failure-direct-to-paper-p4")</p>
+                    }
                 }
             }
-            <p>@Messages("vehicle-lookup-failure-direct-to-paper-address-line1")<br/>
-                @Messages("vehicle-lookup-failure-direct-to-paper-address-line2")<br/>
-                @Messages("vehicle-lookup-failure-direct-to-paper-address-line3")</p>
-            <p>@Messages("vehicle-lookup-failure-direct-to-paper-p4")</p>
+
             @liveAgentInfo()
         </div>
-        @failure_playback(viewModel)
+        @failure_playback(viewModel.vehicleLookupFailureViewModel)
         <div class="form-steps">
             <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vehicle-lookup-failure-cert-number-try-again")</a>
             <br/>

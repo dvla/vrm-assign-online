@@ -19,6 +19,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import helpers.TestWithApplication
+import org.joda.time.DateTime
 import pages.vrm_assign.ConfirmPaymentPage
 import pages.vrm_assign.FulfilPage
 import pages.vrm_assign.LeaveFeedbackPage
@@ -28,6 +29,7 @@ import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOCATION, OK, SEE_OTHER}
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 
 class PaymentUnitSpec extends UnitSpec {
 
@@ -267,7 +269,7 @@ class PaymentUnitSpec extends UnitSpec {
         vehicleAndKeeperDetailsModel(registrationNumber = "DD22"),
         confirmFormModel(),
         paymentModel(),
-        captureCertificateDetailsModel(fees = 42),
+        captureCertificateDetailsModel(certificate = ExpiredWithFeeCertificate),
         captureCertificateDetailsFormModel(),
         granteeConsent()
       )

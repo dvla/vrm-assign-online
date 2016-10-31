@@ -4,10 +4,8 @@
         transactionTimestamp: String,
         keeperName: String,
         keeperAddress: String,
-        amount: String,
         replacementVRM: String,
-        outstandingFees: Int,
-        outstandingDates: List[String],
+        outstandingFees: Option[String],
         govUkContentId: String,
         keeperEmail: Option[String],
         businessDetailsModel: Option[BusinessDetailsModel],
@@ -234,8 +232,7 @@
                                     </tr>
                                 </table>
 
-                                @if(!outstandingDates.isEmpty) {
-
+                                @outstandingFees.map { fee =>
                                     <div style="float: left; width: 100%">
                                         <table style="border-collapse: collapse;" cellpadding="0" cellspacing="0" border="0" >
                                             <tr>
@@ -244,33 +241,8 @@
                                                         <strong>@Messages("email.line29")</strong>
                                                     </p>
 
-                                                    <p>@Messages("email.line30")</p>
+                                                    <p>@Messages("email.line30", fee)</p>
                                                 </td>
-
-                                                <td>
-                                        <tr>
-                                            <table style="border-collapse: collapse;" cellpadding="0" cellspacing="0" border="0" >
-                                                <tr>
-                                                    <td height="10px"></td>
-                                                </tr>
-                                                @for(payment <- outstandingDates) {
-                                                    <tr>
-                                                        <td>@payment.split("£")(0)</td>
-                                                        <td style="text-align: right;">&pound;@payment.split("£")(1)</td>
-                                                    </tr>
-                                                }
-                                                <tr>
-                                                    <td height="20px" style="border-top: 1px solid #000000;"></td>
-                                                    <td height="20px" style="border-top: 1px solid #000000;"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td style="text-align: right;"><span>@Messages("email.line31")</span> &pound;@{outstandingFees}</td>
-                                                </tr>
-                                            </table>
-                                        </tr>
-                                            </td>
-                                            </tr>
                                         </table>
                                     </div>
                                 }
@@ -278,7 +250,7 @@
                                 <div class="clearfix" style="clear : both ;"></div>
                             </td>
                         </tr>
-    `                        <tr>
+                        <tr>
                             <td style="border-collapse : collapse ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 <h1 style="color : black !important ; font-size : 2em ; line-height : 110% ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line21")</h1>

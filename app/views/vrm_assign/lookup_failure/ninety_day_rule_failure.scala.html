@@ -26,23 +26,7 @@
             <p>@Messages("vehicle-lookup-failure-ninety_day_rule_failure-p1")</p>
 
             @if(captureCertificateDetailsModel.isDefined) {
-                @if(captureCertificateDetailsModel.get.outstandingDates.size > 0) {
-                    <p>@Messages("vehicle-lookup-failure-notice-payment-p1a")</p>
-                    <p><strong>@Messages("vehicle-lookup-failure-notice-payment-desc1")</strong></p>
-                    <p>
-                    @for(payment <- captureCertificateDetailsModel.get.outstandingDates) {
-                        @payment.split("£")(0)
-                        <span class="renewalFee">£@payment.split("£")(1)</span> <br>
-                    }
-                    <p class="price-total">
-                    <strong>Total</strong>
-                    <span class="renewalFee">£@(captureCertificateDetailsModel.get.outstandingFees / 100.0)0</span>
-                    </p>
-                    </p>
-                    <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2a2")</p>
-                } else {
-                    <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2b") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2b2")</p>
-                }
+                <p>@Messages("vehicle-lookup-failure-direct-to-paper-p2a") <a id="@{`v50-or-v778-id`}" href="@Messages("link-v750-or-v778")">@Messages("text-v750-or-v778")</a> @Messages("vehicle-lookup-failure-direct-to-paper-p2a2")</p>
             }
 
             <p>@Messages("vehicle-lookup-failure-direct-to-paper-address-line1")<br/>

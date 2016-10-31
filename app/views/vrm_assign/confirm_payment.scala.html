@@ -24,19 +24,18 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-                @if(confirmViewModel.hasOutstandingPayments) {
-                    <h2>@Messages("vrm_assign_confirm.newRegTitle")</h2>
-                    <p>@Messages("vrm_assign_confirm.outstandingFees") @confirmViewModel.replacementRegistration@Messages("vrm_assign_confirm.outstandingFees-1")</p>
-                    <h3>@Messages("vrm_assign_confirm.outstandingFeesTitle")</h3>
-                    @for(payment <- confirmViewModel.outstandingPaymentList) {
-                        @payment.split("£")(0)
-                        <span class="renewalFee">£ @payment.split("£")(1)</span> <br>
+                @if(confirmViewModel.outstandingPaymentAmount.isDefined) {
+                    @for(payment <- confirmViewModel.outstandingPaymentAmount) {
+			<h2>@Messages("vrm_assign_confirm.paymentTitle")</h2>
+			<p>@Messages("vrm_assign_confirm.payment.p1", payment)</p>
+			<div class="renewalFeeTotalRow">
+			    <span><strong>@Messages("vrm_assign_confirm.feesRelatedTotal")</strong></span>
+			    <span class="renewalFee">£ @payment</span>
+			</div>
                     }
-                    <div class="renewalFeeTotalRow">
-                        <span><strong>@Messages("vrm_assign_confirm.feesRelatedTotal")</strong></span>
-                        <span class="renewalFee">£ @confirmViewModel.outstandingPaymentAmount</span>
-                    </div>
                 }
+		<p></p>
+		<p>@Messages("vrm_assign_confirm.payment.p2")</p>
             </div>
             <div class="first-col">
                 @playbackList(

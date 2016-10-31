@@ -46,7 +46,7 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB
     when(config.surveyUrl).thenReturn(None)
 
     when(config.renewalFeeInPence).thenReturn(TestConfig.RENEWAL_FEE)
-    when(config.renewalFeeAbolitionDate).thenReturn(TestConfig.RENEWAL_FEE_ABOLUTION_DATE)
+    when(config.renewalFeeExpiryInYears).thenReturn(TestConfig.RENEWAL_FEE_EXPIRY_IN_YEARS)
 
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(TestConfig.NotFound)
@@ -119,8 +119,8 @@ object TestConfig {
   final val CSRF_PREVENTION_ENABLED = true
   final val ENCRYPTED_COOKIES = false
 
-  final val RENEWAL_FEE = "8000" // in pence
-  final val RENEWAL_FEE_ABOLUTION_DATE = "09/03/2015"
+  final val RENEWAL_FEE = "17000" // in pence
+  final val RENEWAL_FEE_EXPIRY_IN_YEARS = 6
   final val CLOSED_DAYS = List(7) // Sunday
 
   // defaults

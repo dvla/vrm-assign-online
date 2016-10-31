@@ -33,7 +33,7 @@ trait Config extends VehicleLookupConfig with CommonConfig {
 
   // Payment Service
   val renewalFeeInPence: String
-  val renewalFeeAbolitionDate: String
+  val renewalFeeExpiryInYears: Int
 
   // Email Service
   val emailWhitelist: Option[List[String]]

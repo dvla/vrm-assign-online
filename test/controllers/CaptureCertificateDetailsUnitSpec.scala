@@ -1,7 +1,10 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallDirectToPaperError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallExpiredCertWithin6Years
+import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallExpiredCertOver6Years
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, TestWithApplication}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
@@ -12,6 +15,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import models.Certificate.{Expired, ExpiredWithFee, Unknown, Valid}
 import org.joda.time.{DateTime, Days, Years}
 import org.joda.time.format.DateTimeFormat
 import org.mockito.Mockito.{times, verify}
@@ -24,6 +28,8 @@ import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
@@ -63,7 +69,7 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect back to Error page is required cookies do not exist" in new TestWithApplication {
+    "redirect back to Error page if required cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
       val (captureCertificateDetails, dateService, auditService) = build()
       val result = captureCertificateDetails.submit(request)
@@ -78,13 +84,30 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
 
     "redirect to confirm page when the form is completed successfully" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, _, _) = build()
-      val result = captureCertificateDetails.submit(request)
+      val result = captureCertificateDetails.submit(requestWithCookies)
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          val cookieName = CaptureCertificateDetailsFormModelCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[CaptureCertificateDetailsFormModel](json)
+              model.certificateDate should equal(CertificateDateValid.toUpperCase)
+              model.certificateDocumentCount should equal(CertificateDocumentCountValid.toUpperCase)
+              model.certificateRegistrationMark should equal(RegistrationNumberValid.toUpperCase)
+              model.certificateTime should equal(CertificateTimeValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
+      }
+    }
+
+    "redirect to confirm page when the form is completed successfully " +
+      "and expired certificate is within 6 years" in new TestWithApplication {
+      val (captureCertificateDetails, _, _) = build()
+      val result = captureCertificateDetails.submit(requestWithCookies)
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
@@ -105,57 +128,38 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
     "redirect to vehicles failure page when the form is completed successfully " +
       "but fails eligibility with a direct to paper code" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithDirectToPaper()
-      val result = captureCertificateDetails.submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-          val cookies = fetchCookiesFromHeaders(r)
-          val cookieName = CaptureCertificateDetailsCacheKey
-          cookies.find(_.name == cookieName) match {
-            case Some(cookie) =>
-              val json = cookie.value
-              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-
-              val renewalDate = new DateTime(2015, 3, 9, 0, 0).toLocalDate // config.renewalFeeAbolitionDate
-              val certificateExpiryDate = model.certificateExpiryDate.get.toLocalDate
-
-              val daysDiff =  Days.daysBetween(certificateExpiryDate, renewalDate).getDays
-              val yearsDiff = Years.yearsBetween(certificateExpiryDate, renewalDate).getYears
-              val totalYears = yearsDiff + { if (daysDiff > 0) 1 else 0 }
-
-              model.outstandingDates.size should equal(totalYears)
-            case None => fail(s"$cookieName cookie not found")
-          }
+      val result = captureCertificateDetails.submit(requestWithCookies)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
 
     "redirect to vehicles failure page when the form is completed successfully " +
       "but fails eligibility with a not eligible code" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
       val (captureCertificateDetails, dateService, auditService) = buildWithNotEligible()
-      val result = captureCertificateDetails.submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-          val cookies = fetchCookiesFromHeaders(r)
-          val cookieName = CaptureCertificateDetailsCacheKey
-          cookies.find(_.name == cookieName) match {
-            case Some(cookie) =>
-              val json = cookie.value
-              val model = deserializeJsonToModel[CaptureCertificateDetailsModel](json)
-              model.outstandingDates.size should equal(0)
-            case None => fail(s"$cookieName cookie not found")
-          }
+      val result = captureCertificateDetails.submit(requestWithCookies)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to vehicles failure page when the form is completed successfully " +
+      "but certificate expiry is over 6 years" in new TestWithApplication {
+      val (captureCertificateDetails, dateService, auditService) =
+        buildWithModule(() => Seq(new VrmAssignEligibilityCallExpiredCertOver6Years, MockedDateService))
+      val result = captureCertificateDetails.submit(requestWithCookies)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+        val cookies = fetchCookiesFromHeaders(r)
+        val cookieName = MsResponseCacheKey
+        cookies.find(_.name == cookieName) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[MicroserviceResponseModel](json)
+            model.msResponse.message should equal("vrm_assign_eligibility_cert_expired")
+          case None => fail(s"$cookieName cookie not found")
+        }
       }
     }
   }
@@ -225,7 +229,6 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
       )
 
       val result = captureCertificateDetails.exit(request)
-
       whenReady(result) { r =>
         verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
@@ -248,75 +251,34 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  "calculateYearsOwed" should {
-    "return no charge for an expiry date after the abolition date" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
+  "validateCertificate" should {
+    "allow payment if cert expiry date is within 6 years" in new TestWithApplication {
+      val (captureCertificateDetails, _, _) = buildWithModule(() => Seq(MockedDateService))
 
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
-      val expiryDate = formatter.parseDateTime("10/03/2015")
-      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
+      val expiryDate = Some(DateTime.now.minusYears(6))
+      captureCertificateDetails.validateCertificate(expiryDate) shouldBe a [ExpiredWithFee]
     }
 
-    "return no charge for an expiry date on the abolition date" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
+    "not allow payment if cert expiry date is over 6 years" in new TestWithApplication {
+      val (captureCertificateDetails, _, _) = buildWithModule(() => Seq(MockedDateService))
 
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
-      val expiryDate = formatter.parseDateTime("09/03/2015")
-      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(0)
+      val expiryDate = Some(DateTime.now.minusYears(6).minusDays(1))
+      captureCertificateDetails.validateCertificate(expiryDate) shouldBe a [Expired]
     }
 
-    "return 1 charge for an expiry date on the day before abolition date" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
+    "not calculate a payment if cert hasn't expired" in new TestWithApplication {
+      val (captureCertificateDetails, _, _) = buildWithModule(() => Seq(MockedDateService))
 
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
-      val expiryDate = formatter.parseDateTime("08/03/2015")
-      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(1)
+      val expiryDate = Some(DateTime.now.plusYears(6))
+      captureCertificateDetails.validateCertificate(expiryDate) shouldBe a [Valid]
     }
 
-    "return 4 charges for an expiry date of 08/03/2012" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
+    "not require payment if no cert date" in new TestWithApplication {
+      val (captureCertificateDetails, _, _) = buildWithModule(() => Seq(MockedDateService))
 
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
-      val expiryDate = formatter.parseDateTime("08/03/2012")
-      captureCertificateDetails.calculateYearsOwed(expiryDate).size should equal(4)
+      captureCertificateDetails.validateCertificate(None) should equal(Unknown)
     }
 
-    "return 3 charges for an expiry date of 11/11/2012" in new TestWithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-        .withCookies(vehicleAndKeeperDetailsModel())
-        .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
-        .withCookies(captureCertificateDetailsFormModel())
-        .withCookies(captureCertificateDetailsModel())
-      val (captureCertificateDetails, dateService, auditService) = build()
-
-      val formatter = DateTimeFormat.forPattern("dd/MM/yyyy")
-      val expiryDate = formatter.parseDateTime("11/11/2012")
-      val result = captureCertificateDetails.calculateYearsOwed(expiryDate)
-      result.size should equal(3)
-      result.head should include ("11/11/2013")
-      result.tail.head should include ("11/11/2014")
-      result.tail.tail.head should include ("11/11/2015")
-    }
   }
 
   private def back(keeperConsent: String) = {
@@ -331,31 +293,43 @@ class CaptureCertificateDetailsUnitSpec extends UnitSpec {
 
   private def build() = {
     val ioc = testInjector()
-    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+    (
+      ioc.getInstance(classOf[CaptureCertificateDetails]),
       ioc.getInstance(classOf[DateService]),
       ioc.getInstance(classOf[AuditService])
-      )
+    )
   }
 
-  private def buildWithDirectToPaper() = {
+  private def buildWithModule(err: () => Seq[com.google.inject.Module]) = {
     val ioc = testInjector(
-      new VrmAssignEligibilityCallDirectToPaperError
+      err():_*
     )
-    (ioc.getInstance(classOf[CaptureCertificateDetails]),
+    (
+      ioc.getInstance(classOf[CaptureCertificateDetails]),
       ioc.getInstance(classOf[DateService]),
       ioc.getInstance(classOf[AuditService])
-      )
+    )
   }
 
-  private def buildWithNotEligible() = {
-    val ioc = testInjector(
-      new VrmAssignEligibilityCallNotEligibleError
-    )
-    (ioc.getInstance(classOf[CaptureCertificateDetails]),
-      ioc.getInstance(classOf[DateService]),
-      ioc.getInstance(classOf[AuditService])
-      )
+  private def buildWithDirectToPaper() =
+    buildWithModule(() => Seq(new VrmAssignEligibilityCallDirectToPaperError))
+
+  private def buildWithNotEligible() =
+    buildWithModule(() => Seq(new VrmAssignEligibilityCallNotEligibleError))
+
+  private val MockedDateService = {
+    val d = mock[DateService]
+    org.mockito.Mockito.when(d.now).thenReturn(DateTime.now.toInstant)
+    new ScalaModule() {
+      override def configure() = bind[DateService].toInstance(d)
+    }
   }
+
+  private lazy val requestWithCookies = buildCorrectlyPopulatedRequest()
+    .withCookies(vehicleAndKeeperDetailsModel())
+    .withCookies(vehicleAndKeeperLookupFormModel(replacementVRN = RegistrationNumberValid))
+    .withCookies(captureCertificateDetailsFormModel())
+    .withCookies(captureCertificateDetailsModel())
 
   private def buildCorrectlyPopulatedRequest(certificateDate: String = CertificateDateValid,
                                              certificateDocumentCount: String = CertificateDocumentCountValid,

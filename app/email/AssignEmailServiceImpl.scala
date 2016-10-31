@@ -6,6 +6,7 @@ import com.google.inject.Inject
 import models.BusinessDetailsModel
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import models.Certificate.ExpiredWithFee
 import models.ConfirmFormModel
 import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
@@ -149,10 +150,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
-      outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,
-      outstandingDates = captureCertificateDetailsModel.outstandingDates,
+      outstandingFees = captureCertificateDetailsModel.certificate match { case ExpiredWithFee(_, _, fmtFee) => Some(fmtFee) case _ => None },
       govUkContentId = govUkContentId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
@@ -180,10 +179,8 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.renewalFeeInPence.toDouble / 100.0).toString,
       replacementVRM = vehicleAndKeeperLookupFormModel.replacementVRN,
-      outstandingFees = captureCertificateDetailsModel.outstandingFees / 100,
-      outstandingDates = captureCertificateDetailsModel.outstandingDates,
+      outstandingFees = captureCertificateDetailsModel.certificate match { case ExpiredWithFee(_, _, fmtFee) => Some(fmtFee) case _ => None },
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),

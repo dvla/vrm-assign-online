@@ -105,25 +105,26 @@ vehicle_lookup_failure.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manyl
 vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
 
-# lookup_failure/vert_number_mismatch
+# lookup_failure/cert_number_mismatch
 vehicle-lookup-failure-cert-number-mismatch-title = Ni lwyddwyd i ddod o hyd i rif cyfeirnod y dystysgrif
 vehicle-lookup-failure-cert-number-mismatch-p1 = Nid yw rhif cyfeirnod y dystysgrif a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif hawl V750 ne’r ddogfen gadw V778 mwyaf diweddar.
 vehicle-lookup-failure-cert-number-mismatch-p2 = Gwnewch yn siŵr fod y fersiwn fwyaf diweddar gennych chi
 vehicle-lookup-failure-cert-number-mismatch-p2a = a cheisio eto.
 
+# lookup_failure/cert_expired
+vehicle-lookup-failure-cert-expired-title = Y dystysgrif wedi dod i ben
+vehicle-lookup-failure-cert-expired-p1 = Mae’r hawl i’r rhif cofrestru hwn wedi dod i ben. Mae’r hawliau nawr wedi eu colli ac ni allwch aseinio’r rhif hwn i gerbyd.
+
 # direct_to_paper / ninety-day_rule failure / cert_number_mismatch / postcode_mismatch
 vehicle-lookup-failure-direct_to_paper-title = Ni ellir dynodi’r rhif cofrestru hwn ar-lein
 vehicle-lookup-failure-direct_to_paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-direct-to-paper-p2a = Rhaid i chi anfon y
-vehicle-lookup-failure-direct-to-paper-p2a2 = a’r tystysgrif cofrestru V5CW (llyfr log) ynghyd â siec am y cyfanswm uchod yn daladwy i ‘DVLA Abertawe’ i:
-vehicle-lookup-failure-direct-to-paper-p2b = Rhaid i chi anfon y
-vehicle-lookup-failure-direct-to-paper-p2b2 = a'r tystysgrif cofrestru V5CW (llyfr log) at:
+vehicle-lookup-failure-direct-to-paper-p2a1 = a’r tystysgrif cofrestru V5CW (llyfr log) ynghyd â siec am y cyfanswm uchod yn daladwy i ‘DVLA Abertawe’ i:
+vehicle-lookup-failure-direct-to-paper-p2a2 = a'r tystysgrif cofrestru V5CW (llyfr log) at:
 vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau cofrestru personol y DVLA
 vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p4 = Rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
-vehicle-lookup-failure-notice-payment-p1a = Mae ffioedd adnewyddu i’w talu:
-vehicle-lookup-failure-notice-payment-desc1 = Disgrifiad
 vehicle-lookup-failure-transaction-id = ID trafodion
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 
@@ -236,7 +237,6 @@ supply-email = Opsiynau ebost
 vrm_assign_confirm.emailAddressCustomerLabel = Ebost y Cwsmer
 vrm_assign_confirm.emailAddressKeeperLabel = Ebost y Ceidwad
 vrm_assign_confirm.button = Cadarnhau
-vrm_assign_confirm.newRegTitle = Ffioedd adnewyddu
 vrm_assign_confirm.emailWarn = Manylion anghywir?
 vrm_assign_confirm.emailWarnp1 = Rhaid i chi ddiweddaru’ch tystysgrif cofrestru V5CW (llyfr log) os oes unrhyw gamgymeriadau arni, neu os gwnewch nifer o newidiadau i’ch cerbyd.
 vrm_assign_confirm.emailWarnp2 = Bydd angen i chi anfon eich tystysgrif a ddiweddarwyd i’r DVLA ynghyd ag unrhyw dystiolaeth angenrheidiol.
@@ -265,9 +265,9 @@ grantee-consent-id = Caniatâd grantai
 email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
 
 # confirm_payment view
-vrm_assign_confirm.outstandingFees = Mae ffioedd adnewyddu i’w talu ar gyfer
-vrm_assign_confirm.outstandingFees-1 =. Rhaid talu’r ffioedd os dymunwch barhau â’r cais hwn.
-vrm_assign_confirm.outstandingFeesTitle = Ffioedd adnewyddu i’w talu
+vrm_assign_confirm.paymentTitle = Y dystysgrif wedi dod i ben
+vrm_assign_confirm.payment.p1 = Mae’r hawl i’r rhif cofrestru hwn wedi dod i ben. Gallwch dalu taliad untro o £{0} a fydd yn eich galluogi i brynu’r hawliau i arddangos y rhif cofrestru hwn.
+vrm_assign_confirm.payment.p2 = Fel arall, os nad ydych yn dymuno cadw’r rhif cofrestru, gallwch wneud cais am ad-daliad o’r ffi aseinio £80.00. Gallwch wneud hwn drwy dicio’r blwch priodol ar y dystysgrif a’i hanfon i’r DVLA.
 vrm_assign_confirm.feesRelatedH3 = Manylion cerbyd newydd
 vrm_assign_confirm.feesRelatedH4 = Y manylion cofrestru newydd ar gyfer eich cerbyd fydd:
 vrm_assign_confirm.feesRelatedVehicleMake = Gwneuthuriad y cerbyd:
@@ -335,8 +335,7 @@ email.line21 = Dogfennaeth newydd:
 email.line22 = Anfonir y canlynol at y ceidwad cofrestredig:
 email.line23 = Tystysgrif cofrestru V5CW (llyfr log) cerbyd newydd yn dangos y rhif cofrestru newydd
 email.line29 = Ffioedd adnewyddu i’w talu
-email.line30 = Wedi adnabod y ffioedd adnewyddu sy’n weddill ar gyfer y rhif cofrestru a ddynodwyd gennych, fe gytunoch i dalu’r ffioedd hynny a rhoddir crynodeb ohonynt isod:
-email.line31 = Cyfanswm
+email.line30 = Ar ôl canfod bod y dystysgrif wedi dod i ben, mae taliad untro o £{0} wedi cael ei wneud.
 
 # failure email
 email.failure.line1 = DYMA EBOST AWTOMATIG

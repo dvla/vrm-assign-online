@@ -8,6 +8,7 @@ import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
+import models.Certificate.ExpiredWithFee
 import models.ConfirmFormModel
 import models.FulfilModel
 import models.PaymentModel
@@ -66,13 +67,13 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
       request.cookies.getString(PaymentTransNoCacheKey),
       request.cookies.getModel[PaymentModel]) match {
       case (Some(vehiclesLookupForm),
-      Some(transactionId),
-      Some(captureCertificateDetailsFormModel),
-      Some(granteeConsent),
-      Some(captureCertificateDetails),
-      Some(paymentTransNo),
-      Some(payment)) if granteeConsent == "true" &&
-        captureCertificateDetails.outstandingFees > 0 &&
+        Some(transactionId),
+        Some(captureCertificateDetailsFormModel),
+        Some(granteeConsent),
+        Some(captureCertificateDetails),
+        Some(paymentTransNo),
+        Some(payment)) if granteeConsent == "true" &&
+          captureCertificateDetails.certificate.isInstanceOf[ExpiredWithFee] &&
         payment.paymentStatus == Some(AuthorisedStatus) =>
         fulfilVrm(
           request,
@@ -84,13 +85,13 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           Some(payment)
         )
       case (Some(vehiclesLookupForm),
-      Some(transactionId),
-      Some(captureCertificateDetailsFormModel),
-      Some(granteeConsent),
-      Some(captureCertificateDetails),
-      _,
-      _) if granteeConsent == "true" &&
-        captureCertificateDetails.outstandingFees == 0 =>
+        Some(transactionId),
+        Some(captureCertificateDetailsFormModel),
+        Some(granteeConsent),
+        Some(captureCertificateDetails),
+        _,
+        _) if granteeConsent == "true" &&
+          !captureCertificateDetails.certificate.isInstanceOf[ExpiredWithFee] =>
         fulfilVrm(
           request,
           vehiclesLookupForm,
@@ -441,7 +442,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val template = ReceiptEmailMessageBuilder.buildWith(
       vehicleAndKeeperLookupFormModel.replacementVRN,
-      f"${captureCertificateDetails.outstandingFees.toDouble / 100}%.2f",
+      captureCertificateDetails.certificate match {
+        case ExpiredWithFee(_, _, fmtFee) => fmtFee
+        case _ => throw new IllegalStateException("No fee has been paid")
+      },
       transactionId,
       businessDetails)
 

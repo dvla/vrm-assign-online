@@ -5,6 +5,7 @@ import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsModel
 import models.CaptureCertificateDetailsFormModel
+import models.Certificate
 import models.ConfirmFormModel
 import models.FulfilModel
 import models.PaymentModel
@@ -47,9 +48,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttemp
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.DatesListValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.FeesValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.LastDateValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ValidCertificate
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.AuthCodeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.CardTypeValid
 import webserviceclients.fakes.PaymentSolveWebServiceConstants.MaskedPANValid
@@ -221,11 +220,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def captureCertificateDetailsModel(prVrm: String = RegistrationNumberValid,
-                                     lastDate: Option[DateTime] = LastDateValid,
-                                     datesList: List[String] = DatesListValid,
-                                     fees: Int = FeesValid): Cookie = {
+                                     certificate: Certificate = ValidCertificate): Cookie = {
     val key = CaptureCertificateDetailsCacheKey
-    val value = CaptureCertificateDetailsModel(prVrm, lastDate, datesList, fees)
+    val value = CaptureCertificateDetailsModel(prVrm, certificate)
     createCookie(key, value)
   }
 

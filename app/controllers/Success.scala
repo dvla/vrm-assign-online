@@ -55,8 +55,7 @@ final class Success @Inject()(pdfService: PdfService)
           keeperEmailOpt,
           fulfilModel,
           transactionId,
-          captureCertificateDetailsModel.outstandingDates,
-          captureCertificateDetailsModel.outstandingFees
+          captureCertificateDetailsModel.certificate
         )
         logMessage(request.cookies.trackingId(), Info,
           "User transaction completed successfully - now displaying the assign success view"

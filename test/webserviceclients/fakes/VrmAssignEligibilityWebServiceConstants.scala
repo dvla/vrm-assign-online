@@ -13,6 +13,24 @@ object VrmAssignEligibilityWebServiceConstants {
     (OK, VrmAssignEligibilityResponseDto(None, VrmAssignEligibilityResponse(Some(new DateTime))))
   }
 
+  def vrmAssignEligibilityResponseExpiredCertWithin6Years = {
+    (OK,
+      VrmAssignEligibilityResponseDto(
+        None,
+        VrmAssignEligibilityResponse(Some(new DateTime().minusYears(6)))
+      )
+    )
+  }
+
+  def vrmAssignEligibilityResponseExpiredCertOver6Years = {
+    (OK,
+      VrmAssignEligibilityResponseDto(
+        None,
+        VrmAssignEligibilityResponse(Some(new DateTime().minusYears(6).minusDays(1)))
+      )
+    )
+  }
+
   def vrmAssignEligibilityResponseDirectToPaperError = {
     (FORBIDDEN,
       VrmAssignEligibilityResponseDto(

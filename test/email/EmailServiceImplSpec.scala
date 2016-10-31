@@ -17,9 +17,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameV
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDateValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateDocumentCountValid
 import webserviceclients.fakes.CaptureCertificateDetailsFormWebServiceConstants.CertificateTimeValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.DatesListValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.FeesValid
-import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.LastDateValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ValidCertificate
 import webserviceclients.fakes.ConfirmFormConstants.GranteeConsentValid
 import webserviceclients.fakes.ConfirmFormConstants.KeeperEmailValid
 import webserviceclients.fakes.VrmAssignFulfilWebServiceConstants.TransactionTimestampValid
@@ -173,9 +171,7 @@ final class EmailServiceImplSpec extends UnitSpec {
 
   private def captureCertificateDetailsModel = CaptureCertificateDetailsModel(
     prVrm = RegistrationNumberValid,
-    certificateExpiryDate = LastDateValid,
-    outstandingDates = DatesListValid,
-    outstandingFees = FeesValid
+    certificate = ValidCertificate
   )
 
 

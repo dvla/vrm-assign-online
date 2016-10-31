@@ -75,8 +75,8 @@ final class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver)
   }
 
   def `has error messages` = {
-    pageSource contains "Vehicle registration number - Must be valid format"
-    pageSource contains "Document reference number - Document reference number must be an 11-digit number"
+    pageSource should include("Vehicle registration number - Vehicle registration number must be valid format")
+    pageSource should include("Document reference number - Document reference number must be an 11-digit number")
     this
   }
 }

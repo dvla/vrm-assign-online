@@ -20,6 +20,7 @@ import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import helpers.TestWithApplication
+import org.joda.time.DateTime
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
@@ -34,6 +35,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
 import utils.helpers.Config
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
 import webserviceclients.vrmassignfulfil.VrmAssignFulfilWebService
@@ -234,7 +236,7 @@ class FulfilUnitSpec extends UnitSpec {
         transactionId(),
         captureCertificateDetailsFormModel(),
         granteeConsent(),
-        captureCertificateDetailsModel(fees = 42),
+        captureCertificateDetailsModel(certificate = ExpiredWithFeeCertificate),
         paymentModel(paymentStatus = paymentStatus),
         paymentTransNo(),
         vehicleAndKeeperDetailsModel(registrationNumber = "DD22"),
