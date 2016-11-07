@@ -55,6 +55,16 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       pageTitle should equal(VehicleLookupFailurePage.failureTitle)
     }
+
+    "display the lookup unsuccessful page for a ninety day rule failure" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheNinetyDaySetup()
+      go to VehicleLookupFailurePage
+
+      pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageSource should include("We need to look into your application further due to the vehicle’s licensing history.")
+    }
+
   }
 
   "contact details" should {
@@ -191,36 +201,27 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
     }
   }
 
-  private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
+  private def setup(message: String)(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       transactionId().
       bruteForcePreventionViewModel().
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
-      storeMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
+      storeMsResponseCode(message = message)
+
+  private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
+    setup("vehicle_and_keeper_lookup_document_reference_mismatch")
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      bruteForcePreventionViewModel().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      storeMsResponseCode(message = "vrm_assign_eligibility_direct_to_paper")
+    setup("vrm_assign_eligibility_direct_to_paper")
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      bruteForcePreventionViewModel().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      storeMsResponseCode(message = "vrm_assign_eligibility_failure")
+    setup("vrm_assign_eligibility_failure")
+
+  private def cacheNinetyDaySetup()(implicit webDriver: WebDriver) =
+    setup("vrm_assign_eligibility_ninety_day_rule_failure")
 
   private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)
+    setup(uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)
 
 }

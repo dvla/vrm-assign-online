@@ -126,7 +126,6 @@ vehicle-lookup-failure-direct-to-paper-address-line2 = Swansea
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p4 = All documents must be originals, not photocopies or faxed copies.
 vehicle-lookup-failure-transaction-id = Transaction Id
-vehicle-lookup-failure-ninety_day_rule_failure-p1 = We need to look into your application further due to the vehicle’s licensing history.
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-title = This registration number cannot be assigned
@@ -150,7 +149,7 @@ vrm_assign_eligibility_not_mot_failure = Our records show this vehicle is not MO
 vrm_assign_eligibility_not_mot_failure_link = https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency
 vrm_assign_eligibility_too_young_failure = You cannot put your registration number on this vehicle as it would make your vehicle appear younger than it is.
 vrm_assign_eligibility_v778_ref_failure = The V778 document reference number does not match our records, please check the number and try again.
-vrm_assign_eligibility_ninety_day_rule_failure = 90 day error message
+vrm_assign_eligibility_ninety_day_rule_failure = We need to look into your application further due to the vehicle’s licensing history.
 
 # Payment page
 vrm_assign_payment.title = Payment

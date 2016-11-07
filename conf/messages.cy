@@ -126,7 +126,6 @@ vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p4 = Rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
 vehicle-lookup-failure-transaction-id = ID trafodion
-vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-title = Ni ellir dynodi’r rhif cofrestru hwn
@@ -150,7 +149,7 @@ vrm_assign_eligibility_not_mot_failure = Dengys ein cofnodion nad oes modd rhoi 
 vrm_assign_eligibility_not_mot_failure_link = https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency
 vrm_assign_eligibility_too_young_failure = Ni allwch roi eich rhif cofrestru ar y cerbyd hwn eich plât cofrestru ar y cerbyd hwn.  Ni allwch wneud i gerbyd ymddangos yn ifancach na’r hyn ydyw.
 vrm_assign_eligibility_v778_ref_failure = Nid yw rhif cyfeirnod y ddogfen V778 yn cyfateb â’n cofnodion, gwiriwch y rhif cofrestru a cheisio eto.
-vrm_assign_eligibility_ninety_day_rule_failure = Neges wall 90 diwrnod
+vrm_assign_eligibility_ninety_day_rule_failure = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 
 # Payment page
 vrm_assign_payment.title = Taliad

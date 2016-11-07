@@ -91,6 +91,14 @@ Feature: Assignment of Vehicle
     And the contact information is displayed
 
   @UnHappyPath
+  Scenario: Ninety day rule
+    When I enter data in the "EE35","11111111111" and "SA11AA" for a vehicle that has a marker set
+    Then the direct to paper channel page is displayed
+    And the page contains "We need to look into your application further due to the vehicle’s licensing history."
+    And the replacement VRN and the current registration are correctly formatted
+    And the contact information is displayed
+
+  @UnHappyPath
   Scenario: Brute Force Lockout
     When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed

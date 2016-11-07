@@ -21,7 +21,6 @@ import views.html.vrm_assign.lookup_failure.cert_expired
 import views.html.vrm_assign.lookup_failure.cert_number_mismatch
 import views.html.vrm_assign.lookup_failure.direct_to_paper
 import views.html.vrm_assign.lookup_failure.eligibility
-import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_assign.lookup_failure.vehicle_lookup_failure
 import views.html.vrm_assign.lookup_failure.postcode_mismatch
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
@@ -84,7 +83,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     )
 
     val intro = "VehicleLookupFailure is"
-    println("displayVehicleLookupFailure: ms response message - " + msResponseModel.msResponse.message)
     val failurePage = msResponseModel.msResponse.message match {
       case "vrm_assign_eligibility_direct_to_paper" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper failure view")
@@ -204,10 +202,10 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         )
       case "vrm_assign_eligibility_ninety_day_rule_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting ninety day rule failure view")
-        ninety_day_rule_failure(
+        direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          captureCertificateDetailsModel = captureCertificateDetailsModel
+          viewModel = DirectToPaperViewModel.from(viewModel, captureCertificateDetailsModel),
+          responseMessage = Some("vrm_assign_eligibility_ninety_day_rule_failure")
         )
       case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
