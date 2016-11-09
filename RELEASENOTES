@@ -1,6 +1,6 @@
 ======= 1.43 =====
 Time of release binaries creation:
-
+Wed Nov 09 13:24:26 UTC 2016
 
 VMPRCI-4358 	Uncouple re-payment process where retention cert expired
 VMPRCI-4247 	Lookup failure view for ninety day rule should be direct to paper view
