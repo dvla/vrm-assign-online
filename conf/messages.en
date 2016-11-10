@@ -282,7 +282,7 @@ assign-application-details-telephone-number = 0300 123 1350
 assign-application-details-telephone-number-extension1 = (please enter code
 assign-application-details-telephone-number-extension2 = 227
 assign-application-details-telephone-number-extension3 = when prompted)
-assign-application-details-monday-to-friday = Monday to Friday: 08:00 to 19:00
+assign-application-details-monday-to-friday = Monday to Friday: 08:00 to 18:00
 assign-application-details-saturday = Saturday: 08:00 to 14:00
 assign-application-details-sunday = Sunday: Closed
 
