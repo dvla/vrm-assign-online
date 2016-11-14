@@ -22,6 +22,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNu
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
+  val ninetyDayFailureMessage = "We need to look into your application further due to the vehicle’s licensing history."
+
   "go to page" should {
 
     "display the lookup unsuccessful page for a doc ref mismatch" taggedAs UiTag in new WebBrowserForSelenium {
@@ -38,6 +40,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageSource shouldNot include(ninetyDayFailureMessage)
     }
 
     "display the lookup unsuccessful page for a post code mismatch" taggedAs UiTag in new WebBrowserForSelenium {
@@ -62,7 +65,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       go to VehicleLookupFailurePage
 
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
-      pageSource should include("We need to look into your application further due to the vehicle’s licensing history.")
+      pageSource should include(ninetyDayFailureMessage)
     }
 
   }

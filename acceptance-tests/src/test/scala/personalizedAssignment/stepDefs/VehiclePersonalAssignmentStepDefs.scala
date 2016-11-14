@@ -205,6 +205,11 @@ final class VehiclePersonalAssignmentStepDefs(implicit webDriver: WebBrowserDriv
     pageSource should include(contents)
   }
 
+  @Then("^the page does not contain \"(.*?)\"$")
+  def `the page does not contain`(contents: String) {
+    pageSource shouldNot include(contents)
+  }
+
   //Scenario 6
   @When("^I enter data that does not match a valid vehicle record three times in a row$")
   def `i enter data that does not match a valid vehicle record three times in a row`() {

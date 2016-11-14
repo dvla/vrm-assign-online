@@ -63,6 +63,7 @@ Feature: Assignment of Vehicle
     Then the direct to paper channel page is displayed
     And the replacement VRN and the current registration are correctly formatted
     And the contact information is displayed
+    And the page does not contain "We need to look into your application further due to the vehicle’s licensing history."
 
   @UnHappyPath
   Scenario: Direct to Paper with expired certificate within 6 years
