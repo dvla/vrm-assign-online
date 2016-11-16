@@ -1,21 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import play.api.data.Form
-import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent, Call, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackBase
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.emailMapping
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.nameMapping
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.controllers.FeedbackBase
+import common.services.DateService
+import common.webserviceclients.emailservice.EmailService
+import common.webserviceclients.healthstats.HealthStats
 import utils.helpers.Config
 
 class FeedbackController @Inject()(val emailService: EmailService,
@@ -38,13 +32,12 @@ class FeedbackController @Inject()(val emailService: EmailService,
 
   def submit: Action[AnyContent] = Action { implicit request =>
     form.bindFromRequest.fold(
-      invalidForm => BadRequest(views.html.vrm_assign.feedback(formWithReplacedErrors(invalidForm))),
+      invalidForm => BadRequest(views.html.vrm_assign.feedback(invalidForm)),
       validForm => {
-        val trackingId = request.cookies.trackingId
         sendFeedback(
           validForm,
-          s"${Messages("main.banner")} - ${Messages("common_feedback.subject.suffix")}",
-          trackingId
+          s"${validForm.rating} - ${Messages("main.banner")} - ${Messages("common_feedback.subject.suffix")}",
+          request.cookies.trackingId()
         )
         Ok(views.html.vrm_assign.feedbackSuccess())
       }
