@@ -1,3 +1,11 @@
+======= 1.44 =====
+Time of release binaries creation:
+Wed Nov 23 12:21:26 UTC 2016
+
+VMPRCI-4247 Lookup failure view for ninety day rule should be direct to paper view
+VMPRCI-4553 Changes to VM & PR Beta feedback survey and embed rating into DODI e-mail header
+VMPRCI-4554 Updated times in messages files to reflect CEG opening hours
+
 ======= 1.43 =====
 Time of release binaries creation:
 Wed Nov 09 13:24:26 UTC 2016
