@@ -1,6 +1,6 @@
 package pdf
 
-import java.io.{FileNotFoundException, ByteArrayOutputStream, File, OutputStream}
+import java.io.{ByteArrayOutputStream, File, FileNotFoundException, OutputStream}
 
 import com.google.inject.Inject
 import org.apache.pdfbox.Overlay
@@ -17,7 +17,9 @@ import pdf.PdfServiceImpl.v948Blank
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+
 import scala.util.{Failure, Success, Try}
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
@@ -144,12 +146,13 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   private def writeVrn(registrationNumber: String)
                       (implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
+    val formattedVrm = RegistrationNumber.formatVrm(registrationNumber)
     val size = 26
     val font = fontHelveticaBold(size = size)
     contentStream.moveTextPositionByAmount(45, 385)
     // Centre the text.
-    contentStream.moveTextPositionByAmount((180 - width(font, registrationNumber, fontSize = size)) / 2, 0)
-    contentStream.drawString(registrationNumber)
+    contentStream.moveTextPositionByAmount((180 - width(font, formattedVrm, fontSize = size)) / 2, 0)
+    contentStream.drawString(formattedVrm)
     contentStream.endText()
   }
 
