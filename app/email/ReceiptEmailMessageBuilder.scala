@@ -91,7 +91,7 @@ object ReceiptEmailMessageBuilder {
                         amountCharged: String,
                         transactionId: String,
                         dateStr: String,
-                        business: String): String =
+                        business: String)(implicit lang: Lang): String =
     s"""
        |${Messages("email.template.line1")}
        |
