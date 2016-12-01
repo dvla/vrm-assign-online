@@ -174,6 +174,20 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       pageSource should include("liveagent.addCustomDetail(\"Failure\",\"PR002\", false);")
     }
+
+    "not be offered for Welsh" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.
+        transactionId().
+        withLanguageCy().
+        bruteForcePreventionViewModel().
+        vehicleAndKeeperLookupFormModel().
+        vehicleAndKeeperDetailsModel().
+        storeMsResponseCode("failure", "vehicle_and_keeper_lookup_failure")
+      go to VehicleLookupFailurePage
+
+      pageSource shouldNot include("liveagent")
+    }
   }
 
   "try again button" should {

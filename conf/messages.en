@@ -381,7 +381,13 @@ webchat.title = Web Chat
 webchat.info.p1 = If you would like further information then our advisors are available to
 webchat.info.chatlink.text = Chat
 
+# email business
+email.business.name = Business name
+email.business.contact = Business contact
+email.business.address = Business address
+
 # email
+email.template.subject = Payment receipt for assignment of
 email.template.line1 = THIS IS AN AUTOMATED EMAIL - Please do not reply as emails received at this address cannot be responded to.
 email.template.line2 = Payment received
 email.template.line3 = DVLA Online Assignment of

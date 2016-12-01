@@ -13,7 +13,7 @@ import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
 import play.api.Play
 import play.api.Play.current
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 import play.twirl.api.HtmlFormat
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,7 +47,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                    businessDetailsModel: Option[BusinessDetailsModel],
                    sendPdf: Boolean,
                    isKeeper: Boolean,
-                   trackingId: TrackingId): Option[EmailServiceSendRequest] = {
+                   trackingId: TrackingId)(implicit lang: Lang): Option[EmailServiceSendRequest] = {
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
@@ -126,7 +126,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                            transactionId: String,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
-                           isKeeper: Boolean): HtmlFormat.Appendable = {
+                           isKeeper: Boolean)(implicit lang: Lang): HtmlFormat.Appendable = {
 
     val govUkContentId = govUkUrl match {
       case Some(filename) =>
@@ -168,7 +168,7 @@ final class AssignEmailServiceImpl @Inject()(emailService: EmailService,
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
                                        businessDetailsModel: Option[BusinessDetailsModel],
-                                       isKeeper: Boolean): String = {
+                                       isKeeper: Boolean)(implicit lang: Lang): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = captureCertificateDetailsFormModel.certificateDocumentCount + " " +

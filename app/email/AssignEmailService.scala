@@ -5,6 +5,7 @@ import models.CaptureCertificateDetailsFormModel
 import models.CaptureCertificateDetailsModel
 import models.ConfirmFormModel
 import models.VehicleAndKeeperLookupFormModel
+import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -23,7 +24,7 @@ trait AssignEmailService {
                    businessDetailsModel: Option[BusinessDetailsModel],
                    sendPdf: Boolean,
                    isKeeper: Boolean,
-                   trackingId: TrackingId): Option[EmailServiceSendRequest]
+                   trackingId: TrackingId)(implicit lang: Lang): Option[EmailServiceSendRequest]
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
@@ -33,5 +34,5 @@ trait AssignEmailService {
                   transactionId: String,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
-                  isKeeper: Boolean): HtmlFormat.Appendable
+                  isKeeper: Boolean)(implicit lang: Lang): HtmlFormat.Appendable
 }

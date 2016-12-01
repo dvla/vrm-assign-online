@@ -29,7 +29,7 @@ final class TestAssignEmailServiceBinding extends ScalaModule with MockitoSugar 
     any[Boolean],
     any[Boolean],
     any[TrackingId]
-  )).thenReturn(None)
+  )(any[play.api.i18n.Lang])).thenReturn(None)
 
   def configure() = {
     bind[AssignEmailService].toInstance(stub)
