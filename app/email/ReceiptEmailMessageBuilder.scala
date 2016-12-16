@@ -108,8 +108,6 @@ object ReceiptEmailMessageBuilder {
        |
        |$business
        |
-       |${Messages("email.template.line7")}
-       |
-      """.stripMargin
+       |${Messages("email.template.line7")}""".stripMargin
 
 }
