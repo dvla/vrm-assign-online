@@ -291,8 +291,8 @@ assign-application-details-telephone-number = 0300 123 1350
 assign-application-details-telephone-number-extension1 = (rhowch y cod
 assign-application-details-telephone-number-extension2 = 227
 assign-application-details-telephone-number-extension3 = pan ofynnir amdano)
-assign-application-details-monday-to-friday = ddydd Llun i ddydd Gwener: 8am i 6pm
-assign-application-details-saturday = Dydd Sadwrn: 8am i 2pm
+assign-application-details-monday-to-friday = ddydd Llun i ddydd Gwener: 8am - 6pm
+assign-application-details-saturday = Dydd Sadwrn: 8am - 2pm
 assign-application-details-sunday = Dydd Sul: Ar gau
 
 # success view
@@ -355,8 +355,8 @@ email.failure.line6 = Os ydych yn dymuno cysylltu â’r DVLA ynghylch y cais hw
 email.failure.line7 = Ffôn:
 email.failure.line8 = 0300 123 1350
 email.failure.line9 = (rhowch estyniad 227 pan ofynnir amdano)
-email.failure.line11 = Dydd Llun i Ddydd Gwener: 8am i 6pm
-email.failure.line12 = Dydd Sadwrn: 8am i 2pm
+email.failure.line11 = Dydd Llun i Ddydd Gwener: 8am - 6pm
+email.failure.line12 = Dydd Sadwrn: 8am - 2pm
 email.failure.line13 = Dydd Sul: Ar gau
 
 email.email_service_impl.subject = Gellir ei roi ar gerbyd
