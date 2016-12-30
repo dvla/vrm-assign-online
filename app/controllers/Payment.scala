@@ -1,7 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import composition.RefererFromHeader
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.CaptureCertificateDetailsFormModel
@@ -25,7 +24,7 @@ import views.vrm_assign.Payment.PaymentTransNoCacheKey
 import views.vrm_assign.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_assign.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService, RefererFromHeader}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
