@@ -1,13 +1,12 @@
 package composition
 
-import _root_.webserviceclients.paymentsolve.TestRefererFromHeader
 import com.google.inject.{Guice, Injector, Module}
 import com.google.inject.util.Modules
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
 import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBinding
-import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding}
+import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding, TestRefererFromHeader}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallSuccess, VrmAssignEligibilityServiceBinding}
 import composition.webserviceclients.vrmassignfulfil.{TestVrmAssignFulfilWebServiceBinding, VrmAssignFulfilServiceBinding}
