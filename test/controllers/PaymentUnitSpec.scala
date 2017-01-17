@@ -1,34 +1,16 @@
 package controllers
 
-import composition.RefererFromHeaderBinding
-import composition.webserviceclients.paymentsolve.CancelValidated
-import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.{beginWebPaymentUrl, loadBalancerUrl}
-import composition.webserviceclients.paymentsolve.ValidatedAuthorised
-import composition.webserviceclients.paymentsolve.ValidatedCardDetails
-import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
-import composition.webserviceclients.paymentsolve.ValidatedNotCardDetails
-import helpers.UnitSpec
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.confirmFormModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.granteeConsent
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.paymentTransNo
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.transactionId
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
-import helpers.vrm_assign.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.TestWithApplication
-import org.joda.time.DateTime
-import pages.vrm_assign.ConfirmPaymentPage
-import pages.vrm_assign.FulfilPage
-import pages.vrm_assign.LeaveFeedbackPage
-import pages.vrm_assign.PaymentFailurePage
-import pages.vrm_assign.PaymentNotAuthorisedPage
+import composition.webserviceclients.paymentsolve.{CancelValidated, PaymentCallFails, RefererFromHeaderBinding, ValidatedAuthorised}
+import composition.webserviceclients.paymentsolve.{ValidatedCardDetails, ValidatedNotAuthorised, ValidatedNotCardDetails}
+import helpers.{TestWithApplication, UnitSpec}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.{captureCertificateDetailsFormModel, captureCertificateDetailsModel}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.{confirmFormModel, granteeConsent, paymentModel, paymentTransNo, transactionId}
+import helpers.vrm_assign.CookieFactoryForUnitSpecs.{vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
+import pages.vrm_assign.{ConfirmPaymentPage, FulfilPage, LeaveFeedbackPage, PaymentFailurePage, PaymentNotAuthorisedPage}
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeHeaders
-import play.api.test.FakeRequest
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, REFERER, LOCATION, OK, SEE_OTHER}
+import play.api.test.{FakeHeaders, FakeRequest}
+import play.api.test.Helpers.{LOCATION, OK, REFERER, SEE_OTHER, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 
 class PaymentUnitSpec extends UnitSpec {

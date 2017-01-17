@@ -3,14 +3,12 @@ package composition
 import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.AddressLookupServiceBinding
 import composition.webserviceclients.addresslookup.AddressLookupWebServiceBinding
-import composition.webserviceclients.audit2
-import composition.webserviceclients.audit2.AuditMicroServiceBinding
+import composition.webserviceclients.audit2.{AuditMicroServiceBinding, AuditServiceBinding}
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionWebServiceBinding
 import composition.webserviceclients.emailservice.EmailServiceBinding
 import composition.webserviceclients.emailservice.EmailServiceWebServiceBinding
-import composition.webserviceclients.paymentsolve.PaymentServiceBinding
-import composition.webserviceclients.paymentsolve.PaymentWebServiceBinding
+import webserviceclients.paymentsolve.{PaymentServiceBinding, PaymentWebServiceBinding, RefererFromHeaderBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceBinding
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityServiceBinding
@@ -27,9 +25,8 @@ import utils.helpers.ErrorStrategy
 trait Composition {
 
   lazy val injector = Guice.createInjector(
-//    new DevModule,
     new AuditMicroServiceBinding,
-    new audit2.AuditServiceBinding,
+    new AuditServiceBinding,
     new ConfigBinding,
     new AddressLookupServiceBinding,
     new AddressLookupWebServiceBinding,

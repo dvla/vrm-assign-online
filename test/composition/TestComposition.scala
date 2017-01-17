@@ -1,21 +1,15 @@
 package composition
 
-import com.google.inject.Guice
-import com.google.inject.Injector
-import com.google.inject.Module
+import com.google.inject.{Guice, Injector, Module}
 import com.google.inject.util.Modules
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
-import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebServiceBinding
+import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, TestBruteForcePreventionWebServiceBinding}
 import composition.webserviceclients.emailservice.TestEmailServiceWebServiceBinding
-import composition.webserviceclients.paymentsolve.PaymentServiceBinding
-import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding
+import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentWebServiceBinding, TestRefererFromHeader}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebServiceBinding, VehicleAndKeeperLookupServiceBinding}
-import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallSuccess
-import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityServiceBinding
-import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
-import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilServiceBinding
+import composition.webserviceclients.vrmassigneligibility.{VrmAssignEligibilityCallSuccess, VrmAssignEligibilityServiceBinding}
+import composition.webserviceclients.vrmassignfulfil.{TestVrmAssignFulfilWebServiceBinding, VrmAssignFulfilServiceBinding}
 
 trait TestComposition extends Composition {
 
@@ -41,7 +35,7 @@ trait TestComposition extends Composition {
       new TestVrmAssignFulfilWebServiceBinding,
       new TestPaymentWebServiceBinding,
       new TestBruteForcePreventionWebServiceBinding,
-      new TestRefererFromHeaderBinding,
+      new TestRefererFromHeader,
       new AuditServiceDoesNothing,
       new audit2.AuditMicroServiceCallNotOk,
       new TestAssignEmailServiceBinding,

@@ -1,13 +1,12 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.RefererFromHeaderBinding
 import composition.webserviceclients.paymentsolve.TestPaymentWebServiceBinding.loadBalancerUrl
-import composition.webserviceclients.paymentsolve.ValidatedCardDetails
+import composition.webserviceclients.paymentsolve.{RefererFromHeaderBinding, ValidatedCardDetails}
 import composition.webserviceclients.vrmassignfulfil.TestVrmAssignFulfilWebServiceBinding
 import composition.webserviceclients.vrmassignfulfil.VrmAssignFulfilFailure
 import controllers.Payment.AuthorisedStatus
-import email.{AssignEmailServiceImpl, AssignEmailService}
+import email.{AssignEmailService, AssignEmailServiceImpl}
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
