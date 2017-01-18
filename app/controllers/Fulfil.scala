@@ -1,44 +1,27 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
-import email.{FailureEmailMessageBuilder, AssignEmailService, ReceiptEmailMessageBuilder}
-import java.util.concurrent.TimeoutException
-import models.BusinessDetailsModel
-import models.CacheKeyPrefix
-import models.CaptureCertificateDetailsFormModel
-import models.CaptureCertificateDetailsModel
+import email.{AssignEmailService, FailureEmailMessageBuilder, ReceiptEmailMessageBuilder}
 import models.Certificate.ExpiredWithFee
-import models.ConfirmFormModel
-import models.FulfilModel
-import models.PaymentModel
-import models.VehicleAndKeeperLookupFormModel
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
+import models.{BusinessDetailsModel, CacheKeyPrefix, CaptureCertificateDetailsFormModel, CaptureCertificateDetailsModel}
+import models.{ConfirmFormModel, FulfilModel, PaymentModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.i18n.Messages
 import play.api.mvc.{Action, Controller, Request, Result}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.CookieImplicits.RichCookies
-import common.clientsidesession.CookieImplicits.RichResult
-import common.clientsidesession.ClearTextClientSideSessionFactory
-import common.clientsidesession.ClientSideSessionFactory
-import common.clientsidesession.TrackingId
 import common.LogFormats
 import common.LogFormats.DVLALogger
-import common.model.MicroserviceResponseModel
-import common.model.VehicleAndKeeperDetailsModel
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, TrackingId}
+import common.model.{MicroserviceResponseModel, VehicleAndKeeperDetailsModel}
 import common.services.DateService
 import common.services.SEND.Contents
 import common.views.models.DayMonthYear
-import common.webserviceclients.common.MicroserviceResponse
-import common.webserviceclients.common.VssWebEndUserDto
-import common.webserviceclients.common.VssWebHeaderDto
-import common.webserviceclients.emailservice.EmailServiceSendRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import common.webserviceclients.common.{MicroserviceResponse, VssWebEndUserDto, VssWebHeaderDto}
+import common.webserviceclients.emailservice.{EmailServiceSendRequest, From}
 import utils.helpers.Config
 import views.vrm_assign.Confirm.GranteeConsentCacheKey
 import views.vrm_assign.Payment.PaymentTransNoCacheKey
@@ -46,8 +29,11 @@ import views.vrm_assign.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
-import webserviceclients.vrmassignfulfil.VrmAssignFulfilRequest
-import webserviceclients.vrmassignfulfil.VrmAssignFulfilService
+import webserviceclients.vrmassignfulfil.{VrmAssignFulfilRequest, VrmAssignFulfilService}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                              auditService2: audit2.AuditService,
@@ -82,7 +68,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           captureCertificateDetailsFormModel,
           captureCertificateDetails,
           Some(paymentTransNo),
-          Some(payment)
+          Some(payment),
+          dateService
         )
       case (Some(vehiclesLookupForm),
         Some(transactionId),
@@ -99,7 +86,8 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           captureCertificateDetailsFormModel,
           captureCertificateDetails,
           None,
-          None
+          None,
+          dateService
         )
       case _ =>
         val trackingId = request.cookies.trackingId()
@@ -122,11 +110,12 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                         captureCertificateDetails: CaptureCertificateDetailsModel,
                         paymentTransNo: Option[String],
-                        paymentModel: Option[PaymentModel]): Future[Result] = {
+                        paymentModel: Option[PaymentModel],
+                        dateService: DateService): Future[Result] = {
 
     // create the transaction timestamp
     val transactionTimestamp =
-      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
+      DayMonthYear.from(dateService.now.toDateTime).toDateTimeMillis.get
     val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
       ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
     val transactionTimestampWithZone = s"$isoDateTimeString"
@@ -296,7 +285,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val trackingId = request.cookies.trackingId()
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
-      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey), dateService),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
       certificateDate = captureCertificateDetailsFormModel.certificateDate,
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
@@ -332,9 +321,10 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
   }
 
   private def buildWebHeader(trackingId: TrackingId,
-                             identifier: Option[String]): VssWebHeaderDto = {
+                             identifier: Option[String],
+                             dateService: DateService): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId.value,
-      originDateTime = new DateTime,
+      originDateTime = dateService.now.toDateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser(identifier))
