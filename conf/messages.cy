@@ -21,7 +21,6 @@ vrm_locked.exit.button = Gadael
 onHandlerNotFound.title = Ni lwyddwyd i ddod o hyd i’r dudalen hon
 onHandlerNotFound.header = Ni lwyddwyd i ddod o hyd i’r dudalen hon
 onHandlerNotFound.body = Ni lwyddwyd i ddod o hyd i’r dudalen rydych wedi gwneud cais amdani, mae’r digwydddiad hwn wedi cael ei gofnodi i’w gael ei ymchwilio.
-
 onHandlerNotFound.start.button = Dechrau
 
 error.title = Rydym yn ymddiheuro
@@ -98,38 +97,35 @@ vehicle-lookup-failure-exit = Gadael
 vehicle-lookup-failure-title = Ni lwyddwyd i ddod o hyd i’r cofnod cerbyd
 
 vehicle_lookup_failure.p1 = Mae’r rhif cofrestru cerbyd a/neu rif cyfeirnod y dystysgrif gofrestru V5CW (llyfr log) sydd wedi’u rhoi naill ai’n anghywir neu nid yw oddi ar y V5CW ddiweddarach a gyhoeddwyd am y cerbyd hwn.
-
 vehicle_lookup_failure.p2 = Gwiriwch os gwelwch yn dda bod y rhif cofrestru cerbyd a’r rhif cyfeirnod y dystysgrif gofrestru V5CW (llyfr log) yn gywir a dewisiwch y botwm ‘Ceisiwch eto’ isod.
 vehicle_lookup_failure.p3 = Os ydych yn sicr bod y manylion sydd wedi’u rhoi yn gywir, mae’n bosib eich bod yn defnyddio tystysgrif gofrestru V5CW (llyfr log) hen ac mae’n debygol ein bod ni wedi cyhoeddi un newydd i chi ers hynny.
-
 vehicle_lookup_failure.p4 = Os nad yw’r dystysgrif gofrestru V5CW (llyfr log) a gyhoeddwyd fwyaf diweddar gennych, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i DVLA, Abertawe, SA99 1BD.
-
 vehicle_lookup_failure.p5 = Bydd gennych nifer gyfyngiedig o geisiadau yn unig er mwyn i chi roi eich manylion cerbyd ar gyfer y cerbyd hwn.
 
 vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r dystysgrif gofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn si’r fod gennych chi’r cod post ar gyfer y dystysgrif gofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
+vehicle-lookup-failure-postcode-mismatch-p2 = Sicrhewch fod gennych chi’r cod post ar gyfer y dystysgrif gofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
 
 # lookup_failure/cert_number_mismatch
 vehicle-lookup-failure-cert-number-mismatch-title = Ni lwyddwyd i ddod o hyd i rif cyfeirnod y dystysgrif
 vehicle-lookup-failure-cert-number-mismatch-p1 = Mae’r rhif cyfeirnod y dystysgrif a roddwyd naill ai ddim yn ddilys neu nid yw oddi ar y dystysgrif hawl V750 neu’r ddogfen gadw V778 mwyaf diweddar.
-vehicle-lookup-failure-cert-number-mismatch-p2 = Gwnewch yn si’r fod y fersiwn fwyaf diweddar gennych chi
+vehicle-lookup-failure-cert-number-mismatch-p2 = Sicrhewch fod y fersiwn fwyaf diweddar gennych chi
 vehicle-lookup-failure-cert-number-mismatch-p2a = a cheisio eto.
+
+# lookup_failure/cert_expired
+vehicle-lookup-failure-cert-expired-title = Y dystysgrif wedi dod i ben
+vehicle-lookup-failure-cert-expired-p1 = Mae’r hawl i’r rhif cofrestru hwn wedi dod i ben. Mae’r hawliau nawr wedi eu colli ac ni allwch aseinio’r rhif hwn i gerbyd.
 
 # direct_to_paper / ninety-day_rule failure / cert_number_mismatch / postcode_mismatch
 vehicle-lookup-failure-direct_to_paper-title = Ni ellir dynodi’r rhif cofrestru hwn ar-lein
 vehicle-lookup-failure-direct_to_paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-direct-to-paper-p2a = A wnewch chi lenwi ac anfon eich
-vehicle-lookup-failure-direct-to-paper-p2a1 = a’r tystysgrif cofrestru V5CW (llyfr log) ynghyd â siec am y cyfanswm uchod yn daladwy i ‘DVLA Abertawe’ i:
-vehicle-lookup-failure-direct-to-paper-p2a2 = a'r tystysgrif cofrestru V5CW (llyfr log) at:
-vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau cofrestru personol y DVLA
+vehicle-lookup-failure-direct-to-paper-p2a1 = a’r dystysgrif cofrestru V5CW (llyfr log) ynghyd â siec am y cyfanswm uchod yn daladwy i ‘DVLA Abertawe’ i:
+vehicle-lookup-failure-direct-to-paper-p2a2 = a'r dystysgrif cofrestru V5CW (llyfr log) at:
+vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau Cofrestru Personol y DVLA
 vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p4 = Mae’n rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
 vehicle-lookup-failure-transaction-id = Dynodiad y trafodyn
-
-# lookup_failure/cert_expired
-vehicle-lookup-failure-cert-expired-title = Y dystysgrif wedi dod i ben
-vehicle-lookup-failure-cert-expired-p1 = Mae’r hawl i’r rhif cofrestru hwn wedi dod i ben. Mae’r hawliau nawr wedi eu colli ac ni allwch aseinio’r rhif hwn i gerbyd.
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-title = Ni ellir dynodi’r rhif cofrestru hwn
@@ -196,7 +192,6 @@ vrm_assign_capturecertificatedetails.referencenumberBox2 = Blwch 2
 vrm_assign_capturecertificatedetails.referencenumberBox3 = Blwch 3
 vrm_assign_capturecertificatedetails.referencenumberBox4 = Blwch 4
 vrm_assign_capturecertificatedetails.button = Nesaf
-
 vrm_assign_capturecertificatedetails.onlineRetention = y gwasanaeth gadw ar-lein
 vrm_assign_capturecertificatedetails.onlineRetentionHint = Gwasanaeth gadw ar-lein
 vrm_assign_capturecertificatedetails.hintCertificate = y dystysgrif hawl V750
@@ -210,7 +205,6 @@ certificate-document-count = Blwch rhif cyfeirnod 1
 certificate-date = Blwch rhif cyfeirnod 2
 certificate-time = Blwch rhif cyfeirnod 3
 certificate-registration-mark = Blwch rhif cyfeirnod 4
-
 error.validCertificateDocumentCount = Rhaid iddo fod yn 1 llythyren neu ddigid
 error.validCertificateDate = Rhaid iddo fod yn 5 digid
 error.summary-validCertificateTime = Ni all fod yn wag neu’n cynnwys nodau annilys
@@ -239,7 +233,6 @@ vrm_assign_confirm.keeperLabel = Ceidwad cofrestredig
 vrm_assign_confirm.keeperAddressLabel = Cyfeiriad
 keeper-email = Ebost
 supply-email = Opsiynau ebost
-
 vrm_assign_confirm.emailAddressCustomerLabel = Ebost y cwsmer
 vrm_assign_confirm.emailAddressKeeperLabel = Ebost y ceidwad
 vrm_assign_confirm.button = Cadarnhau
@@ -253,11 +246,9 @@ vrm_assign_confirm.emailWarnp5 = Os bydd angen i chi wneud newidiadau i’ch tys
 vrm_assign_confirm.emailWarnp5link = ‘adnewyddu, diweddaru neu gyfnewid tystysgrif V778’
 vrm_assign_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodyn  a derbynneb o’r taliad os bydd ffioedd adnewyddu’n daladwy
 vrm_assign_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i dderbyn crynodeb o’r trafodyn
-
 vrm_assign_confirm.grantee_consent.notgiven = Mae’n rhaid i chi gadarnhau fod gennych chi ganiatad i roi’r rhif cofrestru hwn ar y cerbyd hwn
 vrm_assign_confirm.granteeConsent = Yr wyf i, y grantî, yn cadarnhau y gall y rhif cofrestru hwn fynd ar y cerbyd hwn
 vrm_assign_confirm.businessConsent = Yr wyf yn cadarnhau bod y grantî wedi rhoi caniatad i’r rhif cofrestru hwn fynd ar y cerbyd hwn
-
 supply-email-keeper-acting = Ydych chi’n dymuno derbyn ebost gyda chrynodeb o’r trafodyn?
 supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chrynodeb o’r trafodyn?
 supply-email-true = Ydw
