@@ -1,11 +1,10 @@
 package pages.vrm_assign
 
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 
 object FulfilPage extends Page {
 
-  def address = s"$applicationContext/fulfil"
+  def address = buildAppUrl("fulfil")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 

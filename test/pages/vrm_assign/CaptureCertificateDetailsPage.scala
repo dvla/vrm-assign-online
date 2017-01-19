@@ -2,7 +2,6 @@ package pages.vrm_assign
 
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, id, textField}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.CaptureCertificateDetails.CertificateDocumentCountId
 import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
@@ -13,7 +12,7 @@ import views.vrm_assign.CaptureCertificateDetails.SubmitId
 
 object CaptureCertificateDetailsPage extends Page {
 
-  def address = s"$applicationContext/capture-certificate-details"
+  def address = buildAppUrl("capture-certificate-details")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 

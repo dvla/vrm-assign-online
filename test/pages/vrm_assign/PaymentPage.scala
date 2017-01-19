@@ -3,7 +3,6 @@ package pages.vrm_assign
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, cssSelector, id, name, pwdField, textField}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.Payment.AcsPassword
 import views.vrm_assign.Payment.CancelId
@@ -22,7 +21,7 @@ object PaymentPage extends Page {
   final override val title: String = "Payment details"
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
-  def address = s"$applicationContext/payment/begin"
+  def address = buildAppUrl("payment/begin")
 
   def cancel(implicit driver: WebDriver) = find(id(CancelId)).get
 

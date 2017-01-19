@@ -2,7 +2,6 @@ package pages.vrm_assign
 
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, RadioButton, textField, telField}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_assign.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_assign.VehicleLookup.{ReplacementVRN => ReplacementVRNID}
@@ -20,7 +19,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Replace
 
 object VehicleLookupPage extends Page {
 
-  def address = s"$applicationContext/vehicle-lookup"
+  def address = buildAppUrl("vehicle-lookup")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   lazy val cegUrl = WebDriverFactory.testUrl + address.substring(1) + "/ceg"
