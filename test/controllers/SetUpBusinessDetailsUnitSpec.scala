@@ -2,7 +2,6 @@ package controllers
 
 import composition.TestConfig
 import controllers.Common.PrototypeHtml
-import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
 import helpers.TestWithApplication
@@ -13,6 +12,7 @@ import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaul
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.JsonUtils.deserializeJsonToModel
 import views.vrm_assign.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_assign.SetupBusinessDetails.BusinessAddressId
 import views.vrm_assign.SetupBusinessDetails.BusinessContactId

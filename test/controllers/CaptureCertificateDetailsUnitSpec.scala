@@ -5,7 +5,6 @@ import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCa
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallNotEligibleError
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallExpiredCertWithin6Years
 import composition.webserviceclients.vrmassigneligibility.VrmAssignEligibilityCallExpiredCertOver6Years
-import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, TestWithApplication}
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsFormModel
 import helpers.vrm_assign.CookieFactoryForUnitSpecs.captureCertificateDetailsModel
@@ -27,11 +26,13 @@ import pages.vrm_assign.VehicleLookupPage
 import play.api.http.Status.{OK, SEE_OTHER}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
-import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
-import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
+import common.model.MicroserviceResponseModel
+import common.model.MicroserviceResponseModel.MsResponseCacheKey
+import common.services.DateService
+import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import common.testhelpers.JsonUtils.deserializeJsonToModel
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CaptureCertificateDetailsFormModelCacheKey
 import views.vrm_assign.CaptureCertificateDetails.CertificateDateId
