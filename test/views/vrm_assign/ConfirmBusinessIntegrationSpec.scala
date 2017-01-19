@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{go, click, currentUrl}
@@ -14,6 +13,7 @@ import pages.vrm_assign.ConfirmBusinessPage.confirm
 import pages.vrm_assign.ConfirmBusinessPage.exit
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.SetupBusinessDetailsPage
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 

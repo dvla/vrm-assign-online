@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -10,6 +9,7 @@ import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_assign.{BeforeYouStartPage, LeaveFeedbackPage, PaymentPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 import views.vrm_assign.RelatedCacheKeys.AssignSet
 import views.vrm_assign.RelatedCacheKeys.BusinessDetailsSet
 import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate

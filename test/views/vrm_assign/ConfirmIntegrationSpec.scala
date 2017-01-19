@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -19,6 +18,7 @@ import pages.vrm_assign.CaptureCertificateDetailsPage
 import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.LeaveFeedbackPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 import views.vrm_assign.Confirm.ConfirmCacheKey
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {

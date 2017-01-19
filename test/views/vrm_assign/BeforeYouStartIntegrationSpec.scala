@@ -3,7 +3,6 @@ package views.vrm_assign
 import composition.TestHarness
 import controllers.routes.CookiePolicy
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -13,9 +12,10 @@ import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.BeforeYouStartPage.footerItem
 import pages.vrm_assign.BeforeYouStartPage.startNow
 import pages.vrm_assign.VehicleLookupPage
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.CyId
 import uk.gov.dvla.vehicles.presentation.common.controllers.routes.AlternateLanguages
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 

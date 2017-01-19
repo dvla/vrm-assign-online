@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.click
@@ -12,6 +11,7 @@ import pages.vrm_assign.BeforeYouStartPage
 import pages.vrm_assign.PaymentPreventBackPage
 import pages.vrm_assign.PaymentPreventBackPage.returnToSuccess
 import pages.vrm_assign.SuccessPage
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 

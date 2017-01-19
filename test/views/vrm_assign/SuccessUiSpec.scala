@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -10,6 +9,7 @@ import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.SuccessPage.finish
 import pages.vrm_assign.{BeforeYouStartPage, SuccessPage}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class SuccessUiSpec extends UiSpec with TestHarness {
 
