@@ -1,7 +1,6 @@
 package views.vrm_assign
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import pages.common.MainPanel.back
 import org.openqa.selenium.By
@@ -17,7 +16,7 @@ import pages.vrm_assign.CaptureCertificateDetailsPage
 import pages.vrm_assign.ConfirmPage
 import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VehicleLookupPage
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 final class CaptureCertificateDetailsUiSpec extends UiSpec with TestHarness {

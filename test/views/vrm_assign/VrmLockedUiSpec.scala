@@ -1,7 +1,6 @@
 package views.vrm_assign
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -12,7 +11,7 @@ import pages.vrm_assign.LeaveFeedbackPage
 import pages.vrm_assign.VrmLockedPage
 import pages.vrm_assign.VrmLockedPage.exit
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {

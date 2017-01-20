@@ -1,10 +1,10 @@
 package views.vrm_assign
 
 import composition.TestHarness
-import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser.{go, pageSource}
 import pages.vrm_assign.VersionPage
 import scala.io.Source.fromInputStream
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiSpec
 
 class VersionIntegrationSpec extends UiSpec with TestHarness {
 

@@ -1,7 +1,6 @@
 package views.vrm_assign
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import org.scalatest.selenium.WebBrowser.click
@@ -13,7 +12,7 @@ import pages.vrm_assign.PaymentNotAuthorisedPage
 import pages.vrm_assign.PaymentNotAuthorisedPage.exit
 import pages.vrm_assign.PaymentNotAuthorisedPage.tryAgain
 import pages.vrm_assign.PaymentPage
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 import webserviceclients.fakes.CaptureCertificateDetailsWebServiceConstants.ExpiredWithFeeCertificate
 
 final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {

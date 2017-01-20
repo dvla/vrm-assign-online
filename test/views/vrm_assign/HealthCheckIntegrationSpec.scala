@@ -1,7 +1,6 @@
 package views.vrm_assign
 
 import composition.TestHarness
-import helpers.UiSpec
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
@@ -10,7 +9,7 @@ import org.apache.http.client.methods.HttpRequestBase
 import org.apache.http.impl.client.HttpClients
 import pages.vrm_assign.HealthCheckPage
 import play.mvc.Http.Status
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiSpec
 
 final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
 

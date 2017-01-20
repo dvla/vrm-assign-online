@@ -2,7 +2,6 @@ package views.vrm_assign
 
 import com.google.inject.Module
 import composition.{GlobalWithFilters, TestComposition, TestConfig, TestGlobalCreator, TestGlobalWithFilters, TestHarness}
-import helpers.UiSpec
 import helpers.vrm_assign.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -17,7 +16,7 @@ import pages.vrm_assign.VehicleLookupPage
 import play.api.GlobalSettings
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
