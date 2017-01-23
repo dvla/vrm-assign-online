@@ -5,15 +5,16 @@ import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import helpers.TestWithApplication
 import helpers.UnitSpec
-import helpers.WireMockFixture
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.testhelpers.WireMockFixture
+import common.webserviceclients.HttpHeaders
+import common.webserviceclients.common.DmsWebHeaderDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
