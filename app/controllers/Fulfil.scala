@@ -68,8 +68,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           captureCertificateDetailsFormModel,
           captureCertificateDetails,
           Some(paymentTransNo),
-          Some(payment),
-          dateService
+          Some(payment)
         )
       case (Some(vehiclesLookupForm),
         Some(transactionId),
@@ -86,8 +85,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
           captureCertificateDetailsFormModel,
           captureCertificateDetails,
           None,
-          None,
-          dateService
+          None
         )
       case _ =>
         val trackingId = request.cookies.trackingId()
@@ -110,8 +108,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
                         captureCertificateDetailsFormModel: CaptureCertificateDetailsFormModel,
                         captureCertificateDetails: CaptureCertificateDetailsModel,
                         paymentTransNo: Option[String],
-                        paymentModel: Option[PaymentModel],
-                        dateService: DateService): Future[Result] = {
+                        paymentModel: Option[PaymentModel]): Future[Result] = {
 
     // create the transaction timestamp
     val transactionTimestamp =
@@ -285,7 +282,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
 
     val trackingId = request.cookies.trackingId()
     val vrmAssignFulfilRequest = VrmAssignFulfilRequest(
-      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey), dateService),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVehicleRegistrationMark = vehicleAndKeeperLookupFormModel.registrationNumber,
       certificateDate = captureCertificateDetailsFormModel.certificateDate,
       certificateTime = captureCertificateDetailsFormModel.certificateTime,
@@ -321,8 +318,7 @@ final class Fulfil @Inject()(vrmAssignFulfilService: VrmAssignFulfilService,
   }
 
   private def buildWebHeader(trackingId: TrackingId,
-                             identifier: Option[String],
-                             dateService: DateService): VssWebHeaderDto = {
+                             identifier: Option[String]): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = dateService.now.toDateTime,
       applicationCode = config.applicationCode,
